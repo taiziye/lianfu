@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/content"
+        style="@style/title_bar_style"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/back"
+            style="@style/btn_style_top"
+            android:layout_marginLeft="10dp"
+            android:text="@string/back"/>
+
+        <TextView android:id="@+id/shop_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="@string/discount"/>
+
+        <Button android:id="@+id/confirm"
+            style="@style/btn_style_top"
+            android:layout_marginRight="10dp"
+            android:text="@string/confirm"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:background="@anim/fragment_style">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:text="@string/ac_consum_sum"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"/>
+
+                    <TextView android:id="@+id/sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentRight="true"
+                        android:text="1,800"/>
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/view_line_style" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+<<<<<<< HEAD
+                    <com.llb.util.PullToRefreshListView
+                        android:id="@+id/list"
+=======
+                    <com.llb.util.PullToRefreshListView android:id="@+id/discount_list"
+>>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <Button android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:paddingLeft="26sp"
+            android:paddingRight="26sp"
+            android:layout_marginLeft="10sp"
+            android:background="@anim/btn_style"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/delete"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <Button android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:paddingLeft="26sp"
+            android:paddingRight="26sp"
+            android:layout_marginRight="20sp"
+            android:background="@anim/btn_style"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/add"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+</LinearLayout>

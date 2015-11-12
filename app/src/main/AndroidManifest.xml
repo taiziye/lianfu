@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tangpo.lianfu" >
+
+<<<<<<< HEAD
+    <!--使用百度地图需要开启如下权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <application
+        android:name="com.tangpo.lianfu.MyApplication"
+=======
+    <!-- 使用百度地图需要开启如下权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name=".MyApplication"
+>>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+<<<<<<< HEAD
+        <!--开发基于百度地图的应用需要先申请key，然后在application中添加开发密钥-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="s8X6qe7XTp1Bvp1l3mHv1r1z"/>
+=======
+
+        <!-- 开发基于百度地图的应用需要先申请key，然后在application中添加开发密钥 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="s8X6qe7XTp1Bvp1l3mHv1r1z" />
+
+>>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<<<<<<< HEAD
+
+        <activity android:name=".ui.MainActivity" />
+
+        <activity android:name=".ui.PersonalMsgActivity" />
+
+        <activity android:name=".ui.RegisterActivity" />
+
+        <activity android:name=".ui.RegisterSuccessActivity" />
+=======
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.PersonalMsgActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.RegisterSuccessActivity" />
+        <activity
+            android:name=".ui.StoreLocation"
+            android:label="@string/title_activity_store_location" >
+        </activity>
+>>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+    </application>
+
+</manifest>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/title_bar_style"
+    android:orientation="horizontal">
+
+    <Button android:id="@+id/scan"
+        style="@style/btn_style_top"
+        android:layout_marginLeft="10dp"
+        android:text="@string/header_leaf"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@anim/fragment_style"
+        >
+
+        <Button android:id="@+id/position"
+            android:text="@string/position"
+            style="@style/btn_style_top" />
+
+        <Button android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/search"/>
+    </LinearLayout>
+
+    <Button android:id="@+id/map"
+        style="@style/btn_style_top"
+        android:layout_marginRight="10dp"
+        android:text="@string/header_right_mem"/>
+
+</LinearLayout>

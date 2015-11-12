@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <Button android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@anim/btn_style"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/back"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textColor="@android:color/black"
+            android:text="@string/memeber_info"/>
+        <Button android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@anim/btn_style"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/edit"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@anim/fragment_style"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/user_name"/>
+
+                <EditText android:id="@+id/user_name"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/ac_contact_tel"/>
+
+                <EditText android:id="@+id/contact_tel"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/ae_rel_name"/>
+
+                <EditText android:id="@+id/rel_name"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/member_level"/>
+
+                <EditText android:id="@+id/member_level"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/ae_id"/>
+
+                <EditText android:id="@+id/id_card"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/detail_bank"/>
+
+                <EditText android:id="@+id/bank"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/detail_bank_card"/>
+
+                <EditText android:id="@+id/bank_card"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/detail_bank_name"/>
+
+                <EditText android:id="@+id/bank_name"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@android:color/black"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <Button android:id="@+id/send"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:background="@anim/btn_style"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_centerInParent="true"
+            android:text="@string/send_msg"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/content"
+        style="@style/title_bar_style"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/double_code"
+            style="@style/btn_style_top"
+            android:layout_marginLeft="10dp"
+            android:text="@string/t_code"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@anim/fragment_style"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/locate"
+                android:layout_width="66dp"
+                android:layout_height="match_parent"
+                android:background="@anim/btn_style"
+                android:text="@string/position"/>
+
+            <EditText android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/search"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <Button android:id="@+id/map"
+            style="@style/btn_style_top"
+            android:layout_marginRight="10dp"
+            android:text="@string/map"/>
+
+    </LinearLayout>
+
+    <com.llb.util.PullToRefreshListView
+        android:id="@+id/list"
+        android:layout_marginTop="10dp"
+        android:background="@anim/fragment_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

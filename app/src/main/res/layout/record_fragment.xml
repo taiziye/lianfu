@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/content"
+        style="@style/title_bar_style"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/search"
+            style="@style/btn_style_top"
+            android:layout_marginLeft="10dp"
+            android:text="@string/search"/>
+
+        <TextView android:id="@+id/shop_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="@string/record"/>
+
+        <Button android:id="@+id/edit"
+            style="@style/btn_style_top"
+            android:layout_marginRight="10dp"
+            android:text="@string/edit"/>
+
+        <Button android:id="@+id/add"
+            style="@style/btn_style_top"
+            android:layout_marginRight="10dp"
+            android:text="@string/add"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@anim/fragment_style">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                style="@style/consum_top_style"
+                >
+                <TextView
+                    style="@style/consum_top_text_style"
+                    android:text="@string/shop"/>
+                <ImageView
+                    style="@style/consum_top_img_style"
+                    android:background="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/consum_top_style"
+                android:layout_marginLeft="8dp"
+                >
+                <TextView
+                    style="@style/consum_top_text_style"
+                    android:text="@string/consume_money"/>
+                <ImageView
+                    style="@style/consum_top_img_style"
+                    android:background="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/consum_top_style"
+                android:layout_marginLeft="8dp">
+                <TextView
+                    style="@style/consum_top_text_style"
+                    android:text="@string/profit"/>
+                <ImageView
+                    style="@style/consum_top_img_style"
+                    android:background="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/consum_top_style"
+                android:layout_marginLeft="8dp">
+                <TextView
+                    style="@style/consum_top_text_style"
+                    android:text="@string/compute_date"/>
+                <ImageView
+                    style="@style/consum_top_img_style"
+                    android:background="@android:color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_line_style" />
+
+        <com.llb.util.PullToRefreshListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>
