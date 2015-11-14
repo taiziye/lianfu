@@ -65,9 +65,7 @@
         style="@style/view_line_style" />
 
     <!--<RelativeLayout
-=======
     <RelativeLayout
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
@@ -93,7 +91,11 @@
     </RelativeLayout>
 
     <View
+<<<<<<< Updated upstream
 <<<<<<< HEAD
+=======
+        style="@style/view_line_style" />
+>>>>>>> Stashed changes
         style="@style/view_line_style" />-->
 
 </LinearLayout>

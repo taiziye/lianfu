@@ -111,7 +111,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             sexStr = "1";
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
-        upgrade, bank_account, bankStr, sexStr};
+                upgrade, bank_account, bankStr, sexStr};
 
         String param = EditStaff.packagingParam(this, kvs);
 

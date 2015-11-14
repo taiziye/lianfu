@@ -46,6 +46,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.discount_manage_activity);
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
+
         init();
     }
 
@@ -53,6 +54,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         list = new ArrayList<>();
         gson = new Gson();
         back = (Button) findViewById(R.id.back);
+        back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);

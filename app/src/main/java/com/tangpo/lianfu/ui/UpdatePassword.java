@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class UpdatePassword extends ActionBarActivity {
     private EditText etNew;
     private EditText etNewCheck;
     private Button confirm;
+    private Button cancel;
     private UserEntity user=null;
     private ProgressDialog dialog=null;
 
@@ -34,6 +36,7 @@ public class UpdatePassword extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_update_password);
         init();
     }
@@ -69,6 +72,14 @@ public class UpdatePassword extends ActionBarActivity {
                 }
                 dialog = ProgressDialog.show(UpdatePassword.this, getString(R.string.connecting), getString(R.string.please_wait));
                 updatePassword();
+            }
+        });
+
+        cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

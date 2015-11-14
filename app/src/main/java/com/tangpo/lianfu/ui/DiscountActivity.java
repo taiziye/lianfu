@@ -105,7 +105,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onLoadMore() {
-                page ++;
+                page++;
                 getDiscount();
             }
         });
@@ -114,6 +114,15 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
         adapter = new DiscountAdapter(this, list);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.putExtra("discount", list.get(position));
+                setResult(RESULT_OK, intent);
+            }
+        });
     }
 
     @Override
@@ -124,8 +133,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.confirm:
                 Intent intent = new Intent();
-                intent.putExtra("type", list.get(index).getType());
-                intent.putExtra("discount", list.get(index).getDicount());
+                intent.putExtra("type", list.get(index).getDesc());
+                intent.putExtra("discount", list.get(index).getDiscount());
                 this.setResult(ConsumeRecordActivity.REQUEST_CODE, intent);
                 break;
             case R.id.delete:
