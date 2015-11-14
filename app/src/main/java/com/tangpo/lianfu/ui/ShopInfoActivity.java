@@ -19,6 +19,7 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.tangpo.lianfu.R;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -91,19 +92,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.edit:
-                shop_name.setVisibility(View.VISIBLE);
-                shop_host.setVisibility(View.VISIBLE);
-                contact_name.setVisibility(View.VISIBLE);
-                contact_tel.setVisibility(View.VISIBLE);
-                const_tel.setVisibility(View.VISIBLE);
-                contact_intel.setVisibility(View.VISIBLE);
-                shop_employee.setVisibility(View.VISIBLE);
-                contact_email.setVisibility(View.VISIBLE);
-                occupation.setVisibility(View.VISIBLE);
-                address.setVisibility(View.VISIBLE);
-                detail_address.setVisibility(View.VISIBLE);
-                commodity.setVisibility(View.VISIBLE);
-                map_locate.setVisibility(View.VISIBLE);
                 break;
         }
     }

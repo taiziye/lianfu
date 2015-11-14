@@ -1,11 +1,12 @@
 package com.tangpo.lianfu.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by 果冻 on 2015/11/9.
  */
-public class Discount {
+public class Discount implements Serializable {
 
-<<<<<<< HEAD
     private String id;
     private String desc;
     private String discount;
@@ -72,45 +73,5 @@ public class Discount {
     }
 
     public Discount() {
-
-=======
-    private String type;
-    private int dicount;
-    private double money;
-
-    public Discount() {
-    }
-
-    public void setDicount(int dicount) {
-        this.dicount = dicount;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getDicount() {
-
-        return dicount;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Discount(int dicount, double money, String type) {
-
-        this.dicount = dicount;
-        this.money = money;
-        this.type = type;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     }
 }

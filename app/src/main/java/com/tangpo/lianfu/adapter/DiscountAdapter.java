@@ -60,11 +60,7 @@ public class DiscountAdapter extends BaseAdapter {
             holder.check = (RadioButton) convertView.findViewById(R.id.check);
             holder.type = (TextView) convertView.findViewById(R.id.type);
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
-<<<<<<< HEAD
-            //holder.money = (TextView) convertView.findViewById(R.id.money);
-=======
-            holder.money = (TextView) convertView.findViewById(R.id.money);
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+                    //holder.money = (TextView) convertView.findViewById(R.id.money);
 
             convertView.setTag(holder);
         } else {
@@ -73,15 +69,9 @@ public class DiscountAdapter extends BaseAdapter {
 
         holder.check.setChecked(checked[position]);
 
-<<<<<<< HEAD
         holder.type.setText(list.get(position).getDesc());
         holder.discount.setText(list.get(position).getDiscount());
         //holder.money.setText(list.get(position).getMoney() + "");
-=======
-        holder.type.setText(list.get(position).getType());
-        holder.discount.setText(list.get(position).getDicount());
-        holder.money.setText(list.get(position).getMoney() + "");
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         return convertView;
     }
 
@@ -93,10 +83,5 @@ public class DiscountAdapter extends BaseAdapter {
         public RadioButton check;
         public TextView type;
         public TextView discount;
-<<<<<<< HEAD
-        //public TextView money;
-=======
-        public TextView money;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     }
 }

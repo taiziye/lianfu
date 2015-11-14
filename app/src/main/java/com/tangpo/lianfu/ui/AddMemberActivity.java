@@ -132,16 +132,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         referrer, sex, birth, qq, email, address, bank_account, bank_name, bank, bank_address};
         String param = AddMember.packagingParam(this, kvs);
 
-        /*private String user_id;
-        private String username;
-        private String name;
-        private String phone;
-        private String bank;
-        private String bank_account;
-        private String bank_name;
-        private String register_time;
-        private String sex;*/
-
         final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sex);
 
         new NetConnection(new NetConnection.SuccessCallback() {
