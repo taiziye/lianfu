@@ -25,7 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -126,6 +128,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
 
+        final Set<String> set = new HashSet<>();
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -135,10 +138,12 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         JSONObject object = jsonArray.getJSONObject(i);
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
                         list.add(employee);
+                        set.add(object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Configs.cacheEmployee(getActivity(),set);
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -146,5 +151,12 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
             }
         }, param);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        list.clear();
+        getEmployeeList();
     }
 }

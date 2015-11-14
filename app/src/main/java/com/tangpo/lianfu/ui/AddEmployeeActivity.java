@@ -2,14 +2,30 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.Employee;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.AddEmployee;
+import com.tangpo.lianfu.utils.MD5Tool;
+import com.tangpo.lianfu.utils.ToastUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -22,7 +38,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private TextView manage_level;
     private TextView bank;
     private TextView select_level;
-    //private TextView select_type;
     private TextView select_bank;
 
     private EditText user_name;
@@ -32,9 +47,24 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private EditText bank_card;
     private EditText bank_name;
 
+    private Spinner spinner=null;
+    private List<String> list=null;
+    private ArrayAdapter<String> adapter=null;
+
     private String userid = "";
 
     private ProgressDialog dialog = null;
+
+    String rank=null;
+    String username=null;
+    String phone=null;
+    String pw=null;
+    String name=null;
+    String id_num=null;
+    String bankStr=null;
+    String bank_account=null;
+    String bank_nameStr=null;
+    String sex=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +98,31 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         id_card = (EditText)findViewById(R.id.id_card);
         bank_card = (EditText)findViewById(R.id.bank_card);
         bank_name = (EditText)findViewById(R.id.bank_name);
+
+        spinner= (Spinner) findViewById(R.id.spinner);
+        list=new ArrayList<>();
+        list.add("男");
+        list.add("女");
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (adapter.getItem(position).equals("男")){
+                    sex="0";
+                }else{
+                    sex="1";
+                }
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                parent.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     @Override
@@ -89,18 +144,44 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     }
 
     private void addEmployee(){
-        String rank = manage_level.getText().toString();
-        String username = user_name.getText().toString();
-        String phone = contact_tel.getText().toString();
-        String name = rel_name.getText().toString();
-        String id_num = id_card.getText().toString();
-        String bankStr = bank.getText().toString();
-        String bank_account = bank_card.getText().toString();
-        String bank_nameStr = bank_name.getText().toString();
+        rank = manage_level.getText().toString();
+        username = user_name.getText().toString();
+        phone = contact_tel.getText().toString();
+        pw = MD5Tool.md5(phone.substring(phone.length() - 6));
+        name = rel_name.getText().toString();
+        id_num = id_card.getText().toString();
+        bankStr = bank.getText().toString();
+        bank_account = bank_card.getText().toString();
+        bank_nameStr = bank_name.getText().toString();
 
+//        final Employee employee=new Employee()
         /**
-         * 需要修改
+         * 需要修改   2015-11-14 shengshoubo已修改
          */
-        String kvs[] = new String[]{};
+        String kvs[] = new String[]{userid,rank,username,sex,pw,name,id_num,bank_account,bank_nameStr};
+        String params= AddEmployee.packagingParam(AddEmployeeActivity.this,kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                ToastUtils.showToast(AddEmployeeActivity.this,getString(R.string.add_success), Toast.LENGTH_SHORT);
+                AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(AddEmployeeActivity.this,getString(R.string.add_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("10")){
+                        ToastUtils.showToast(AddEmployeeActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
     }
 }

@@ -1,17 +1,12 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.app.ProgressDialog;
-import android.hardware.display.DisplayManager;
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-<<<<<<< HEAD
 import com.google.gson.Gson;
 import com.llb.util.PullToRefreshListView;
 import com.tangpo.lianfu.R;
@@ -28,10 +23,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-=======
-import com.llb.util.PullToRefreshListView;
-import com.tangpo.lianfu.R;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -40,8 +31,6 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
 
     private Button back;
     private Button edit;
-
-<<<<<<< HEAD
     private PullToRefreshListView listView;
 
     private UserEntity user = null;
@@ -50,38 +39,25 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
     private int page = 0;
     private Gson gson = null;
     private ProgressDialog dialog = null;
-=======
-    private PullToRefreshListView list;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.discount_manage_activity);
-
-<<<<<<< HEAD
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
-
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         init();
     }
 
     private void init() {
-<<<<<<< HEAD
         list = new ArrayList<>();
         gson = new Gson();
-
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        edit = (Button)findViewById(R.id.edit);
+        edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
 
-<<<<<<< HEAD
-        listView = (PullToRefreshListView)findViewById(R.id.list);
+        listView = (PullToRefreshListView) findViewById(R.id.list);
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         getDiscount();
@@ -98,18 +74,15 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
 
             @Override
             public void onLoadMore() {
-                page ++;
+                page++;
                 getDiscount();
             }
         });
-=======
-        list = (PullToRefreshListView)findViewById(R.id.list);
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -117,9 +90,8 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                 break;
         }
     }
-<<<<<<< HEAD
 
-    private void getDiscount(){
+    private void getDiscount() {
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), page + "", "10"};
         String param = ManageDiscount.packagingParam(this, kvs);
 
@@ -129,7 +101,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                 dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Discount discount = gson.fromJson(object.toString(), Discount.class);
                         list.add(discount);
@@ -143,7 +115,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("9")){
+                    if (result.getString("status").equals("9")) {
                         Tools.showToast(getString(R.string.login_timeout));
                     } else {
                         Tools.showToast(getString(R.string.server_exception));
@@ -154,6 +126,4 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             }
         }, param);
     }
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 }

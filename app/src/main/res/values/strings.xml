@@ -186,8 +186,15 @@
     <string name="user">启用</string>
     <string name="nouser">停用</string>
     <string name="update_success">更新成功</string>
-<<<<<<< HEAD
-=======
     <string name="title_activity_store_location">StoreLocation</string>
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+    <string name="title_activity_update_password">UpdatePassword</string>
+    <string name="please_input_old_password">请输入旧密码：</string>
+    <string name="please_input_new_password">请输入新密码：</string>
+    <string name="please_input_newpassword_again">请再次输入新密码：</string>
+    <string name="old_password_cannot_be_null">旧密码不能为空!</string>
+    <string name="new_password_cannot_be_null">新密码不能为空!</string>
+    <string name="new_password_do_not_match">两次输入的密码不一致！</string>
+    <string name="update_password_success">密码修改成功！</string>
+    <string name="old_password_error">旧密码输入错误！</string>
+    <string name="add_error">添加失败！</string>
 </resources>

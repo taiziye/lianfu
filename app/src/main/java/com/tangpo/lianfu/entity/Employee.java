@@ -15,6 +15,8 @@ public class Employee implements Serializable {
     private String bank_account;
     private String bank_name;
     private String register_time;
+    private String id_number;
+    private String upgrade;
 
     public String getBank() {
         return bank;
@@ -88,18 +90,34 @@ public class Employee implements Serializable {
         this.sex = sex;
     }
 
-    public Employee(String bank, String sex, String bank_account, String bank_name, String name, String phone, String rank, String register_time, String user_id) {
+    public String getId_number() {
+        return id_number;
+    }
 
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
+    }
+
+    public String getUpgrade() {
+        return upgrade;
+    }
+
+    public void setUpgrade(String upgrade) {
+        this.upgrade = upgrade;
+    }
+
+    public Employee(String user_id, String rank, String sex, String name, String phone, String bank, String bank_account, String bank_name, String register_time, String id_number, String upgrade) {
+        this.user_id = user_id;
+        this.rank = rank;
+        this.sex = sex;
+        this.name = name;
+        this.phone = phone;
         this.bank = bank;
         this.bank_account = bank_account;
         this.bank_name = bank_name;
-        this.name = name;
-        this.phone = phone;
-        this.rank = rank;
         this.register_time = register_time;
-        this.user_id = user_id;
-        this.sex = sex;
-
+        this.id_number = id_number;
+        this.upgrade = upgrade;
     }
 
     public Employee() {

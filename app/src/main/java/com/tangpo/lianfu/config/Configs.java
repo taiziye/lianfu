@@ -21,6 +21,7 @@ public class Configs {
 	public static final String KEY_USER="user_type";
 	public static final String KEY_STORE="store";
 	public static final String KEY_MEMBERS="member";
+	public static final String KEY_EMPLOYEES="employee";
 	public static final String KEY_ACTION="action";
 	public static final String KEY_RANDOM_NUM="rannum";
 	public static final String KEY_TIME="time";
@@ -186,6 +187,17 @@ public class Configs {
 	public static void cacheMember(Context context, Set<String> members){
 		SharedPreferences.Editor editor = context.getSharedPreferences(APP_ID, Context.MODE_APPEND).edit();
 		editor.putStringSet(KEY_MEMBERS, members);
+		editor.commit();
+	}
+
+	/**
+	 * 保存管理的所有员工
+	 * @param context
+	 * @param employees
+	 */
+	public static void cacheEmployee(Context context,Set<String> employees){
+		SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
+		editor.putStringSet(KEY_EMPLOYEES,employees);
 		editor.commit();
 	}
 }

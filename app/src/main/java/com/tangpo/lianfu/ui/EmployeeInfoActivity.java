@@ -21,11 +21,7 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
-<<<<<<< HEAD
     private EditText sex;
-=======
-    private EditText update_list;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     private EditText id_card;
     private EditText bank;
     private EditText bank_card;
@@ -50,11 +46,7 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
         user_name = (EditText)findViewById(R.id.user_name);
         contact_tel = (EditText)findViewById(R.id.contact_tel);
         rel_name = (EditText)findViewById(R.id.rel_name);
-<<<<<<< HEAD
         sex = (EditText)findViewById(R.id.sex);
-=======
-        update_list = (EditText)findViewById(R.id.update_list);
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         id_card = (EditText)findViewById(R.id.id_card);
         bank = (EditText)findViewById(R.id.bank);
         bank_card = (EditText)findViewById(R.id.bank_card);
@@ -68,18 +60,14 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.edit:
-<<<<<<< HEAD
-=======
                 manage_level.setVisibility(View.VISIBLE);
                 user_name.setVisibility(View.VISIBLE);
                 contact_tel.setVisibility(View.VISIBLE);
                 rel_name.setVisibility(View.VISIBLE);
-                update_list.setVisibility(View.VISIBLE);
                 id_card.setVisibility(View.VISIBLE);
                 bank.setVisibility(View.VISIBLE);
                 bank_card.setVisibility(View.VISIBLE);
                 bank_name.setVisibility(View.VISIBLE);
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                 break;
         }
     }

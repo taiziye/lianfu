@@ -11,13 +11,14 @@ public class Member implements Serializable {
 
     private String user_id;
     private String username;
+    private String sex;
     private String name;
     private String phone;
     private String bank;
     private String bank_account;
     private String bank_name;
     private String register_time;
-    private String sex;
+    private String id_number;
 
     public String getSex() {
         return sex;
@@ -89,6 +90,14 @@ public class Member implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getId_number() {
+        return id_number;
+    }
+
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
     }
 
     public Member(String bank, String bank_account, String bank_name, String name, String phone, String register_time, String user_id, String username, String sex) {

@@ -1,17 +1,13 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.app.ProgressDialog;
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-<<<<<<< HEAD
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Store;
@@ -22,9 +18,7 @@ import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-=======
-import com.tangpo.lianfu.R;
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
+
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -48,39 +42,27 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private EditText commodity;
     private EditText map_locate;
 
-<<<<<<< HEAD
     private UserEntity user = null;
 
     private ProgressDialog dialog = null;
     private Gson gson = null;
 
     private Store store = null;
-=======
     private String userid = "";
     private String storeid = "";
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_info_activity);
-
-<<<<<<< HEAD
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
-
-=======
         getStoreInfo();
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         init();
     }
 
     private void init() {
-<<<<<<< HEAD
         gson = new Gson();
-
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
         back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         edit = (Button)findViewById(R.id.edit);
@@ -99,11 +81,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         detail_address = (EditText)findViewById(R.id.detail_address);
         commodity = (EditText)findViewById(R.id.commodity);
         map_locate = (EditText)findViewById(R.id.map_locate);
-<<<<<<< HEAD
-
         getStoreInfo();
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     }
 
     @Override
@@ -113,8 +91,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.edit:
-<<<<<<< HEAD
-=======
                 shop_name.setVisibility(View.VISIBLE);
                 shop_host.setVisibility(View.VISIBLE);
                 contact_name.setVisibility(View.VISIBLE);
@@ -128,14 +104,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 detail_address.setVisibility(View.VISIBLE);
                 commodity.setVisibility(View.VISIBLE);
                 map_locate.setVisibility(View.VISIBLE);
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                 break;
         }
     }
 
     private void getStoreInfo(){
-<<<<<<< HEAD
-
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
@@ -177,7 +150,5 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 }
             }
         }, param);
-=======
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
     }
 }

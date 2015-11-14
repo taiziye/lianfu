@@ -70,12 +70,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
-                    />
+                    android:editable="false"/>
             </LinearLayout>
 
             <View
@@ -100,10 +95,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -129,10 +120,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -157,12 +144,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
-                    />
+                    android:editable="false"/>
             </LinearLayout>
 
             <View
@@ -187,10 +169,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -216,10 +194,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -245,10 +219,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -274,10 +244,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -303,10 +269,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -331,12 +293,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
-                    />
+                    android:editable="false"/>
+
             </LinearLayout>
 
             <View
@@ -361,10 +319,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -390,10 +344,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
@@ -419,10 +369,6 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
-<<<<<<< HEAD
-=======
-                    android:visibility="gone"
->>>>>>> 69f03d035a55c98022a3f9ebc9db36ec3dba40c4
                     />
             </LinearLayout>
 
