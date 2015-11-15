@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.entity.User;
+import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
 import com.tangpo.lianfu.utils.ToastUtils;
@@ -42,7 +43,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
 
     private ProgressDialog dialog = null;
 
-    private User user = null;
+    private Manager manager = null;
     private Gson mGson = null;
 
     private Intent intent;
@@ -88,12 +89,14 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                 public void onSuccess(JSONObject result) {
                     dialog.dismiss();
 
-                    user = mGson.fromJson(result.toString(), User.class);
+                    manager = mGson.fromJson(result.toString(), Manager.class);
 
-                    shop_name.setText(user.getStore_name());
-                    record.setText("会员消费记录共计" + user.getIncome() + "元");
-                    mem.setText("会员人数总计" + user.getMem_num() + "人");
-                    profit.setText("消费利润共计" + user.getProfit() + "元，可支付共计" + user.getPayback() + "元");
+                    shop_name.setText(manager.getStore_name());
+                    record.setText("会员消费记录共计" + manager.getIncome() + "元");
+                    mem.setText("会员人数总计" + manager.getMem_num() + "人");
+                    profit.setText("消费利润共计" + manager.getProfit() + "元，可支付共计" + manager.getPayback() + "元");
+
+                    Configs.cacheManager(getActivity(),result.toString());
                 }
             }, new NetConnection.FailCallback() {
                 @Override

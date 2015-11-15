@@ -3,8 +3,6 @@ package com.tangpo.lianfu.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.tangpo.lianfu.entity.UserEntity;
-
 import java.util.Set;
 
 /**
@@ -18,10 +16,11 @@ public class Configs {
 	public static final String KEY_TOKEN="token";
 	public static final String KEY_LATITUDE="latitude";
 	public static final String KEY_LONGITUDE="longitude";
-	public static final String KEY_USER="user_type";
+	public static final String KEY_USER="user";
 	public static final String KEY_STORE="store";
 	public static final String KEY_MEMBERS="member";
 	public static final String KEY_EMPLOYEES="employee";
+	public static final String KEY_MANAGER="manager";
 	public static final String KEY_ACTION="action";
 	public static final String KEY_RANDOM_NUM="rannum";
 	public static final String KEY_TIME="time";
@@ -161,7 +160,7 @@ public class Configs {
 		editor.commit();
 	}
 
-	//保存当前的用户的类别
+	//保存当前登陆的用户
 	public static void cacheUser(Context context,String user){
 		SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
 		editor.putString(KEY_USER, user);
@@ -198,6 +197,12 @@ public class Configs {
 	public static void cacheEmployee(Context context,Set<String> employees){
 		SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
 		editor.putStringSet(KEY_EMPLOYEES,employees);
+		editor.commit();
+	}
+
+	public static void cacheManager(Context context,String manager){
+		SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
+		editor.putString(KEY_MANAGER,manager);
 		editor.commit();
 	}
 }

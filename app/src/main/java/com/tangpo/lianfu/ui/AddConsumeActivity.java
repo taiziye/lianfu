@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
+import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.entity.UserEntity;
@@ -48,6 +49,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
     private SharedPreferences preferences = null;
     private UserEntity user = null;
+    private Manager manager=null;
     private ProgressDialog dialog = null;
 
     private Gson gson = null;
@@ -64,14 +66,10 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         gson = new Gson();
 
         preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        String user=preferences.getString(Configs.KEY_USER, "0");
-        try {
-            JSONObject jsonObject=new JSONObject(user);
-            this.user = gson.fromJson(jsonObject.toString(), UserEntity.class);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        String userInfo=preferences.getString(Configs.KEY_USER, "0");
+        String managerInfo=preferences.getString(Configs.KEY_MANAGER,"1");
+        user=gson.fromJson(userInfo,UserEntity.class);
+        manager=gson.fromJson(managerInfo,Manager.class);
         init();
     }
 
@@ -93,8 +91,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         select_discount = (TextView)findViewById(R.id.select_discount);
         select_discount.setOnClickListener(this);
 
-        getStore();
-        shop_name.setText(store.getStore());
+        shop_name.setText(manager.getStore_name());
     }
 
     @Override
@@ -120,30 +117,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private void getStore(){
-        String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
-
-        String param = StoreDetail.packagingParam(this, kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                dialog.dismiss();
-                try {
-                    JSONObject jsonObject = result.getJSONObject("param");
-                    store = gson.fromJson(jsonObject.toString(), Store.class);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                dialog.dismiss();
-            }
-        }, param);
-    }
-
     private Member mem = null;
     private Discount dis = null;
 
@@ -164,7 +137,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private void commitConsume(){
-        String kvs[] = new String []{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
+        String kvs[] = new String []{user.getUser_id(), manager.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
         String param = CommitConsumeRecord.packagingParam(this, kvs);

@@ -3,9 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.User;
-import com.tangpo.lianfu.entity.UserEntity;
+import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
 import com.tangpo.lianfu.utils.ToastUtils;
@@ -49,7 +45,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
     private ProgressDialog dialog = null;
 
-    private User user = null;
+    private Manager manager = null;
     private Gson mGson = null;
 
     @Override
@@ -96,13 +92,13 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                 public void onSuccess(JSONObject result) {
                     dialog.dismiss();
 
-                    user = mGson.fromJson(result.toString(), User.class);
+                    manager = mGson.fromJson(result.toString(), Manager.class);
 
-                    shop_name.setText(user.getStore_name());
-                    record.setText("会员消费记录共计" + user.getIncome() + "元");
-                    mem.setText("会员人数总计" + user.getMem_num() + "人");
-                    pay.setText("消费利润共计" + user.getProfit() + "元，可支付共计" + user.getPayback() + "元");
-                    employee.setText("管理员人数总计" + user.getAdmin_num() + "人，员工总计" + user.getStaff_num() + "人");
+                    shop_name.setText(manager.getStore_name());
+                    record.setText("会员消费记录共计" + manager.getIncome() + "元");
+                    mem.setText("会员人数总计" + manager.getMem_num() + "人");
+                    pay.setText("消费利润共计" + manager.getProfit() + "元，可支付共计" + manager.getPayback() + "元");
+                    employee.setText("管理员人数总计" + manager.getAdmin_num() + "人，员工总计" + manager.getStaff_num() + "人");
                 }
             }, new NetConnection.FailCallback() {
                 @Override

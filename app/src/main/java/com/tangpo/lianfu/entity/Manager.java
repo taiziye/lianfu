@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by 果冻 on 2015/11/11.
  */
-public class User implements Serializable {
+public class Manager implements Serializable {
 
     private String store_id;
     private String store_name;
@@ -17,10 +17,10 @@ public class User implements Serializable {
     private String staff_num;
     private String payback;
 
-    public User() {
+    public Manager() {
     }
 
-    public User(String admin_num, String income, String mem_num, String need_pay, String payback, String profit, String staff_num, String store_id, String store_name) {
+    public Manager(String admin_num, String income, String mem_num, String need_pay, String payback, String profit, String staff_num, String store_id, String store_name) {
         this.admin_num = admin_num;
         this.income = income;
         this.mem_num = mem_num;
