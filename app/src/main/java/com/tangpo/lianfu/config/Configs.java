@@ -168,7 +168,7 @@ public class Configs {
 	}
 
 	/**
-	 * 保存用户收藏店铺列表
+	 *
 	 * @param context
 	 * @param stores  店铺id集
 	 */
