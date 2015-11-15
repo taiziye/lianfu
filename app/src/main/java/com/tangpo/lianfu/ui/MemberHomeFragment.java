@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.llb.util.PullToRefreshListView;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.adapter.MemberAdapter;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.Store;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckCollectedStore;
-import com.tangpo.lianfu.parms.FindStore;
 import com.tangpo.lianfu.utils.ToastUtils;
 
 import org.json.JSONArray;
@@ -55,11 +52,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private PositionAdapter adapter = null;
 
-    private List<Store> storeList = null;
+    private ArrayList<FindStore> storeList = null;
 
     private Gson gson = null;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.member_home_fragment, container, false);
@@ -73,7 +69,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             String userid = bundle.getString("userid");
             String kvs[] = new String []{lng + "", lat + "", userid};
 
-            String params = FindStore.packagingParam(getActivity(), kvs);
+            String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
@@ -83,7 +79,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                         JSONArray jsonArray = result.getJSONArray("param");
                         for(int i=0; i<jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
-                            Store store = gson.fromJson(object.toString(), Store.class);
+                            FindStore store = gson.fromJson(object.toString(), FindStore.class);
                             storeList.add(store);
                         }
                     } catch (JSONException e) {
@@ -166,6 +162,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.locate:
                 break;
             case R.id.map:
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putParcelableArrayListExtra("list", storeList);
+                startActivity(intent);
                 break;
             case R.id.search:
                 break;

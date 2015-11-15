@@ -59,7 +59,7 @@
         <activity android:name=".ui.ShopInfoActivity" />
         <activity android:name=".ui.StoreLocationActivity" />
         <activity android:name=".ui.UpdatePasswordActivity" />
-        <activity android:name=".ui.TestBaiduMapActivity" />
+        <activity android:name=".ui.MapActivity" />
 
     </application>
 
