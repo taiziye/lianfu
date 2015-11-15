@@ -141,11 +141,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     fragment.setArguments(bundle);
                     fragment = new RecordFragment();
                 } else {  //会员
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
+                    fragment.setArguments(bundle);
                     fragment = new MemCollectFragment();
                 }
                 break;
             case R.id.three:
                 if(userType.equals("2") || userType.equals("1")){ //管理员
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
+                    bundle.putString("storeid", store_id);
+                    fragment.setArguments(bundle);
                     fragment = new MemManageFragment();
                 } else {  //会员
                     fragment = new MemRecordFragment();

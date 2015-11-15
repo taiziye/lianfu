@@ -2,9 +2,14 @@ package com.tangpo.lianfu.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
@@ -20,17 +25,29 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.adapter.ViewPageAdapter;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.utils.GetBitmap;
+import com.tangpo.lianfu.utils.ViewPagerCompat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class TestBaiduMapActivity extends ActionBarActivity {
+public class MapActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
     private MapView mMapView=null;
     private BaiduMap mBaiduMap=null;
     private ArrayList<LatLng> list=new ArrayList<LatLng>();
+
+    private ViewPagerCompat vp;
+
+    private List<View> listViews = new ArrayList<>();
+
+    private ArrayList<FindStore> storeList = null;
+
+    private ViewPageAdapter adapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +127,30 @@ public class TestBaiduMapActivity extends ActionBarActivity {
         OverlayOptions textOption=new TextOptions().bgColor(0xAAFFFF00).fontSize(24).fontColor(0xFFFF00FF).text("联富地面店").rotate(-30).position(list.get(0));
         mBaiduMap.addOverlay(textOption);
 
+        vp = (ViewPagerCompat) findViewById(R.id.vp);
+
+        storeList = getIntent().getExtras().getParcelableArrayList("list");
+
+        for(int i=0; i<10; i++){
+            View view = LayoutInflater.from(this).inflate(R.layout.viewpage_list, null);
+            ImageView img = (ImageView) view.findViewById(R.id.img);
+            TextView shop_name = (TextView) view.findViewById(R.id.shop_name);
+            TextView commodity = (TextView) view.findViewById(R.id.shop_name);
+            TextView address = (TextView)view.findViewById(R.id.address);
+
+            //初始化
+            //img.setImageURI(null);
+            shop_name.setText(storeList.get(i).getStore());
+            //commodity.setText(storeList.get(i).get);
+            address.setText(storeList.get(i).getAddress());
+
+            listViews.add(view);
+        }
+
+        adapter = new ViewPageAdapter(this, listViews);
+        vp.setAdapter(adapter);
+        vp.setOnPageChangeListener(this);
+
     }
 
     @Override
@@ -150,5 +191,26 @@ public class TestBaiduMapActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        for(int i=0;i<10;i++){
+            if(position==i){
+                float curLng=(float)(Integer.valueOf(storeList.get(i).getLng())/(10^6));
+                float curLat=(float)(Integer.valueOf(storeList.get(i).getLat())/(10^6));
+
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
