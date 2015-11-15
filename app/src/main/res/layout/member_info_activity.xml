@@ -69,7 +69,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -94,7 +93,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -119,7 +117,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -144,7 +141,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -169,7 +165,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -194,7 +189,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -219,7 +213,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -244,7 +237,6 @@
                     android:background="@null"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black"
-                    android:visibility="gone"
                     />
             </LinearLayout>
 

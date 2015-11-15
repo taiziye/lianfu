@@ -86,6 +86,7 @@ public class UpdatePasswordActivity extends ActionBarActivity {
 
     private void updatePassword(){
         user= (UserEntity) getIntent().getSerializableExtra("user");
+
         String userid=user.getUser_id();
         String old_pw= MD5Tool.md5(oldPassword);
         String new_pw=MD5Tool.md5(newPassword);

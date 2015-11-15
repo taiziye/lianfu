@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.Member;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -27,11 +28,17 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
     private EditText bank_card;
     private EditText bank_name;
 
+    private Member member = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.member_info_activity);
+
+        member = (Member) getIntent().getExtras().getSerializable("member");
+
+        init();
     }
 
     private void init() {
@@ -50,6 +57,15 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
         bank = (EditText)findViewById(R.id.bank);
         bank_card = (EditText)findViewById(R.id.bank_card);
         bank_name = (EditText)findViewById(R.id.bank_name);
+
+        user_name.setText(member.getUser_id());
+        contact_tel.setText(member.getPhone());
+        rel_name.setText(member.getName());
+        member_level.setText("");
+        id_card.setText(member.getId_number());
+        bank.setText(member.getBank());
+        bank_card.setText(member.getBank_account());
+        bank_name.setText(member.getBank_name());
     }
 
     @Override
@@ -59,17 +75,14 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.edit:
-                user_name.setVisibility(View.VISIBLE);
-                contact_tel.setVisibility(View.VISIBLE);
-                rel_name.setVisibility(View.VISIBLE);
-                member_level.setVisibility(View.VISIBLE);
-                id_card.setVisibility(View.VISIBLE);
-                bank.setVisibility(View.VISIBLE);
-                bank_card.setVisibility(View.VISIBLE);
-                bank_name.setVisibility(View.VISIBLE);
                 break;
             case R.id.send:
                 break;
         }
+    }
+
+    private void editMember(){
+        /*String kvs[] = new String []{member.getUser_id(), user_name.getText().toString(),
+        member.};*/
     }
 }

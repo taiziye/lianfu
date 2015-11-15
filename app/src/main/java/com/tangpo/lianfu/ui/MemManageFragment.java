@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -33,6 +34,7 @@ import java.util.Set;
  */
 public class MemManageFragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_CODE = 1;
+    private static final int REQUEST_EDIT = 2;
 
     private Button search;
     private Button add;
@@ -100,8 +102,17 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onLoadMore() {
-                page ++;
+                page++;
                 getMember();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
+                intent.putExtra("member", list.get(position));
+                startActivityForResult(intent, REQUEST_EDIT);
             }
         });
     }
@@ -151,11 +162,15 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data != null){
-            Member member = (Member) data.getExtras().get("member");
-            list.add(member);
-            Set<String > set = new HashSet<>();
-            set.add(gson.toJson(member));
-            Configs.cacheMember(getActivity(), set);
+            if(requestCode == REQUEST_CODE) {
+                Member member = (Member) data.getExtras().get("member");
+                list.add(member);
+                Set<String> set = new HashSet<>();
+                set.add(gson.toJson(member));
+                Configs.cacheMember(getActivity(), set);
+            } else {
+                //
+            }
         }
     }
 }
