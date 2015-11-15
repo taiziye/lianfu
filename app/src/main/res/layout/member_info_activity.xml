@@ -9,15 +9,12 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
         <Button android:id="@+id/back"
-            android:layout_width="wrap_content"
+            android:layout_width="36dp"
             android:layout_height="match_parent"
-            android:background="@anim/btn_style"
+            android:background="@drawable/back"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/back"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             />
         <TextView
             android:layout_width="0dp"
@@ -250,7 +247,7 @@
         <Button android:id="@+id/send"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            android:background="@anim/btn_style"
+            android:background="@drawable/send_msg"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_centerInParent="true"

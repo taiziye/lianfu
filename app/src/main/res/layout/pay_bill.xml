@@ -10,9 +10,10 @@
         android:layout_marginTop="10dp">
 
         <Button android:id="@+id/back"
-            style="@style/btn_style_top"
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:text="@string/back"/>
+            android:background="@drawable/back"/>
 
         <TextView android:id="@+id/shop_name"
             android:layout_width="wrap_content"
@@ -156,7 +157,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@anim/btn_style"
+            android:background="@drawable/compute"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textSize="18sp"

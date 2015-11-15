@@ -9,13 +9,13 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
         <Button
-            android:layout_width="60dp"
+            android:layout_width="36dp"
             android:layout_height="match_parent"
-            android:background="@anim/btn_style"
+            android:background="@drawable/back"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/back"/>
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
 
                 <EditText android:id="@+id/user_name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -75,7 +75,7 @@
 
                 <EditText android:id="@+id/contact_tel"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -100,7 +100,7 @@
 
                 <EditText android:id="@+id/rel_name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -128,7 +128,7 @@
 
                 <TextView android:id="@+id/update_type"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="5dp"
@@ -160,7 +160,7 @@
 
                 <EditText android:id="@+id/id_card"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -188,7 +188,7 @@
 
                 <TextView android:id="@+id/bank"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="5dp"
@@ -225,7 +225,7 @@
 
                 <EditText android:id="@+id/bank_card"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -250,7 +250,7 @@
 
                 <EditText android:id="@+id/bank_name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     />
@@ -271,7 +271,7 @@
             <Button android:id="@+id/commit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@anim/ac_btn_style"
+                android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"

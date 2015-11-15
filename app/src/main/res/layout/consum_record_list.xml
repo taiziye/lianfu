@@ -59,10 +59,12 @@
             android:text="(利润400元)"/>
 
         <TextView android:id="@+id/compute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:text="未结算"
+            android:gravity="center"
+            android:background="@drawable/compute"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             />

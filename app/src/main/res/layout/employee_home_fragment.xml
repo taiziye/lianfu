@@ -10,10 +10,11 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/scan"
-            style="@style/btn_style_top"
+        <Button android:id="@+id/double_code"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/header_leaf"/>
+            android:background="@drawable/double_code"/>
 
         <TextView android:id="@+id/shop_name"
             android:layout_width="0dp"
@@ -25,9 +26,11 @@
             android:text="@string/lianfu_shop"/>
 
         <Button android:id="@+id/chat"
-            style="@style/btn_style_top"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginRight="10dp"
-            android:text="@string/header_right"/>
+            android:background="@drawable/chat"
+            />
 
     </LinearLayout>
 
