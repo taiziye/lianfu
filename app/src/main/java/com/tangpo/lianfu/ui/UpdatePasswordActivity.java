@@ -20,7 +20,7 @@ import com.tangpo.lianfu.utils.ToastUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UpdatePassword extends ActionBarActivity {
+public class UpdatePasswordActivity extends ActionBarActivity {
 
     private EditText etOld;
     private EditText etNew;
@@ -53,24 +53,24 @@ public class UpdatePassword extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (oldPassword.equals("")) {
-                    ToastUtils.showToast(UpdatePassword.this, getString(R.string.old_password_cannot_be_null), Toast.LENGTH_SHORT);
+                    ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.old_password_cannot_be_null), Toast.LENGTH_SHORT);
                     etNew.setText("");
                     etNewCheck.setText("");
                     return;
                 }
                 if (newPassword.equals("")) {
-                    ToastUtils.showToast(UpdatePassword.this, getString(R.string.new_password_cannot_be_null), Toast.LENGTH_SHORT);
+                    ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.new_password_cannot_be_null), Toast.LENGTH_SHORT);
                     etOld.setText("");
                     etNewCheck.setText("");
                     return;
                 }
                 if (!newPassword.equals(etNewCheck)) {
-                    ToastUtils.showToast(UpdatePassword.this, getString(R.string.new_password_do_not_match), Toast.LENGTH_SHORT);
+                    ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.new_password_do_not_match), Toast.LENGTH_SHORT);
                     etNew.setText("");
                     etNewCheck.setText("");
                     return;
                 }
-                dialog = ProgressDialog.show(UpdatePassword.this, getString(R.string.connecting), getString(R.string.please_wait));
+                dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
                 updatePassword();
             }
         });
@@ -96,7 +96,7 @@ public class UpdatePassword extends ActionBarActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                ToastUtils.showToast(UpdatePassword.this,getString(R.string.update_password_success),Toast.LENGTH_SHORT);
+                ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.update_password_success),Toast.LENGTH_SHORT);
                 finish();
             }
         }, new NetConnection.FailCallback() {
@@ -106,12 +106,12 @@ public class UpdatePassword extends ActionBarActivity {
                 try {
                     String status=result.getString("status");
                     if(status.equals("1")){
-                        ToastUtils.showToast(UpdatePassword.this,getString(R.string.old_password_error),Toast.LENGTH_SHORT);
+                        ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.old_password_error),Toast.LENGTH_SHORT);
                         etOld.setText("");
                         etNew.setText("");
                         etNewCheck.setText("");
                     }else if(status.equals("10")){
-                        ToastUtils.showToast(UpdatePassword.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                        ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

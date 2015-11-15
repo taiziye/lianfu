@@ -26,7 +26,7 @@ import com.tangpo.lianfu.utils.GetBitmap;
 import java.util.ArrayList;
 
 
-public class TestBaiduMap extends ActionBarActivity {
+public class TestBaiduMapActivity extends ActionBarActivity {
 
     private MapView mMapView=null;
     private BaiduMap mBaiduMap=null;

@@ -39,14 +39,28 @@
         <activity android:name=".ui.PersonalMsgActivity" />
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.RegisterSuccessActivity" />
-        <activity
-            android:name=".ui.StoreLocation"
-            android:label="@string/title_activity_store_location" >
-        </activity>
-        <activity
-            android:name=".ui.UpdatePassword"
-            android:label="@string/title_activity_update_password" >
-        </activity>
+        <activity android:name=".ui.AddConsumeActivity" />
+        <activity android:name=".ui.AddEmployeeActivity" />
+        <activity android:name=".ui.AddMemberActivity" />
+        <activity android:name=".ui.ConsumeRecordActivity" />
+        <activity android:name=".ui.DiscountActivity" />
+        <activity android:name=".ui.DiscountManageActivity" />
+        <activity android:name=".ui.EmploeeInfoActivity" />
+        <activity android:name=".ui.EmployeeInfoActivity" />
+        <activity android:name=".ui.HomePageActivity" />
+        <activity android:name=".ui.MemberInfoActivity" />
+        <activity android:name=".ui.MemberUpdateTypeActivity" />
+        <activity android:name=".ui.OfflineProfitPayActivity" />
+        <activity android:name=".ui.OnlinePayActivity" />
+        <activity android:name=".ui.PayBillActivity" />
+        <activity android:name=".ui.PersonalInfoActivity" />
+        <activity android:name=".ui.SelectUserActivity" />
+        <activity android:name=".ui.ShopActivity" />
+        <activity android:name=".ui.ShopInfoActivity" />
+        <activity android:name=".ui.StoreLocationActivity" />
+        <activity android:name=".ui.UpdatePasswordActivity" />
+        <activity android:name=".ui.TestBaiduMapActivity" />
+
     </application>
 
 </manifest>

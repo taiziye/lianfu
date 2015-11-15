@@ -22,7 +22,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.tangpo.lianfu.R;
 
-public class StoreLocation extends ActionBarActivity {
+public class StoreLocationActivity extends ActionBarActivity {
 
     private Button back;
 
