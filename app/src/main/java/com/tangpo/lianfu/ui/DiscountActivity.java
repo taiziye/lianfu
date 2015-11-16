@@ -144,6 +144,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("type", list.get(index).getDesc());
                 intent.putExtra("discount", list.get(index).getDiscount());
                 this.setResult(ConsumeRecordActivity.REQUEST_CODE, intent);
+                finish();
                 break;
             case R.id.delete:
                 break;
