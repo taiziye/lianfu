@@ -11,14 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.MemberCollect;
-import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.CheckCollectedStore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,6 +105,5 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 }
             }
         }
-
     }
 }

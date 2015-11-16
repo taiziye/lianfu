@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.DiscountManageAdapter;
 import com.tangpo.lianfu.entity.Discount;
@@ -66,16 +68,16 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         adapter = new DiscountManageAdapter(this, list);
         listView.setAdapter(adapter);
 
-        listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefresh() {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 0;
                 list.clear();
                 getDiscount();
             }
 
             @Override
-            public void onLoadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
                 getDiscount();
             }

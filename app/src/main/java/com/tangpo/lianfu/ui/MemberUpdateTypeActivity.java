@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 
 /**

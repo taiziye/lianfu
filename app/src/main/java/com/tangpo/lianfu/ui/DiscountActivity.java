@@ -12,7 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.DiscountAdapter;
 import com.tangpo.lianfu.config.Configs;
@@ -95,16 +96,16 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefresh() {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 0;
                 list.clear();
                 getDiscount();
             }
 
             @Override
-            public void onLoadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
                 getDiscount();
             }

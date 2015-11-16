@@ -10,9 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
@@ -93,16 +95,16 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             }
         });
 
-        listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefresh() {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 0;
                 list.clear();
                 getMemberList();
             }
 
             @Override
-            public void onLoadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page ++;
                 getMemberList();
             }

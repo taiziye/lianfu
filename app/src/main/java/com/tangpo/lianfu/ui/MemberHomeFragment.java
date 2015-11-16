@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
@@ -42,7 +42,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private EditText search;
 
-    private PullToRefreshListView list;
+    private PullToRefreshListView listView;
 
     private Bundle bundle = null;
 
@@ -87,7 +87,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     }
 
                     adapter = new PositionAdapter(getActivity(), storeList);
-                    list.setAdapter(adapter);
+                    listView.setAdapter(adapter);
                 }
             }, new NetConnection.FailCallback() {
                 @Override
@@ -145,7 +145,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         search = (EditText)view.findViewById(R.id.search);
 
-        list = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView)view.findViewById(R.id.list);
 
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
 
