@@ -11,9 +11,10 @@
         android:orientation="horizontal">
 
         <Button android:id="@+id/search"
-            style="@style/btn_style_top"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/search"/>
+            android:background="@drawable/search"/>
 
         <TextView android:id="@+id/shop_name"
             android:layout_width="0dp"
@@ -30,9 +31,10 @@
             android:text="@string/edit"/>
 
         <Button android:id="@+id/add"
-            style="@style/btn_style_top"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:text="@string/add"/>
+            android:background="@drawable/add"/>
 
     </LinearLayout>
 
@@ -58,7 +60,7 @@
                     android:text="@string/shop"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -70,7 +72,7 @@
                     android:text="@string/consume_money"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -81,7 +83,7 @@
                     android:text="@string/profit"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +94,7 @@
                     android:text="@string/compute_date"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
         </LinearLayout>

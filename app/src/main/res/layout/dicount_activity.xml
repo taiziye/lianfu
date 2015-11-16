@@ -11,9 +11,10 @@
         android:orientation="horizontal">
 
         <Button android:id="@+id/back"
-            style="@style/btn_style_top"
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:text="@string/back"/>
+            android:background="@drawable/back"/>
 
         <TextView android:id="@+id/shop_name"
             android:layout_width="0dp"
@@ -94,35 +95,31 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="60dp">
         <Button android:id="@+id/delete"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:paddingLeft="26sp"
             android:paddingRight="26sp"
             android:layout_marginLeft="10sp"
-            android:background="@anim/btn_style"
+            android:background="@drawable/recycle"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/delete"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
             />
 
         <Button android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:paddingLeft="26sp"
-            android:paddingRight="26sp"
             android:layout_marginRight="20sp"
-            android:background="@anim/btn_style"
+            android:background="@drawable/add"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/add"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>

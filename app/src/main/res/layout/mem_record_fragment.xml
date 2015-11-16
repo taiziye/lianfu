@@ -43,7 +43,7 @@
                     android:text="@string/compute_date"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -54,7 +54,7 @@
                     android:text="@string/consume_money"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
         </LinearLayout>

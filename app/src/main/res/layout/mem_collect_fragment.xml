@@ -11,9 +11,10 @@
         android:orientation="horizontal">
 
         <Button android:id="@+id/locate"
-            style="@style/btn_style_top"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:text="@string/position"/>
+            android:background="@drawable/locate"/>
 
         <EditText android:id="@+id/search"
             android:layout_width="0dp"
@@ -22,13 +23,14 @@
             android:hint="@string/search"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@anim/btn_style"
+            android:background="@drawable/search_blank"
             android:gravity="center"/>
 
         <Button android:id="@+id/map"
-            style="@style/btn_style_top"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            android:text="@string/map"/>
+            android:background="@drawable/map"/>
 
     </LinearLayout>
 

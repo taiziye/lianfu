@@ -11,9 +11,10 @@
         android:orientation="horizontal">
 
         <Button android:id="@+id/double_code"
-            style="@style/btn_style_top"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/t_code"/>
+            android:background="@drawable/double_code"/>
 
         <TextView android:id="@+id/shop_name"
             android:layout_width="0dp"
@@ -25,9 +26,11 @@
             android:text="@string/personal"/>
 
         <Button android:id="@+id/chat"
-            style="@style/btn_style_top"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginRight="10dp"
-            android:text="@string/header_right"/>
+            android:background="@drawable/chat"
+            />
 
     </LinearLayout>
 
@@ -42,24 +45,36 @@
             android:layout_width="match_parent"
             android:layout_height="130dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
-                <com.tangpo.lianfu.utils.CircularImage
-                    android:id="@+id/img"
-                    android:layout_marginTop="10dp"
+                <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@android:color/black"/>
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/me_head_bg" />
+
+                <com.tangpo.lianfu.utils.CircularImage
+                    android:id="@+id/img"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerInside" />
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
                     <TextView android:id="@+id/power"
                         android:layout_width="wrap_content"
@@ -76,13 +91,13 @@
                         android:text="姓名"/>
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView android:id="@+id/next"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@android:color/black"
                 android:layout_centerInParent="true"
+                android:src="@drawable/next"
                 android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"/>
 
@@ -92,7 +107,12 @@
             style="@style/view_line_style" />
 
         <TextView android:id="@+id/personal_info"
-            style="@style/manager_personal_style"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:paddingLeft="8dp"
             android:text="@string/personal_msg"
             />
 
@@ -100,8 +120,12 @@
             style="@style/view_line_style" />
 
         <TextView android:id="@+id/modify_pass"
-            style="@style/manager_personal_style"
-            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:paddingLeft="8dp"
             android:text="@string/modify_pass"
             />
 

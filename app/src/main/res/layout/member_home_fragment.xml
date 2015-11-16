@@ -11,9 +11,11 @@
         android:orientation="horizontal">
 
         <Button android:id="@+id/double_code"
-            style="@style/btn_style_top"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:text="@string/t_code"/>
+            android:background="@drawable/double_code"
+            />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,9 +42,10 @@
         </LinearLayout>
 
         <Button android:id="@+id/map"
-            style="@style/btn_style_top"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            android:text="@string/map"/>
+            android:background="@drawable/map"/>
 
     </LinearLayout>
 
