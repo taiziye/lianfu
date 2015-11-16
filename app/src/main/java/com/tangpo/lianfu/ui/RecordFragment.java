@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ConsumRecordAdapter;
 import com.tangpo.lianfu.config.Configs;
@@ -66,16 +68,16 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         }
         init(view);
 
-        list.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefresh() {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 recordList.clear();
-                getConsumeRecord();
                 page = 0;
+                getConsumeRecord();
             }
 
             @Override
-            public void onLoadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
                 getConsumeRecord();
             }

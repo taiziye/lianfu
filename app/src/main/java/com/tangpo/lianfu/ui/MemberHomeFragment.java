@@ -43,7 +43,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private EditText search;
 
-    private PullToRefreshListView list;
+    private PullToRefreshListView listView;
 
     private Bundle bundle = null;
 
@@ -98,7 +98,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     }
 
                     adapter = new PositionAdapter(getActivity(), storeList);
-                    list.setAdapter(adapter);
+                    listView.setAdapter(adapter);
                 }
             }, new NetConnection.FailCallback() {
                 @Override
@@ -157,7 +157,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         search = (EditText)view.findViewById(R.id.search);
 
-        list = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView)view.findViewById(R.id.list);
 
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
 

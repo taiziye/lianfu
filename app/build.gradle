@@ -29,5 +29,6 @@ dependencies {
     compile 'commons-httpclient:commons-httpclient:20020423'
     compile 'org.apache.httpcomponents:project:7'
     compile 'com.google.guava:guava:16.0.1'
-    compile project(':library')
+    // Library
+    compile project(':lib:pull')
 }

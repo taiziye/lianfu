@@ -57,13 +57,13 @@
             <Button android:id="@+id/cancel"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:background="@anim/btn_style"
+                android:background="@drawable/cancel_collect"
                 android:text="@string/cancel_collect"/>
 
             <Button android:id="@+id/contact"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:background="@anim/btn_style"
+                android:background="@drawable/contact_em"
                 android:layout_marginTop="10dp"
                 android:text="@string/contact_employee"/>
         </LinearLayout>

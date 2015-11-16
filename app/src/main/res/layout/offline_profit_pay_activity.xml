@@ -4,20 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <Button android:id="@+id/back"
-            style="@style/btn_style_top"
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:textSize="18sp"
-            android:text="@string/back"/>
+            android:background="@drawable/back"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,7 +23,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
             android:background="@anim/fragment_style">
             <Button android:id="@+id/offline"
                 android:layout_width="wrap_content"
@@ -43,7 +41,7 @@
                 android:paddingRight="5dp"
                 android:text="@string/online_compute_record"/>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +67,7 @@
                     android:text="@string/consume_money"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +78,7 @@
                     android:text="@string/consume_money"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
             <LinearLayout
@@ -91,7 +89,7 @@
                     android:text="@string/consume_money"/>
                 <ImageView
                     style="@style/consum_top_img_style"
-                    android:background="@android:color/black"/>
+                    android:background="@drawable/list_sort"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -144,7 +142,7 @@
         </LinearLayout>
 
         <Button android:id="@+id/compute"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
@@ -152,7 +150,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="@string/comput"
-            android:background="@anim/btn_style"/>
+            android:background="@drawable/compute"/>
     </RelativeLayout>
 
 </LinearLayout>
