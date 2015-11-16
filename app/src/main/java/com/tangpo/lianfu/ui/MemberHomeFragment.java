@@ -13,13 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.llb.util.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckCollectedStore;
+import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 
 import org.json.JSONArray;
@@ -64,13 +65,22 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         init(view);
 
         if(bundle != null) {
-            int lng = (int) (preferences.getFloat(Configs.KEY_LNG, 0.0f) * (10 ^ 6));
-            int lat = (int) (preferences.getFloat(Configs.KEY_LAT, 0.0f) * (10 ^ 6));
+//            System.out.println("Longitude:"+preferences.getFloat(Configs.KEY_LONGITUDE,0.1f));
+//            System.out.println("Latitude:"+preferences.getFloat(Configs.KEY_LATITUDE,0.1f));
+//            int lng = (int) (preferences.getFloat(Configs.KEY_LNG, 0.0f) * (10 ^ 6));
+//            int lat = (int) (preferences.getFloat(Configs.KEY_LAT, 0.0f) * (10 ^ 6));
+            String lng="0.000000";
+            String lat="0.000000";
+            System.out.println(lng);
+            System.out.println(lat);
             String userid = bundle.getString("userid");
-            String kvs[] = new String []{lng + "", lat + "", userid};
+            String kvs[] = new String []{lng,lat, userid};
 
             String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
+//            String params="{\"param\":{\"lng\":\"0.000000\",\"lat\":\"0.000000\",\"user_id\":\"14408\"},\"rannum\":\"AJV234DeTDAM2wLuGvbJtRwt7ziQlxpW\",\"sessid\":\"a115999100254725055edb9e0007005e\",\"md5ver\":\"b1f18811bbe431d53f187f6fe3d0eb77\",\"time\":\"2015%2f11%2f16%2001%3a55%3a55\",\"action\":\"2\"}";
+
+            System.out.println(params);
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -79,6 +89,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                         JSONArray jsonArray = result.getJSONArray("param");
                         for(int i=0; i<jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
+                            System.out.println(object.toString());
                             FindStore store = gson.fromJson(object.toString(), FindStore.class);
                             storeList.add(store);
                         }
@@ -107,31 +118,32 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 }
             }, params);
 
-            String tmp[] = new String []{userid};
-            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
 
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    Set<String> store = new HashSet<String>();
-                    try {
-                        JSONArray stores = result.getJSONArray("param");
-                        JSONObject object = null;
-                        for(int i=0; i<stores.length(); i++){
-                            object = stores.getJSONObject(i);
-                            store.add(object.toString());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Configs.cacheCollectedStore(getActivity(), store);
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    //
-                }
-            }, tmpParams);
+//            String tmp[] = new String []{userid};
+//            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
+//
+//            new NetConnection(new NetConnection.SuccessCallback() {
+//                @Override
+//                public void onSuccess(JSONObject result) {
+//                    Set<String> store = new HashSet<String>();
+//                    try {
+//                        JSONArray stores = result.getJSONArray("param");
+//                        JSONObject object = null;
+//                        for(int i=0; i<stores.length(); i++){
+//                            object = stores.getJSONObject(i);
+//                            store.add(object.toString());
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Configs.cacheCollectedStore(getActivity(), store);
+//                }
+//            }, new NetConnection.FailCallback() {
+//                @Override
+//                public void onFail(JSONObject result) {
+//                    //
+//                }
+//            }, tmpParams);
         }
 
         return view;

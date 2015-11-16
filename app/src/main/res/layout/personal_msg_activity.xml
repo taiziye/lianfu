@@ -82,6 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:inputType="textPassword"
                     android:background="@null"/>
             </LinearLayout>
 
@@ -104,6 +105,7 @@
                 <EditText android:id="@+id/check_pass"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:inputType="textPassword"
                     android:layout_marginLeft="5dp"
                     android:background="@null"/>
             </LinearLayout>

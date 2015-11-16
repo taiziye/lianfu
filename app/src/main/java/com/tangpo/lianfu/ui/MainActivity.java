@@ -18,6 +18,8 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
+import com.tangpo.lianfu.utils.Escape;
+import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -76,25 +78,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
             ToastUtils.showToast(this, getString(R.string.username_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
-        String pass = user_pass.getText().toString();
+        String pass = MD5Tool.md5(user_pass.getText().toString());
         if(pass.equals("")){
             pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.password_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
-        String openId=null;
-        String kvs[]=new String[]{name,pass,openId};
+        //String openId="";
+        String kvs[]=new String[]{name,pass};
+
         String params= Login.packagingParam(kvs);
+
+        System.out.println(Escape.unescape(params));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 try {
-                    String sessid=result.getString("sessid");
-                    Configs.cacheToken(getApplicationContext(), sessid);
                     JSONObject jsonObject=result.getJSONObject("param");
+                    String sessid=jsonObject.getString("session_id");
+                    Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-
+                    System.out.println(Escape.unescape(result.toString()));
                     intent=new Intent(MainActivity.this,HomePageActivity.class);
                     startActivity(intent);
                     finish();
@@ -106,6 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 pd.dismiss();
+                System.out.println(Escape.unescape(result.toString()));
                 ToastUtils.showToast(MainActivity.this, getString(R.string.fail_to_login), Toast.LENGTH_LONG);
             }
         },params);

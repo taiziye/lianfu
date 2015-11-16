@@ -46,7 +46,7 @@
 
     </LinearLayout>
 
-    <com.llb.util.PullToRefreshListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
         android:layout_marginTop="10dp"
         android:background="@anim/fragment_style"

@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class GetTime {
     public static final String getTime(){
-        SimpleDateFormat formatter=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time=formatter.format(System.currentTimeMillis());
         return time;
     }

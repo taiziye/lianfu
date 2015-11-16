@@ -1,6 +1,8 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,8 +17,11 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.RegisterMember;
+import com.tangpo.lianfu.utils.Escape;
+import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -37,7 +42,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private EditText service;
 
     private CheckBox check;
-
+    private ProgressDialog dialog=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +56,8 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         next = (Button)findViewById(R.id.next);
+        next.setEnabled(false);
         next.setOnClickListener(this);
-        next.setVisibility(View.GONE);
 
         text = (TextView)findViewById(R.id.text);
         text.setText(getResources().getString(R.string.personal_info));
@@ -74,7 +79,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);
             return;
         }
-        String password=pass.getText().toString();
+        String password= MD5Tool.md5(pass.getText().toString());
         String phone= Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center=service.getText().toString();
         String service_add=service_address.getText().toString();
@@ -86,20 +91,40 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         String address="";
         String bank_account="";
         String bank_name="";
-        String bank="";
+        String bank="中国银行";
         String bank_address="";
         String kvs[]=new String[]{username,password,phone,service_center,service_add,referrer
                 ,sex,birth,qq,email,address,bank_account,bank_name,bank,bank_address};
         String params= RegisterMember.packagingParam(this, kvs);
+
+        System.out.println(Escape.unescape(params));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
 
+                System.out.println(result.toString());
+                ToastUtils.showToast(PersonalMsgActivity.this,getString(R.string.register_success),Toast.LENGTH_SHORT);
+                Intent intent=new Intent(PersonalMsgActivity.this,RegisterSuccessActivity.class);
+                finish();
+                startActivity(intent);
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-
+                dialog.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(PersonalMsgActivity.this,getString(R.string.username_already_exist),Toast.LENGTH_SHORT);
+                    }else if(status.equals("2")){
+                        ToastUtils.showToast(PersonalMsgActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else{
+                        ToastUtils.showToast(PersonalMsgActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         },params);
     }
@@ -110,8 +135,15 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.next:
+                dialog=ProgressDialog.show(PersonalMsgActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
+                postPersonalInfo();
                 break;
             case R.id.check:
+                if(check.isChecked()){
+                    next.setEnabled(true);
+                }else{
+                    next.setEnabled(false);
+                }
                 break;
         }
     }
