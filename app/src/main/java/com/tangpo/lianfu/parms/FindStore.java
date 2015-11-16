@@ -20,8 +20,9 @@ public class FindStore {
         String action="2";
         String time= GetTime.getTime();
         String rannum= RandomNum.randomString(32);
+        String key= Configs.KEY_APPJSONKEY;
         String sessid= Configs.getCatchedToken(context);
-        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time);
+        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time,key,sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
@@ -30,8 +31,8 @@ public class FindStore {
             jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject=new JSONObject();
-            paramJsonObject.put("lng",Escape.escape(kvs[0]));
-            paramJsonObject.put("lat",Escape.escape(kvs[1]));
+            paramJsonObject.put("lng",kvs[0]);
+            paramJsonObject.put("lat",kvs[1]);
             paramJsonObject.put("user_id", Escape.escape(kvs[2]));
 
             jsonObject.put("param",paramJsonObject);

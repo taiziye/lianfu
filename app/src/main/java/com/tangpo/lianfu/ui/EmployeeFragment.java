@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,10 +47,10 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.employee_fragment, container);
+        View view = inflater.inflate(R.layout.employee_fragment, container, false);
 
         init(view);
-
+        Log.e("tag", "EmployeeFragment");
         return view;
     }
 
@@ -83,7 +84,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         /**
          * 获取头像
          */
-        img.setImageURI(null);
+        //img.setImageURI(null);
 
         power.setText("");
         name.setText(user.getName());

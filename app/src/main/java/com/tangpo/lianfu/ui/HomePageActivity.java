@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -116,12 +117,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         if(userType.equals("2")||userType.equals("1")) {
             one.setText(getResources().getString(R.string.home_page));
             two.setText(getResources().getString(R.string.record));
-            three.setText(getResources().getString(R.string.employee));
+            three.setText(getResources().getString(R.string.member));
         } else {
             one.setText(getResources().getString(R.string.shop));
             two.setText(getResources().getString(R.string.collect));
             three.setText(getResources().getString(R.string.record));
         }
+
+        one.setImage(R.drawable.home_page_r);
+        two.setImage(R.drawable.record);
+        three.setImage(R.drawable.member_manage);
+        four.setImage(R.drawable.employee_manage);
+        five.setImage(R.drawable.personal);
     }
 
     @Override
@@ -136,11 +143,20 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 five.setImage(R.drawable.personal);
 
                 if(userType.equals("2")){ //管理员
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
                     fragment = new ManageHomeFragment();
+                    fragment.setArguments(bundle);
                 }else if (userType.equals("1")){  //员工
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
                     fragment = new EmployeeHomeFragment();
+                    fragment.setArguments(bundle);
                 }else {  //会员
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
                     fragment = new MemberHomeFragment();
+                    fragment.setArguments(bundle);
                 }
                 break;
             case R.id.two:
@@ -154,13 +170,13 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
-                    fragment.setArguments(bundle);
                     fragment = new RecordFragment();
+                    fragment.setArguments(bundle);
                 } else {  //会员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
-                    fragment.setArguments(bundle);
                     fragment = new MemCollectFragment();
+                    fragment.setArguments(bundle);
                 }
                 break;
             case R.id.three:
@@ -174,10 +190,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
-                    fragment.setArguments(bundle);
                     fragment = new MemManageFragment();
+                    fragment.setArguments(bundle);
                 } else {  //会员
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userid", userid);
+                    bundle.putString("storeid", store_id);
                     fragment = new MemRecordFragment();
+                    fragment.setArguments(bundle);
                 }
                 break;
             case R.id.four:
@@ -199,6 +219,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 if(userType.equals("2")){ //管理员
                     fragment = new ManagerFragment();
                 }else if (userType.equals("1")){  //员工
+                    Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
                 }else {  //会员
                     fragment = new MemFragment();
@@ -211,7 +232,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     }
 
     private void getMember(){
-        String kvs[] = new String[]{userid, store_id, "", "", "", "0", "10"};
+        String kvs[] = new String[]{userid, store_id, "", "", "", "1", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();
 
@@ -251,5 +272,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 }

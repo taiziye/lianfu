@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
 import com.tangpo.lianfu.utils.Escape;
-import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             ToastUtils.showToast(this, getString(R.string.username_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
-        String pass = MD5Tool.md5(user_pass.getText().toString());
+        String pass = user_pass.getText().toString();
         if(pass.equals("")){
             pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.password_cannot_be_null), Toast.LENGTH_SHORT);
@@ -95,6 +95,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 try {
+                    Log.e("tag", result.toString());
                     JSONObject jsonObject=result.getJSONObject("param");
                     String sessid=jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);

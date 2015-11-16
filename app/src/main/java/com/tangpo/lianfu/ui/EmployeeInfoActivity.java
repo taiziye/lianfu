@@ -71,8 +71,7 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
         manage_level.setText(employee.getRank());
         user_name.setText(employee.getUser_id());
         contact_tel.setText(employee.getPhone());
-        rel_name.setText(employee.getName());
-        sex.setText(employee.getSex());
+        rel_name.setText(employee.getZsname());
         /**
          * 需要修改
          */

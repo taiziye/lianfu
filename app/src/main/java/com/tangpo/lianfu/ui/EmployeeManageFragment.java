@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,16 +44,15 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
-    private List<Employee> list = null;
+    private ArrayList<Employee> list = new ArrayList<>();
 
     private SharedPreferences preferences = null;
     private String userid = null;
     private String store_id = null;
     private Gson gson = null;
 
-    private int page = 0;
+    private int page = 1;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_manage_fragment, container, false);
@@ -68,30 +68,26 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }
 
         init(view);
+
+        getEmployeeList();
         return view;
     }
 
     private void init(View view){
         gson = new Gson();
-        list = new ArrayList<>();
 
         search = (Button)view.findViewById(R.id.search);
         search.setOnClickListener(this);
         add = (Button)view.findViewById(R.id.add);
         add.setOnClickListener(this);
-        listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
-        getEmployeeList();
-
-        adapter = new EmployeeAdapter(getActivity(), list);
-
-        listView.setAdapter(adapter);
+        listView = (PullToRefreshListView) view.findViewById(R.id.emlist);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 list.clear();
-                page = 0;
+                page = 1;
                 getEmployeeList();
             }
 
@@ -126,6 +122,25 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    list = (ArrayList<Employee>) msg.obj;
+                    Log.e("tag", "====++++++++====" + list.get(0).getRank());
+
+                    adapter = new EmployeeAdapter(getActivity(), list);
+                    listView.setAdapter(adapter);
+
+                    /*adapter = new EmployeeAdapter(getActivity(), list);
+                    listView.setAdapter(adapter);*/
+                    break;
+            }
+        }
+    };
+
     private void getEmployeeList(){
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
@@ -138,6 +153,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i=0; i<jsonArray.length(); i++){
                         JSONObject object = jsonArray.getJSONObject(i);
+                        System.out.println(object.toString());
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
                         list.add(employee);
                         set.add(object.toString());
@@ -145,7 +161,16 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Configs.cacheEmployee(getActivity(),set);
+
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", list);
+                msg.obj = list;
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);
+
+                Configs.cacheEmployee(getActivity(), set);
             }
         }, new NetConnection.FailCallback() {
             @Override

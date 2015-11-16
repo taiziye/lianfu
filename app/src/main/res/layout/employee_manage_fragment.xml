@@ -33,19 +33,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
+            android:background="@anim/fragment_style"
             android:paddingRight="10dp">
 
             <LinearLayout
@@ -84,14 +79,10 @@
 
         </LinearLayout>
 
-        <View
-            style="@style/view_line_style" />
-
-        <com.llb.util.PullToRefreshListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/emlist"
+        android:background="@anim/fragment_style"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

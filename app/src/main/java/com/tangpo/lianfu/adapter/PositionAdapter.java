@@ -104,7 +104,7 @@ public class PositionAdapter extends BaseAdapter{
         }
 
         //
-        holder.img.setImageURI(Uri.parse(list.get(position).getPhoto()));
+       // holder.img.setImageURI(Uri.parse(list.get(position).getPhoto()));
         holder.shop_name.setText(list.get(position).getStore());
         //holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());

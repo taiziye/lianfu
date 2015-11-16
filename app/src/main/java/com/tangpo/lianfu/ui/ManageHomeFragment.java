@@ -71,8 +71,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         record = (TextView)view.findViewById(R.id.record);
         add_record = (TextView)view.findViewById(R.id.add_record);
         add_record.setOnClickListener(this);
-        pay = (TextView)view.findViewById(R.id.profit);
-        pay_profit = (TextView)view.findViewById(R.id.profit_compute);
+        pay = (TextView)view.findViewById(R.id.pay);
+        pay_profit = (TextView)view.findViewById(R.id.profit_pay);
         pay_profit.setOnClickListener(this);
         mem = (TextView)view.findViewById(R.id.mem);
         add_mem = (TextView)view.findViewById(R.id.add_mem);

@@ -1,22 +1,45 @@
 package com.tangpo.lianfu.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * Created by 果冻 on 2015/11/9.
  */
-public class Employee implements Serializable {
+public class Employee implements Parcelable {
     private String user_id;
     private String rank;
-    private String sex;
-    private String name;
+    private String zsname;
     private String phone;
     private String bank;
     private String bank_account;
     private String bank_name;
     private String register_time;
-    private String id_number;
-    private String upgrade;
+
+    protected Employee(Parcel in) {
+        user_id = in.readString();
+        rank = in.readString();
+        zsname = in.readString();
+        phone = in.readString();
+        bank = in.readString();
+        bank_account = in.readString();
+        bank_name = in.readString();
+        register_time = in.readString();
+    }
+
+    public static final Creator<Employee> CREATOR = new Creator<Employee>() {
+        @Override
+        public Employee createFromParcel(Parcel in) {
+            return new Employee(in);
+        }
+
+        @Override
+        public Employee[] newArray(int size) {
+            return new Employee[size];
+        }
+    };
 
     public String getBank() {
         return bank;
@@ -42,12 +65,12 @@ public class Employee implements Serializable {
         this.bank_name = bank_name;
     }
 
-    public String getName() {
-        return name;
+    public String getZsname() {
+        return zsname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setZsname(String zsname) {
+        this.zsname = zsname;
     }
 
     public String getPhone() {
@@ -82,45 +105,35 @@ public class Employee implements Serializable {
         this.user_id = user_id;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getId_number() {
-        return id_number;
-    }
-
-    public void setId_number(String id_number) {
-        this.id_number = id_number;
-    }
-
-    public String getUpgrade() {
-        return upgrade;
-    }
-
-    public void setUpgrade(String upgrade) {
-        this.upgrade = upgrade;
-    }
-
-    public Employee(String user_id, String rank, String sex, String name, String phone, String bank, String bank_account, String bank_name, String register_time, String id_number, String upgrade) {
+    public Employee(String user_id, String rank, String zsname, String phone, String bank, String bank_account, String bank_name, String register_time) {
         this.user_id = user_id;
         this.rank = rank;
-        this.sex = sex;
-        this.name = name;
+        this.zsname = zsname;
         this.phone = phone;
         this.bank = bank;
         this.bank_account = bank_account;
         this.bank_name = bank_name;
         this.register_time = register_time;
-        this.id_number = id_number;
-        this.upgrade = upgrade;
     }
 
     public Employee() {
 
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bank_name);
+        dest.writeString(phone);
+        dest.writeString(rank);
+        dest.writeString(register_time);
+        dest.writeString(zsname);
+        dest.writeString(bank);
+        dest.writeString(user_id);
+        dest.writeString(bank_account);
     }
 }
