@@ -21,14 +21,14 @@ public class RegisterMember {
         String time= GetTime.getTime();
         String rannum= RandomNum.randomString(32);
 
-        String sessid= Configs.getCatchedToken(context);
+        //String sessid= Configs.getCatchedToken(context);
         String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
             jsonObject.put("rannum", Escape.escape(rannum));
             jsonObject.put("md5ver", Escape.escape(md5vec));
-            jsonObject.put("sessid", Escape.escape(sessid));
+            //jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject=new JSONObject();
             paramJsonObject.put("username", Escape.escape(kvs[0]));

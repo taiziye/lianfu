@@ -40,10 +40,11 @@ public class NetConnection {
                     HttpResponse response=client.execute(post);
                     //将返回的结果解码
                     result= Escape.unescape(EntityUtils.toString(response.getEntity()));
+                    return result;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return result;
+                return null;
             }
             @Override
             protected void onPostExecute (String s){

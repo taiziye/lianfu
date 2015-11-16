@@ -27,7 +27,7 @@ public class Login {
             JSONObject paramJsonObject=new JSONObject();
             paramJsonObject.put("username", Escape.escape(kvs[0]));
             paramJsonObject.put("password", Escape.escape(kvs[1]));
-            paramJsonObject.put("openid", Escape.escape(kvs[2]));
+           // paramJsonObject.put("openid", Escape.escape(kvs[2]));
 
             jsonObject.put("param",paramJsonObject);
         } catch (JSONException e) {

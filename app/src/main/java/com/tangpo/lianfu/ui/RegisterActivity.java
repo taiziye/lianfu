@@ -12,9 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckCode;
 import com.tangpo.lianfu.parms.GetCode;
+import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 
 import org.json.JSONException;
@@ -91,22 +93,28 @@ public class RegisterActivity extends Activity implements OnClickListener {
     }
 
     private void checkCode(){
-        String phone=phone_Num.getText().toString();
+        final String phone=phone_Num.getText().toString();
         if(phone.equals("")){
+            pd.dismiss();
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
         }
         String check_code=code.getText().toString();
         if(check_code.equals("")){
+            pd.dismiss();
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.check_code_cannot_be_null), Toast.LENGTH_LONG);
             return;
         }
         String kvs[]=new String[]{phone,check_code};
         String params= CheckCode.packagingParam(kvs);
+
+        System.out.println(Escape.unescape(params));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
+                System.out.println(result.toString());
+                Configs.cachePhoneNum(RegisterActivity.this,phone);
                 Intent intent=new Intent(RegisterActivity.this,PersonalMsgActivity.class);
                 startActivity(intent);
                 finish();
@@ -139,6 +147,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 break;
             case R.id.next:
                 pd=ProgressDialog.show(RegisterActivity.this,getString(R.string.checking_code),getString(R.string.please_wait));
+                checkCode();
                 break;
             case R.id.get_code:
                 pd=ProgressDialog.show(RegisterActivity.this,getString(R.string.send_message),getString(R.string.please_wait));

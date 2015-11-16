@@ -30,8 +30,8 @@ public class FindStore {
             jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject=new JSONObject();
-            paramJsonObject.put("lng", Escape.escape(kvs[0]));
-            paramJsonObject.put("lat", Escape.escape(kvs[1]));
+            paramJsonObject.put("lng",Escape.escape(kvs[0]));
+            paramJsonObject.put("lat",Escape.escape(kvs[1]));
             paramJsonObject.put("user_id", Escape.escape(kvs[2]));
 
             jsonObject.put("param",paramJsonObject);
