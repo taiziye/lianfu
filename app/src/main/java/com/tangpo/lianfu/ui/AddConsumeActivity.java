@@ -33,8 +33,8 @@ import org.json.JSONObject;
  */
 public class AddConsumeActivity extends Activity implements View.OnClickListener {
 
-    private static final int SELECT_MEM = 1;
-    private static final int SELECT_DIS = 1;
+    public static final int SELECT_MEM = 1;
+    public static final int SELECT_DIS = 2;
     private Button back;
     private Button commit;
 
