@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.Gravity;
@@ -12,12 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 
@@ -31,6 +38,8 @@ import java.util.regex.Pattern;
 public class Tools {
 
     public static final Context context = MyApplication.getContext();
+
+    public static final String URL = "http:\\/\\/182.92.191.236:10000\\/";
 
     /**
      * 开启activity，无参数跳转
@@ -175,4 +184,24 @@ public class Tools {
         }
         return flag;
     }
+
+    /**
+     * 加载网络图片
+     * @param context
+     * @param path  图片存放路径
+     * @param img  放置图片的控件
+     */
+    public static void setPhoto(Context context, String path, final ImageView img) {
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.camera)
+                .showImageForEmptyUri(R.drawable.camera).showImageOnFail(R.drawable.camera)
+                .resetViewBeforeLoading(false).delayBeforeLoading(1000).cacheInMemory(false).cacheOnDisc(true)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new FadeInBitmapDisplayer(300)).handler(new Handler()).build();
+
+        imageLoader.displayImage(path, img, options);
+    }
+
 }

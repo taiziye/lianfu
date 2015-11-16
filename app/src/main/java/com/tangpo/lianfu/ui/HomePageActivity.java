@@ -16,6 +16,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.MemberManagement;
+import com.tangpo.lianfu.utils.ImageBt;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,11 +31,11 @@ import java.util.Set;
 public class HomePageActivity extends Activity implements View.OnClickListener {
 
     private LinearLayout frame;
-    private Button one;
-    private Button two;
-    private Button three;
-    private Button four;
-    private Button five;
+    private ImageBt one;
+    private ImageBt two;
+    private ImageBt three;
+    private ImageBt four;
+    private ImageBt five;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
@@ -91,21 +92,24 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         frame = (LinearLayout)findViewById(R.id.frame);
 
         //根据不同的身份信息需要隐藏一个button，且注意更换button的text
-        one = (Button)findViewById(R.id.one);
+        one = (ImageBt)findViewById(R.id.one);
         one.setOnClickListener(this);
-        two = (Button)findViewById(R.id.two);
+        one.setText("地面店铺");
+        two = (ImageBt)findViewById(R.id.two);
         two.setOnClickListener(this);
-        three = (Button)findViewById(R.id.three);
+        two.setText("消费记录");
+        three = (ImageBt)findViewById(R.id.three);
         three.setOnClickListener(this);
+        three.setText("会员管理");
 
-        four = (Button)findViewById(R.id.four);
+        four = (ImageBt)findViewById(R.id.four);
         four.setOnClickListener(this);
         if(userType.equals("0")||userType.equals("1")){  //如果是非管理员登录，则隐藏改按钮
             four.setVisibility(View.GONE);
         }else{
             four.setText(getResources().getString(R.string.employee_management));
         }
-        five = (Button)findViewById(R.id.five);
+        five = (ImageBt)findViewById(R.id.five);
         five.setOnClickListener(this);
         five.setText(getResources().getString(R.string.personal));
 
@@ -125,6 +129,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         transaction =fragmentManager.beginTransaction();
         switch (v.getId()){
             case R.id.one:
+                one.setImage(R.drawable.home_page_r);
+                two.setImage(R.drawable.record);
+                three.setImage(R.drawable.member_manage);
+                four.setImage(R.drawable.employee_manage);
+                five.setImage(R.drawable.personal);
+
                 if(userType.equals("2")){ //管理员
                     fragment = new ManageHomeFragment();
                 }else if (userType.equals("1")){  //员工
@@ -134,6 +144,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.two:
+                one.setImage(R.drawable.home_page);
+                two.setImage(R.drawable.record_r);
+                three.setImage(R.drawable.member_manage);
+                four.setImage(R.drawable.employee_manage);
+                five.setImage(R.drawable.personal);
+
                 if(userType.equals("2") || userType.equals("1")){ //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
@@ -148,6 +164,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.three:
+                one.setImage(R.drawable.home_page);
+                two.setImage(R.drawable.record);
+                three.setImage(R.drawable.member_manage_r);
+                four.setImage(R.drawable.employee_manage);
+                five.setImage(R.drawable.personal);
+
                 if(userType.equals("2") || userType.equals("1")){ //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
@@ -159,9 +181,21 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.four:
+                one.setImage(R.drawable.home_page);
+                two.setImage(R.drawable.record);
+                three.setImage(R.drawable.member_manage);
+                four.setImage(R.drawable.employee_manage_r);
+                five.setImage(R.drawable.personal);
+
                 fragment = new EmployeeManageFragment();
                 break;
             case R.id.five:
+                one.setImage(R.drawable.home_page);
+                two.setImage(R.drawable.record);
+                three.setImage(R.drawable.member_manage);
+                four.setImage(R.drawable.employee_manage);
+                five.setImage(R.drawable.personal_r);
+
                 if(userType.equals("2")){ //管理员
                     fragment = new ManagerFragment();
                 }else if (userType.equals("1")){  //员工
