@@ -45,7 +45,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private String userid = "";
 
-    private int page = 0;
+    private int page = 1;
 
     private Gson gson = null;
 
@@ -72,7 +72,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 recordList.clear();
-                page = 0;
+                page = 1;
                 getConsumeRecord();
             }
 
@@ -130,7 +130,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String []{userid, store_id, "", "", "", "", ""};
+        String kvs[] = new String []{userid, store_id, "", "", "", page + "", "10"};
         String param = ProfitManagement.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

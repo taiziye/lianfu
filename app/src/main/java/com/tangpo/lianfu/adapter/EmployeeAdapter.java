@@ -2,6 +2,7 @@ package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +66,14 @@ public class EmployeeAdapter extends BaseAdapter {
         }
 
         holder.employee_id.setText(list.get(position).getUser_id());
-        holder.employee_name.setText(list.get(position).getName());
+        holder.employee_name.setText(list.get(position).getZsname());
 
-        if(list.get(position).getRank().equals("1")){
+        /*if(list.get(position).getRank().equals("1")){
             holder.role.setText("管");
         }else {
             holder.role.setText("员");
-        }
+        }*/
+        holder.role.setText(list.get(position).getRank());
 
         /*if (list.get(position).isuse()){
             holder.isuse.setClickable(true);

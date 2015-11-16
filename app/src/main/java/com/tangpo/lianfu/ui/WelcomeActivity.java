@@ -80,11 +80,11 @@ public class WelcomeActivity extends Activity implements LocationListener{
         locationManager= (LocationManager) getSystemService(LOCATION_SERVICE);
         ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-        if(networkInfo.isAvailable()){
+        /*if(networkInfo.isAvailable()){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,10,this);
         }else{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,10,this);
-        }
+        }*/
     }
 
     @Override

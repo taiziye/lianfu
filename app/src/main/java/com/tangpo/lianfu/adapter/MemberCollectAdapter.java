@@ -83,7 +83,7 @@ public class MemberCollectAdapter extends BaseAdapter {
         //holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
 
-        holder.cancel.setOnClickListener(new View.OnClickListener() {
+        /*holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (flag) {
@@ -95,9 +95,9 @@ public class MemberCollectAdapter extends BaseAdapter {
                     new NetConnection(new NetConnection.SuccessCallback() {
                         @Override
                         public void onSuccess(JSONObject result) {
-                            /**
+                            *//**
                              *
-                             */
+                             *//*
                         }
                     }, new NetConnection.FailCallback() {
                         @Override
@@ -117,14 +117,14 @@ public class MemberCollectAdapter extends BaseAdapter {
                     }, params);
                 }
             }
-        });
+        });*/
 
-        holder.contact.setOnClickListener(new View.OnClickListener() {
+        /*holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //
             }
-        });
+        });*/
         return convertView;
     }
 

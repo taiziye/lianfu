@@ -88,8 +88,8 @@ public class UpdatePasswordActivity extends ActionBarActivity {
         user= (UserEntity) getIntent().getSerializableExtra("user");
 
         String userid=user.getUser_id();
-        String old_pw= MD5Tool.md5(oldPassword);
-        String new_pw=MD5Tool.md5(newPassword);
+        String old_pw= oldPassword;
+        String new_pw=newPassword;
         String kvs[]=new String[]{userid,old_pw,new_pw};
         String params= com.tangpo.lianfu.parms.UpdatePassword.packagingParam(kvs);
 

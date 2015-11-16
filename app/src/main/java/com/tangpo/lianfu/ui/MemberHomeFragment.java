@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +21,8 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
+import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.CheckCollectedStore;
-import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 
 import org.json.JSONArray;
@@ -28,9 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -53,9 +52,13 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private PositionAdapter adapter = null;
 
-    private ArrayList<FindStore> storeList = null;
+    private ArrayList<FindStore> storeList = new ArrayList<>();
 
     private Gson gson = null;
+
+    private String userid = null;
+    private String lng="0.000000";
+    private String lat="0.000000";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,61 +68,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         init(view);
 
         if(bundle != null) {
-//            System.out.println("Longitude:"+preferences.getFloat(Configs.KEY_LONGITUDE,0.1f));
-//            System.out.println("Latitude:"+preferences.getFloat(Configs.KEY_LATITUDE,0.1f));
-//            int lng = (int) (preferences.getFloat(Configs.KEY_LNG, 0.0f) * (10 ^ 6));
-//            int lat = (int) (preferences.getFloat(Configs.KEY_LAT, 0.0f) * (10 ^ 6));
-            String lng="0.000000";
-            String lat="0.000000";
-            System.out.println(lng);
-            System.out.println(lat);
-            String userid = bundle.getString("userid");
-            String kvs[] = new String []{lng,lat, userid};
+            userid = bundle.getString("userid");
+            getStores();
 
-            String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
-
-//            String params="{\"param\":{\"lng\":\"0.000000\",\"lat\":\"0.000000\",\"user_id\":\"14408\"},\"rannum\":\"AJV234DeTDAM2wLuGvbJtRwt7ziQlxpW\",\"sessid\":\"a115999100254725055edb9e0007005e\",\"md5ver\":\"b1f18811bbe431d53f187f6fe3d0eb77\",\"time\":\"2015%2f11%2f16%2001%3a55%3a55\",\"action\":\"2\"}";
-
-            System.out.println(params);
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        JSONArray jsonArray = result.getJSONArray("param");
-                        for(int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            System.out.println(object.toString());
-                            FindStore store = gson.fromJson(object.toString(), FindStore.class);
-                            storeList.add(store);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    adapter = new PositionAdapter(getActivity(), storeList);
-                    listView.setAdapter(adapter);
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        if(result.getString("status").equals("9")){
-                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                        } else if(result.getString("status").equals("10")){
-                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, params);
-
-
-            String tmp[] = new String []{userid};
+            /*String tmp[] = new String []{userid};
             String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
 
             new NetConnection(new NetConnection.SuccessCallback() {
@@ -141,7 +93,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 public void onFail(JSONObject result) {
                     //
                 }
-            }, tmpParams);
+            }, tmpParams);*/
         }
 
         return view;
@@ -158,8 +110,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         listView = (PullToRefreshListView)view.findViewById(R.id.list);
 
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-
-        storeList = new ArrayList<>();
 
         gson = new Gson();
     }
@@ -179,5 +129,77 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.search:
                 break;
         }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    ArrayList<FindStore> list = (ArrayList<FindStore>) msg.obj;
+
+                    Log.e("tag", "tag = " + list.get(0).getAddress());
+                    Log.e("tag", storeList.size() + "size");
+                    adapter = new PositionAdapter(getActivity(), list);
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
+
+    private void getStores(){
+        String kvs[] = new String []{lng,lat, userid};
+
+        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+
+                try {
+                    JSONArray jsonArray = result.getJSONArray("param");
+                    for(int i=0; i<jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        FindStore store = gson.fromJson(object.toString(), FindStore.class);
+                        System.out.println(store.getAddress());
+                        storeList.add(store);
+
+                        /*Message msg = new Message();
+                        msg.what = 1;
+                        msg.obj = store;
+                        mHandler.sendMessage(msg);*/
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", storeList);
+                msg.obj = storeList;
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);
+
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    if(result.getString("status").equals("9")){
+                        ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        getActivity().startActivity(intent);
+                    } else if(result.getString("status").equals("10")){
+                        ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, params);
     }
 }

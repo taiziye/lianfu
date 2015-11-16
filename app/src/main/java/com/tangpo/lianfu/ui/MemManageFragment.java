@@ -52,7 +52,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private String userid = null;
     private String store_id = null;
 
-    private int page = 0;
+    private int page = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 0;
+                page = 1;
                 list.clear();
                 getMember();
             }

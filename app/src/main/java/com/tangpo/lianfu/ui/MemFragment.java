@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
 
 /**
@@ -37,6 +39,12 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().finish();
+    }
+
     private void init(View view) {
         double_code = (Button)view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
@@ -58,6 +66,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()){
             case R.id.double_code:
                 break;
@@ -66,8 +75,12 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.next:
                 break;
             case R.id.personal_info:
+                intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.modify_pass:
+                intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                startActivity(intent);
                 break;
         }
     }

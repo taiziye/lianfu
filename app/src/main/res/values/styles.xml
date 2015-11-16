@@ -24,7 +24,7 @@
 
     <style name="btn_style_bottom">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@anim/btn_style</item>
         <item name="android:gravity">center</item>
