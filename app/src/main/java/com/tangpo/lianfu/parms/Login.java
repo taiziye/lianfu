@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.parms;
 
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.GetMD5Vec;
 import com.tangpo.lianfu.utils.GetTime;
@@ -17,7 +18,8 @@ public class Login {
         String action="1";
         String time= GetTime.getTime();
         String rannum= RandomNum.randomString(32);
-        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time);
+        String key= Configs.KEY_APPJSONKEY;
+        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time,key);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));

@@ -119,31 +119,29 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             }, params);
 
 
-//            String tmp[] = new String []{userid};
-//            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
-//
-//            new NetConnection(new NetConnection.SuccessCallback() {
-//                @Override
-//                public void onSuccess(JSONObject result) {
-//                    Set<String> store = new HashSet<String>();
-//                    try {
-//                        JSONArray stores = result.getJSONArray("param");
-//                        JSONObject object = null;
-//                        for(int i=0; i<stores.length(); i++){
-//                            object = stores.getJSONObject(i);
-//                            store.add(object.toString());
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Configs.cacheCollectedStore(getActivity(), store);
-//                }
-//            }, new NetConnection.FailCallback() {
-//                @Override
-//                public void onFail(JSONObject result) {
-//                    //
-//                }
-//            }, tmpParams);
+            String tmp[] = new String []{userid};
+            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
+
+            new NetConnection(new NetConnection.SuccessCallback() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    Set<String> store = new HashSet<String>();
+                    JSONObject stores = null;
+                    try {
+                        stores = result.getJSONObject("param");
+                        System.out.println(result.toString());
+                        store.add(stores.toString());
+                        Configs.cacheCollectedStore(getActivity(), store);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new NetConnection.FailCallback() {
+                @Override
+                public void onFail(JSONObject result) {
+                    //
+                }
+            }, tmpParams);
         }
 
         return view;

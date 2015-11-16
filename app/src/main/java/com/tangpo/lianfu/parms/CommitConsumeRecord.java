@@ -20,9 +20,9 @@ public class CommitConsumeRecord {
         String action="12";
         String time= GetTime.getTime();
         String rannum= RandomNum.randomString(32);
-
+        String key= Configs.KEY_APPJSONKEY;
         String sessid= Configs.getCatchedToken(context);
-        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time);
+        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time,key,sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
