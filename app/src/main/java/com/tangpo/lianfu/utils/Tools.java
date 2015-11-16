@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -28,6 +29,8 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +43,8 @@ public class Tools {
     public static final Context context = MyApplication.getContext();
 
     public static final String URL = "http:\\/\\/182.92.191.236:10000\\/";
+
+    private static List<Activity> activityList = new LinkedList<Activity>();
 
     /**
      * 开启activity，无参数跳转
@@ -202,6 +207,24 @@ public class Tools {
                 .displayer(new FadeInBitmapDisplayer(300)).handler(new Handler()).build();
 
         imageLoader.displayImage(path, img, options);
+    }
+
+    /**
+     * 收集Activity实例
+     * @param activity
+     */
+    public static void gatherActivity(Activity activity){
+        activityList.add(activity);
+    }
+
+    public static void deleteActivity(Activity activity){
+        activityList.remove(activity);
+    }
+
+    public static void closeActivity(){
+        for(int i=activityList.size() - 1; i>=0; i--){
+            activityList.get(i).finish();
+        }
     }
 
 }

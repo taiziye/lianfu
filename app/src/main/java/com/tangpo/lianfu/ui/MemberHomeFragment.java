@@ -21,7 +21,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
-import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.utils.ToastUtils;
 
@@ -163,13 +162,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     for(int i=0; i<jsonArray.length(); i++){
                         JSONObject object = jsonArray.getJSONObject(i);
                         FindStore store = gson.fromJson(object.toString(), FindStore.class);
-                        System.out.println(store.getAddress());
                         storeList.add(store);
-
-                        /*Message msg = new Message();
-                        msg.what = 1;
-                        msg.obj = store;
-                        mHandler.sendMessage(msg);*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -177,10 +170,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
                 Message msg = new Message();
                 msg.what = 1;
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", storeList);
                 msg.obj = storeList;
-                msg.setData(bundle);
                 mHandler.sendMessage(msg);
 
             }

@@ -58,8 +58,6 @@ public class EmployeeAdapter extends BaseAdapter {
             holder.employee_name = (TextView) convertView.findViewById(R.id.employee_name);
             holder.role = (TextView) convertView.findViewById(R.id.role);
 
-            //holder.isuse = (Switch) convertView.findViewById(R.id.use);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -75,14 +73,7 @@ public class EmployeeAdapter extends BaseAdapter {
         }*/
         holder.role.setText(list.get(position).getRank());
 
-        /*if (list.get(position).isuse()){
-            holder.isuse.setClickable(true);
-            holder.isuse.setBackgroundColor(Color.WHITE);
-        }else {
-            holder.isuse.setClickable(false);
-            holder.isuse.setBackgroundColor(Color.GRAY);
-        }*/
-        return null;
+        return convertView;
     }
 
     private class ViewHolder{
