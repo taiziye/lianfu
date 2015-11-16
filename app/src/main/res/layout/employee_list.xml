@@ -29,29 +29,14 @@
             android:textColor="@android:color/black"
             android:text="王世凯"/>
 
-        <LinearLayout
+        <TextView android:id="@+id/role"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="center">
-
-            <TextView android:id="@+id/role"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:text="管"/>
-
-            <!--<Switch android:id="@+id/use"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:textOn="启用"
-                android:textOff="停用" />-->
-
-        </LinearLayout>
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="管"/>
     </LinearLayout>
 
 </LinearLayout>

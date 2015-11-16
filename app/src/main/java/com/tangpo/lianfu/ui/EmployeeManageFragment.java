@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
-    private ArrayList<Employee> list = new ArrayList<>();
+    private ArrayList<Employee> memList = new ArrayList<>();
 
     private SharedPreferences preferences = null;
     private String userid = null;
@@ -86,7 +85,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                list.clear();
+                memList.clear();
                 page = 1;
                 getEmployeeList();
             }
@@ -102,7 +101,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EmploeeInfoActivity.class);
-                intent.putExtra("employee", list.get(position));
+                intent.putExtra("employee", memList.get(position));
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
             }
@@ -128,14 +127,9 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    list = (ArrayList<Employee>) msg.obj;
-                    Log.e("tag", "====++++++++====" + list.get(0).getRank());
-
-                    adapter = new EmployeeAdapter(getActivity(), list);
+                    memList = (ArrayList<Employee>) msg.obj;
+                    adapter = new EmployeeAdapter(getActivity(), memList);
                     listView.setAdapter(adapter);
-
-                    /*adapter = new EmployeeAdapter(getActivity(), list);
-                    listView.setAdapter(adapter);*/
                     break;
             }
         }
@@ -153,9 +147,11 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i=0; i<jsonArray.length(); i++){
                         JSONObject object = jsonArray.getJSONObject(i);
-                        System.out.println(object.toString());
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
-                        list.add(employee);
+
+                        System.out.println(object.toString());
+
+                        memList.add(employee);
                         set.add(object.toString());
                     }
                 } catch (JSONException e) {
@@ -164,10 +160,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
                 Message msg = new Message();
                 msg.what = 1;
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", list);
-                msg.obj = list;
-                msg.setData(bundle);
+                msg.obj = memList;
                 mHandler.sendMessage(msg);
 
                 Configs.cacheEmployee(getActivity(), set);
@@ -183,7 +176,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        list.clear();
+        memList.clear();
         getEmployeeList();
     }
 }

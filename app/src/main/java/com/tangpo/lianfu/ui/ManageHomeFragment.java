@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +50,12 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
     private Manager manager = null;
     private Gson mGson = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,6 +108,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     mem.setText("会员人数总计" + manager.getMem_num() + "人");
                     pay.setText("消费利润共计" + manager.getProfit() + "元，可支付共计" + manager.getPayback() + "元");
                     employee.setText("管理员人数总计" + manager.getAdmin_num() + "人，员工总计" + manager.getStaff_num() + "人");
+
+                    Configs.cacheManager(getActivity(), result.toString());
                 }
             }, new NetConnection.FailCallback() {
                 @Override

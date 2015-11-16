@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Discount;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 果冻 on 2015/11/9.
@@ -24,11 +27,20 @@ public class DiscountAdapter extends BaseAdapter {
 
     private boolean checked[] = null;
 
+    private static Map<Integer, Boolean> selected;
+
     public DiscountAdapter(Context context, List<Discount> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
+        Log.e("tag", "size " + list.size());
         checked = new boolean[list.size()];
+
+        selected = new HashMap<Integer, Boolean>();
+
+        for(int i=0; i<list.size(); i++){
+            selected.put(i, false);
+        }
 
         for (int i=0; i<list.size(); i++){
             checked[i] = false;
@@ -67,7 +79,7 @@ public class DiscountAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.check.setChecked(checked[position]);
+        holder.check.setChecked(selected.get(position));
 
         holder.type.setText(list.get(position).getDesc());
         holder.discount.setText(list.get(position).getDiscount());
@@ -75,7 +87,29 @@ public class DiscountAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void Click(int position) {
+        if(selected.get(position)){
+            selected.put(position, false);
+        }else{
+            selected.put(position, true);
+        }
+    }
+
+    public void setSelected(int num) {
+        for(int i=0 ; i< list.size(); i++) {
+            selected.put(i, false);
+        }
+        selected.put(num, true);
+    }
+
+    public Map<Integer, Boolean> getSelected() {
+        return selected;
+    }
+
     public void setChecked(int position){
+        for (int i=0; i<list.size(); i++){
+            checked[i] = false;
+        }
         checked[position] = true;
     }
 

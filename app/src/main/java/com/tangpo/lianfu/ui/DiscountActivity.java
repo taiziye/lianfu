@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -16,8 +19,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.DiscountAdapter;
+import com.tangpo.lianfu.adapter.EmployeeAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
+import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ManageDiscount;
 
@@ -25,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,11 +45,11 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private TextView sum;
 
-    private PullToRefreshListView listView;
+    private ListView listView;
 
     private DiscountAdapter adapter = null;
 
-    private List<Discount> list = null;
+    private List<Discount> list = new ArrayList<>();
 
     private int index = 0;
 
@@ -52,7 +58,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     private String userid = null;
     private String store_id = null;
 
-    private int page = 0;
+    private int page = 1;
 
     private Gson gson = null;
 
@@ -79,27 +85,31 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         gson = new Gson();
 
         back = (Button)findViewById(R.id.back);
+        back.setOnClickListener(this);
         confirm = (Button)findViewById(R.id.confirm);
+        confirm.setOnClickListener(this);
         delete = (Button)findViewById(R.id.delete);
+        delete.setOnClickListener(this);
         add = (Button)findViewById(R.id.add);
+        add.setOnClickListener(this);
 
         sum = (TextView)findViewById(R.id.sum);
 
-        listView = (PullToRefreshListView)findViewById(R.id.list);
+        listView = (ListView)findViewById(R.id.list);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 index = position;
-                adapter.setChecked(position);
-                listView.setAdapter(adapter);
+                adapter.setSelected(position);
+                adapter.notifyDataSetChanged();
             }
         });
 
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        /*listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 0;
+                page = 1;
                 list.clear();
                 getDiscount();
             }
@@ -109,21 +119,18 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 page++;
                 getDiscount();
             }
-        });
+        });*/
 
         getDiscount();
 
-        adapter = new DiscountAdapter(this, list);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 intent.putExtra("discount", list.get(position));
                 setResult(RESULT_OK, intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -136,7 +143,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent();
                 intent.putExtra("type", list.get(index).getDesc());
                 intent.putExtra("discount", list.get(index).getDiscount());
-                this.setResult(ConsumeRecordActivity.REQUEST_CODE, intent);
+                setResult(RESULT_OK, intent);
+                finish();
                 break;
             case R.id.delete:
                 break;
@@ -144,6 +152,21 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    list = (ArrayList<Discount>) msg.obj;
+                    Log.e("tag", "list" + list.size());
+                    adapter = new DiscountAdapter(DiscountActivity.this, list);
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
 
     private void getDiscount() {
         String kvs [] = new String []{userid, store_id, page + "", "10"};
@@ -162,6 +185,12 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = list;
+                mHandler.sendMessage(msg);
+
             }
         }, new NetConnection.FailCallback() {
             @Override

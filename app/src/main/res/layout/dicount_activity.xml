@@ -37,15 +37,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        android:background="@anim/fragment_style"
+        android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -82,15 +75,13 @@
                     android:layout_height="match_parent"
                     >
 
-                    <com.llb.util.PullToRefreshListView
+                    <ListView
                         android:id="@+id/list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
                 </RadioGroup>
 
-            </LinearLayout>
-        </ScrollView>
     </LinearLayout>
 
     <RelativeLayout

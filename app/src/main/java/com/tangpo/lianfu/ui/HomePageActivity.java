@@ -18,6 +18,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.MemberManagement;
 import com.tangpo.lianfu.utils.ImageBt;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_page_activity);
+        Tools.gatherActivity(this);
 
         preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user=preferences.getString(Configs.KEY_USER, "0");
