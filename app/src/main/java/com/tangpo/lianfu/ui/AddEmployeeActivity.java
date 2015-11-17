@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
@@ -51,7 +53,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private List<String> list=null;
     private ArrayAdapter<String> adapter=null;
 
-    private String userid = "";
+    private String userid = null;
 
     private ProgressDialog dialog = null;
 
@@ -66,14 +68,13 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     String bank_nameStr=null;
     String sex=null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_employee_activity);
-
         userid = getIntent().getExtras().getString("userid");
-
         init();
     }
 
@@ -89,14 +90,19 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         list.add("员工");
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list);
         manage_level.setAdapter(adapter);
-        manage_level.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        manage_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (adapter.getItem(position).equals("管理员")){
                     rank="管理员";
                 }else{
                     rank="员工";
                 }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -149,6 +155,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.commit:
                 dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+                addEmployee();
                 break;
             /*case R.id.select_level:
                 break;*/
@@ -160,7 +167,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     }
 
     private void addEmployee(){
-        //rank = manage_level.getText().toString();
+//        rank = manage_level.getText().toString();
+        rank="0";
         username = user_name.getText().toString();
         phone = contact_tel.getText().toString();
         pw = MD5Tool.md5(phone.substring(phone.length() - 6));
@@ -180,8 +188,9 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                ToastUtils.showToast(AddEmployeeActivity.this,getString(R.string.add_success), Toast.LENGTH_SHORT);
+                ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT);
                 AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
+                AddEmployeeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

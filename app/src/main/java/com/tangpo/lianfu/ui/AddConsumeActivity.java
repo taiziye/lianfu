@@ -141,7 +141,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
                 contact_tel.setText(mem.getPhone());
             }else if(requestCode == SELECT_DIS) {
                 dis = (Discount) data.getExtras().getSerializable("discount");
-                discount.setText(dis.getDiscount() + "折");
+                discount.setText(dis.getDiscount());
             }
         }
     }

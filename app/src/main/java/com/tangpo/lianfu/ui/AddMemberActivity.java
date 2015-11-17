@@ -21,6 +21,7 @@ import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddMember;
 import com.tangpo.lianfu.utils.MD5Tool;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -54,7 +55,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private ProgressDialog dialog = null;
 
     private String userid=null;
-    private SharedPreferences preferences=null;
 
     @Override
     protected void onDestroy() {
@@ -71,17 +71,11 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
 
         Tools.gatherActivity(this);
 
+        userid = getIntent().getExtras().getString("userid");
         init();
     }
 
     private void init() {
-        preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-        try {
-            JSONObject jsonObject=new JSONObject(preferences.getString(Configs.KEY_USER,""));
-            userid=jsonObject.getString("user_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         commit = (Button)findViewById(R.id.commit);
@@ -126,8 +120,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         id_card = (EditText)findViewById(R.id.id_card);
         bank_card = (EditText)findViewById(R.id.bank_card);
         bank_nameTextView = (EditText)findViewById(R.id.bank_name);
-
-        commit.setClickable(false);
+        admit= (CheckBox) findViewById(R.id.admit);
     }
 
     @Override
@@ -137,6 +130,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.commit:
+//                if (!admit.isChecked()){
+//                    ToastUtils.showToast(this,"");
+//                }
                 dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 addMember();
                 break;
@@ -173,8 +169,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("tag",result.toString());
                 dialog.dismiss();
-                Tools.showToast(getString(R.string.add_success));
+                Tools.showToast("");
                 Intent intent = new Intent();
                 intent.putExtra("member", member);
                 AddMemberActivity.this.setResult(MemManageFragment.REQUEST_CODE, intent);

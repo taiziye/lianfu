@@ -47,6 +47,7 @@ public class AddMember {
             paramJsonObject.put("bank_name", Escape.escape(kvs[13]));
             paramJsonObject.put("bank", Escape.escape(kvs[14]));
             paramJsonObject.put("bank_address", Escape.escape(kvs[15]));
+            paramJsonObject.put("uplevel",Escape.escape(kvs[16]));
 
             jsonObject.put("param",paramJsonObject);
         } catch (JSONException e) {

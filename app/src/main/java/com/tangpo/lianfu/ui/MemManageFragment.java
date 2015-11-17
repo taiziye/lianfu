@@ -162,6 +162,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                     JSONArray jsonArray = result.getJSONArray("param");
                     for(int i=0; i<jsonArray.length(); i++){
                         JSONObject object = jsonArray.getJSONObject(i);
+                        Log.e("tag",object.toString());
                         Member member = gson.fromJson(object.toString(), Member.class);
                         list.add(member);
                         set.add(object.toString());
