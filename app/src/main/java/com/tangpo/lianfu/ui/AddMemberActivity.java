@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -36,8 +37,8 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private CheckBox admit;
 
     private Spinner sex;
+    private Spinner uplevel;
 
-    private TextView update_type;
     private TextView bankTextView;
     private TextView select_bank;
 
@@ -49,16 +50,27 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private EditText bank_nameTextView;
 
     private String sexStr = "";
+    private String uplevelStr = "";
     private ProgressDialog dialog = null;
 
     private String userid=null;
     private SharedPreferences preferences=null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+        Tools.deleteActivity(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_member_activity);
+
+        Tools.gatherActivity(this);
+
         init();
     }
 
@@ -76,11 +88,12 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         commit.setOnClickListener(this);
 
         admit = (CheckBox)findViewById(R.id.admit);
+        admit.setOnClickListener(this);
         sex = (Spinner) findViewById(R.id.sex);
         sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] sexes = getResources().getStringArray(R.array.spinner);
+                String[] sexes = getResources().getStringArray(R.array.sex);
                 sexStr = sexes[position];
             }
 
@@ -90,7 +103,20 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             }
         });
 
-        update_type = (TextView)findViewById(R.id.update_type);
+        uplevel = (Spinner) findViewById(R.id.up_level);
+        uplevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String [] uplevels = getResources().getStringArray(R.array.uplevel);
+                uplevelStr = uplevels[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         bankTextView = (TextView)findViewById(R.id.bank);
         select_bank = (TextView)findViewById(R.id.select_bank);
         select_bank.setOnClickListener(this);
@@ -130,7 +156,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         String service_center = "";
         String service_address = "";
         String referrer = "";
-        String sex = sexStr;
         String birth = "";
         String qq = "";
         String email = "";
@@ -140,10 +165,10 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         String bank = bankTextView.getText().toString();
         String bank_address = "";
         String kvs[] = new String []{user_id, username, pw, phone, service_center, service_address,
-        referrer, sex, birth, qq, email, address, bank_account, bank_name, bank, bank_address};
+        referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};
         String param = AddMember.packagingParam(this, kvs);
 
-        final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sex);
+        final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sexStr);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

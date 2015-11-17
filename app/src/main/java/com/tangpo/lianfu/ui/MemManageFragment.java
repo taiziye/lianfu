@@ -4,6 +4,9 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,11 +91,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
         getMember();
 
-        adapter = new MemberAdapter(list, getActivity());
+        //adapter = new MemberAdapter(list, getActivity());
 
         listView = (PullToRefreshListView)view.findViewById(R.id.list);
 
-        listView.setAdapter(adapter);
+//        listView.setAdapter(adapter);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -112,6 +115,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("tag", "OnItemClickListener" + list.get(position).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position));
                 startActivityForResult(intent, REQUEST_EDIT);
@@ -132,6 +136,20 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    list = (List<Member>) msg.obj;
+                    adapter = new MemberAdapter(list, getActivity());
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
+
     private void getMember(){
         String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(getActivity(), kvs);
@@ -151,6 +169,12 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = list;
+                mHandler.sendMessage(msg);
+
                 Configs.cacheMember(getActivity(), set);
             }
         }, new NetConnection.FailCallback() {

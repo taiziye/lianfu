@@ -51,6 +51,9 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private Manager manager = null;
     private Gson mGson = null;
 
+    private String userid = null;
+    private String store_id = null;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -92,7 +95,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
         //初始化控件，填充数据
         if(bundle != null){
-            String userid = bundle.getString("userid");
+            userid = bundle.getString("userid");
+            store_id = bundle.getString("storeid");
             String [] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
@@ -104,10 +108,40 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     manager = mGson.fromJson(result.toString(), Manager.class);
 
                     shop_name.setText(manager.getStore_name());
-                    record.setText("会员消费记录共计" + manager.getIncome() + "元");
-                    mem.setText("会员人数总计" + manager.getMem_num() + "人");
-                    pay.setText("消费利润共计" + manager.getProfit() + "元，可支付共计" + manager.getPayback() + "元");
-                    employee.setText("管理员人数总计" + manager.getAdmin_num() + "人，员工总计" + manager.getStaff_num() + "人");
+
+                    if (manager.getIncome() == null)
+                        record.setText("会员消费记录共计0元");
+                    else
+                        record.setText("会员消费记录共计" + manager.getIncome() + "元");
+
+                    if(manager.getMem_num() == null)
+                        mem.setText("会员人数总计0人");
+                    else
+                        mem.setText("会员人数总计" + manager.getMem_num() + "人");
+
+                    String tmp = "";
+                    if (manager.getProfit() == null)
+                        tmp = "消费利润共计0元，";
+                    else
+                        tmp = "消费利润共计" + manager.getProfit() + "元，";
+
+                    if (manager.getPayback() == null)
+                        tmp += "，可支付共计0元";
+                    else
+                        tmp += "，可支付共计" + manager.getPayback() + "元";
+                    pay.setText(tmp);
+
+                    if(manager.getAdmin_num() == null)
+                        tmp = "管理员人数总计0人，";
+                    else
+                        tmp = "管理员人数总计" + manager.getAdmin_num() + "人，";
+
+                    if (manager.getStaff_num() == null)
+                        tmp += "员工总计0人";
+                    else
+                        tmp += "员工总计" + manager.getStaff_num() + "人";
+
+                    employee.setText(tmp);
 
                     Configs.cacheManager(getActivity(), result.toString());
                 }
@@ -157,6 +191,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.profit_pay:
                 intent = new Intent(getActivity(), OfflineProfitPayActivity.class);
+                intent.putExtra("userid", userid);
+                intent.putExtra("storeid", store_id);
                 getActivity().startActivity(intent);
                 break;
             case R.id.add_mem:

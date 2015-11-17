@@ -14,6 +14,23 @@ public class Member implements Serializable {
     private String sex;
     private String name;
     private String phone;
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "bank='" + bank + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", username='" + username + '\'' +
+                ", sex='" + sex + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", bank_account='" + bank_account + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", register_time='" + register_time + '\'' +
+                ", id_number='" + id_number + '\'' +
+                '}';
+    }
+
     private String bank;
     private String bank_account;
     private String bank_name;
