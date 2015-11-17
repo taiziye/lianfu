@@ -48,14 +48,13 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     private List<Member> listMem = null;
     private ProgressDialog dialog = null;
     private UserEntity user = null;
-    private int page = 1;
+    private int page = 0;
     private Gson gson = new Gson();
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Tools.deleteActivity(this);
-        finish();
     }
 
     @Override
@@ -108,7 +107,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 1;
+                page = 0;
                 list.clear();
                 getMemberList();
             }

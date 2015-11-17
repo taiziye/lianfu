@@ -63,15 +63,15 @@ public class EmployeeAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.employee_id.setText(list.get(position).getUser_id());
-        holder.employee_name.setText(list.get(position).getZsname());
+        holder.employee_id.setText(list.get(position).getRegister_time());
+        holder.employee_name.setText(list.get(position).getRank());
 
         /*if(list.get(position).getRank().equals("1")){
             holder.role.setText("管");
         }else {
             holder.role.setText("员");
         }*/
-        holder.role.setText(list.get(position).getRank());
+        holder.role.setText(list.get(position).getZsname());
 
         return convertView;
     }

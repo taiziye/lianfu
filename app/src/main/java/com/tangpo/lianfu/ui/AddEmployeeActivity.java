@@ -35,7 +35,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private Button back;
     private Button commit;
 
-    private TextView manage_level;
+    private Spinner manage_level;
     private TextView bank;
     private TextView select_level;
     private TextView select_bank;
@@ -83,10 +83,26 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         commit = (Button)findViewById(R.id.commit);
         commit.setOnClickListener(this);
 
-        manage_level = (TextView)findViewById(R.id.manage_level);
+        manage_level = (Spinner)findViewById(R.id.manage_level);
+        list = new ArrayList<>();
+        list.add("管理员");
+        list.add("员工");
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list);
+        manage_level.setAdapter(adapter);
+        manage_level.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (adapter.getItem(position).equals("管理员")){
+                    rank="管理员";
+                }else{
+                    rank="员工";
+                }
+            }
+        });
+
         bank = (TextView)findViewById(R.id.bank);
-        select_level = (TextView)findViewById(R.id.select_level);
-        select_level.setOnClickListener(this);
+        /*select_level = (TextView)findViewById(R.id.select_level);
+        select_level.setOnClickListener(this);*/
         //select_type = (TextView)findViewById(R.id.select_type);
         //select_type.setOnClickListener(this);
         select_bank = (TextView)findViewById(R.id.select_bank);
@@ -134,8 +150,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             case R.id.commit:
                 dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 break;
-            case R.id.select_level:
-                break;
+            /*case R.id.select_level:
+                break;*/
             /*case R.id.select_type:
                 break;*/
             case R.id.select_bank:
@@ -144,7 +160,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     }
 
     private void addEmployee(){
-        rank = manage_level.getText().toString();
+        //rank = manage_level.getText().toString();
         username = user_name.getText().toString();
         phone = contact_tel.getText().toString();
         pw = MD5Tool.md5(phone.substring(phone.length() - 6));

@@ -72,10 +72,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         fragmentManager =getFragmentManager();
         transaction =fragmentManager.beginTransaction();
         if (userType.equals("2")) { //管理员
+            Bundle bundle = new Bundle();
+            bundle.putString("userid", userid);
+            bundle.putString("storeid", store_id);
             fragment = new ManageHomeFragment();
+            fragment.setArguments(bundle);
             getMember();
         }else if (userType.equals("1")){  //员工
+            Bundle bundle = new Bundle();
+            bundle.putString("userid", userid);
+            bundle.putString("storeid", store_id);
             fragment = new EmployeeHomeFragment();
+            fragment.setArguments(bundle);
             getMember();
         }else {  //会员
             fragment = new MemberHomeFragment();
@@ -147,11 +155,13 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 if(userType.equals("2")){ //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
+                    bundle.putString("storeid", store_id);
                     fragment = new ManageHomeFragment();
                     fragment.setArguments(bundle);
                 }else if (userType.equals("1")){  //员工
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
+                    bundle.putString("storeid", store_id);
                     fragment = new EmployeeHomeFragment();
                     fragment.setArguments(bundle);
                 }else {  //会员

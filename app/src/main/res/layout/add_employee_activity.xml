@@ -53,24 +53,12 @@
                     android:layout_alignParentLeft="true"
                     />
 
-                <TextView android:id="@+id/manage_level"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_height="40dp" />
-
-                <TextView android:id="@+id/select_level"
+                <Spinner
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="15dp"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/ac_select"/>
+                    android:layout_height="40dp"
+                    android:id="@+id/manage_level"
+                    android:layout_weight="1"
+                    />
             </LinearLayout>
 
             <View
@@ -337,16 +325,15 @@
             <View
                 style="@style/view_line_style" />
 
-            <Button android:id="@+id/commit"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/add_mem"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:text="@string/submit"
-                />
         </LinearLayout>
     </ScrollView>
-
+    <Button android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/add_mem"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:text="@string/submit"
+        />
 </LinearLayout>
