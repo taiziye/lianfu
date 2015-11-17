@@ -30,17 +30,17 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
     }
 
     private void init() {
-        back_home = (Button)findViewById(R.id.back_home);
+        back_home = (Button) findViewById(R.id.back_home);
         back_home.setOnClickListener(this);
 
-        logo = (ImageView)findViewById(R.id.logo);
+        logo = (ImageView) findViewById(R.id.logo);
 
-        money = (TextView)findViewById(R.id.money);
+        money = (TextView) findViewById(R.id.money);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back_home:
                 Tools.gotoActivity(OnlinePayActivity.this, HomePageActivity.class);
                 finish();

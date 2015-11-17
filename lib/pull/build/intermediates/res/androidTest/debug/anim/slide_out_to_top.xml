@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2009 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,4 +18,4 @@
     android:duration="@android:integer/config_longAnimTime"
     android:fromYDelta="0"
     android:toYDelta="-100%p" />
-<!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/res/anim/slide_out_to_top.xml --><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/build/intermediates/bundles/debug/res/anim/slide_out_to_top.xml -->
+<!-- From: file:/E:/Android/lianfu/lib/pull/res/anim/slide_out_to_top.xml --><!-- From: file:/E:/Android/lianfu/lib/pull/build/intermediates/bundles/debug/res/anim/slide_out_to_top.xml -->

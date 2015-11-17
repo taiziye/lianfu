@@ -50,7 +50,7 @@ public class EmployeeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
 
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.employee_list, null);
             holder = new ViewHolder();
 
@@ -76,7 +76,7 @@ public class EmployeeAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public TextView employee_id;
         public TextView employee_name;
         public TextView role;

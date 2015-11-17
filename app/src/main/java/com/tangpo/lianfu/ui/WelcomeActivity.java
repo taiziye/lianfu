@@ -19,10 +19,10 @@ import com.tangpo.lianfu.utils.Tools;
 /**
  * Created by 果冻 on 2015/11/3.
  */
-public class WelcomeActivity extends Activity implements LocationListener{
+public class WelcomeActivity extends Activity implements LocationListener {
     private static final String TAG = "WelcomeActivity";
     private boolean isStartGuide;
-    private LocationManager locationManager=null;
+    private LocationManager locationManager = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class WelcomeActivity extends Activity implements LocationListener{
         // 在欢迎界面停留一秒
         new Handler().postDelayed(new Runnable() {
             public void run() {
-				/*
+                /*
 				 * if (isStartGuide) {
 				 * Tools.gotoActivity(WelcomeActivity.this,GuideActivity.class);
 				 * } else {
@@ -60,7 +60,7 @@ public class WelcomeActivity extends Activity implements LocationListener{
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
             return false;
-        }else {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -77,9 +77,9 @@ public class WelcomeActivity extends Activity implements LocationListener{
     private void initAppConfig() {
         //获取到当前手机的位置信息并缓存到本地的SharedPreference
         Log.e(TAG, "启动服务进行数据库及其他资源的初始化！");
-        locationManager= (LocationManager) getSystemService(LOCATION_SERVICE);
-        ConnectivityManager connectivityManager= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         /*if(networkInfo.isAvailable()){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,10,this);
         }else{

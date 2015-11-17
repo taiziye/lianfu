@@ -33,26 +33,26 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.pay_bill);
     }
 
-    private void init(){
-        back = (Button)findViewById(R.id.back);
+    private void init() {
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        upload = (Button)findViewById(R.id.upload);
+        upload = (Button) findViewById(R.id.upload);
         upload.setOnClickListener(this);
-        pay_online = (Button)findViewById(R.id.pay_online);
+        pay_online = (Button) findViewById(R.id.pay_online);
         pay_online.setOnClickListener(this);
 
-        shop = (TextView)findViewById(R.id.shop);
-        select = (TextView)findViewById(R.id.select);
+        shop = (TextView) findViewById(R.id.shop);
+        select = (TextView) findViewById(R.id.select);
         select.setOnClickListener(this);
 
-        money = (EditText)findViewById(R.id.money);
-        contact_tel = (EditText)findViewById(R.id.contact_tel);
-        bill_num = (EditText)findViewById(R.id.bill_num);
+        money = (EditText) findViewById(R.id.money);
+        contact_tel = (EditText) findViewById(R.id.contact_tel);
+        bill_num = (EditText) findViewById(R.id.bill_num);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;

@@ -29,15 +29,15 @@ public class MemberUpdateTypeActivity extends Activity implements View.OnClickLi
     }
 
     private void init() {
-        back = (Button)findViewById(R.id.back);
-        edit = (Button)findViewById(R.id.edit);
+        back = (Button) findViewById(R.id.back);
+        edit = (Button) findViewById(R.id.edit);
 
-        list = (PullToRefreshListView)findViewById(R.id.list);
+        list = (PullToRefreshListView) findViewById(R.id.list);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;

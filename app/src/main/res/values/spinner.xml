@@ -9,4 +9,9 @@
         <item>BNZZ</item>
         <item>BN50</item>
     </string-array>
+
+    <string-array name="manage_level">
+        <item>管理员</item>
+        <item>员工</item>
+    </string-array>
 </resources>

@@ -51,7 +51,7 @@ public class ViewPageAdapter extends PagerAdapter {
         return (view == object);
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public ImageView img;
         public TextView shop_name;
         public TextView commodity;

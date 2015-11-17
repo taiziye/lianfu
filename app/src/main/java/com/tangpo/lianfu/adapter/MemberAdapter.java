@@ -47,14 +47,14 @@ public class MemberAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.member_list, null);
             holder = new ViewHolder();
 
-            holder.user_name = (TextView)convertView.findViewById(R.id.user_name);
-            holder.name = (TextView)convertView.findViewById(R.id.name);
-            holder.sex = (TextView)convertView.findViewById(R.id.sex);
-            holder.time = (TextView)convertView.findViewById(R.id.time);
+            holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.sex = (TextView) convertView.findViewById(R.id.sex);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
 
             convertView.setTag(holder);
         } else {
@@ -63,7 +63,7 @@ public class MemberAdapter extends BaseAdapter {
 
         holder.user_name.setText(list.get(position).getUser_id());
         holder.name.setText(list.get(position).getName());
-        if(list.get(position).getSex().equals("0"))
+        if (list.get(position).getSex().equals("0"))
             holder.sex.setText("男");
         else
             holder.sex.setText("女");
@@ -71,7 +71,7 @@ public class MemberAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public TextView user_name;
         public TextView name;
         public TextView sex;

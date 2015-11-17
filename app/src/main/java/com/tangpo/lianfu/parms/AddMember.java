@@ -15,14 +15,14 @@ import org.json.JSONObject;
  * Created by shengshoubo on 2015/11/2.
  */
 public class AddMember {
-    public static final String packagingParam(Context context,String...kvs){
-        JSONObject jsonObject=new JSONObject();
-        String action="16";
-        String time= GetTime.getTime();
-        String rannum= RandomNum.randomString(32);
-        String key= Configs.KEY_APPJSONKEY;
-        String sessid= Configs.getCatchedToken(context);
-        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time,key,sessid);
+    public static final String packagingParam(Context context, String... kvs) {
+        JSONObject jsonObject = new JSONObject();
+        String action = "16";
+        String time = GetTime.getTime();
+        String rannum = RandomNum.randomString(32);
+        String key = Configs.KEY_APPJSONKEY;
+        String sessid = Configs.getCatchedToken(context);
+        String md5vec = GetMD5Vec.getMD5Vec(action, rannum, time, key, sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
@@ -30,7 +30,7 @@ public class AddMember {
             jsonObject.put("md5ver", Escape.escape(md5vec));
             jsonObject.put("sessid", Escape.escape(sessid));
 
-            JSONObject paramJsonObject=new JSONObject();
+            JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
             paramJsonObject.put("username", Escape.escape(kvs[1]));
             paramJsonObject.put("pw", Escape.escape(kvs[2]));
@@ -47,9 +47,9 @@ public class AddMember {
             paramJsonObject.put("bank_name", Escape.escape(kvs[13]));
             paramJsonObject.put("bank", Escape.escape(kvs[14]));
             paramJsonObject.put("bank_address", Escape.escape(kvs[15]));
-            paramJsonObject.put("uplevel",Escape.escape(kvs[16]));
+            paramJsonObject.put("uplevel", Escape.escape(kvs[16]));
 
-            jsonObject.put("param",paramJsonObject);
+            jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }

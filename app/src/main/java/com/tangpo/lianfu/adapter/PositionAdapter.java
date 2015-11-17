@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Created by 果冻 on 2015/11/11.
  */
-public class PositionAdapter extends BaseAdapter{
+public class PositionAdapter extends BaseAdapter {
 
     private Context context;
     private List<FindStore> list;
@@ -48,18 +48,18 @@ public class PositionAdapter extends BaseAdapter{
         this.list = list;
         inflater = LayoutInflater.from(context);
         preferences = context.getSharedPreferences(Configs.APP_ID, Context.MODE_APPEND);
-        String user=preferences.getString(Configs.KEY_USER, "0");
+        String user = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(user);
+            JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         Set<String> store = preferences.getStringSet(Configs.KEY_STORE, null);
-        if(store != null){
+        if (store != null) {
             Iterator<String> it = store.iterator();
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 try {
                     JSONObject object = new JSONObject(it.next());
                     collectedStore.add(object.getString("id"));
@@ -88,7 +88,7 @@ public class PositionAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.position_list, null);
 
@@ -104,24 +104,24 @@ public class PositionAdapter extends BaseAdapter{
         }
 
         //
-       // holder.img.setImageURI(Uri.parse(list.get(position).getPhoto()));
+        // holder.img.setImageURI(Uri.parse(list.get(position).getPhoto()));
         holder.shop_name.setText(list.get(position).getStore());
         //holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
-        if(collectedStore.contains(list.get(position).getId())){
+        if (collectedStore.contains(list.get(position).getId())) {
             holder.collect.setText(context.getString(R.string.cancel_collect));
             flag = true;
-        }else {
+        } else {
             holder.collect.setText(context.getString(R.string.collect));
             flag = false;
         }
         holder.collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag){
+                if (flag) {
                     //
-                }else {
-                    String kvs[] = new String []{list.get(position).getId(), userid};
+                } else {
+                    String kvs[] = new String[]{list.get(position).getId(), userid};
                     String params = CollectStore.packagingParam(context, kvs);
 
                     new NetConnection(new NetConnection.SuccessCallback() {
@@ -135,9 +135,9 @@ public class PositionAdapter extends BaseAdapter{
                         @Override
                         public void onFail(JSONObject result) {
                             try {
-                                if(result.getString("status").equals("9")){
+                                if (result.getString("status").equals("9")) {
                                     ToastUtils.showToast(context, context.getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                                } else if(result.getString("status").equals("10")){
+                                } else if (result.getString("status").equals("10")) {
                                     ToastUtils.showToast(context, context.getString(R.string.server_exception), Toast.LENGTH_SHORT);
                                 } else {
                                     ToastUtils.showToast(context, context.getString(R.string.collect_failed), Toast.LENGTH_SHORT);
@@ -153,7 +153,7 @@ public class PositionAdapter extends BaseAdapter{
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public ImageView img;
         public TextView shop_name;
         public TextView commodity;

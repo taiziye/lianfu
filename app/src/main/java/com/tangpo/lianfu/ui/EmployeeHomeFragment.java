@@ -63,26 +63,26 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         mGson = new Gson();
 
-        scan = (Button)view.findViewById(R.id.scan);
+        scan = (Button) view.findViewById(R.id.scan);
         scan.setOnClickListener(this);
-        chat = (Button)view.findViewById(R.id.chat);
+        chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
 
-        shop_name = (TextView)view.findViewById(R.id.shop_name);
-        record = (TextView)view.findViewById(R.id.record);
-        add_record = (TextView)view.findViewById(R.id.add_record);
+        shop_name = (TextView) view.findViewById(R.id.shop_name);
+        record = (TextView) view.findViewById(R.id.record);
+        add_record = (TextView) view.findViewById(R.id.add_record);
         add_record.setOnClickListener(this);
-        profit = (TextView)view.findViewById(R.id.profit);
-        profit_compute = (TextView)view.findViewById(R.id.profit_compute);
+        profit = (TextView) view.findViewById(R.id.profit);
+        profit_compute = (TextView) view.findViewById(R.id.profit_compute);
         profit_compute.setOnClickListener(this);
-        mem = (TextView)view.findViewById(R.id.mem);
-        add_mem = (TextView)view.findViewById(R.id.add_mem);
+        mem = (TextView) view.findViewById(R.id.mem);
+        add_mem = (TextView) view.findViewById(R.id.add_mem);
         add_mem.setOnClickListener(this);
 
         //初始化控件，填充数据
-        if(bundle != null){
+        if (bundle != null) {
             String userid = bundle.getString("userid");
-            String [] kvs = new String[]{userid};
+            String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
             new NetConnection(new NetConnection.SuccessCallback() {
@@ -93,22 +93,40 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     manager = mGson.fromJson(result.toString(), Manager.class);
 
                     shop_name.setText(manager.getStore_name());
-                    record.setText("会员消费记录共计" + manager.getIncome() + "元");
-                    mem.setText("会员人数总计" + manager.getMem_num() + "人");
-                    profit.setText("消费利润共计" + manager.getProfit() + "元，可支付共计" + manager.getPayback() + "元");
+                    if (manager.getIncome() == null)
+                        record.setText("会员消费记录共计0元");
+                    else
+                        record.setText("会员消费记录共计" + manager.getIncome() + "元");
 
-                    Configs.cacheManager(getActivity(),result.toString());
+                    if (manager.getMem_num() == null)
+                        mem.setText("会员人数总计0人");
+                    else
+                        mem.setText("会员人数总计" + manager.getMem_num() + "人");
+
+                    String tmp = "";
+                    if (manager.getProfit() == null)
+                        tmp = "消费利润共计0元，";
+                    else
+                        tmp = "消费利润共计" + manager.getProfit() + "元，";
+
+                    if (manager.getPayback() == null)
+                        tmp += "，可支付共计0元";
+                    else
+                        tmp += "，可支付共计" + manager.getPayback() + "元";
+                    profit.setText(tmp);
+
+                    Configs.cacheManager(getActivity(), result.toString());
                 }
             }, new NetConnection.FailCallback() {
                 @Override
                 public void onFail(JSONObject result) {
                     dialog.dismiss();
                     try {
-                        if(result.getString("status").equals("9")){
+                        if (result.getString("status").equals("9")) {
                             ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             getActivity().startActivity(intent);
-                        } else if(result.getString("status").equals("10")){
+                        } else if (result.getString("status").equals("10")) {
                             ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
 
                         }
@@ -132,7 +150,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.scan:
                 break;
             case R.id.chat:

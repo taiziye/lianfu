@@ -36,7 +36,7 @@ public class HttpNetConnection {
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");
                     OutputStream os = connection.getOutputStream();
-                    OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
+                    OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
                     BufferedWriter bw = new BufferedWriter(osw);
                     bw.write(param);
                     bw.flush();
@@ -44,12 +44,12 @@ public class HttpNetConnection {
                     osw.close();
                     os.close();
 
-                    InputStream is=connection.getInputStream();
-                    InputStreamReader isr=new InputStreamReader(is,Configs.CHARSET);
-                    BufferedReader br=new BufferedReader(isr);
+                    InputStream is = connection.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(is, Configs.CHARSET);
+                    BufferedReader br = new BufferedReader(isr);
                     String line;
-                    StringBuffer result=new StringBuffer();
-                    while((line=br.readLine())!=null){
+                    StringBuffer result = new StringBuffer();
+                    while ((line = br.readLine()) != null) {
                         result.append(line);
                     }
                     br.close();
@@ -59,31 +59,31 @@ public class HttpNetConnection {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-            return null;
-        }
+                return null;
+            }
 
-        @Override
-        protected void onPostExecute (String s){
-            super.onPostExecute(s);
-            if (s != null) {
-                if (successCallback != null) {
-                    successCallback.onSuccess(s);
-                }
-            } else {
-                if (failCallback != null) {
-                    failCallback.onFail(s);
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+                    if (successCallback != null) {
+                        successCallback.onSuccess(s);
+                    }
+                } else {
+                    if (failCallback != null) {
+                        failCallback.onFail(s);
+                    }
                 }
             }
-        }
-    }.execute();
-}
+        }.execute();
+    }
 
-//通知调用者
-public static interface SuccessCallback {
-    void onSuccess(String result);
-}
+    //通知调用者
+    public static interface SuccessCallback {
+        void onSuccess(String result);
+    }
 
-public static interface FailCallback {
-    void onFail(String result);
-}
+    public static interface FailCallback {
+        void onFail(String result);
+    }
 }

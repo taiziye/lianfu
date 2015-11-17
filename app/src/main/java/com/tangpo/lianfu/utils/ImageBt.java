@@ -31,15 +31,15 @@ public class ImageBt extends LinearLayout {
 
 
     /**
-    * 设置图片资源
-    */
+     * 设置图片资源
+     */
     public void setImage(int resId) {
         iv.setImageResource(resId);
     }
 
     /**
-    * 设置显示的文字
-    */
+     * 设置显示的文字
+     */
     public void setText(String text) {
         tv.setText(text);
     }

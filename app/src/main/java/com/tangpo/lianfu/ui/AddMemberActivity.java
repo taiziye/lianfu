@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private String uplevelStr = "";
     private ProgressDialog dialog = null;
 
-    private String userid=null;
+    private String userid = null;
 
     @Override
     protected void onDestroy() {
@@ -76,12 +77,14 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     }
 
     private void init() {
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        commit = (Button)findViewById(R.id.commit);
+        commit = (Button) findViewById(R.id.commit);
+        commit.setBackgroundColor(Color.GRAY);
+        commit.setClickable(false);
         commit.setOnClickListener(this);
 
-        admit = (CheckBox)findViewById(R.id.admit);
+        admit = (CheckBox) findViewById(R.id.admit);
         admit.setOnClickListener(this);
         sex = (Spinner) findViewById(R.id.sex);
         sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -101,7 +104,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         uplevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String [] uplevels = getResources().getStringArray(R.array.uplevel);
+                String[] uplevels = getResources().getStringArray(R.array.uplevel);
                 uplevelStr = uplevels[position];
             }
 
@@ -111,21 +114,21 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             }
         });
 
-        bankTextView = (TextView)findViewById(R.id.bank);
-        select_bank = (TextView)findViewById(R.id.select_bank);
+        bankTextView = (TextView) findViewById(R.id.bank);
+        select_bank = (TextView) findViewById(R.id.select_bank);
         select_bank.setOnClickListener(this);
-        user_name = (EditText)findViewById(R.id.user_name);
-        contact_tel = (EditText)findViewById(R.id.contact_tel);
-        rel_name = (EditText)findViewById(R.id.rel_name);
-        id_card = (EditText)findViewById(R.id.id_card);
-        bank_card = (EditText)findViewById(R.id.bank_card);
-        bank_nameTextView = (EditText)findViewById(R.id.bank_name);
-        admit= (CheckBox) findViewById(R.id.admit);
+        user_name = (EditText) findViewById(R.id.user_name);
+        contact_tel = (EditText) findViewById(R.id.contact_tel);
+        rel_name = (EditText) findViewById(R.id.rel_name);
+        id_card = (EditText) findViewById(R.id.id_card);
+        bank_card = (EditText) findViewById(R.id.bank_card);
+        bank_nameTextView = (EditText) findViewById(R.id.bank_name);
+        admit = (CheckBox) findViewById(R.id.admit);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -139,12 +142,21 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             case R.id.select_bank:
                 break;
             case R.id.admit:
-                commit.setClickable(true);
+                Log.e("tag", admit.isChecked() + "");
+                if (admit.isChecked()) {
+                    admit.setChecked(true);
+                    commit.setClickable(true);
+                    commit.setBackgroundResource(R.drawable.add_mem);
+                } else {
+                    admit.setChecked(false);
+                    commit.setBackgroundColor(Color.GRAY);
+                    commit.setClickable(false);
+                }
                 break;
         }
     }
 
-    private void addMember(){
+    private void addMember() {
         String user_id = user_name.getText().toString();
         String username = rel_name.getText().toString();
         String phone = contact_tel.getText().toString();
@@ -160,8 +172,8 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         String bank_name = bank_nameTextView.getText().toString();
         String bank = bankTextView.getText().toString();
         String bank_address = "";
-        String kvs[] = new String []{user_id, username, pw, phone, service_center, service_address,
-        referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};
+        String kvs[] = new String[]{user_id, username, pw, phone, service_center, service_address,
+                referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};
         String param = AddMember.packagingParam(this, kvs);
 
         final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sexStr);
@@ -169,9 +181,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag",result.toString());
+                Log.e("tag", result.toString());
                 dialog.dismiss();
-                Tools.showToast("");
+                Tools.showToast(AddMemberActivity.this, getString(R.string.success));
                 Intent intent = new Intent();
                 intent.putExtra("member", member);
                 AddMemberActivity.this.setResult(MemManageFragment.REQUEST_CODE, intent);
@@ -181,10 +193,10 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("1")){
-                        Tools.showToast(getString(R.string.format_error));
-                    }else if(result.getString("status").equals("10")){
-                        Tools.showToast(getString(R.string.server_exception));
+                    if (result.getString("status").equals("1")) {
+                        Tools.showToast(AddMemberActivity.this, getString(R.string.format_error));
+                    } else if (result.getString("status").equals("10")) {
+                        Tools.showToast(AddMemberActivity.this, getString(R.string.server_exception));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

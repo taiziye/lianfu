@@ -1,7 +1,7 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,41 +14,51 @@ import android.widget.Toast;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UpdatePasswordActivity extends ActionBarActivity {
+public class UpdatePasswordActivity extends Activity {
 
     private EditText etOld;
     private EditText etNew;
     private EditText etNewCheck;
     private Button confirm;
     private Button cancel;
-    private UserEntity user=null;
-    private ProgressDialog dialog=null;
+    private UserEntity user = null;
+    private ProgressDialog dialog = null;
 
-    private String newPassword=null;
-    private String oldPassword=null;
-    private String newPasswordCheck=null;
+    private String newPassword = null;
+    private String oldPassword = null;
+    private String newPasswordCheck = null;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+        Tools.deleteActivity(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_update_password);
+
+        Tools.gatherActivity(this);
         init();
     }
 
-    private void init(){
-        etOld= (EditText) findViewById(R.id.etOld);
-        etNew= (EditText) findViewById(R.id.etNew);
-        etNewCheck= (EditText) findViewById(R.id.etNewCheck);
-        oldPassword=etOld.getText().toString();
-        newPassword=etOld.getText().toString();
-        newPasswordCheck=etNewCheck.getText().toString();
-        confirm= (Button) findViewById(R.id.confirm);
+    private void init() {
+        etOld = (EditText) findViewById(R.id.etOld);
+        etNew = (EditText) findViewById(R.id.etNew);
+        etNewCheck = (EditText) findViewById(R.id.etNewCheck);
+        oldPassword = etOld.getText().toString();
+        newPassword = etOld.getText().toString();
+        newPasswordCheck = etNewCheck.getText().toString();
+        confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +80,6 @@ public class UpdatePasswordActivity extends ActionBarActivity {
                     etNewCheck.setText("");
                     return;
                 }
-                dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
                 updatePassword();
             }
         });
@@ -84,20 +93,22 @@ public class UpdatePasswordActivity extends ActionBarActivity {
         });
     }
 
-    private void updatePassword(){
-        user= (UserEntity) getIntent().getSerializableExtra("user");
+    private void updatePassword() {
+        dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String userid=user.getUser_id();
-        String old_pw= oldPassword;
-        String new_pw=newPassword;
-        String kvs[]=new String[]{userid,old_pw,new_pw};
-        String params= com.tangpo.lianfu.parms.UpdatePassword.packagingParam(kvs);
+        user = (UserEntity) getIntent().getSerializableExtra("user");
+
+        String userid = user.getUser_id();
+        String old_pw = oldPassword;
+        String new_pw = newPassword;
+        String kvs[] = new String[]{userid, old_pw, new_pw};
+        String params = com.tangpo.lianfu.parms.UpdatePassword.packagingParam(kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.update_password_success),Toast.LENGTH_SHORT);
+                ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.update_password_success), Toast.LENGTH_SHORT);
                 finish();
             }
         }, new NetConnection.FailCallback() {
@@ -105,20 +116,20 @@ public class UpdatePasswordActivity extends ActionBarActivity {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status=result.getString("status");
-                    if(status.equals("1")){
-                        ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.old_password_error),Toast.LENGTH_SHORT);
+                    String status = result.getString("status");
+                    if (status.equals("1")) {
+                        ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.old_password_error), Toast.LENGTH_SHORT);
                         etOld.setText("");
                         etNew.setText("");
                         etNewCheck.setText("");
-                    }else if(status.equals("10")){
-                        ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    } else if (status.equals("10")) {
+                        ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.server_exception), Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        },params);
+        }, params);
     }
 
     @Override

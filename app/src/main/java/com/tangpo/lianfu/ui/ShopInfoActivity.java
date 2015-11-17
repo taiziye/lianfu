@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -58,36 +59,35 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_info_activity);
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
-        getStoreInfo();
         init();
     }
 
     private void init() {
         gson = new Gson();
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        edit = (Button)findViewById(R.id.edit);
+        edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
 
-        shop_name = (EditText)findViewById(R.id.shop_name);
-        shop_host = (EditText)findViewById(R.id.shop_host);
-        contact_name = (EditText)findViewById(R.id.contact_name);
-        contact_tel = (EditText)findViewById(R.id.contact_tel);
-        const_tel = (EditText)findViewById(R.id.const_tel);
-        contact_intel = (EditText)findViewById(R.id.contact_intel);
-        shop_employee = (EditText)findViewById(R.id.shop_employee);
-        contact_email = (EditText)findViewById(R.id.contact_email);
-        occupation = (EditText)findViewById(R.id.occupation);
-        address = (EditText)findViewById(R.id.address);
-        detail_address = (EditText)findViewById(R.id.detail_address);
-        commodity = (EditText)findViewById(R.id.commodity);
-        map_locate = (EditText)findViewById(R.id.map_locate);
+        shop_name = (EditText) findViewById(R.id.shop_name);
+        shop_host = (EditText) findViewById(R.id.shop_host);
+        contact_name = (EditText) findViewById(R.id.contact_name);
+        contact_tel = (EditText) findViewById(R.id.contact_tel);
+        const_tel = (EditText) findViewById(R.id.const_tel);
+        contact_intel = (EditText) findViewById(R.id.contact_intel);
+        shop_employee = (EditText) findViewById(R.id.shop_employee);
+        contact_email = (EditText) findViewById(R.id.contact_email);
+        occupation = (EditText) findViewById(R.id.occupation);
+        address = (EditText) findViewById(R.id.address);
+        detail_address = (EditText) findViewById(R.id.detail_address);
+        commodity = (EditText) findViewById(R.id.commodity);
+        map_locate = (EditText) findViewById(R.id.map_locate);
         getStoreInfo();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -96,7 +96,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void getStoreInfo(){
+    private void getStoreInfo() {
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
@@ -107,7 +107,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    store = gson.fromJson(result.getString("param"), Store.class);
+                    Log.e("tag", result.toString());
+                    store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     shop_name.setText(store.getStore());
                     shop_host.setText(store.getContact());
                     contact_name.setText(store.getContact());
@@ -128,10 +129,10 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("9")){
-                        Tools.showToast(getString(R.string.login_timeout));
+                    if (result.getString("status").equals("9")) {
+                        Tools.showToast(ShopInfoActivity.this, getString(R.string.login_timeout));
                     } else {
-                        Tools.showToast(getString(R.string.server_exception));
+                        Tools.showToast(ShopInfoActivity.this, getString(R.string.server_exception));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -3,6 +3,8 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -38,7 +40,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
     private UserEntity user = null;
     private DiscountManageAdapter adapter = null;
     private List<Discount> list = null;
-    private int page = 0;
+    private int page = 1;
     private Gson gson = null;
     private ProgressDialog dialog = null;
 
@@ -56,22 +58,19 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         list = new ArrayList<>();
         gson = new Gson();
         back = (Button) findViewById(R.id.back);
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
         edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
 
         listView = (PullToRefreshListView) findViewById(R.id.list);
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         getDiscount();
-        adapter = new DiscountManageAdapter(this, list);
-        listView.setAdapter(adapter);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 0;
+                page = 1;
                 list.clear();
                 getDiscount();
             }
@@ -95,7 +94,23 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         }
     }
 
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    list = (List<Discount>) msg.obj;
+                    adapter = new DiscountManageAdapter(DiscountManageActivity.this, list);
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
+
     private void getDiscount() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), page + "", "10"};
         String param = ManageDiscount.packagingParam(this, kvs);
 
@@ -113,6 +128,11 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = list;
+                mHandler.sendMessage(msg);
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -120,9 +140,9 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                 dialog.dismiss();
                 try {
                     if (result.getString("status").equals("9")) {
-                        Tools.showToast(getString(R.string.login_timeout));
+                        Tools.showToast(DiscountManageActivity.this, getString(R.string.login_timeout));
                     } else {
-                        Tools.showToast(getString(R.string.server_exception));
+                        Tools.showToast(DiscountManageActivity.this, getString(R.string.server_exception));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

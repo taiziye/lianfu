@@ -48,6 +48,7 @@ public class Tools {
 
     /**
      * 开启activity，无参数跳转
+     *
      * @param context
      * @param activity
      */
@@ -120,7 +121,7 @@ public class Tools {
     /**
      * 显示Toast
      */
-    public static void showToast(String msg) {
+    public static void showToast(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         View view = ((LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
@@ -174,6 +175,7 @@ public class Tools {
 
     /**
      * 检查输入的手机号码是否正确
+     *
      * @param mobiles
      * @return
      */
@@ -192,9 +194,10 @@ public class Tools {
 
     /**
      * 加载网络图片
+     *
      * @param context
-     * @param path  图片存放路径
-     * @param img  放置图片的控件
+     * @param path    图片存放路径
+     * @param img     放置图片的控件
      */
     public static void setPhoto(Context context, String path, final ImageView img) {
 
@@ -211,18 +214,19 @@ public class Tools {
 
     /**
      * 收集Activity实例
+     *
      * @param activity
      */
-    public static void gatherActivity(Activity activity){
+    public static void gatherActivity(Activity activity) {
         activityList.add(activity);
     }
 
-    public static void deleteActivity(Activity activity){
+    public static void deleteActivity(Activity activity) {
         activityList.remove(activity);
     }
 
-    public static void closeActivity(){
-        for(int i=activityList.size() - 1; i>=0; i--){
+    public static void closeActivity() {
+        for (int i = activityList.size() - 1; i >= 0; i--) {
             activityList.get(i).finish();
         }
     }

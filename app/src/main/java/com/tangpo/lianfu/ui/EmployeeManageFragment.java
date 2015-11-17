@@ -1,11 +1,13 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,8 @@ import java.util.Set;
  * Created by 果冻 on 2015/11/8.
  */
 public class EmployeeManageFragment extends Fragment implements View.OnClickListener {
-    public static final int ADD_REQUEST_CODE = 2;
-    public static final int EDIT_REQUEST_CODE = 3;
+    public static final int ADD_REQUEST_CODE = 3;
+    public static final int EDIT_REQUEST_CODE = 4;
 
     private Button search;
     private Button add;
@@ -52,14 +54,16 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private int page = 1;
 
+    private ProgressDialog dialog = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_manage_fragment, container, false);
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        String user=preferences.getString(Configs.KEY_USER, "0");
+        String user = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(user);
+            JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
             store_id = jsonObject.getString("store_id");
         } catch (JSONException e) {
@@ -72,12 +76,12 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         return view;
     }
 
-    private void init(View view){
+    private void init(View view) {
         gson = new Gson();
 
-        search = (Button)view.findViewById(R.id.search);
+        search = (Button) view.findViewById(R.id.search);
         search.setOnClickListener(this);
-        add = (Button)view.findViewById(R.id.add);
+        add = (Button) view.findViewById(R.id.add);
         add.setOnClickListener(this);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.emlist);
@@ -101,7 +105,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EmploeeInfoActivity.class);
-                intent.putExtra("employee", memList.get(position));
+                intent.putExtra("employee", memList.get(position - 1));
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
             }
@@ -110,7 +114,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.search:
                 break;
             case R.id.add:
@@ -135,7 +139,9 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }
     };
 
-    private void getEmployeeList(){
+    private void getEmployeeList() {
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
 
@@ -143,9 +149,10 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for (int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
 
@@ -168,7 +175,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-
+                dialog.dismiss();
             }
         }, param);
     }
@@ -176,7 +183,15 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        memList.clear();
-        getEmployeeList();
+        if (data != null) {
+            if (requestCode == ADD_REQUEST_CODE) {
+                Employee employee = data.getExtras().getParcelable("employee");
+                memList.add(employee);
+                adapter.notifyDataSetChanged();
+                getEmployeeList();
+            } else {
+                //编辑
+            }
+        }
     }
 }

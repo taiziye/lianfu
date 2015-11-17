@@ -26,7 +26,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
 
     private String employeename = "";
 
-    public ConsumRecordAdapter(List<EmployeeConsumeRecord> list, Context context, String store_id, String employeename){
+    public ConsumRecordAdapter(List<EmployeeConsumeRecord> list, Context context, String store_id, String employeename) {
         this.context = context;
         this.list = list;
         container = LayoutInflater.from(context);
@@ -52,21 +52,21 @@ public class ConsumRecordAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(holder == null){
+        if (holder == null) {
             convertView = container.inflate(R.layout.consum_record_list, null);
             holder = new ViewHolder();
 
-            holder.shop_name = (TextView)convertView.findViewById(R.id.shop_name);
+            holder.shop_name = (TextView) convertView.findViewById(R.id.shop_name);
             holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
-            holder.profit = (TextView)convertView.findViewById(R.id.profit);
-            holder.money = (TextView)convertView.findViewById(R.id.money);
-            holder.compute = (TextView)convertView.findViewById(R.id.compute);
-            holder.time = (TextView)convertView.findViewById(R.id.time);
-            holder.name = (TextView)convertView.findViewById(R.id.name);
-            holder.level = (TextView)convertView.findViewById(R.id.level);
+            holder.profit = (TextView) convertView.findViewById(R.id.profit);
+            holder.money = (TextView) convertView.findViewById(R.id.money);
+            holder.compute = (TextView) convertView.findViewById(R.id.compute);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.level = (TextView) convertView.findViewById(R.id.level);
 
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -74,7 +74,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         holder.user_name.setText(list.get(position).getUsername());
         holder.money.setText("消费" + list.get(position).getFee() + "元");
         holder.profit.setText("(利润" + list.get(position).getProfit() + "元)");
-        if(list.get(position).getPay_status().equals("1")){
+        if (list.get(position).getPay_status().equals("1")) {
             holder.compute.setText("已结算");
         } else {
             holder.compute.setText("未结算");
@@ -86,7 +86,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public TextView shop_name;
         public TextView user_name;
         public TextView profit;

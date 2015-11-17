@@ -61,7 +61,7 @@ public class MemberCollectAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.member_collect_list, null);
 
@@ -96,8 +96,8 @@ public class MemberCollectAdapter extends BaseAdapter {
                         @Override
                         public void onSuccess(JSONObject result) {
                             *//**
-                             *
-                             *//*
+         *
+         *//*
                         }
                     }, new NetConnection.FailCallback() {
                         @Override
@@ -128,7 +128,7 @@ public class MemberCollectAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public ImageView img;
         public TextView shop_name;
         public TextView commodity;

@@ -5,11 +5,12 @@
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
-    <ImageView android:id="@+id/img"
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginLeft="20dp"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,29 +24,33 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_vertical">
-            <TextView android:id="@+id/shop_name"
+
+            <TextView
+                android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="20sp"
                 android:textColor="@android:color/black"
-                android:text="地面店名称"/>
+                android:text="地面店名称" />
 
-            <TextView android:id="@+id/commodity"
+            <TextView
+                android:id="@+id/commodity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:text="服装、女装、男装"/>
+                android:text="服装、女装、男装" />
 
-            <TextView android:id="@+id/address"
+            <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:text="上海市徐汇区人民路1003"/>
+                android:text="上海市徐汇区人民路1003" />
         </LinearLayout>
 
 
@@ -54,18 +59,21 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
-            <Button android:id="@+id/cancel"
+
+            <Button
+                android:id="@+id/cancel"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:background="@drawable/cancel_collect"
-                android:text="@string/cancel_collect"/>
+                android:text="@string/cancel_collect" />
 
-            <Button android:id="@+id/contact"
+            <Button
+                android:id="@+id/contact"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:background="@drawable/contact_em"
                 android:layout_marginTop="10dp"
-                android:text="@string/contact_employee"/>
+                android:text="@string/contact_employee" />
         </LinearLayout>
     </LinearLayout>
 

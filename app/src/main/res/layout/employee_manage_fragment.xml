@@ -4,17 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/content"
         style="@style/title_bar_style"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/search"
+        <Button
+            android:id="@+id/search"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/search"/>
+            android:background="@drawable/search" />
 
         <TextView
             android:layout_width="0dp"
@@ -23,61 +25,65 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@android:color/black"
-            android:text="@string/employee"/>
+            android:text="@string/employee" />
 
-        <Button android:id="@+id/add"
+        <Button
+            android:id="@+id/add"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/add"/>
+            android:background="@drawable/add" />
 
     </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:background="@anim/fragment_style"
-            android:paddingRight="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:background="@anim/fragment_style"
+        android:paddingRight="10dp">
 
-            <LinearLayout
-                style="@style/consum_top_style"
-                >
-                <TextView
-                    style="@style/consum_top_text_style"
-                    android:text="@string/register_date"/>
-                <ImageView
-                    style="@style/consum_top_img_style"
-                    android:background="@drawable/list_sort"/>
-            </LinearLayout>
+        <LinearLayout style="@style/consum_top_style">
 
-            <LinearLayout
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp"
-                >
-                <TextView
-                    style="@style/consum_top_text_style"
-                    android:text="@string/manager"/>
-                <ImageView
-                    style="@style/consum_top_img_style"
-                    android:background="@drawable/list_sort"/>
-            </LinearLayout>
+            <TextView
+                style="@style/consum_top_text_style"
+                android:text="@string/register_date" />
 
-            <LinearLayout
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
-                <TextView
-                    style="@style/consum_top_text_style"
-                    android:text="@string/name"/>
-                <ImageView
-                    style="@style/consum_top_img_style"
-                    android:background="@drawable/list_sort"/>
-            </LinearLayout>
-
+            <ImageView
+                style="@style/consum_top_img_style"
+                android:background="@drawable/list_sort" />
         </LinearLayout>
+
+        <LinearLayout
+            style="@style/consum_top_style"
+            android:layout_marginLeft="8dp">
+
+            <TextView
+                style="@style/consum_top_text_style"
+                android:text="@string/manager" />
+
+            <ImageView
+                style="@style/consum_top_img_style"
+                android:background="@drawable/list_sort" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/consum_top_style"
+            android:layout_marginLeft="8dp">
+
+            <TextView
+                style="@style/consum_top_text_style"
+                android:text="@string/name" />
+
+            <ImageView
+                style="@style/consum_top_img_style"
+                android:background="@drawable/list_sort" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/emlist"

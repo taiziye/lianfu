@@ -9,14 +9,16 @@
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
+
         <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:background="@drawable/back"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            />
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -24,8 +26,10 @@
             android:gravity="center"
             android:textSize="22sp"
             android:textColor="@android:color/black"
-            android:text="@string/shop_info"/>
+            android:text="@string/shop_info" />
+
         <Button
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@anim/btn_style"
@@ -34,7 +38,7 @@
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="@string/edit"/>
+            android:text="@string/edit" />
     </LinearLayout>
 
     <ScrollView
@@ -54,318 +58,319 @@
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/shop_name"/>
+                    android:text="@string/shop_name" />
 
-                <EditText android:id="@+id/shop_name"
+                <EditText
+                    android:id="@+id/shop_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    />
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/shop_host"/>
+                    android:text="@string/shop_host" />
 
-                <EditText android:id="@+id/shop_host"
+                <EditText
+                    android:id="@+id/shop_host"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/contact_name"/>
+                    android:text="@string/contact_name" />
 
-                <EditText android:id="@+id/contact_name"
+                <EditText
+                    android:id="@+id/contact_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/contact_tel"/>
+                    android:text="@string/contact_tel" />
 
-                <EditText android:id="@+id/contact_tel"
+                <EditText
+                    android:id="@+id/contact_tel"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    />
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/contact_const_tel"/>
+                    android:text="@string/contact_const_tel" />
 
-                <EditText android:id="@+id/const_tel"
+                <EditText
+                    android:id="@+id/const_tel"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/contact_intel"/>
+                    android:text="@string/contact_intel" />
 
-                <EditText android:id="@+id/contact_intel"
+                <EditText
+                    android:id="@+id/contact_intel"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/shop_employee"/>
+                    android:text="@string/shop_employee" />
 
-                <EditText android:id="@+id/shop_employee"
+                <EditText
+                    android:id="@+id/shop_employee"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/contact_email"/>
+                    android:text="@string/contact_email" />
 
-                <EditText android:id="@+id/contact_email"
+                <EditText
+                    android:id="@+id/contact_email"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/occupation"/>
+                    android:text="@string/occupation" />
 
-                <EditText android:id="@+id/occupation"
+                <EditText
+                    android:id="@+id/occupation"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/address"/>
+                    android:text="@string/address" />
 
-                <EditText android:id="@+id/address"
+                <EditText
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    />
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/detail_address"/>
+                    android:text="@string/detail_address" />
 
-                <EditText android:id="@+id/detail_address"
+                <EditText
+                    android:id="@+id/detail_address"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/commodity"/>
+                    android:text="@string/commodity" />
 
-                <EditText android:id="@+id/commodity"
+                <EditText
+                    android:id="@+id/commodity"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/map_locate"/>
+                    android:text="@string/map_locate" />
 
-                <EditText android:id="@+id/map_locate"
+                <EditText
+                    android:id="@+id/map_locate"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null"
-                    android:editable="false"
-                    />
+                    android:editable="false" />
             </LinearLayout>
 
             <LinearLayout
@@ -379,16 +384,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
-                    android:text="@string/top_ad"/>
+                    android:text="@string/top_ad" />
 
-                <ImageView android:id="@+id/top_ad"
+                <ImageView
+                    android:id="@+id/top_ad"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
             </LinearLayout>
 
@@ -397,37 +403,41 @@
                 android:layout_height="130dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
-                    android:text="@string/shop_img"/>
+                    android:text="@string/shop_img" />
 
-                <ImageView android:id="@+id/img1"
+                <ImageView
+                    android:id="@+id/img1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
-                <ImageView android:id="@+id/img2"
+                <ImageView
+                    android:id="@+id/img2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
-                <ImageView android:id="@+id/img3"
+                <ImageView
+                    android:id="@+id/img3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
             </LinearLayout>
 
         </LinearLayout>

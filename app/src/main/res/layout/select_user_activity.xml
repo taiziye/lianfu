@@ -11,22 +11,25 @@
         android:paddingLeft="16dp"
         android:paddingRight="10dp"
         android:gravity="center">
-        <EditText android:id="@+id/search_text"
+
+        <EditText
+            android:id="@+id/search_text"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@anim/btn_style"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp" />
 
-        <Button android:id="@+id/cancel"
+        <Button
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@anim/btn_style"
-            android:text="@string/cancel"/>
+            android:text="@string/cancel" />
     </LinearLayout>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
