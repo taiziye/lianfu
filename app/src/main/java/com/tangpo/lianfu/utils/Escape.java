@@ -1,6 +1,6 @@
 package com.tangpo.lianfu.utils;
 
-public class Escape{
+public class Escape {
     public static String escape(String src) {
         int i;
         char j;

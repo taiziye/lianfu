@@ -13,7 +13,7 @@ public class Store {
     private String address;
     private String business;
     private String banner;
-    private String[] photo;
+    private String photo;
 
     public Store() {
     }
@@ -74,11 +74,11 @@ public class Store {
         this.lng = lng;
     }
 
-    public String[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
@@ -98,7 +98,7 @@ public class Store {
         this.tel = tel;
     }
 
-    public Store(String address, String banner, String business, String contact, String id, String lat, String lng, String[] photo, String store, String tel) {
+    public Store(String address, String banner, String business, String contact, String id, String lat, String lng, String photo, String store, String tel) {
         this.address = address;
         this.banner = banner;
         this.business = business;

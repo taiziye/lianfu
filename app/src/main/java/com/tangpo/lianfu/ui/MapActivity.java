@@ -37,9 +37,9 @@ import java.util.List;
 
 public class MapActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
-    private MapView mMapView=null;
-    private BaiduMap mBaiduMap=null;
-    private ArrayList<LatLng> list=new ArrayList<LatLng>();
+    private MapView mMapView = null;
+    private BaiduMap mBaiduMap = null;
+    private ArrayList<LatLng> list = new ArrayList<LatLng>();
 
     private ViewPagerCompat vp;
 
@@ -48,6 +48,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
     private ArrayList<FindStore> storeList = null;
 
     private ViewPageAdapter adapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,19 +61,19 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         SDKInitializer.initialize(getApplication());
         setContentView(R.layout.activity_test_baidu_map);
         //获取地图控件引用
-        mMapView= (MapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) findViewById(R.id.bmapView);
         //获取地图
-        mBaiduMap=mMapView.getMap();
+        mBaiduMap = mMapView.getMap();
         //普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         //开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
 
         //设定初始地图中心点坐标
-        SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-        float curLatitude=preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
-        float curLongitude=preferences.getFloat(Configs.KEY_LONGITUDE,(float)120.132947);
-        LatLng cenpt = new LatLng(curLatitude,curLongitude);
+        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        float curLatitude = preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
+        float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
+        LatLng cenpt = new LatLng(curLatitude, curLongitude);
         locate(cenpt);
 
         storeList = getIntent().getExtras().getParcelableArrayList("list");
@@ -84,16 +85,16 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //百度城市热力图
         // mBaiduMap.setBaiduHeatMapEnabled(true);
 
-        for(int i=0;i<storeList.size();i++){
+        for (int i = 0; i < storeList.size(); i++) {
             //标注覆盖物，定义Maker坐标点
-            float Lng=Float.valueOf(storeList.get(i).getLng())/(10^6);
-            float Lat=Float.valueOf(storeList.get(i).getLat())/(10^6);
-            LatLng pt=new LatLng(Lng,Lat);
+            float Lng = Float.valueOf(storeList.get(i).getLng()) / (10 ^ 6);
+            float Lat = Float.valueOf(storeList.get(i).getLat()) / (10 ^ 6);
+            LatLng pt = new LatLng(Lng, Lat);
             list.add(pt);
             //构建Marker图标
-            BitmapDescriptor bitmap= BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
             //构建MarkerOption，用于在地图上添加Marker  alpha(float)设置透明度
-            OverlayOptions options=new MarkerOptions().position(pt).icon(bitmap).zIndex(0).animateType(MarkerOptions.MarkerAnimateType.grow);
+            OverlayOptions options = new MarkerOptions().position(pt).icon(bitmap).zIndex(0).animateType(MarkerOptions.MarkerAnimateType.grow);
             mBaiduMap.addOverlay(options);
 
             //适配ViewPager
@@ -101,7 +102,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
             ImageView img = (ImageView) view.findViewById(R.id.img);
             TextView shop_name = (TextView) view.findViewById(R.id.shop_name);
             TextView commodity = (TextView) view.findViewById(R.id.shop_name);
-            TextView address = (TextView)view.findViewById(R.id.address);
+            TextView address = (TextView) view.findViewById(R.id.address);
             //初始化
             //img.setImageURI(null);
             shop_name.setText(storeList.get(i).getStore());
@@ -110,7 +111,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
             listViews.add(view);
         }
-        OverlayOptions textOption=new TextOptions().bgColor(0xAAFFFF00).fontSize(24).fontColor(0xFFFF00FF).text("联富地面店").rotate(-30).position(list.get(0));
+        OverlayOptions textOption = new TextOptions().bgColor(0xAAFFFF00).fontSize(24).fontColor(0xFFFF00FF).text("联富地面店").rotate(-30).position(list.get(0));
         mBaiduMap.addOverlay(textOption);
 
         adapter = new ViewPageAdapter(this, listViews);
@@ -166,8 +167,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
-        for(int i=0;i<10;i++){
-            if(position==i){
+        for (int i = 0; i < 10; i++) {
+            if (position == i) {
                 locate(list.get(i));
             }
         }
@@ -178,7 +179,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     }
 
-    private void locate(LatLng cenpt){
+    private void locate(LatLng cenpt) {
         //Toast.makeText(this, "latitude" + curLatitude + "," + "longitude" + curLongitude, Toast.LENGTH_SHORT).show();
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
@@ -187,8 +188,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //显示当前设备位置
-        BitmapDescriptor mCurrentMaker= BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
-        OverlayOptions overlayOptions=new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
         mBaiduMap.addOverlay(overlayOptions);
     }
 }

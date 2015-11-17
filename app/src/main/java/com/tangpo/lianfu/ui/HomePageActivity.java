@@ -49,6 +49,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     private String userid = null;
     private String employeename = null;
     private String store_id = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +57,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.home_page_activity);
         Tools.gatherActivity(this);
 
-        preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        String user=preferences.getString(Configs.KEY_USER, "0");
+        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        String user = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(user);
-            userType=jsonObject.getString("user_type");
+            JSONObject jsonObject = new JSONObject(user);
+            userType = jsonObject.getString("user_type");
             userid = jsonObject.getString("user_id");
             employeename = jsonObject.getString("name");
             store_id = jsonObject.getString("store_id");
@@ -69,8 +70,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         }
         init();
 
-        fragmentManager =getFragmentManager();
-        transaction =fragmentManager.beginTransaction();
+        fragmentManager = getFragmentManager();
+        transaction = fragmentManager.beginTransaction();
         if (userType.equals("2")) { //管理员
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
@@ -78,14 +79,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             fragment = new ManageHomeFragment();
             fragment.setArguments(bundle);
             getMember();
-        }else if (userType.equals("1")){  //员工
+        } else if (userType.equals("1")) {  //员工
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
             bundle.putString("storeid", store_id);
             fragment = new EmployeeHomeFragment();
             fragment.setArguments(bundle);
             getMember();
-        }else {  //会员
+        } else {  //会员
             fragment = new MemberHomeFragment();
         }
         Bundle bundle = new Bundle();
@@ -100,31 +101,31 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     //这里需要统一修改
     private void init() {
         //根据不同的需要显示不同的Fragment
-        frame = (LinearLayout)findViewById(R.id.frame);
+        frame = (LinearLayout) findViewById(R.id.frame);
 
         //根据不同的身份信息需要隐藏一个button，且注意更换button的text
-        one = (ImageBt)findViewById(R.id.one);
+        one = (ImageBt) findViewById(R.id.one);
         one.setOnClickListener(this);
         one.setText("地面店铺");
-        two = (ImageBt)findViewById(R.id.two);
+        two = (ImageBt) findViewById(R.id.two);
         two.setOnClickListener(this);
         two.setText("消费记录");
-        three = (ImageBt)findViewById(R.id.three);
+        three = (ImageBt) findViewById(R.id.three);
         three.setOnClickListener(this);
         three.setText("会员管理");
 
-        four = (ImageBt)findViewById(R.id.four);
+        four = (ImageBt) findViewById(R.id.four);
         four.setOnClickListener(this);
-        if(userType.equals("0")||userType.equals("1")){  //如果是非管理员登录，则隐藏改按钮
+        if (userType.equals("0") || userType.equals("1")) {  //如果是非管理员登录，则隐藏改按钮
             four.setVisibility(View.GONE);
-        }else{
+        } else {
             four.setText(getResources().getString(R.string.employee_management));
         }
-        five = (ImageBt)findViewById(R.id.five);
+        five = (ImageBt) findViewById(R.id.five);
         five.setOnClickListener(this);
         five.setText(getResources().getString(R.string.personal));
 
-        if(userType.equals("2")||userType.equals("1")) {
+        if (userType.equals("2") || userType.equals("1")) {
             one.setText(getResources().getString(R.string.home_page));
             two.setText(getResources().getString(R.string.record));
             three.setText(getResources().getString(R.string.member));
@@ -143,8 +144,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        transaction =fragmentManager.beginTransaction();
-        switch (v.getId()){
+        transaction = fragmentManager.beginTransaction();
+        switch (v.getId()) {
             case R.id.one:
                 one.setImage(R.drawable.home_page_r);
                 two.setImage(R.drawable.record);
@@ -152,19 +153,19 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if(userType.equals("2")){ //管理员
+                if (userType.equals("2")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
                     fragment = new ManageHomeFragment();
                     fragment.setArguments(bundle);
-                }else if (userType.equals("1")){  //员工
+                } else if (userType.equals("1")) {  //员工
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
                     fragment = new EmployeeHomeFragment();
                     fragment.setArguments(bundle);
-                }else {  //会员
+                } else {  //会员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     fragment = new MemberHomeFragment();
@@ -178,7 +179,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if(userType.equals("2") || userType.equals("1")){ //管理员
+                if (userType.equals("2") || userType.equals("1")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
@@ -198,7 +199,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if(userType.equals("2") || userType.equals("1")){ //管理员
+                if (userType.equals("2") || userType.equals("1")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
@@ -228,12 +229,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal_r);
 
-                if(userType.equals("2")){ //管理员
+                if (userType.equals("2")) { //管理员
                     fragment = new ManagerFragment();
-                }else if (userType.equals("1")){  //员工
+                } else if (userType.equals("1")) {  //员工
                     Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
-                }else {  //会员
+                } else {  //会员
                     fragment = new MemFragment();
                 }
                 break;
@@ -243,7 +244,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         transaction.commit();
     }
 
-    private void getMember(){
+    private void getMember() {
         String kvs[] = new String[]{userid, store_id, "", "", "", "1", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();
@@ -253,7 +254,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         set.add(object.toString());
                     }
@@ -273,16 +274,28 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null){
-            switch (requestCode){
+        if (data != null) {
+            switch (requestCode) {
                 case MemManageFragment.REQUEST_CODE:
-                    fragmentManager =getFragmentManager();
-                    transaction =fragmentManager.beginTransaction();
+                case MemManageFragment.REQUEST_EDIT:
+                    fragmentManager = getFragmentManager();
+                    transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);
                     break;
                 case EmployeeManageFragment.ADD_REQUEST_CODE:
+                case EmployeeManageFragment.EDIT_REQUEST_CODE:
+                    fragmentManager = getFragmentManager();
+                    transaction = fragmentManager.beginTransaction();
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                    break;
+                case RecordFragment.REQUEST_CODE:
+                case RecordFragment.REQUEST_EDIT:
+                    fragmentManager = getFragmentManager();
+                    transaction = fragmentManager.beginTransaction();
+                    fragment.onActivityResult(requestCode, resultCode, data);
                     break;
             }
+            transaction.commit();
         }
     }
 

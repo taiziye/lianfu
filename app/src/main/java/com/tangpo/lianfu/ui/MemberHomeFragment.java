@@ -56,8 +56,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private Gson gson = null;
 
     private String userid = null;
-    private String lng="0.000000";
-    private String lat="0.000000";
+    private String lng = "0.000000";
+    private String lat = "0.000000";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         init(view);
 
-        if(bundle != null) {
+        if (bundle != null) {
             userid = bundle.getString("userid");
             getStores();
 
@@ -98,24 +98,24 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         return view;
     }
 
-    private void init(View view){
+    private void init(View view) {
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        double_code = (Button)view.findViewById(R.id.double_code);
-        locate = (Button)view.findViewById(R.id.locate);
-        map = (Button)view.findViewById(R.id.map);
+        double_code = (Button) view.findViewById(R.id.double_code);
+        locate = (Button) view.findViewById(R.id.locate);
+        map = (Button) view.findViewById(R.id.map);
 
-        search = (EditText)view.findViewById(R.id.search);
+        search = (EditText) view.findViewById(R.id.search);
 
-        listView = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
-        preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
 
         gson = new Gson();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.double_code:
                 break;
             case R.id.locate:
@@ -147,8 +147,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    private void getStores(){
-        String kvs[] = new String []{lng,lat, userid};
+    private void getStores() {
+        String kvs[] = new String[]{lng, lat, userid};
 
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
@@ -159,7 +159,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         FindStore store = gson.fromJson(object.toString(), FindStore.class);
                         storeList.add(store);
@@ -179,11 +179,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("9")){
+                    if (result.getString("status").equals("9")) {
                         ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         getActivity().startActivity(intent);
-                    } else if(result.getString("status").equals("10")){
+                    } else if (result.getString("status").equals("10")) {
                         ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {

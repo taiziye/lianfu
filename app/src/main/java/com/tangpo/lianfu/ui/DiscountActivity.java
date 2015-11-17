@@ -68,10 +68,10 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dicount_activity);
 
-        preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        String user=preferences.getString(Configs.KEY_USER, "0");
+        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        String user = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(user);
+            JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
             store_id = jsonObject.getString("store_id");
         } catch (JSONException e) {
@@ -81,27 +81,27 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         init();
     }
 
-    private void init(){
+    private void init() {
         gson = new Gson();
 
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        confirm = (Button)findViewById(R.id.confirm);
+        confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
-        delete = (Button)findViewById(R.id.delete);
+        delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(this);
-        add = (Button)findViewById(R.id.add);
+        add = (Button) findViewById(R.id.add);
         add.setOnClickListener(this);
 
-        sum = (TextView)findViewById(R.id.sum);
+        sum = (TextView) findViewById(R.id.sum);
 
-        listView = (ListView)findViewById(R.id.list);
+        listView = (ListView) findViewById(R.id.list);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                index = position;
-                adapter.setSelected(position);
+                index = position - 1;
+                adapter.setSelected(position - 1);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -135,14 +135,14 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.confirm:
                 Intent intent = new Intent();
                 intent.putExtra("discount", list.get(index));
-                intent.putExtra("discount",list.get(index));
+                intent.putExtra("discount", list.get(index));
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -169,7 +169,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     };
 
     private void getDiscount() {
-        String kvs [] = new String []{userid, store_id, page + "", "10"};
+        String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = ManageDiscount.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -177,7 +177,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Discount discount = gson.fromJson(object.toString(), Discount.class);
                         list.add(discount);

@@ -26,16 +26,17 @@ public class StoreLocationActivity extends ActionBarActivity {
 
     private Button back;
 
-    private MapView mMapView=null;
-    private BaiduMap mBaiduMap=null;
+    private MapView mMapView = null;
+    private BaiduMap mBaiduMap = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_store_location);
         SDKInitializer.initialize(getApplication());
-        mMapView= (MapView) findViewById(R.id.bmapView);
-        mBaiduMap=mMapView.getMap();
+        mMapView = (MapView) findViewById(R.id.bmapView);
+        mBaiduMap = mMapView.getMap();
 
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -45,19 +46,19 @@ public class StoreLocationActivity extends ActionBarActivity {
             }
         });
 
-        Intent intent=getIntent();
-        float longitude=Float.valueOf(intent.getStringExtra("lng"))/(10^6);
-        float latitude=Float.valueOf(intent.getStringExtra("lat"))/(10^6);
+        Intent intent = getIntent();
+        float longitude = Float.valueOf(intent.getStringExtra("lng")) / (10 ^ 6);
+        float latitude = Float.valueOf(intent.getStringExtra("lat")) / (10 ^ 6);
 
-        LatLng cenpt=new LatLng(longitude,latitude);
-        MapStatus mMapStatus=new MapStatus.Builder().target(cenpt).zoom(13).build();
+        LatLng cenpt = new LatLng(longitude, latitude);
+        MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
 
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         mBaiduMap.setMyLocationEnabled(true);
-        BitmapDescriptor mCurrentMaker= BitmapDescriptorFactory.fromResource(R.drawable.shop_gound_r);
-        OverlayOptions overlayOptions=new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.shop_gound_r);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
         mBaiduMap.addOverlay(overlayOptions);
     }
 

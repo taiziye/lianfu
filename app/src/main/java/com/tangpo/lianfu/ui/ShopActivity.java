@@ -47,37 +47,37 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     }
 
     private void init() {
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        collect = (Button)findViewById(R.id.collect);
+        collect = (Button) findViewById(R.id.collect);
         collect.setOnClickListener(this);
-        locate = (Button)findViewById(R.id.locate);
+        locate = (Button) findViewById(R.id.locate);
         locate.setOnClickListener(this);
-        contact = (Button)findViewById(R.id.contact);
+        contact = (Button) findViewById(R.id.contact);
         contact.setOnClickListener(this);
-        pay = (Button)findViewById(R.id.pay);
+        pay = (Button) findViewById(R.id.pay);
         pay.setOnClickListener(this);
 
-        img_shop = (ImageView)findViewById(R.id.img_shop);
-        img1 = (ImageView)findViewById(R.id.img1);
-        img2 = (ImageView)findViewById(R.id.img2);
-        img3 = (ImageView)findViewById(R.id.img3);
-        img4 = (ImageView)findViewById(R.id.img4);
-        img5 = (ImageView)findViewById(R.id.img5);
-        img6 = (ImageView)findViewById(R.id.img6);
-        img7 = (ImageView)findViewById(R.id.img7);
-        img8 = (ImageView)findViewById(R.id.img8);
+        img_shop = (ImageView) findViewById(R.id.img_shop);
+        img1 = (ImageView) findViewById(R.id.img1);
+        img2 = (ImageView) findViewById(R.id.img2);
+        img3 = (ImageView) findViewById(R.id.img3);
+        img4 = (ImageView) findViewById(R.id.img4);
+        img5 = (ImageView) findViewById(R.id.img5);
+        img6 = (ImageView) findViewById(R.id.img6);
+        img7 = (ImageView) findViewById(R.id.img7);
+        img8 = (ImageView) findViewById(R.id.img8);
 
-        detail_address = (TextView)findViewById(R.id.detail_address);
-        tel = (TextView)findViewById(R.id.tel);
-        qq = (TextView)findViewById(R.id.qq);
-        email = (TextView)findViewById(R.id.email);
-        commodity = (TextView)findViewById(R.id.commodity);
+        detail_address = (TextView) findViewById(R.id.detail_address);
+        tel = (TextView) findViewById(R.id.tel);
+        qq = (TextView) findViewById(R.id.qq);
+        email = (TextView) findViewById(R.id.email);
+        commodity = (TextView) findViewById(R.id.commodity);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 break;
             case R.id.collect:

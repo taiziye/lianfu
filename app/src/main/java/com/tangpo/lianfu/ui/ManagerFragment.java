@@ -58,32 +58,32 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     private void init(View view) {
         gson = new Gson();
 
-        double_code = (Button)view.findViewById(R.id.double_code);
+        double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
-        chat = (Button)view.findViewById(R.id.chat);
+        chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
 
-        img = (CircularImage)view.findViewById(R.id.img);
-        next = (ImageView)view.findViewById(R.id.next);
+        img = (CircularImage) view.findViewById(R.id.img);
+        next = (ImageView) view.findViewById(R.id.next);
         next.setOnClickListener(this);
 
-        power = (TextView)view.findViewById(R.id.power);
-        name = (TextView)view.findViewById(R.id.name);
-        shop_info = (TextView)view.findViewById(R.id.shop_info);
+        power = (TextView) view.findViewById(R.id.power);
+        name = (TextView) view.findViewById(R.id.name);
+        shop_info = (TextView) view.findViewById(R.id.shop_info);
         shop_info.setOnClickListener(this);
-        personal_info = (TextView)view.findViewById(R.id.personal_info);
+        personal_info = (TextView) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        discount_manage = (TextView)view.findViewById(R.id.discount_manage);
+        discount_manage = (TextView) view.findViewById(R.id.discount_manage);
         discount_manage.setOnClickListener(this);
-        update_type = (TextView)view.findViewById(R.id.update_type);
+        update_type = (TextView) view.findViewById(R.id.update_type);
         update_type.setOnClickListener(this);
-        modify_pass = (TextView)view.findViewById(R.id.modify_pass);
+        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
 
-        preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        String str=preferences.getString(Configs.KEY_USER, "0");
+        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        String str = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(str);
+            JSONObject jsonObject = new JSONObject(str);
             user = gson.fromJson(jsonObject.toString(), UserEntity.class);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.double_code:
                 break;
             case R.id.chat:
@@ -123,8 +123,8 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case R.id.update_type:
                 break;
             case R.id.modify_pass:
-                intent=new Intent(getActivity(),UpdatePasswordActivity.class);
-                intent.putExtra("user",user);
+                intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
         }

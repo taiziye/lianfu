@@ -5,23 +5,26 @@
     style="@style/title_bar_style"
     android:orientation="horizontal">
 
-    <Button android:id="@+id/back"
+    <Button
+        android:id="@+id/back"
         style="@style/btn_style_top"
         android:layout_marginLeft="10dp"
-        android:text="@string/back"/>
+        android:text="@string/back" />
 
-    <TextView android:id="@+id/text"
+    <TextView
+        android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:text="@string/phone_check"/>
+        android:text="@string/phone_check" />
 
-    <Button android:id="@+id/next"
+    <Button
+        android:id="@+id/next"
         style="@style/btn_style_top"
         android:layout_marginRight="10dp"
-        android:text="@string/next"/>
+        android:text="@string/next" />
 
 </LinearLayout>

@@ -27,33 +27,34 @@ public class NetConnection {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                HttpClient client=new DefaultHttpClient();
-                String result=null;
+                HttpClient client = new DefaultHttpClient();
+                String result = null;
                 try {
-                    String urlString=Configs.SERVER_URL;
-                    HttpPost post=new HttpPost(urlString);
-                    StringEntity entity=new StringEntity(param,"UTF-8");
+                    String urlString = Configs.SERVER_URL;
+                    HttpPost post = new HttpPost(urlString);
+                    StringEntity entity = new StringEntity(param, "UTF-8");
                     entity.setContentEncoding("UTF-8");
                     entity.setContentType("application/json");
                     post.setEntity(entity);
 
-                    HttpResponse response=client.execute(post);
+                    HttpResponse response = client.execute(post);
                     //将返回的结果解码
-                    result= Escape.unescape(EntityUtils.toString(response.getEntity()));
+                    result = Escape.unescape(EntityUtils.toString(response.getEntity()));
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return null;
             }
+
             @Override
-            protected void onPostExecute (String s){
+            protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 if (s != null) {
                     if (successCallback != null) {
                         try {
                             //将解码后的字符串封装成JSONObject
-                            JSONObject resJson=new JSONObject(s);
+                            JSONObject resJson = new JSONObject(s);
                             successCallback.onSuccess(resJson);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -63,7 +64,7 @@ public class NetConnection {
                     if (failCallback != null) {
                         try {
                             //将解码后的字符串封装成JSONObject
-                            JSONObject resJson=new JSONObject(s);
+                            JSONObject resJson = new JSONObject(s);
                             failCallback.onFail(resJson);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -4,31 +4,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/content"
         style="@style/title_bar_style"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/back"
+        <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/back"/>
+            android:background="@drawable/back" />
 
-        <TextView android:id="@+id/shop_name"
+        <TextView
+            android:id="@+id/shop_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@android:color/black"
-            android:text="@string/discount"/>
+            android:text="@string/discount" />
 
-        <Button android:id="@+id/confirm"
+        <Button
+            android:id="@+id/confirm"
             style="@style/btn_style_top"
             android:layout_marginRight="10dp"
-            android:text="@string/confirm"/>
+            android:text="@string/confirm" />
 
     </LinearLayout>
 
@@ -40,54 +44,54 @@
         android:background="@anim/fragment_style"
         android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="20dp"
-                    >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#333333"
-                        android:text="@string/ac_consum_sum"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentLeft="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:text="@string/ac_consum_sum"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true" />
 
-                    <TextView android:id="@+id/sum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#333333"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentRight="true"
-                        android:text="1,800"/>
+            <TextView
+                android:id="@+id/sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:text="1,800" />
 
-                </RelativeLayout>
+        </RelativeLayout>
 
-                <View
-                    style="@style/view_line_style" />
+        <View style="@style/view_line_style" />
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                    <ListView
-                        android:id="@+id/list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-                </RadioGroup>
+        </RadioGroup>
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
-        <Button android:id="@+id/delete"
+
+        <Button
+            android:id="@+id/delete"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:textSize="16sp"
@@ -99,10 +103,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true"
-            />
+            android:layout_alignParentLeft="true" />
 
-        <Button android:id="@+id/add"
+        <Button
+            android:id="@+id/add"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:textSize="16sp"
@@ -112,7 +116,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
 </LinearLayout>

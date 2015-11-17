@@ -39,7 +39,7 @@ import java.util.Set;
  */
 public class MemManageFragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_CODE = 1;
-    private static final int REQUEST_EDIT = 2;
+    public static final int REQUEST_EDIT = 2;
 
     private Button search;
     private Button add;
@@ -63,9 +63,9 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
         members = preferences.getStringSet(Configs.KEY_MEMBERS, null);
-        String user=preferences.getString(Configs.KEY_USER, "0");
+        String user = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(user);
+            JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
             store_id = jsonObject.getString("store_id");
         } catch (JSONException e) {
@@ -78,22 +78,22 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     private void init(View view) {
         gson = new Gson();
-        search = (Button)view.findViewById(R.id.search);
+        search = (Button) view.findViewById(R.id.search);
         search.setOnClickListener(this);
-        add = (Button)view.findViewById(R.id.add);
+        add = (Button) view.findViewById(R.id.add);
         add.setOnClickListener(this);
 
-        Iterator<String > it = members.iterator();
-        while (it.hasNext()){
+        Iterator<String> it = members.iterator();
+        while (it.hasNext()) {
             Member member = gson.fromJson(it.next().toString(), Member.class);
             list.add(member);
         }
 
-        getMember();
+        getMembers();
 
         //adapter = new MemberAdapter(list, getActivity());
 
-        listView = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
 //        listView.setAdapter(adapter);
 
@@ -102,13 +102,13 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
-                getMember();
+                getMembers();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
-                getMember();
+                getMembers();
             }
         });
 
@@ -117,7 +117,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("tag", "OnItemClickListener" + list.get(position).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
-                intent.putExtra("member", list.get(position));
+                intent.putExtra("member", list.get(position - 1));
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -125,7 +125,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.search:
                 break;
             case R.id.add:
@@ -136,11 +136,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     list = (List<Member>) msg.obj;
                     adapter = new MemberAdapter(list, getActivity());
@@ -150,7 +150,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         }
     };
 
-    private void getMember(){
+    private void getMembers() {
         String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(getActivity(), kvs);
         final Set<String> set = new HashSet<>();
@@ -158,11 +158,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("tag", result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Log.e("tag",object.toString());
                         Member member = gson.fromJson(object.toString(), Member.class);
                         list.add(member);
                         set.add(object.toString());
@@ -188,15 +188,16 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null){
-            if(requestCode == REQUEST_CODE) {
-                Member member = (Member) data.getExtras().get("member");
+        if (data != null) {
+            if (requestCode == REQUEST_CODE) {
+                Member member = (Member) data.getExtras().getSerializable("member");
                 list.add(member);
+                adapter.notifyDataSetChanged();
                 Set<String> set = new HashSet<>();
                 set.add(gson.toJson(member));
                 Configs.cacheMember(getActivity(), set);
             } else {
-                //
+                //编辑
             }
         }
     }

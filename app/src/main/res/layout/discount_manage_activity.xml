@@ -8,14 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
-        <Button android:id="@+id/back"
+
+        <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:background="@drawable/back"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            />
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,9 +24,10 @@
             android:layout_centerInParent="true"
             android:text="@string/discount_manage"
             android:textSize="22sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
-        <Button android:id="@+id/edit"
+        <Button
+            android:id="@+id/edit"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:background="@anim/btn_style"
@@ -33,10 +35,10 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
-            android:text="@string/edit"/>
+            android:text="@string/edit" />
     </RelativeLayout>
 
-    <com.llb.util.PullToRefreshListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"

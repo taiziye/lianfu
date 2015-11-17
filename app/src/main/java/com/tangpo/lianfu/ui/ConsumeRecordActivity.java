@@ -58,32 +58,32 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.consum_record_activity);
 
-        preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        members =preferences.getStringSet(Configs.KEY_USER, null);
+        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        members = preferences.getStringSet(Configs.KEY_USER, null);
 
         init();
     }
 
     private void init() {
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        edit = (Button)findViewById(R.id.edit);
+        edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
-        discount = (Button)findViewById(R.id.discount);
+        discount = (Button) findViewById(R.id.discount);
         discount.setOnClickListener(this);
 
-        user_name = (EditText)findViewById(R.id.user_name);
-        name = (EditText)findViewById(R.id.name);
-        contact_tel = (EditText)findViewById(R.id.contact_tel);
-        update_type = (EditText)findViewById(R.id.update_type);
-        id_card = (EditText)findViewById(R.id.id_card);
-        bank = (EditText)findViewById(R.id.bank);
-        bank_card = (EditText)findViewById(R.id.bank_card);
-        bank_name = (EditText)findViewById(R.id.bank_name);
-        consume_money = (EditText)findViewById(R.id.consume_money);
-        discount_type = (EditText)findViewById(R.id.discount_type);
-        discount_text = (EditText)findViewById(R.id.discount_text);
-        son_money = (EditText)findViewById(R.id.son_money);
+        user_name = (EditText) findViewById(R.id.user_name);
+        name = (EditText) findViewById(R.id.name);
+        contact_tel = (EditText) findViewById(R.id.contact_tel);
+        update_type = (EditText) findViewById(R.id.update_type);
+        id_card = (EditText) findViewById(R.id.id_card);
+        bank = (EditText) findViewById(R.id.bank);
+        bank_card = (EditText) findViewById(R.id.bank_card);
+        bank_name = (EditText) findViewById(R.id.bank_name);
+        consume_money = (EditText) findViewById(R.id.consume_money);
+        discount_type = (EditText) findViewById(R.id.discount_type);
+        discount_text = (EditText) findViewById(R.id.discount_text);
+        son_money = (EditText) findViewById(R.id.son_money);
 
         user_name.setVisibility(View.VISIBLE);
         name.setVisibility(View.VISIBLE);
@@ -99,17 +99,17 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         son_money.setVisibility(View.VISIBLE);
 
         intent = getIntent();
-        if (intent != null){
+        if (intent != null) {
             record = (EmployeeConsumeRecord) intent.getSerializableExtra("record");
             user_name.setText(record.getId());
             name.setText(record.getUsername());
-            if(members != null){
+            if (members != null) {
                 Iterator<String> it = members.iterator();
-                while (it.hasNext()){
+                while (it.hasNext()) {
                     try {
                         JSONObject object = new JSONObject(it.next());
                         //collectedStore.add(object.getString("id"));
-                        if(object.getString("user_id").equals(record.getId())){
+                        if (object.getString("user_id").equals(record.getId())) {
                             contact_tel.setText(object.getString("phone"));
                             //update_type.setText("1");
                             //id_card.setText("11111");
@@ -128,7 +128,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -155,7 +155,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null){
+        if (data != null) {
             discount_type.setText(data.getExtras().getString("type"));
             discount.setText(data.getExtras().getString("discount"));
         }

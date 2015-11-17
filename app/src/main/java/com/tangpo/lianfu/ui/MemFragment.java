@@ -46,28 +46,28 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View view) {
-        double_code = (Button)view.findViewById(R.id.double_code);
+        double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
-        chat = (Button)view.findViewById(R.id.chat);
+        chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
 
-        img = (CircularImage)view.findViewById(R.id.img);
-        next = (ImageView)view.findViewById(R.id.next);
+        img = (CircularImage) view.findViewById(R.id.img);
+        next = (ImageView) view.findViewById(R.id.next);
         next.setOnClickListener(this);
 
-        power = (TextView)view.findViewById(R.id.power);
-        name = (TextView)view.findViewById(R.id.name);
-        personal_info = (TextView)view.findViewById(R.id.personal_info);
+        power = (TextView) view.findViewById(R.id.power);
+        name = (TextView) view.findViewById(R.id.name);
+        personal_info = (TextView) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        modify_pass = (TextView)view.findViewById(R.id.modify_pass);
+        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
-        remainder = (TextView)view.findViewById(R.id.remainder);
+        remainder = (TextView) view.findViewById(R.id.remainder);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.double_code:
                 break;
             case R.id.chat:

@@ -52,10 +52,10 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
         init();
     }
 
-    private void init(){
+    private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        confirm = (Button)findViewById(R.id.confirm);
+        confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
 
         manage_level = (EditText) findViewById(R.id.manage_level);
@@ -83,7 +83,7 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -95,9 +95,9 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
         }
     }
 
-    private void updateEmployee(){
+    private void updateEmployee() {
         String employee_id = employee.getUser_id();
-        String rank =  manage_level.getText().toString();
+        String rank = manage_level.getText().toString();
         String username = user_name.getText().toString();
         String name = rel_name.getText().toString();
         String id_number = id_card.getText().toString();
@@ -119,7 +119,7 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Tools.showToast(getString(R.string.update_success));
+                Tools.showToast(EmployeeInfoActivity.this, getString(R.string.update_success));
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -127,10 +127,10 @@ public class EmployeeInfoActivity extends Activity implements View.OnClickListen
                 //
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("2")){
-                        Tools.showToast(getString(R.string.format_error));
-                    } else if(result.getString("status").equals("10")){
-                        Tools.showToast(getString(R.string.server_exception));
+                    if (result.getString("status").equals("2")) {
+                        Tools.showToast(EmployeeInfoActivity.this, getString(R.string.format_error));
+                    } else if (result.getString("status").equals("10")) {
+                        Tools.showToast(EmployeeInfoActivity.this, getString(R.string.server_exception));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

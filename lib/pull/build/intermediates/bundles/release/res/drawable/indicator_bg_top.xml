@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
+    android:shape="rectangle">
 
     <solid android:color="#40000000" />
 
@@ -15,4 +15,4 @@
         android:topLeftRadius="0dp"
         android:topRightRadius="0dp" />
 
-</shape><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/res/drawable/indicator_bg_top.xml -->
+</shape><!-- From: file:/E:/Android/lianfu/lib/pull/res/drawable/indicator_bg_top.xml -->

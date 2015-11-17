@@ -19,6 +19,24 @@ public class Employee implements Parcelable {
     private String register_time;
     private String sex;
     private String id_number;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "bank='" + bank + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", rank='" + rank + '\'' +
+                ", zsname='" + zsname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", bank_account='" + bank_account + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", register_time='" + register_time + '\'' +
+                ", sex='" + sex + '\'' +
+                ", id_number='" + id_number + '\'' +
+                ", upgrade='" + upgrade + '\'' +
+                '}';
+    }
+
     private String upgrade;
 
     public Employee(String bank, String bank_account, String bank_name, String id_number, String phone, String rank, String register_time, String sex, String upgrade, String user_id, String zsname) {

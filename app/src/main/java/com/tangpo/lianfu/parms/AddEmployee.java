@@ -15,14 +15,14 @@ import org.json.JSONObject;
  * Created by shengshoubo on 2015/11/14.
  */
 public class AddEmployee {
-    public static final String packagingParam(Context context,String...kvs){
-        JSONObject jsonObject=new JSONObject();
-        String action="29";
-        String time= GetTime.getTime();
-        String rannum= RandomNum.randomString(32);
-        String key= Configs.KEY_APPJSONKEY;
-        String sessid= Configs.getCatchedToken(context);
-        String md5vec= GetMD5Vec.getMD5Vec(action, rannum, time,key,sessid);
+    public static final String packagingParam(Context context, String... kvs) {
+        JSONObject jsonObject = new JSONObject();
+        String action = "29";
+        String time = GetTime.getTime();
+        String rannum = RandomNum.randomString(32);
+        String key = Configs.KEY_APPJSONKEY;
+        String sessid = Configs.getCatchedToken(context);
+        String md5vec = GetMD5Vec.getMD5Vec(action, rannum, time, key, sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
@@ -30,7 +30,7 @@ public class AddEmployee {
             jsonObject.put("md5ver", Escape.escape(md5vec));
             jsonObject.put("sessid", Escape.escape(sessid));
 
-            JSONObject paramJsonObject=new JSONObject();
+            JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
             paramJsonObject.put("rank", Escape.escape(kvs[1]));
             paramJsonObject.put("username", Escape.escape(kvs[2]));
@@ -41,7 +41,7 @@ public class AddEmployee {
             paramJsonObject.put("bank_account", Escape.escape(kvs[7]));
             paramJsonObject.put("bank", Escape.escape(kvs[8]));
 
-            jsonObject.put("param",paramJsonObject);
+            jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }

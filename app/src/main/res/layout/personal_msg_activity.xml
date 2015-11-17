@@ -4,32 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/content"
         style="@style/title_bar_style"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/back"
+        <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/back"/>
+            android:background="@drawable/back" />
 
-        <TextView android:id="@+id/text"
+        <TextView
+            android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@android:color/black"
-            android:text="@string/personal_info"/>
+            android:text="@string/personal_info" />
 
-        <Button android:id="@+id/next"
+        <Button
+            android:id="@+id/next"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            android:background="@drawable/next"/>
+            android:background="@drawable/next" />
 
     </LinearLayout>
 
@@ -39,6 +43,7 @@
         android:layout_marginTop="10dp"
         android:background="@anim/fragment_style"
         android:layout_weight="1">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,149 +54,157 @@
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/user_name"/>
+                    android:text="@string/user_name" />
 
-                <EditText android:id="@+id/user_name"
+                <EditText
+                    android:id="@+id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/user_pass"/>
-                <EditText android:id="@+id/pass"
+                    android:text="@string/user_pass" />
+
+                <EditText
+                    android:id="@+id/pass"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:inputType="textPassword"
-                    android:background="@null"/>
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/check_pass"/>
+                    android:text="@string/check_pass" />
 
-                <EditText android:id="@+id/check_pass"
+                <EditText
+                    android:id="@+id/check_pass"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:inputType="textPassword"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"/>
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/referee"/>
+                    android:text="@string/referee" />
 
-                <EditText android:id="@+id/referee"
+                <EditText
+                    android:id="@+id/referee"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"/>
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/service_address"/>
+                    android:text="@string/service_address" />
 
-                <EditText android:id="@+id/service_address"
+                <EditText
+                    android:id="@+id/service_address"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"/>
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/service"/>
+                    android:text="@string/service" />
 
-                <EditText android:id="@+id/service"
+                <EditText
+                    android:id="@+id/service"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"/>
+                    android:background="@null" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
-            <CheckBox android:id="@+id/check"
+            <CheckBox
+                android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="@string/protocol"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

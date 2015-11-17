@@ -31,17 +31,17 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
     }
 
     private void init() {
-        back_home = (Button)findViewById(R.id.back_home);
+        back_home = (Button) findViewById(R.id.back_home);
         back_home.setOnClickListener(this);
-        perfect_info = (Button)findViewById(R.id.perfect_info);
+        perfect_info = (Button) findViewById(R.id.perfect_info);
         perfect_info.setOnClickListener(this);
 
-        logo = (ImageView)findViewById(R.id.logo);
+        logo = (ImageView) findViewById(R.id.logo);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back_home:
                 Tools.gotoActivity(RegisterSuccessActivity.this, HomePageActivity.class);
                 finish();
