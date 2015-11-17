@@ -141,8 +141,9 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.confirm:
                 Intent intent = new Intent();
-                intent.putExtra("type", list.get(index).getDesc());
-                intent.putExtra("discount", list.get(index).getDiscount());
+//                intent.putExtra("type", list.get(index).getDesc());
+//                intent.putExtra("discount", list.get(index).getDiscount());
+                intent.putExtra("discount",list.get(index));
                 setResult(RESULT_OK, intent);
                 finish();
                 break;

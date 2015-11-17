@@ -9,6 +9,7 @@
         android:layout_height="60dp"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:background="@drawable/back"

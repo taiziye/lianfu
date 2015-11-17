@@ -47,7 +47,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.employee_info_activity);
 
-        employee = (Employee) getIntent().getExtras().getSerializable("employee");
+        employee = getIntent().getExtras().getParcelable("employee");
         userid = getIntent().getExtras().getString("userid");
         init();
     }
@@ -55,7 +55,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     private void init(){
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        confirm = (Button) findViewById(R.id.edit);
+        confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
 
         manage_level = (EditText) findViewById(R.id.manage_level);
@@ -104,10 +104,11 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         String bank_account = bank_card.getText().toString();
         String bankStr = bank.getText().toString();
         String sexStr = "";
-        if (sex.getText().toString().equals("男"))
+        if (sex.getText().toString().equals("男")){
             sexStr = "0";
-        else
+        }else{
             sexStr = "1";
+        }
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
                 upgrade, bank_account, bankStr, sexStr};

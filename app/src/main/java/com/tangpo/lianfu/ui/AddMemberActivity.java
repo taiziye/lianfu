@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddMember;
@@ -49,20 +51,25 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private String sexStr = "";
     private ProgressDialog dialog = null;
 
-    private String userid="";
+    private String userid=null;
+    private SharedPreferences preferences=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_member_activity);
-
-        userid=getIntent().getExtras().getString("userid");
-
         init();
     }
 
     private void init() {
+        preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+        try {
+            JSONObject jsonObject=new JSONObject(preferences.getString(Configs.KEY_USER,""));
+            userid=jsonObject.getString("user_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         commit = (Button)findViewById(R.id.commit);
@@ -70,12 +77,16 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
 
         admit = (CheckBox)findViewById(R.id.admit);
         sex = (Spinner) findViewById(R.id.sex);
-        sex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] sexes = getResources().getStringArray(R.array.spinner);
-                //Toast.makeText(MainActivity.this, "你点击的是:"+languages[pos], 2000).show();
                 sexStr = sexes[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
