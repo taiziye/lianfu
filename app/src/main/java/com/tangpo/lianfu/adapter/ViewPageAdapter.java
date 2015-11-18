@@ -30,13 +30,13 @@ public class ViewPageAdapter extends PagerAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    @Override
+    /*@Override
     public float getPageWidth(int position) {
         if((position == 0) || (position == (listView.size() - 1))) {
             return 0.9f;
         } else
             return 0.8f;
-    }
+    }*/
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

@@ -11,11 +11,17 @@
         android:layout_height="match_parent"
         android:clickable="true" />
 
-    <com.tangpo.lianfu.utils.ViewPagerCompat
-        android:id="@+id/vp"
-        android:background="@android:color/white"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true" />
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <com.tangpo.lianfu.utils.ViewPagerCompat
+            android:id="@+id/vp"
+            android:background="@android:color/white"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+             />
+    </LinearLayout>
 </RelativeLayout>
