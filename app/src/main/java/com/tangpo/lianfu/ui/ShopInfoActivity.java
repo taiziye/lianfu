@@ -44,14 +44,14 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private EditText commodity;
     private EditText map_locate;
 
-    private UserEntity user = null;
+//    private UserEntity user = null;
 
     private ProgressDialog dialog = null;
     private Gson gson = null;
 
     private Store store = null;
-    private String userid = "";
-    private String storeid = "";
+    private String userid = null;
+    private String storeid = null;
 
     @Override
     protected void onDestroy() {
@@ -68,7 +68,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
         Tools.gatherActivity(this);
 
-        user = (UserEntity) getIntent().getExtras().getSerializable("user");
+        userid=getIntent().getExtras().getString("userid");
+        storeid=getIntent().getExtras().getString("store_id");
         init();
     }
 
@@ -109,7 +110,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private void getStoreInfo() {
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
+        String kvs[] = new String[]{storeid, userid};
         String param = StoreDetail.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

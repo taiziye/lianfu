@@ -146,4 +146,5 @@ public class FindStore implements Parcelable {
         dest.writeString(address);
         dest.writeString(photo);
     }
+
 }

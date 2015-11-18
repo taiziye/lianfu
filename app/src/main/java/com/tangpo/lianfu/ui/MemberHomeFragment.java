@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -114,11 +115,25 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         map = (Button) view.findViewById(R.id.map);
         map.setOnClickListener(this);
 
+        double_code.setOnClickListener(this);
+        locate.setOnClickListener(this);
+        map.setOnClickListener(this);
+
         search = (EditText) view.findViewById(R.id.search);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(),ShopActivity.class);
+                intent.putExtra("store_id",storeList.get(position-1).getId());
+                intent.putExtra("userid",userid);
+                startActivity(intent);
+            }
+        });
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+
 
         gson = new Gson();
     }
@@ -132,7 +147,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.map:
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putParcelableArrayListExtra("list", storeList);
+                Log.e("tag", storeList.size() + " " + storeList.getClass());
+                Bundle bundle=new Bundle();
+                bundle.putParcelableArrayList("list",storeList);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.search:

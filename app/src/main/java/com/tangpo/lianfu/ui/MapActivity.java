@@ -79,10 +79,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
         LatLng cenpt = new LatLng(curLatitude, curLongitude);
         locate(cenpt);
-
         storeList = getIntent().getExtras().getParcelableArrayList("list");
-
-        Log.e("tag", storeList.size() + " ");
         vp = (ViewPagerCompat) findViewById(R.id.vp);
         //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
@@ -93,14 +90,20 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
         for (int i = 0; i < storeList.size(); i++) {
             //标注覆盖物，定义Maker坐标点
-            float Lng = Float.valueOf(storeList.get(i).getLng()) / (10 ^ 6);
-            float Lat = Float.valueOf(storeList.get(i).getLat()) / (10 ^ 6);
-            LatLng pt = new LatLng(Lng, Lat);
+//            float Lng = Float.valueOf(storeList.get(i).getLng()) / (10 ^ 6);
+//            float Lat = Float.valueOf(storeList.get(i).getLat()) / (10 ^ 6);
+
+//            Log.e("tag",storeList.get(i).getLng()+":"+storeList.get(i).getLat());
+            double Lng=(double)(Integer.valueOf(storeList.get(i).getLng()))/1000000;
+            double Lat=(double)(Integer.valueOf(storeList.get(i).getLat()))/1000000;
+            Log.e("tag",Lng+":"+Lat);
+            //Log.e("tag","Lng:"+Lng+" "+"Lat:"+Lat);
+            LatLng pt = new LatLng(Lat,Lng);
             list.add(pt);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
             //构建MarkerOption，用于在地图上添加Marker  alpha(float)设置透明度
-            OverlayOptions options = new MarkerOptions().position(pt).icon(bitmap).zIndex(0).animateType(MarkerOptions.MarkerAnimateType.grow);
+            OverlayOptions options = new MarkerOptions().position(pt).icon(bitmap).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.grow);
             mBaiduMap.addOverlay(options);
 
             //适配ViewPager
