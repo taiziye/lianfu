@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.utils.Tools;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -38,10 +39,19 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private TextView commodity;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_activity);
+
+        Tools.gatherActivity(this);
 
         init();
     }

@@ -25,6 +25,7 @@ import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ManageDiscount;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,10 +64,19 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     private Gson gson = null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dicount_activity);
+
+        Tools.gatherActivity(this);
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");

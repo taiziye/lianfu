@@ -24,6 +24,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.StaffManagement;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +56,12 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private int page = 1;
 
     private ProgressDialog dialog = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

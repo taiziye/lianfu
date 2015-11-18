@@ -48,8 +48,8 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.tangpo.lianfu.parms.CheckCode;
 import com.tangpo.lianfu.parms.GetCode;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,10 +39,19 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private ProgressDialog pd = null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.register);
+
+        Tools.gatherActivity(this);
 
         init();
     }

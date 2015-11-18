@@ -13,6 +13,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.entity.UserConsumRecord;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,10 +54,19 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private Intent intent = null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.consum_record_activity);
+
+        Tools.gatherActivity(this);
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         members = preferences.getStringSet(Configs.KEY_USER, null);

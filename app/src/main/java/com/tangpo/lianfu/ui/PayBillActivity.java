@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.utils.Tools;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -27,10 +28,21 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private EditText bill_num;
 
     @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pay_bill);
+
+        Tools.gatherActivity(this);
+
+        init();
     }
 
     private void init() {

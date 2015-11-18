@@ -23,6 +23,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.MemberManagement;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,12 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private String store_id = null;
 
     private int page = 1;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +122,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("tag", "OnItemClickListener" + list.get(position).toString());
+                Log.e("tag", "OnItemClickListener" + list.get(position - 1).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position - 1));
                 intent.putExtra("userid",userid);
