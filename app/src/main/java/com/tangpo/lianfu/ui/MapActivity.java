@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -93,9 +94,9 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
         for (int i = 0; i < storeList.size(); i++) {
             //标注覆盖物，定义Maker坐标点
-            float Lng = Float.valueOf(storeList.get(i).getLng()) / (10 ^ 6);
-            float Lat = Float.valueOf(storeList.get(i).getLat()) / (10 ^ 6);
-            LatLng pt = new LatLng(Lng, Lat);
+            float Lng = (float)Integer.valueOf(storeList.get(i).getLng()) / 1000000;
+            float Lat = (float)Integer.valueOf(storeList.get(i).getLat()) / 1000000;
+            LatLng pt = new LatLng(Lat, Lng);
             list.add(pt);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
@@ -121,7 +122,11 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         mBaiduMap.addOverlay(textOption);
 
         adapter = new ViewPageAdapter(this, listViews);
+
         vp.setAdapter(adapter);
+        vp.setCurrentItem(0);
+        vp.setOffscreenPageLimit(5);
+        vp.setPageMargin(dip2px(this, 50));
         vp.setOnPageChangeListener(this);
 
     }
@@ -175,9 +180,10 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (position == i) {
                 locate(list.get(i));
+                Log.e("tag", list.get(i).toString());
             }
         }
     }
@@ -198,6 +204,12 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //显示当前设备位置
         BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
-        mBaiduMap.addOverlay(overlayOptions);
+        //mBaiduMap.addOverlay(overlayOptions);
+    }
+
+    // dip转换成px（像素）
+    private int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }

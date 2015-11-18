@@ -9,18 +9,20 @@
         android:id="@+id/img"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@android:color/black" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_weight="1"
-        android:layout_marginLeft="16dp"
+        android:paddingRight="10dp"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_vertical">
@@ -30,8 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
+                android:singleLine="true"
                 android:text="地面店名称" />
 
             <TextView
@@ -41,6 +44,7 @@
                 android:layout_marginBottom="3dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
+                android:singleLine="true"
                 android:text="服装、女装、男装" />
 
             <TextView
@@ -56,7 +60,8 @@
 
         <Button
             android:id="@+id/collect"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="40dp"
             android:background="@drawable/cancel_collect"
             android:layout_marginTop="16dp"
