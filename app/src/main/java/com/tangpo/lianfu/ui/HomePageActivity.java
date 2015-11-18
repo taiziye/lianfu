@@ -255,7 +255,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     fragment = new EmployeeFragment();
                 } else {  //会员
                     Bundle bundle=new Bundle();
-                    bundle.putSerializable("user",userEntity);
+                    bundle.putSerializable("user", userEntity);
                     fragment = new MemFragment();
                     fragment.setArguments(bundle);
                 }
