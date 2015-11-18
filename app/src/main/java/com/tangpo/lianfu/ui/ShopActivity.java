@@ -126,6 +126,11 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             case R.id.contact:
                 break;
             case R.id.pay:
+                Intent payIntent=new Intent(ShopActivity.this,PayBillActivity.class);
+                payIntent.putExtra("userid",user_id);
+                payIntent.putExtra("store_id",store_id);
+                payIntent.putExtra("storename",store.getStore());
+                startActivity(payIntent);
                 break;
         }
     }

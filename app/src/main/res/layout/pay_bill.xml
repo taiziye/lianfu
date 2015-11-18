@@ -116,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@null"
+                android:editable="false"
                 android:textColorHint="@android:color/black"
                 android:layout_marginLeft="10dp" />
         </LinearLayout>
@@ -147,17 +148,27 @@
 
         <View style="@style/view_line_style" />
 
-        <Button
-            android:id="@+id/upload"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@anim/btn_style"
-            android:layout_marginLeft="20dp"
-            android:paddingLeft="26dp"
-            android:paddingRight="26dp"
-            android:textSize="18sp"
-            android:layout_marginTop="10dp"
-            android:text="@string/upload_bill" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@anim/btn_style"
+                android:layout_marginLeft="20dp"
+                android:paddingLeft="26dp"
+                android:paddingRight="26dp"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:text="@string/upload_bill" />
+
+            <ImageView android:id="@+id/bill"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_width="200dp"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
     </LinearLayout>
 
