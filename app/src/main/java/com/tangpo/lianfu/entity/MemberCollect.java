@@ -11,6 +11,16 @@ public class MemberCollect {
     private String contact;
     private String tel;
     private String address;
+    private String business;
+
+    public String getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(String business) {
+        this.business = business;
+    }
+
     private String photo;
 
     public String getAddress() {
@@ -77,9 +87,9 @@ public class MemberCollect {
         this.tel = tel;
     }
 
-    public MemberCollect(String address, String contact, String id, String lat, String lng, String photo, String store, String tel) {
-
+    public MemberCollect(String address, String business, String contact, String id, String lat, String lng, String photo, String store, String tel) {
         this.address = address;
+        this.business = business;
         this.contact = contact;
         this.id = id;
         this.lat = lat;

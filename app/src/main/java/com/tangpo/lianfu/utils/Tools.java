@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
@@ -209,6 +210,7 @@ public class Tools {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).bitmapConfig(Bitmap.Config.RGB_565)
                 .displayer(new FadeInBitmapDisplayer(300)).handler(new Handler()).build();
 
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         imageLoader.displayImage(path, img, options);
     }
 

@@ -53,7 +53,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private int page = 1;
 
-    private Gson gson = null;
+    private Gson gson = new Gson();
 
     private int index = 0;
 

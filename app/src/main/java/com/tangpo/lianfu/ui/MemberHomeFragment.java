@@ -77,30 +77,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         if (bundle != null) {
             userid = bundle.getString("userid");
             getStores();
-
-            /*String tmp[] = new String []{userid};
-            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
-
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    Set<String> store = new HashSet<String>();
-                    JSONObject stores = null;
-                    try {
-                        stores = result.getJSONObject("param");
-                        System.out.println(result.toString());
-                        store.add(stores.toString());
-                        Configs.cacheCollectedStore(getActivity(), store);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    //
-                }
-            }, tmpParams);*/
         }
 
         return view;

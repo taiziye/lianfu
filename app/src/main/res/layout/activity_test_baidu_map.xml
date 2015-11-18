@@ -20,7 +20,7 @@
         <com.tangpo.lianfu.utils.ViewPagerCompat
             android:id="@+id/vp"
             android:background="@android:color/white"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
              />
     </LinearLayout>

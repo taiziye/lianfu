@@ -48,7 +48,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private PullToRefreshListView listView;
 
     private SharedPreferences preferences = null;
-    private Set<String> members = null;
+//    private Set<String> members = null;
     private MemberAdapter adapter = null;
     private List<Member> list = new ArrayList<>();
     private Gson gson = null;
@@ -69,7 +69,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.mem_manage_fragment, container, false);
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        members = preferences.getStringSet(Configs.KEY_MEMBERS, null);
         String user = preferences.getString(Configs.KEY_USER, "0");
         try {
             JSONObject jsonObject = new JSONObject(user);
@@ -90,11 +89,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         add = (Button) view.findViewById(R.id.add);
         add.setOnClickListener(this);
 
-        Iterator<String> it = members.iterator();
+        /*Iterator<String> it = members.iterator();
         while (it.hasNext()) {
             Member member = gson.fromJson(it.next().toString(), Member.class);
             list.add(member);
-        }
+        }*/
 
         getMembers();
 

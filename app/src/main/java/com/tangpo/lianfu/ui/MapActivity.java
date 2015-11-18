@@ -23,6 +23,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -52,6 +53,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     private ViewPageAdapter adapter = null;
 
+    private Overlay myOverlay=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +82,18 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         float curLatitude = preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
         float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
         LatLng cenpt = new LatLng(curLatitude, curLongitude);
-        locate(cenpt);
+
+        //定义地图状态
+        MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        //显示当前设备位置
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
+        myOverlay=mBaiduMap.addOverlay(overlayOptions);
+
         storeList = getIntent().getExtras().getParcelableArrayList("list");
         vp = (ViewPagerCompat) findViewById(R.id.vp);
         //卫星地图
@@ -91,7 +105,6 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
         for (int i = 0; i < storeList.size(); i++) {
             //标注覆盖物，定义Maker坐标点
-<<<<<<< HEAD
 //            float Lng = Float.valueOf(storeList.get(i).getLng()) / (10 ^ 6);
 //            float Lat = Float.valueOf(storeList.get(i).getLat()) / (10 ^ 6);
 
@@ -101,11 +114,6 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
             Log.e("tag",Lng+":"+Lat);
             //Log.e("tag","Lng:"+Lng+" "+"Lat:"+Lat);
             LatLng pt = new LatLng(Lat,Lng);
-=======
-            float Lng = (float)Integer.valueOf(storeList.get(i).getLng()) / 1000000;
-            float Lat = (float)Integer.valueOf(storeList.get(i).getLat()) / 1000000;
-            LatLng pt = new LatLng(Lat, Lng);
->>>>>>> 18dcd6d7b04f404f894bf337b2f454df449d000f
             list.add(pt);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
@@ -213,7 +221,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //显示当前设备位置
         BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
-        //mBaiduMap.addOverlay(overlayOptions);
+        myOverlay.remove();
+        myOverlay=mBaiduMap.addOverlay(overlayOptions);
     }
 
     // dip转换成px（像素）

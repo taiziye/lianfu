@@ -56,6 +56,7 @@
                 android:id="@+id/img_shop"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
+                android:scaleType="fitXY"
                 android:background="@android:color/black" />
 
             <View style="@style/view_line_style" />
@@ -170,6 +171,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="80dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -178,6 +180,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -186,6 +189,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -194,6 +198,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
             </LinearLayout>
@@ -209,6 +214,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="80dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -217,6 +223,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -225,6 +232,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
                 <ImageView
@@ -233,6 +241,7 @@
                     android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/black" />
 
             </LinearLayout>
