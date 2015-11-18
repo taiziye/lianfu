@@ -85,19 +85,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         discount_text = (EditText) findViewById(R.id.discount_text);
         son_money = (EditText) findViewById(R.id.son_money);
 
-        user_name.setVisibility(View.VISIBLE);
-        name.setVisibility(View.VISIBLE);
-        contact_tel.setVisibility(View.VISIBLE);
-        update_type.setVisibility(View.VISIBLE);
-        id_card.setVisibility(View.VISIBLE);
-        bank.setVisibility(View.VISIBLE);
-        bank_card.setVisibility(View.VISIBLE);
-        bank_name.setVisibility(View.VISIBLE);
-        consume_money.setVisibility(View.VISIBLE);
-        discount_type.setVisibility(View.VISIBLE);
-        discount_text.setVisibility(View.VISIBLE);
-        son_money.setVisibility(View.VISIBLE);
-
         intent = getIntent();
         if (intent != null) {
             record = (EmployeeConsumeRecord) intent.getSerializableExtra("record");
@@ -133,18 +120,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                 finish();
                 break;
             case R.id.edit:
-                user_name.setVisibility(View.VISIBLE);
-                name.setVisibility(View.VISIBLE);
-                contact_tel.setVisibility(View.VISIBLE);
-                update_type.setVisibility(View.VISIBLE);
-                id_card.setVisibility(View.VISIBLE);
-                bank.setVisibility(View.VISIBLE);
-                bank_card.setVisibility(View.VISIBLE);
-                bank_name.setVisibility(View.VISIBLE);
-                consume_money.setVisibility(View.VISIBLE);
-                discount_type.setVisibility(View.VISIBLE);
-                discount_text.setVisibility(View.VISIBLE);
-                son_money.setVisibility(View.VISIBLE);
                 break;
             case R.id.discount:
                 intent = new Intent(this, DiscountActivity.class);

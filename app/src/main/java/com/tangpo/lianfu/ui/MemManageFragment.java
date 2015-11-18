@@ -118,6 +118,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 Log.e("tag", "OnItemClickListener" + list.get(position).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position - 1));
+                intent.putExtra("userid",userid);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
         });

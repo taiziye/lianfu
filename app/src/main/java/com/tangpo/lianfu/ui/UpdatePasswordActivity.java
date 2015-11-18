@@ -49,46 +49,49 @@ public class UpdatePasswordActivity extends Activity {
 
         Tools.gatherActivity(this);
         init();
+        checkPassword();
     }
 
     private void init() {
         etOld = (EditText) findViewById(R.id.etOld);
         etNew = (EditText) findViewById(R.id.etNew);
         etNewCheck = (EditText) findViewById(R.id.etNewCheck);
-        oldPassword = etOld.getText().toString();
-        newPassword = etOld.getText().toString();
-        newPasswordCheck = etNewCheck.getText().toString();
         confirm = (Button) findViewById(R.id.confirm);
+        cancel = (Button) findViewById(R.id.cancel);
+    }
+
+    private void checkPassword(){
+        oldPassword = etOld.getText().toString();
+        newPassword = etNew.getText().toString();
+        newPasswordCheck = etNewCheck.getText().toString();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (oldPassword.equals("")) {
+                if (etOld.getText().toString().equals("")) {
                     ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.old_password_cannot_be_null), Toast.LENGTH_SHORT);
                     etNew.setText("");
                     etNewCheck.setText("");
                     return;
                 }
-                if (newPassword.equals("")) {
+                if (etNew.getText().toString().equals("")) {
                     ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.new_password_cannot_be_null), Toast.LENGTH_SHORT);
                     etOld.setText("");
                     etNewCheck.setText("");
                     return;
                 }
-                if (!newPassword.equals(etNewCheck)) {
+                if (!etNew.getText().toString().equals(etNewCheck.getText().toString())) {
                     ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.new_password_do_not_match), Toast.LENGTH_SHORT);
                     etNew.setText("");
                     etNewCheck.setText("");
                     return;
                 }
                 updatePassword();
-            }
-        });
-
-        cancel = (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }
@@ -109,7 +112,7 @@ public class UpdatePasswordActivity extends Activity {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.update_password_success), Toast.LENGTH_SHORT);
-                finish();
+                UpdatePasswordActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

@@ -78,7 +78,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
         try {
             JSONObject jsonObject = new JSONObject(preferences.getString(Configs.KEY_USER, ""));
-            userid = jsonObject.getString("name");
+            userid = jsonObject.getString("user_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

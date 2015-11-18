@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
 
@@ -30,6 +31,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private TextView personal_info;
     private TextView modify_pass;
     private TextView remainder;
+    private UserEntity userEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View view) {
+        userEntity= (UserEntity) getArguments().getSerializable("user");
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         chat = (Button) view.findViewById(R.id.chat);
@@ -76,6 +79,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                intent.putExtra("user", userEntity);
                 startActivity(intent);
                 break;
             case R.id.modify_pass:

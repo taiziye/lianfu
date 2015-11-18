@@ -65,6 +65,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         try {
             JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
+            userid = jsonObject.getString("name");
             store_id = jsonObject.getString("store_id");
         } catch (JSONException e) {
             e.printStackTrace();

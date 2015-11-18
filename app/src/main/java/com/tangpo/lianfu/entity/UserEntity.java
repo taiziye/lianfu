@@ -9,6 +9,7 @@ public class UserEntity implements Serializable {
     private String user_type;
     private String user_id;
     private String store_id;
+    private String storename;
     private String name;
     private String phone;
     private String id_number;
@@ -149,5 +150,13 @@ public class UserEntity implements Serializable {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    public String getStorename() {
+        return storename;
+    }
+
+    public void setStorename(String storename) {
+        this.storename = storename;
     }
 }

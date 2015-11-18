@@ -2,7 +2,9 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -48,6 +50,8 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private Gson mGson = null;
 
     private Intent intent;
+    private String userid=null;
+    private SharedPreferences preferences=null;
 
     @Nullable
     @Override
@@ -60,6 +64,13 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     }
 
     private void init(View view) {
+        preferences = getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        try {
+            JSONObject jsonObject = new JSONObject(preferences.getString(Configs.KEY_USER, ""));
+            userid = jsonObject.getString("user_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         mGson = new Gson();
 
@@ -157,14 +168,17 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.add_record:
                 intent = new Intent(getActivity(), AddConsumeActivity.class);
+                intent.putExtra("userid", userid);
                 getActivity().startActivity(intent);
                 break;
             case R.id.profit_compute:
                 intent = new Intent(getActivity(), OfflineProfitPayActivity.class);
+                intent.putExtra("userid", userid);
                 getActivity().startActivity(intent);
                 break;
             case R.id.add_mem:
                 intent = new Intent(getActivity(), AddMemberActivity.class);
+                intent.putExtra("userid", userid);
                 getActivity().startActivity(intent);
                 break;
         }

@@ -99,6 +99,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.modify_pass:

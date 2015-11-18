@@ -13,8 +13,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.MemberManagement;
 import com.tangpo.lianfu.utils.ImageBt;
@@ -49,6 +51,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     private String userid = null;
     private String employeename = null;
     private String store_id = null;
+    private Gson gson=null;
+    private UserEntity userEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +63,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
-        try {
-            JSONObject jsonObject = new JSONObject(user);
-            userType = jsonObject.getString("user_type");
-            userid = jsonObject.getString("user_id");
-            employeename = jsonObject.getString("name");
-            store_id = jsonObject.getString("store_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        gson=new Gson();
+        userEntity=gson.fromJson(user,UserEntity.class);
+        userType=userEntity.getUser_type();
+        userid=userEntity.getUser_id();
+        employeename=userEntity.getName();
+        store_id=userEntity.getStore_id();
         init();
 
         fragmentManager = getFragmentManager();
@@ -235,6 +236,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
                 } else {  //会员
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("user",userEntity);
                     fragment = new MemFragment();
                 }
                 break;

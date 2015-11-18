@@ -93,10 +93,10 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         manage_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).equals("管理员")) {
-                    rank = "管理员";
-                } else {
-                    rank = "员工";
+                if (adapter.getItem(position).equals("管理员")){
+                    rank="1";
+                }else{
+                    rank="0";
                 }
             }
 

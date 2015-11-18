@@ -187,6 +187,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 Intent intent = new Intent();
                 intent.putExtra("member", member);
                 AddMemberActivity.this.setResult(MemManageFragment.REQUEST_CODE, intent);
+                AddMemberActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

@@ -46,7 +46,6 @@
         <activity android:name=".ui.DiscountActivity" />
         <activity android:name=".ui.DiscountManageActivity" />
         <activity android:name=".ui.EmploeeInfoActivity" />
-        <activity android:name=".ui.EmployeeInfoActivity" />
         <activity android:name=".ui.HomePageActivity" />
         <activity android:name=".ui.MemberInfoActivity" />
         <activity android:name=".ui.MemberUpdateTypeActivity" />

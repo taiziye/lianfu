@@ -37,26 +37,18 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     public static final int SELECT_DIS = 2;
     private Button back;
     private Button commit;
-
     private TextView shop_name;
     private TextView name;
     private TextView contact_tel;
     private EditText consume_money;
-
     private TextView user_name;
     private TextView discount;
     private TextView select_user;
     private TextView select_discount;
-
     private SharedPreferences preferences = null;
     private UserEntity user = null;
-    private Manager manager = null;
     private ProgressDialog dialog = null;
-
     private Gson gson = null;
-
-    private String store_name = null;
-    private Store store = null;
 
     @Override
     protected void onDestroy() {
@@ -77,9 +69,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String userInfo = preferences.getString(Configs.KEY_USER, "0");
-        String managerInfo = preferences.getString(Configs.KEY_MANAGER, "1");
         user = gson.fromJson(userInfo, UserEntity.class);
-        manager = gson.fromJson(managerInfo, Manager.class);
         init();
     }
 
@@ -101,7 +91,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         select_discount = (TextView) findViewById(R.id.select_discount);
         select_discount.setOnClickListener(this);
 
-        shop_name.setText(manager.getStore_name());
+        shop_name.setText(user.getStorename());
     }
 
     @Override
@@ -147,9 +137,10 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private void commitConsume() {
-        String kvs[] = new String[]{user.getUser_id(), manager.getStore_id(), dis.getDiscount(),
+        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
+        Log.e("tag",user.getStore_id());
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -157,6 +148,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Tools.showToast(AddConsumeActivity.this, getString(R.string.add_success));
+                AddConsumeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

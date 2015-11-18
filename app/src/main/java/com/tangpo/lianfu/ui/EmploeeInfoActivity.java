@@ -9,11 +9,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditStaff;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -31,7 +33,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
-    private EditText sex;
+    private Spinner sex;
     private EditText id_card;
     private EditText bank;
     private EditText bank_card;
@@ -39,7 +41,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
 
     private Employee employee = null;
 
-    private String userid = "";
+    private String userid = null;
 
     private ProgressDialog dialog = null;
 
@@ -73,7 +75,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
         rel_name = (EditText) findViewById(R.id.rel_name);
-        sex = (EditText) findViewById(R.id.sex);
+        sex = (Spinner) findViewById(R.id.sex);
         id_card = (EditText) findViewById(R.id.id_card);
         bank = (EditText) findViewById(R.id.bank);
         bank_card = (EditText) findViewById(R.id.bank_card);
@@ -91,9 +93,9 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         contact_tel.setText(employee.getPhone());
         rel_name.setText(employee.getZsname());
         if (employee.getSex().equals("0"))
-            sex.setText("男");
+            sex.setSelection(0);
         else
-            sex.setText("女");
+            sex.setSelection(1);
         id_card.setText(employee.getId_number());
         bank.setText(employee.getBank());
         bank_card.setText(employee.getBank_account());
@@ -117,25 +119,26 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         String employee_id = employee.getUser_id();
         String rank = "";
         if (manage_level.getSelectedItemId() == 0) {
-            rank = 0 + "";
+            rank = "0";
         } else {
-            rank = 1 + "";
+            rank = "1";
         }
         String username = user_name.getText().toString();
         String name = rel_name.getText().toString();
         String id_number = id_card.getText().toString();
         String upgrade = "BNZZ";
+        String phone=contact_tel.getText().toString();
         String bank_account = bank_card.getText().toString();
         String bankStr = bank.getText().toString();
-        String sexStr = "";
-        if (sex.getText().toString().equals("男")) {
+        String sexStr =null;
+        if (sex.getSelectedItemId()==0) {
             sexStr = "0";
         } else {
             sexStr = "1";
         }
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
-                upgrade, bank_account, bankStr, sexStr};
+                upgrade,phone,bank_account, bankStr, sexStr};
 
         String param = EditStaff.packagingParam(this, kvs);
 
@@ -143,19 +146,23 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Tools.showToast(EmploeeInfoActivity.this, getString(R.string.update_success));
+                ToastUtils.showToast(EmploeeInfoActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT);
                 EmploeeInfoActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                //
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("2")) {
-                        Tools.showToast(EmploeeInfoActivity.this, getString(R.string.format_error));
-                    } else if (result.getString("status").equals("10")) {
-                        Tools.showToast(EmploeeInfoActivity.this, getString(R.string.server_exception));
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.update_fail),Toast.LENGTH_SHORT);
+                    }else if(status.equals("2")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("9")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
+                    }else{
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -100,8 +100,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                index = position - 1;
-                adapter.setSelected(position - 1);
+                index = position;
+                adapter.setSelected(position);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -141,7 +141,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.confirm:
                 Intent intent = new Intent();
-                intent.putExtra("discount", list.get(index));
                 intent.putExtra("discount", list.get(index));
                 setResult(RESULT_OK, intent);
                 finish();
