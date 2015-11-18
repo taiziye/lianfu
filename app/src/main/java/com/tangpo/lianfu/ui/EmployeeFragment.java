@@ -19,6 +19,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +45,12 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
     private UserEntity user = null;
 
     private Intent intent = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

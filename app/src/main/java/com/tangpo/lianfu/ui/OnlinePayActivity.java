@@ -23,10 +23,21 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
     private TextView money;
 
     @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.online_pay_activity);
+
+        Tools.gatherActivity(this);
+
+        init();
     }
 
     private void init() {

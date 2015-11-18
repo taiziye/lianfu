@@ -22,6 +22,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
 import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +69,12 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     String bank_nameStr = null;
     String sex = null;
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_employee_activity);
         userid = getIntent().getExtras().getString("userid");
+
+        Tools.gatherActivity(this);
         init();
     }
 

@@ -43,6 +43,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Intent intent = null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

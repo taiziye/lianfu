@@ -50,8 +50,8 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

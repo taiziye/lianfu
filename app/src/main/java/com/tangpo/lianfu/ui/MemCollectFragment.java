@@ -16,6 +16,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.MemberCollect;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +46,12 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     private String userid;
 
     private Gson gson = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

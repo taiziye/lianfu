@@ -63,8 +63,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

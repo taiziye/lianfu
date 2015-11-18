@@ -24,6 +24,12 @@ public class WelcomeActivity extends Activity implements LocationListener {
     private boolean isStartGuide;
     private LocationManager locationManager = null;
 
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        finish();
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -14,6 +14,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
+import com.tangpo.lianfu.utils.Tools;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -32,6 +33,12 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private TextView modify_pass;
     private TextView remainder;
     private UserEntity userEntity;
+
+    @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.modify_pass:
                 intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                intent.putExtra("user", userEntity);
                 startActivity(intent);
                 break;
         }

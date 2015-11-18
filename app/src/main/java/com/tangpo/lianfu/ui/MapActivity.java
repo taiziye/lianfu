@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import com.tangpo.lianfu.adapter.ViewPageAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.utils.GetBitmap;
+import com.tangpo.lianfu.utils.Tools;
 import com.tangpo.lianfu.utils.ViewPagerCompat;
 
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
          */
         SDKInitializer.initialize(getApplication());
         setContentView(R.layout.activity_test_baidu_map);
+
+        Tools.gatherActivity(this);
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
         //获取地图
@@ -77,6 +81,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         locate(cenpt);
 
         storeList = getIntent().getExtras().getParcelableArrayList("list");
+
+        Log.e("tag", storeList.size() + " ");
         vp = (ViewPagerCompat) findViewById(R.id.vp);
         //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
@@ -136,6 +142,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
     protected void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

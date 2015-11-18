@@ -21,6 +21,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.utils.Tools;
 
 public class StoreLocationActivity extends ActionBarActivity {
 
@@ -30,10 +31,20 @@ public class StoreLocationActivity extends ActionBarActivity {
     private BaiduMap mBaiduMap = null;
 
     @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_store_location);
+
+        Tools.gatherActivity(this);
+
         SDKInitializer.initialize(getApplication());
         mMapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = mMapView.getMap();

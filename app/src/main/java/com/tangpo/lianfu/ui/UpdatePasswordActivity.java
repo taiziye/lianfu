@@ -37,8 +37,8 @@ public class UpdatePasswordActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override
@@ -58,6 +58,8 @@ public class UpdatePasswordActivity extends Activity {
         etNewCheck = (EditText) findViewById(R.id.etNewCheck);
         confirm = (Button) findViewById(R.id.confirm);
         cancel = (Button) findViewById(R.id.cancel);
+
+        user = (UserEntity) getIntent().getSerializableExtra("user");
     }
 
     private void checkPassword(){
@@ -98,8 +100,6 @@ public class UpdatePasswordActivity extends Activity {
 
     private void updatePassword() {
         dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
-
-        user = (UserEntity) getIntent().getSerializableExtra("user");
 
         String userid = user.getUser_id();
         String old_pw = oldPassword;

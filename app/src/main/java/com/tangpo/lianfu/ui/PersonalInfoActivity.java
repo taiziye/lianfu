@@ -44,8 +44,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

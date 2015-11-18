@@ -55,6 +55,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         Tools.deleteActivity(this);
+        finish();
     }
 
     @Override

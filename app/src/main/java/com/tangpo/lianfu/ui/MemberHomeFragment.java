@@ -23,6 +23,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,12 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private String userid = null;
     private String lng = "0.000000";
     private String lat = "0.000000";
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,8 +108,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private void init(View view) {
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         double_code = (Button) view.findViewById(R.id.double_code);
+        double_code.setOnClickListener(this);
         locate = (Button) view.findViewById(R.id.locate);
+        locate.setOnClickListener(this);
         map = (Button) view.findViewById(R.id.map);
+        map.setOnClickListener(this);
 
         search = (EditText) view.findViewById(R.id.search);
 

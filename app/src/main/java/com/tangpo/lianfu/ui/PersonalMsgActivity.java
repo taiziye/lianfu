@@ -20,6 +20,7 @@ import com.tangpo.lianfu.parms.RegisterMember;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,10 +46,19 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private ProgressDialog dialog = null;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.personal_msg_activity);
+
+        Tools.gatherActivity(this);
 
         init();
     }

@@ -22,6 +22,7 @@ import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,12 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private Intent intent;
     private String userid=null;
     private SharedPreferences preferences=null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Nullable
     @Override
