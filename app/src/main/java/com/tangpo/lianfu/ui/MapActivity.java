@@ -121,6 +121,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         mBaiduMap.addOverlay(textOption);
 
         adapter = new ViewPageAdapter(this, listViews);
+
         vp.setAdapter(adapter);
         vp.setOnPageChangeListener(this);
 

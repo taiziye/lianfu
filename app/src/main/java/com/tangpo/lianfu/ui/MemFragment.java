@@ -55,6 +55,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View view) {
+
         userEntity= (UserEntity) getArguments().getSerializable("user");
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
