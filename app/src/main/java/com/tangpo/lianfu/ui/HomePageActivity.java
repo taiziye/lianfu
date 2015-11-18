@@ -117,7 +117,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
         four = (ImageBt) findViewById(R.id.four);
         four.setOnClickListener(this);
-        if (userType.equals("0") || userType.equals("1")) {  //如果是非管理员登录，则隐藏改按钮
+        if (userType.equals("1") || userType.equals("2")) {  //如果是非管理员登录，则隐藏改按钮
             four.setVisibility(View.GONE);
         } else {
             four.setText(getResources().getString(R.string.employee_management));
@@ -126,7 +126,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         five.setOnClickListener(this);
         five.setText(getResources().getString(R.string.personal));
 
-        if (userType.equals("2") || userType.equals("1")) {
+        if (userType.equals("2") || userType.equals("3") || userType.equals("4")) {
             one.setText(getResources().getString(R.string.home_page));
             two.setText(getResources().getString(R.string.record));
             three.setText(getResources().getString(R.string.member));
@@ -154,13 +154,13 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if (userType.equals("2")) { //管理员
+                if (userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
                     fragment = new ManageHomeFragment();
                     fragment.setArguments(bundle);
-                } else if (userType.equals("1")) {  //员工
+                } else if (userType.equals("2")) {  //员工
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
@@ -180,7 +180,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if (userType.equals("2") || userType.equals("1")) { //管理员
+                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
@@ -200,7 +200,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal);
 
-                if (userType.equals("2") || userType.equals("1")) { //管理员
+                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
@@ -230,9 +230,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 four.setImage(R.drawable.employee_manage);
                 five.setImage(R.drawable.personal_r);
 
-                if (userType.equals("2")) { //管理员
+                if (userType.equals("3") || userType.equals("4")) { //管理员
                     fragment = new ManagerFragment();
-                } else if (userType.equals("1")) {  //员工
+                } else if (userType.equals("2")) {  //员工
                     Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
                 } else {  //会员
