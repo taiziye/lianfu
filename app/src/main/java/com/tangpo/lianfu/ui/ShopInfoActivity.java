@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
@@ -44,6 +45,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private EditText commodity;
     private EditText map_locate;
 
+    private ImageView top_ad;
+    private ImageView img1;
+    private ImageView img2;
+    private ImageView img3;
+
 //    private UserEntity user = null;
 
     private ProgressDialog dialog = null;
@@ -52,6 +58,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private Store store = null;
     private String userid = null;
     private String storeid = null;
+
+    private UserEntity user = null;
 
     @Override
     protected void onDestroy() {
@@ -68,8 +76,9 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
         Tools.gatherActivity(this);
 
-        userid=getIntent().getExtras().getString("userid");
-        storeid=getIntent().getExtras().getString("store_id");
+        /*userid=getIntent().getExtras().getString("userid");
+        storeid=getIntent().getExtras().getString("store_id");*/
+        user = (UserEntity) getIntent().getExtras().getSerializable("user");
         init();
     }
 
@@ -93,6 +102,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         detail_address = (EditText) findViewById(R.id.detail_address);
         commodity = (EditText) findViewById(R.id.commodity);
         map_locate = (EditText) findViewById(R.id.map_locate);
+
+        top_ad = (ImageView) findViewById(R.id.top_ad);
+        img1 = (ImageView) findViewById(R.id.img1);
+        img2 = (ImageView) findViewById(R.id.img2);
+        img3 = (ImageView) findViewById(R.id.img3);
         getStoreInfo();
     }
 
@@ -110,7 +124,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private void getStoreInfo() {
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{storeid, userid};
+        String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
         String param = StoreDetail.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -131,6 +145,25 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     /**
                      * 需要修改的：地图定位，加载图片
                      */
+                    Tools.setPhoto(ShopInfoActivity.this, store.getBanner(), top_ad);
+                    String tmp[] = store.getPhoto().split("\\,");
+                    if(tmp.length<1){
+                        Tools.setPhoto(ShopInfoActivity.this, "", img1);
+                        Tools.setPhoto(ShopInfoActivity.this, "", img2);
+                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
+                    } else if(tmp.length<2){
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopInfoActivity.this, "", img2);
+                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
+                    } else if(tmp.length<3){
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
+                    } else if(tmp.length<4){
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopInfoActivity.this, tmp[2], img3);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

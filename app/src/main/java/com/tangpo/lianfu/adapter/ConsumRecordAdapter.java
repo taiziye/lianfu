@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,8 @@ public class ConsumRecordAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (holder == null) {
+        ViewHolder holder;
+        if (convertView == null) {
             convertView = container.inflate(R.layout.consum_record_list, null);
             holder = new ViewHolder();
 
@@ -62,7 +63,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             holder.money = (TextView) convertView.findViewById(R.id.money);
             holder.compute = (TextView) convertView.findViewById(R.id.compute);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.name = (TextView) convertView.findViewById(R.id.employee_name);
             holder.level = (TextView) convertView.findViewById(R.id.level);
 
             convertView.setTag(holder);
@@ -81,8 +82,10 @@ public class ConsumRecordAdapter extends BaseAdapter {
         }
 
         holder.time.setText(list.get(position).getConsume_date());
-        holder.name.setText(employeename);
-        //holder.level.setText(list.get(position).getStore());
+        if(employeename == null) {
+            holder.name.setText("");
+        }else
+            holder.name.setText(employeename);
         return convertView;
     }
 

@@ -141,7 +141,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Log.e("tag", "tag" + result.toString());
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     detail_address.setText(store.getAddress());
                     tel.setText(store.getTel());
@@ -151,6 +150,93 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     /**
                      * 需要修改的：地图定位，加载图片
                      */
+                    Log.e("tag", "photo = " + store.getPhoto());
+                    String tmp[] = store.getPhoto().split("\\,");
+                    Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
+
+                    if(tmp.length <1){
+                        Tools.setPhoto(ShopActivity.this, "", img1);
+                        Tools.setPhoto(ShopActivity.this, "", img2);
+                        Tools.setPhoto(ShopActivity.this, "", img3);
+                        Tools.setPhoto(ShopActivity.this, "", img4);
+                        Tools.setPhoto(ShopActivity.this, "", img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <2){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, "", img2);
+                        Tools.setPhoto(ShopActivity.this, "", img3);
+                        Tools.setPhoto(ShopActivity.this, "", img4);
+                        Tools.setPhoto(ShopActivity.this, "", img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <3){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, "", img3);
+                        Tools.setPhoto(ShopActivity.this, "", img4);
+                        Tools.setPhoto(ShopActivity.this, "", img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <4){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, "", img4);
+                        Tools.setPhoto(ShopActivity.this, "", img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <5){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                        Tools.setPhoto(ShopActivity.this, "", img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <6){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                        Tools.setPhoto(ShopActivity.this, "", img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <7){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
+                        Tools.setPhoto(ShopActivity.this, "", img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <8){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
+                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
+                        Tools.setPhoto(ShopActivity.this, "", img8);
+                    }else if(tmp.length <9){
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
+                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
+                        Tools.setPhoto(ShopActivity.this, tmp[7], img8);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

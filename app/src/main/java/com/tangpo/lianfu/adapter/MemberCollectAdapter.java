@@ -16,6 +16,7 @@ import com.tangpo.lianfu.entity.MemberCollect;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CollectStore;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,9 +79,9 @@ public class MemberCollectAdapter extends BaseAdapter {
         }
 
         //
-        holder.img.setImageURI(Uri.parse(list.get(position).getPhoto()));
+        Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
         holder.shop_name.setText(list.get(position).getStore());
-        //holder.commodity.setText(list.get(position).getBusiness());
+        holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
 
         /*holder.cancel.setOnClickListener(new View.OnClickListener() {
