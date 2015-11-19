@@ -62,9 +62,10 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private double tmp = 0;
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
         Tools.deleteActivity(this);
         finish();
     }
@@ -153,7 +154,14 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 offline.setBackgroundColor(Color.GRAY);
                 break;
             case R.id.compute:
-                Compute();
+//                Compute();
+                Intent intent=new Intent(OfflineProfitPayActivity.this,SelectPayMethod.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("subject","牙膏");
+                bundle.putString("body","高露洁");
+                bundle.putString("price","2.50");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.select_all:
                 if (select_all.isChecked()) {

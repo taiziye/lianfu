@@ -28,19 +28,18 @@ public class EditStaff {
             jsonObject.put("time", Escape.escape(time));
             jsonObject.put("rannum", Escape.escape(rannum));
             jsonObject.put("md5ver", Escape.escape(md5vec));
-            jsonObject.put("info", Escape.escape(kvs[0]));
             jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject = new JSONObject();
-            paramJsonObject.put("user_id", Escape.escape(kvs[1]));
-            paramJsonObject.put("employee_id", Escape.escape(kvs[2]));
-            paramJsonObject.put("rank", Escape.escape(kvs[3]));
-            paramJsonObject.put("username", Escape.escape(kvs[4]));
-            paramJsonObject.put("name", Escape.escape(kvs[5]));
-            paramJsonObject.put("upgrade", Escape.escape(kvs[6]));
-            paramJsonObject.put("id_number", Escape.escape(kvs[7]));
-            paramJsonObject.put("bank_account", Escape.escape(kvs[8]));
-            paramJsonObject.put("bank", Escape.escape(kvs[9]));
+            paramJsonObject.put("user_id", Escape.escape(kvs[0]));
+            paramJsonObject.put("employee_id", Escape.escape(kvs[1]));
+            paramJsonObject.put("rank", Escape.escape(kvs[2]));
+            paramJsonObject.put("username", Escape.escape(kvs[3]));
+            paramJsonObject.put("name", Escape.escape(kvs[4]));
+            paramJsonObject.put("upgrade", Escape.escape(kvs[5]));
+            paramJsonObject.put("id_number", Escape.escape(kvs[6]));
+            paramJsonObject.put("bank_account", Escape.escape(kvs[7]));
+            paramJsonObject.put("bank", Escape.escape(kvs[8]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

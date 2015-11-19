@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private EditText address;
     private EditText detail_address;
     private EditText commodity;
-    private EditText map_locate;
+    private Button map_locate;
 
     private ImageView top_ad;
     private ImageView img1;
@@ -101,7 +102,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         address = (EditText) findViewById(R.id.address);
         detail_address = (EditText) findViewById(R.id.detail_address);
         commodity = (EditText) findViewById(R.id.commodity);
-        map_locate = (EditText) findViewById(R.id.map_locate);
+        map_locate = (Button) findViewById(R.id.map_locate);
+        map_locate.setOnClickListener(this);
 
         top_ad = (ImageView) findViewById(R.id.top_ad);
         img1 = (ImageView) findViewById(R.id.img1);
@@ -117,6 +119,13 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.edit:
+                break;
+
+            case R.id.map_locate:
+                Intent intent=new Intent(ShopInfoActivity.this,StoreLocationActivity.class);
+                intent.putExtra("lng",store.getLng());
+                intent.putExtra("lat",store.getLat());
+                startActivity(intent);
                 break;
         }
     }

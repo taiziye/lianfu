@@ -208,4 +208,20 @@
     <string name="discount_type">折扣类型</string>
     <string name="title_activity_add_discount">AddDiscountActivity</string>
     <string name="add_failed">添加失败</string>
+    <string name="title_activity_select_pay_method">SelectPayMethod</string>
+    <string name="pay_by_alipay">支付宝支付</string>
+    <string name="pay_by_wechat">微信支付</string>
+    <string name="pay_by_bank_card">银行卡支付</string>
+    <string name="title_activity_pay_by_ali_pay">PayByAliPay</string>
+    <string name="commodity_name">商品名称:</string>
+    <string name="test_commodity">测试的商品</string>
+    <string name="commodity_describe">商品描述</string>
+    <string name="test_commodity_detail">该测试商品的详细描述</string>
+    <string name="commodity_price">商品价格:</string>
+    <string name="price">0.01元</string>
+    <string name="check_account">检查账户</string>
+    <string name="pay_success">支付成功！</string>
+    <string name="pay_result_is_confirming">支付结果确认中</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="check_pay_result">检查结果为：</string>
 </resources>

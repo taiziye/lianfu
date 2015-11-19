@@ -90,6 +90,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         } else {  //会员
             fragment = new MemberHomeFragment();
         }*/
+        Log.e("tag", "userid =" + userid + "  storeid =" + store_id);
+
         if (userType.equals("3") || userType.equals("4")) { //管理员
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
@@ -108,9 +110,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             fragment = new MemberHomeFragment();
             fragment.setArguments(bundle);
         }
-        Bundle bundle = new Bundle();
+        /*Bundle bundle = new Bundle();
         bundle.putString("userid", userid);
-        fragment.setArguments(bundle);
+        fragment.setArguments(bundle);*/
 
         transaction.replace(R.id.frame, fragment);
         transaction.addToBackStack(null);

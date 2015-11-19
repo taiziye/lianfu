@@ -58,7 +58,6 @@ public class StoreLocationActivity extends Activity {
             }
         });
 
-        Intent intent = getIntent();
         //float longitude = Float.valueOf(intent.getStringExtra("lng")) / (10 ^ 6);
         //float latitude = Float.valueOf(intent.getStringExtra("lat")) / (10 ^ 6);
         double Lng=(double)(Integer.valueOf(getIntent().getStringExtra("lng")))/1000000;

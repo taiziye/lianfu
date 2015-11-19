@@ -70,7 +70,16 @@
         <activity
             android:name=".ui.AddDiscountActivity"
             android:label="@string/title_activity_add_discount"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.SelectPayMethod"
+            android:label="@string/title_activity_select_pay_method"
+            android:theme="@style/MyDialogStyleBottom">
+        </activity>
+        <activity
+            android:name=".ui.PayByAliPay"
+            android:label="@string/title_activity_pay_by_ali_pay"
+            >
         </activity>
     </application>
 

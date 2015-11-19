@@ -364,13 +364,13 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/map_locate" />
 
-                <EditText
+                <Button
                     android:id="@+id/map_locate"
-                    android:layout_width="match_parent"
+                    android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/icon_gcoding"
+                    />
             </LinearLayout>
 
             <LinearLayout

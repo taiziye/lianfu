@@ -61,7 +61,9 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         Tools.gatherActivity(this);
 
         employee = getIntent().getExtras().getParcelable("employee");
-        userid = getIntent().getExtras().getString("userid");
+        userid = getIntent().getStringExtra("userid");
+
+        Log.e("tag", "id = " + employee.toString());
         init();
     }
 
@@ -136,6 +138,8 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         } else {
             sexStr = "1";
         }
+
+        Log.e("tag", "id == " + employee.toString());
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
                 upgrade,phone,bank_account, bankStr, sexStr};

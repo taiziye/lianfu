@@ -22,6 +22,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.EmployeeAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Employee;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.StaffManagement;
 import com.tangpo.lianfu.utils.Tools;
@@ -57,6 +58,8 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private ProgressDialog dialog = null;
 
+    private UserEntity userEntity=null;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -69,17 +72,11 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
-        try {
-            JSONObject jsonObject = new JSONObject(user);
-            userid = jsonObject.getString("user_id");
-            userid = jsonObject.getString("name");
-            store_id = jsonObject.getString("store_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         init(view);
-
+        UserEntity userEntity=gson.fromJson(user,UserEntity.class);
+        userid=userEntity.getUser_id();
+        store_id=userEntity.getStore_id();
         getEmployeeList();
         return view;
     }
@@ -114,6 +111,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EmploeeInfoActivity.class);
                 intent.putExtra("employee", memList.get(position - 1));
+                Log.e("tag", "id " + memList.get(position - 1).toString());
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
             }
