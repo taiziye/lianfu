@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -144,14 +145,17 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 finish();
                 break;
             case R.id.offline:
+                offline.setBackgroundColor(Color.WHITE);
+                online.setBackgroundColor(Color.GRAY);
                 break;
             case R.id.online:
+                online.setBackgroundColor(Color.WHITE);
+                offline.setBackgroundColor(Color.GRAY);
                 break;
             case R.id.compute:
                 Compute();
                 break;
             case R.id.select_all:
-
                 if (select_all.isChecked()) {
                     select_all.setChecked(false);
                     adapter.SelecttEmpty();

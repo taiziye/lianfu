@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.DeleteDiscount;
 import com.tangpo.lianfu.parms.ManageDiscount;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -31,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     private int index = 0;
 
     private SharedPreferences preferences;
+
+    private ProgressDialog dialog = null;
 
     private String userid = null;
     private String store_id = null;
@@ -145,19 +150,25 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.confirm:
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.putExtra("discount", list.get(index));
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
             case R.id.delete:
+                deleteDiscount();
                 break;
             case R.id.add:
+                intent = new Intent(this, AddDiscountActivity.class);
+                intent.putExtra("userid", userid);
+                intent.putExtra("storeid", store_id);
+                startActivityForResult(intent, 1);
                 break;
         }
     }
@@ -177,13 +188,51 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null) {
+            Discount dis = (Discount) data.getSerializableExtra("discount");
+            list.add(dis);
+            adapter = new DiscountAdapter(DiscountActivity.this, list);
+            listView.setAdapter(adapter);
+        }
+    }
+
+    private void deleteDiscount() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
+        String kvs[] = new String[]{userid, list.get(index).getId()};
+
+        String param = DeleteDiscount.packagingParam(this, kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                list.remove(list.get(index));
+                adapter = new DiscountAdapter(DiscountActivity.this, list);
+                listView.setAdapter(adapter);
+                Tools.showToast(DiscountActivity.this, getString(R.string.delete_success));
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+            }
+        }, param);
+    }
+
     private void getDiscount() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = ManageDiscount.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -204,7 +253,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-
+                dialog.dismiss();
             }
         }, param);
     }
