@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.utils.CircularImage;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +30,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private Button double_code;
     private Button chat;
+    private Button login_out;
 
     private CircularImage img;
     private ImageView next;
@@ -47,6 +50,12 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     private Intent intent = null;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.manager_fragment, container, false);
 
@@ -58,32 +67,34 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     private void init(View view) {
         gson = new Gson();
 
-        double_code = (Button)view.findViewById(R.id.double_code);
+        double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
-        chat = (Button)view.findViewById(R.id.chat);
+        chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
+        login_out = (Button) view.findViewById(R.id.login_out);
+        login_out.setOnClickListener(this);
 
-        img = (CircularImage)view.findViewById(R.id.img);
-        next = (ImageView)view.findViewById(R.id.next);
+        img = (CircularImage) view.findViewById(R.id.img);
+        next = (ImageView) view.findViewById(R.id.next);
         next.setOnClickListener(this);
 
-        power = (TextView)view.findViewById(R.id.power);
-        name = (TextView)view.findViewById(R.id.name);
-        shop_info = (TextView)view.findViewById(R.id.shop_info);
+        power = (TextView) view.findViewById(R.id.power);
+        name = (TextView) view.findViewById(R.id.name);
+        shop_info = (TextView) view.findViewById(R.id.shop_info);
         shop_info.setOnClickListener(this);
-        personal_info = (TextView)view.findViewById(R.id.personal_info);
+        personal_info = (TextView) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        discount_manage = (TextView)view.findViewById(R.id.discount_manage);
+        discount_manage = (TextView) view.findViewById(R.id.discount_manage);
         discount_manage.setOnClickListener(this);
-        update_type = (TextView)view.findViewById(R.id.update_type);
+        update_type = (TextView) view.findViewById(R.id.update_type);
         update_type.setOnClickListener(this);
-        modify_pass = (TextView)view.findViewById(R.id.modify_pass);
+        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
 
-        preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        String str=preferences.getString(Configs.KEY_USER, "0");
+        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        String str = preferences.getString(Configs.KEY_USER, "0");
         try {
-            JSONObject jsonObject=new JSONObject(str);
+            JSONObject jsonObject = new JSONObject(str);
             user = gson.fromJson(jsonObject.toString(), UserEntity.class);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -100,7 +111,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.double_code:
                 break;
             case R.id.chat:
@@ -121,10 +132,23 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.update_type:
+                /**
+                 * 无接口
+                 */
+                intent = new Intent(getActivity(), MemberUpdateTypeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.modify_pass:
-                intent=new Intent(getActivity(),UpdatePasswordActivity.class);
-                intent.putExtra("user",user);
+                intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+            case R.id.login_out:
+                SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove(Configs.KEY_TOKEN);
+                editor.commit();
+                intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 break;
         }

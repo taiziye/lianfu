@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +27,17 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -48,6 +57,7 @@ public class Tools {
 
     /**
      * 开启activity，无参数跳转
+     *
      * @param context
      * @param activity
      */
@@ -120,7 +130,7 @@ public class Tools {
     /**
      * 显示Toast
      */
-    public static void showToast(String msg) {
+    public static void showToast(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         View view = ((LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
@@ -174,6 +184,7 @@ public class Tools {
 
     /**
      * 检查输入的手机号码是否正确
+     *
      * @param mobiles
      * @return
      */
@@ -192,9 +203,10 @@ public class Tools {
 
     /**
      * 加载网络图片
+     *
      * @param context
-     * @param path  图片存放路径
-     * @param img  放置图片的控件
+     * @param path    图片存放路径
+     * @param img     放置图片的控件
      */
     public static void setPhoto(Context context, String path, final ImageView img) {
 
@@ -206,25 +218,161 @@ public class Tools {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).bitmapConfig(Bitmap.Config.RGB_565)
                 .displayer(new FadeInBitmapDisplayer(300)).handler(new Handler()).build();
 
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         imageLoader.displayImage(path, img, options);
     }
 
     /**
      * 收集Activity实例
+     *
      * @param activity
      */
-    public static void gatherActivity(Activity activity){
+    public static void gatherActivity(Activity activity) {
         activityList.add(activity);
     }
 
-    public static void deleteActivity(Activity activity){
+    public static void deleteActivity(Activity activity) {
         activityList.remove(activity);
     }
 
-    public static void closeActivity(){
-        for(int i=activityList.size() - 1; i>=0; i--){
+    public static void closeActivity() {
+        for (int i = activityList.size() - 1; i >= 0; i--) {
             activityList.get(i).finish();
         }
     }
+
+    public static void isHasFile(String path) {
+        if (path != null && path.length() != 0) {
+            return;
+        }
+        File file = new File(path);
+        if (file != null && file.exists()) {
+            file.delete();
+        } else {
+            File fileParent = file.getParentFile();
+            fileParent.mkdirs();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 保存图片到本地
+     * @param image
+     * @param file
+     * @return
+     */
+    public static Bitmap saveImage(Bitmap image, String file){
+        BufferedOutputStream bos = null;
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(file));
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        image.compress(Bitmap.CompressFormat.JPEG, 35, bos);
+        try {
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public static String save(String picpath) {
+
+        String path = "";
+
+        if (picpath != null && picpath.length() > 0) {
+
+            try {
+                File f = new File(picpath);
+
+                if (f.exists()) {
+                    Bitmap bm = getSmallBitmap(picpath);
+                    String tmppath = Environment.getDataDirectory().getAbsolutePath()+"/data";
+
+                    File ftmp = new File(tmppath, "small_" + f.getName());
+
+                    FileOutputStream fos = new FileOutputStream(ftmp);
+
+                    bm.compress(Bitmap.CompressFormat.JPEG, 35, fos);
+
+                    fos.flush();
+                    fos.close();
+
+                    path = tmppath + "/small_" + f.getName();
+                } else {
+                    return null;
+                }
+
+                // PictureUtil.deleteTempFile(picpath);
+
+            } catch (Exception e) {
+                Log.e("TAG", "error", e);
+            }
+
+        } else {
+            // Toast.makeText(this, "请先点击拍照按钮拍摄照片", Toast.LENGTH_SHORT).show();
+        }
+        Log.e("TAG", "PICPATH2    " + path);
+
+        return path;
+    }
+
+    /**
+     * 根据路径获得突破并压缩返回bitmap用于显示
+     *
+     * @param
+     * @return
+     */
+    public static Bitmap getSmallBitmap(String filePath) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+    /**
+     * 计算图片的缩放值
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and
+            // width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee 保存图片并返回图片存放地址
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
+    }
+
 
 }

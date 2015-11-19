@@ -1,14 +1,21 @@
 package com.tangpo.lianfu.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Discount;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.DeleteDiscount;
+import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -18,10 +25,17 @@ import java.util.List;
 public class DiscountManageAdapter extends BaseAdapter {
     private List<Discount> list = null;
     private LayoutInflater inflater = null;
+    private Context context;
 
-    public DiscountManageAdapter(Context context, List<Discount> list) {
+    private boolean isEdit = false;
+    private String userid;
+    private ProgressDialog dialog;
+
+    public DiscountManageAdapter(Context context, List<Discount> list, String userid) {
+        this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
+        this.userid = userid;
     }
 
     @Override
@@ -40,9 +54,9 @@ public class DiscountManageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.discount_manage_list, null);
             holder = new ViewHolder();
 
@@ -50,16 +64,31 @@ public class DiscountManageAdapter extends BaseAdapter {
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
             holder.check = (TextView) convertView.findViewById(R.id.check);
 
+            holder.delete = (Button) convertView.findViewById(R.id.delete);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if(!isEdit){
+            holder.delete.setVisibility(View.GONE);
+        } else {
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDiscount(position);
+            }
+        });
+
         holder.name.setText(list.get(position).getDesc());
         holder.discount.setText(list.get(position).getDesc());
-        if(list.get(position).getStatus().equals("0")) {
+        if (list.get(position).getStatus().equals("0")) {
             holder.check.setText("未确认");
-        } else if(list.get(position).getStatus().equals("1")) {
+        } else if (list.get(position).getStatus().equals("1")) {
             holder.check.setText("已确认");
         } else {
             holder.check.setText("已拒绝");
@@ -67,9 +96,36 @@ public class DiscountManageAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private void deleteDiscount(final int position) {
+        dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
+        String kvs[] = new String[]{userid, list.get(position).getId()};
+        String param = DeleteDiscount.packagingParam(context, kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                list.remove(list.get(position));
+                DiscountManageAdapter.this.notifyDataSetInvalidated();
+                Tools.showToast(context, context.getString(R.string.delete_success));
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+            }
+        }, param);
+    }
+
+    public void setEdit(boolean flag) {
+        isEdit = flag;
+    }
+
+    private class ViewHolder {
         public TextView name;
         public TextView discount;
         public TextView check;
+
+        public Button delete;
     }
 }

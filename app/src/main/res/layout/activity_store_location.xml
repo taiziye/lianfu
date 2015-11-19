@@ -1,76 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout android:id="@+id/content"
-        style="@style/title_bar_style"
+    >
+    <!--需要在布局文件中添加百度地图的视图控件-->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:clickable="true" />
 
-        <Button android:id="@+id/double_code"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/double_code"
-            />
+    <Button android:id="@+id/back"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:background="@anim/btn_style"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/back"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@anim/fragment_style"
-            android:orientation="horizontal">
-
-            <Button android:id="@+id/locate"
-                android:layout_width="66dp"
-                android:layout_height="match_parent"
-                android:background="@anim/btn_style"
-                android:text="@string/position"/>
-
-            <EditText android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_blank"
-                android:hint="@string/search"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <Button android:id="@+id/map"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/map"/>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@anim/fragment_style"
-        android:layout_marginTop="5dp">
-
-        <!--需要在布局文件中添加百度地图的视图控件-->
-        <com.baidu.mapapi.map.MapView
-            android:id="@+id/bmapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

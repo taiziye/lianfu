@@ -6,8 +6,8 @@ import com.tangpo.lianfu.R;
  * Created by shengshoubo on 2015/11/5.
  */
 public class GetBitmap {
-    public static int getBitmap(int i){
-        switch (i){
+    public static int getBitmap(int i) {
+        switch (i) {
             case 0:
                 return R.drawable.icon_marka;
             case 1:

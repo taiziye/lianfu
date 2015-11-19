@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
-        <Button android:id="@+id/back"
+
+        <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:background="@drawable/back"
@@ -22,33 +24,36 @@
             android:layout_centerInParent="true"
             android:text="@string/add_record"
             android:textSize="22sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
-    <View
-        style="@style/view_line_style" />
+    <View style="@style/view_line_style" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="@string/shop_name"
                     android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp" />
 
-                <TextView android:id="@+id/shop_name"
+                <TextView
+                    android:id="@+id/shop_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -60,14 +65,14 @@
 
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,10 +81,10 @@
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ac_user_name"
-                    android:layout_alignParentLeft="true"
-                    />
+                    android:layout_alignParentLeft="true" />
 
-                <TextView android:id="@+id/user_name"
+                <TextView
+                    android:id="@+id/user_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
@@ -89,7 +94,8 @@
                     android:textColor="@android:color/black"
                     android:textSize="18sp"/>
 
-                <TextView android:id="@+id/select_user"
+                <TextView
+                    android:id="@+id/select_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -98,26 +104,27 @@
                     android:textColor="@android:color/black"
                     android:background="@null"
                     android:layout_alignParentRight="true"
-                    android:text="@string/ac_select"/>
+                    android:text="@string/ac_select" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="@string/ac_name"
                     android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp" />
 
-                <TextView android:id="@+id/name"
+                <TextView
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -129,23 +136,24 @@
 
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="@string/ac_contact_tel"
                     android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp" />
 
-                <TextView android:id="@+id/contact_tel"
+                <TextView
+                    android:id="@+id/contact_tel"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -157,14 +165,14 @@
 
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,10 +181,10 @@
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ac_discount"
-                    android:layout_alignParentLeft="true"
-                    />
+                    android:layout_alignParentLeft="true" />
 
-                <TextView android:id="@+id/discount"
+                <TextView
+                    android:id="@+id/discount"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
@@ -186,7 +194,8 @@
                     android:textSize="18sp"
                     android:layout_marginRight="5dp"/>
 
-                <TextView android:id="@+id/select_discount"
+                <TextView
+                    android:id="@+id/select_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -195,26 +204,27 @@
                     android:textColor="@android:color/black"
                     android:background="@null"
                     android:layout_alignParentRight="true"
-                    android:text="@string/ac_select"/>
+                    android:text="@string/ac_select" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:text="@string/ac_consum_sum"
                     android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp" />
 
-                <EditText android:id="@+id/consum_money"
+                <EditText
+                    android:id="@+id/consum_money"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -226,18 +236,17 @@
 
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
-            <Button android:id="@+id/commit"
+            <Button
+                android:id="@+id/commit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
-                android:text="@string/submit"
-                />
+                android:text="@string/submit" />
         </LinearLayout>
     </ScrollView>
 

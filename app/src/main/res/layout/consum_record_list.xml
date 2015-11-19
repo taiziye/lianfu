@@ -1,64 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="120dp"
+    >
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="地面点名"
             android:layout_marginLeft="20dp"
             android:textColor="@android:color/black"
-            android:textSize="16sp"/>
-        <TextView android:id="@+id/shop_name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:layout_marginLeft="10dp"
-            android:text="13246564"/>
+            android:text="13246564" />
     </LinearLayout>
 
-    <RelativeLayout
+    <RelativeLayout android:id="@+id/two"
+        android:layout_below="@id/one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:paddingRight="20dp"
         android:paddingLeft="20dp">
 
-        <TextView android:id="@+id/user_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="50dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="闻柏坤"
             android:textSize="16sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
-        <TextView android:id="@+id/money"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="90dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_toRightOf="@id/user_name"
             android:layout_marginLeft="16dp"
             android:text="消费1000元"
-            android:textColor="#ff0000"/>
+            android:textColor="#ff0000" />
 
-        <TextView android:id="@+id/profit"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/profit"
+            android:layout_width="90dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_toRightOf="@id/money"
             android:textColor="@android:color/black"
             android:layout_marginLeft="10dp"
-            android:text="(利润400元)"/>
+            android:text="(利润400元)" />
 
-        <TextView android:id="@+id/compute"
+        <TextView
+            android:id="@+id/compute"
             android:layout_width="55dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -66,32 +78,35 @@
             android:gravity="center"
             android:background="@drawable/compute"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
-            />
+            android:textColor="@android:color/black" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <RelativeLayout android:id="@+id/three"
+        android:layout_below="@id/two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
-        <TextView android:id="@+id/time"
+
+        <TextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="2015-10-16 11:28"/>
+            android:text="2015-10-16 11:28" />
 
-        <TextView android:id="@+id/level"
+        <TextView
+            android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="级别1"/>
+            android:text="级别1" />
 
         <View
             android:layout_width="1dp"
@@ -99,18 +114,35 @@
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
             android:layout_toLeftOf="@id/level"
-            android:background="@android:color/black"
-            />
+            android:background="@android:color/black" />
 
-        <TextView android:id="@+id/employee_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/employee_name"
+            android:layout_width="60dp"
+            android:gravity="right"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/level"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:layout_marginRight="10dp"
-            android:text="鲁大师"
-            />
+            android:text="鲁大师" />
     </RelativeLayout>
 
-</LinearLayout>
+    <RelativeLayout android:id="@+id/frame"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        >
+        <Button android:id="@+id/delete"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:background="@anim/btn_style"
+            android:text="@string/delete"/>
+    </RelativeLayout>
+
+</RelativeLayout>

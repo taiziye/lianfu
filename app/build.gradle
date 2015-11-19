@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId "com.tangpo.lianfu"
@@ -17,19 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'AndroidManifest.xml'
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    // Library
+    compile project(':lib:pull')
+    compile files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'commons-httpclient:commons-httpclient:20020423'
     compile 'org.apache.httpcomponents:project:7'
     compile 'com.google.guava:guava:16.0.1'
-    // Library
-    compile project(':lib:pull')
-    compile files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
+    compile 'com.android.support:design:22.2.1'
 }

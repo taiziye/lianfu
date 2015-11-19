@@ -199,4 +199,13 @@
     <string name="add_error">添加失败！</string>
     <string name="register_success">注册成功！</string>
     <string name="username_already_exist">用户名已经存在！</string>
+    <string name="edit_success">编辑成功！</string>
+    <string name="update_fail">修改失败！</string>
+    <string name="offline_pay">线下支付</string>
+    <string name="login_out">退出登录</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="delete_success">删除成功</string>
+    <string name="discount_type">折扣类型</string>
+    <string name="title_activity_add_discount">AddDiscountActivity</string>
+    <string name="add_failed">添加失败</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.entity.MemberCollect;
+import com.tangpo.lianfu.utils.ViewPagerCompat;
 
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class ViewPageAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-        container.removeView((View) object);
+        View currentView = listView.get(position);
+        ((ViewPagerCompat) container).removeView(currentView);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ViewPageAdapter extends PagerAdapter {
         return (view == object);
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public ImageView img;
         public TextView shop_name;
         public TextView commodity;

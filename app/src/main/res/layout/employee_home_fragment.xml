@@ -4,33 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/content"
         style="@style/title_bar_style"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/scan"
+        <Button
+            android:id="@+id/scan"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/double_code"/>
+            android:background="@drawable/double_code" />
 
-        <TextView android:id="@+id/shop_name"
+        <TextView
+            android:id="@+id/shop_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@android:color/black"
-            android:text="@string/lianfu_shop"/>
+            android:text="@string/lianfu_shop" />
 
-        <Button android:id="@+id/chat"
+        <Button
+            android:id="@+id/chat"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/chat"
-            />
+            android:background="@drawable/chat" />
 
     </LinearLayout>
 
@@ -54,13 +57,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
 
-                <TextView android:id="@+id/record"
+                <TextView
+                    android:id="@+id/record"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
-                <TextView android:id="@+id/add_record"
+                <TextView
+                    android:id="@+id/add_record"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -68,7 +73,7 @@
                     android:text="@string/add_record"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:background="@anim/text_style"/>
+                    android:background="@anim/text_style" />
 
             </LinearLayout>
 
@@ -81,13 +86,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
 
-                <TextView android:id="@+id/profit"
+                <TextView
+                    android:id="@+id/profit"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
-                <TextView android:id="@+id/profit_compute"
+                <TextView
+                    android:id="@+id/profit_compute"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -95,7 +102,7 @@
                     android:text="@string/profit_compute"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:background="@anim/text_style"/>
+                    android:background="@anim/text_style" />
 
             </LinearLayout>
 
@@ -109,13 +116,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
 
-                <TextView android:id="@+id/mem"
+                <TextView
+                    android:id="@+id/mem"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
-                <TextView android:id="@+id/add_mem"
+                <TextView
+                    android:id="@+id/add_mem"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -123,7 +132,7 @@
                     android:text="@string/add_mem"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:background="@anim/text_style"/>
+                    android:background="@anim/text_style" />
 
             </LinearLayout>
 

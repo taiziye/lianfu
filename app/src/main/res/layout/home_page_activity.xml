@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/frame"
+    <LinearLayout
+        android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -12,8 +13,7 @@
         android:layout_marginRight="2dp"
         android:orientation="vertical" />
 
-    <View
-        style="@style/view_line_style" />
+    <View style="@style/view_line_style" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,40 +26,35 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="@string/record"
-            style="@style/btn_style_bottom"
-            />
+            style="@style/btn_style_bottom" />
 
         <com.tangpo.lianfu.utils.ImageBt
             android:id="@+id/two"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="@string/record"
-            style="@style/btn_style_bottom"
-            />
+            style="@style/btn_style_bottom" />
 
         <com.tangpo.lianfu.utils.ImageBt
             android:id="@+id/three"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="@string/member"
-            style="@style/btn_style_bottom"
-            />
+            style="@style/btn_style_bottom" />
 
         <com.tangpo.lianfu.utils.ImageBt
             android:id="@+id/four"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="@string/employee"
-            style="@style/btn_style_bottom"
-            />
+            style="@style/btn_style_bottom" />
 
         <com.tangpo.lianfu.utils.ImageBt
             android:id="@+id/five"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:text="@string/personal"
-            style="@style/btn_style_bottom"
-            />
+            style="@style/btn_style_bottom" />
 
     </LinearLayout>
 

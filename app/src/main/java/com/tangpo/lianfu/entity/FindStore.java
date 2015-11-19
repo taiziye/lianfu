@@ -15,8 +15,20 @@ public class FindStore implements Parcelable {
     private String store;
     private String contact;
     private String tel;
+    private String business;
 
-    protected FindStore(Parcel in) {
+    public String getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(String business) {
+        this.business = business;
+    }
+
+    private String address;
+    private String photo;
+
+    public FindStore(Parcel in) {
         id = in.readString();
         lng = in.readString();
         lat = in.readString();
@@ -30,7 +42,17 @@ public class FindStore implements Parcelable {
     public static final Creator<FindStore> CREATOR = new Creator<FindStore>() {
         @Override
         public FindStore createFromParcel(Parcel in) {
-            return new FindStore(in);
+            FindStore store = new FindStore();
+            store.id = in.readString();
+            store.lng = in.readString();
+            store.lat = in.readString();
+            store.store = in.readString();
+            store.tel = in.readString();
+            store.contact = in.readString();
+            store.address = in.readString();
+            store.business = in.readString();
+            store.photo = in.readString();
+            return store;
         }
 
         @Override
@@ -103,9 +125,9 @@ public class FindStore implements Parcelable {
         this.tel = tel;
     }
 
-    public FindStore(String address, String contact, String id, String lat, String lng, String photo, String store, String tel) {
-
+    public FindStore(String address, String business, String contact, String id, String lat, String lng, String photo, String store, String tel) {
         this.address = address;
+        this.business = business;
         this.contact = contact;
         this.id = id;
         this.lat = lat;
@@ -119,9 +141,6 @@ public class FindStore implements Parcelable {
 
     }
 
-    private String address;
-    private String photo;
-
     @Override
     public int describeContents() {
         return 0;
@@ -133,7 +152,11 @@ public class FindStore implements Parcelable {
         dest.writeString(lng);
         dest.writeString(lat);
         dest.writeString(store);
+        dest.writeString(tel);
         dest.writeString(contact);
         dest.writeString(address);
+        dest.writeString(business);
+        dest.writeString(photo);
     }
+
 }

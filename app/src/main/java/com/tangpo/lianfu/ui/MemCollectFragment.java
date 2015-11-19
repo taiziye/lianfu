@@ -16,6 +16,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.MemberCollect;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,11 +48,17 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     private Gson gson = null;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_collect_fragment, container, false);
 
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             userid = bundle.getString("userid");
         }
         init(view);
@@ -62,15 +69,15 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         gson = new Gson();
         getCollectStore();
 
-        locate = (Button)view.findViewById(R.id.locate);
+        locate = (Button) view.findViewById(R.id.locate);
         locate.setOnClickListener(this);
-        map = (Button)view.findViewById(R.id.map);
+        map = (Button) view.findViewById(R.id.map);
         map.setOnClickListener(this);
 
-        search = (EditText)view.findViewById(R.id.search);
+        search = (EditText) view.findViewById(R.id.search);
         search.setOnClickListener(this);
 
-        listView = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView) view.findViewById(R.id.list);
         adapter = new MemberCollectAdapter(getActivity(), list);
         listView.setAdapter(adapter);
 
@@ -78,7 +85,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.locate:
                 break;
             case R.id.map:
@@ -88,14 +95,14 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void getCollectStore(){
+    private void getCollectStore() {
         //获取收藏店铺列表
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
         Set<String> storeSet = preferences.getStringSet(Configs.KEY_STORE, null);
 
-        if(storeSet != null){
+        if (storeSet != null) {
             Iterator<String> it = storeSet.iterator();
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 try {
                     JSONObject object = new JSONObject(it.next());
                     MemberCollect store = gson.fromJson(object.toString(), MemberCollect.class);

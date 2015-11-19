@@ -37,26 +37,18 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     public static final int SELECT_DIS = 2;
     private Button back;
     private Button commit;
-
     private TextView shop_name;
     private TextView name;
     private TextView contact_tel;
     private EditText consume_money;
-
     private TextView user_name;
     private TextView discount;
     private TextView select_user;
     private TextView select_discount;
-
     private SharedPreferences preferences = null;
     private UserEntity user = null;
-    private Manager manager=null;
     private ProgressDialog dialog = null;
-
     private Gson gson = null;
-
-    private String store_name = null;
-    private Store store = null;
 
     @Override
     protected void onDestroy() {
@@ -75,44 +67,42 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
         gson = new Gson();
 
-        preferences=getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        String userInfo=preferences.getString(Configs.KEY_USER, "0");
-        String managerInfo=preferences.getString(Configs.KEY_MANAGER,"1");
-        user=gson.fromJson(userInfo, UserEntity.class);
-        manager=gson.fromJson(managerInfo, Manager.class);
+        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        String userInfo = preferences.getString(Configs.KEY_USER, "0");
+        user = gson.fromJson(userInfo, UserEntity.class);
         init();
     }
 
     private void init() {
-        back = (Button)findViewById(R.id.back);
+        back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        commit = (Button)findViewById(R.id.commit);
+        commit = (Button) findViewById(R.id.commit);
         commit.setOnClickListener(this);
 
-        shop_name = (TextView)findViewById(R.id.shop_name);
-        name = (TextView)findViewById(R.id.name);
-        contact_tel = (TextView)findViewById(R.id.contact_tel);
-        consume_money = (EditText)findViewById(R.id.consum_money);
+        shop_name = (TextView) findViewById(R.id.shop_name);
+        name = (TextView) findViewById(R.id.name);
+        contact_tel = (TextView) findViewById(R.id.contact_tel);
+        consume_money = (EditText) findViewById(R.id.consum_money);
 
-        user_name = (TextView)findViewById(R.id.user_name);
-        discount = (TextView)findViewById(R.id.discount);
-        select_user = (TextView)findViewById(R.id.select_user);
+        user_name = (TextView) findViewById(R.id.user_name);
+        discount = (TextView) findViewById(R.id.discount);
+        select_user = (TextView) findViewById(R.id.select_user);
         select_user.setOnClickListener(this);
-        select_discount = (TextView)findViewById(R.id.select_discount);
+        select_discount = (TextView) findViewById(R.id.select_discount);
         select_discount.setOnClickListener(this);
 
-        shop_name.setText(manager.getStore_name());
+        shop_name.setText(user.getStorename());
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.commit:
-                dialog =ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+                dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 commitConsume();
                 break;
             case R.id.select_user:
@@ -133,42 +123,44 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null){
-            if(requestCode == SELECT_MEM){
+        if (data != null) {
+            if (requestCode == SELECT_MEM) {
                 mem = (Member) data.getExtras().getSerializable("user");
                 user_name.setText(mem.getUser_id());
                 name.setText(mem.getName());
                 contact_tel.setText(mem.getPhone());
-            }else if(requestCode == SELECT_DIS) {
+            } else if (requestCode == SELECT_DIS) {
                 dis = (Discount) data.getExtras().getSerializable("discount");
-                discount.setText(dis.getDiscount() + "折");
+                discount.setText(dis.getDiscount());
             }
         }
     }
 
-    private void commitConsume(){
-        String kvs[] = new String []{user.getUser_id(), manager.getStore_id(), dis.getDiscount(),
+    private void commitConsume() {
+        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
+        Log.e("tag",user.getStore_id());
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Tools.showToast(getString(R.string.add_success));
+                Tools.showToast(AddConsumeActivity.this, getString(R.string.add_success));
+                AddConsumeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("9")){
-                        Tools.showToast(getString(R.string.login_timeout));
+                    if (result.getString("status").equals("9")) {
+                        Tools.showToast(AddConsumeActivity.this, getString(R.string.login_timeout));
                         Intent intent = new Intent(AddConsumeActivity.this, MainActivity.class);
                         startActivity(intent);
-                    }else{
-                        Tools.showToast(getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(AddConsumeActivity.this, getString(R.string.server_exception));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

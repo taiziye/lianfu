@@ -21,7 +21,7 @@ public class ViewPagerCompat extends ViewPager {
 
     @Override
     protected boolean canScroll(View v, boolean checkV, int dx, int x, int y) {
-        if(v.getClass().getName().equals("com.baidu.mapapi.map.MapView")) {
+        if (v.getClass().getName().equals("com.baidu.mapapi.map.MapView")) {
             return true;
         }
         //if(v instanceof MapView){

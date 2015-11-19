@@ -3,15 +3,19 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditStaff;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -25,11 +29,11 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     private Button back;
     private Button confirm;
 
-    private EditText manage_level;
+    private Spinner manage_level;
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
-    private EditText sex;
+    private Spinner sex;
     private EditText id_card;
     private EditText bank;
     private EditText bank_card;
@@ -37,9 +41,16 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
 
     private Employee employee = null;
 
-    private String userid = "";
+    private String userid = null;
 
     private ProgressDialog dialog = null;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,35 +58,45 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.employee_info_activity);
 
+        Tools.gatherActivity(this);
+
         employee = getIntent().getExtras().getParcelable("employee");
         userid = getIntent().getExtras().getString("userid");
         init();
     }
 
-    private void init(){
+    private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
         confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
 
-        manage_level = (EditText) findViewById(R.id.manage_level);
+        manage_level = (Spinner) findViewById(R.id.manage_level);
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
         rel_name = (EditText) findViewById(R.id.rel_name);
-        sex = (EditText) findViewById(R.id.sex);
+        sex = (Spinner) findViewById(R.id.sex);
         id_card = (EditText) findViewById(R.id.id_card);
         bank = (EditText) findViewById(R.id.bank);
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
 
-        manage_level.setText(employee.getRank());
+        Log.e("tag", employee.getRank() + " ");
+        Log.e("tag", employee.toString());
+
+        if (employee.getRank().equals("管理员"))
+            manage_level.setSelection(0);
+        else
+            manage_level.setSelection(1);
+
         user_name.setText(employee.getUser_id());
         contact_tel.setText(employee.getPhone());
         rel_name.setText(employee.getZsname());
-        /**
-         * 需要修改
-         */
-        id_card.setText("");
+        if (employee.getSex().equals("0"))
+            sex.setSelection(0);
+        else
+            sex.setSelection(1);
+        id_card.setText(employee.getId_number());
         bank.setText(employee.getBank());
         bank_card.setText(employee.getBank_account());
         bank_name.setText(employee.getBank_name());
@@ -83,35 +104,41 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.confirm:
-                dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 updateEmployee();
                 break;
         }
     }
 
-    private void updateEmployee(){
+    private void updateEmployee() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String employee_id = employee.getUser_id();
-        String rank =  manage_level.getText().toString();
+        String rank = "";
+        if (manage_level.getSelectedItemId() == 0) {
+            rank = "0";
+        } else {
+            rank = "1";
+        }
         String username = user_name.getText().toString();
         String name = rel_name.getText().toString();
         String id_number = id_card.getText().toString();
         String upgrade = "BNZZ";
+        String phone=contact_tel.getText().toString();
         String bank_account = bank_card.getText().toString();
         String bankStr = bank.getText().toString();
-        String sexStr = "";
-        if (sex.getText().toString().equals("男")){
+        String sexStr =null;
+        if (sex.getSelectedItemId()==0) {
             sexStr = "0";
-        }else{
+        } else {
             sexStr = "1";
         }
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
-                upgrade, bank_account, bankStr, sexStr};
+                upgrade,phone,bank_account, bankStr, sexStr};
 
         String param = EditStaff.packagingParam(this, kvs);
 
@@ -119,18 +146,23 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Tools.showToast(getString(R.string.update_success));
+                ToastUtils.showToast(EmploeeInfoActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT);
+                EmploeeInfoActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                //
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("2")){
-                        Tools.showToast(getString(R.string.format_error));
-                    } else if(result.getString("status").equals("10")){
-                        Tools.showToast(getString(R.string.server_exception));
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.update_fail),Toast.LENGTH_SHORT);
+                    }else if(status.equals("2")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("9")){
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
+                    }else{
+                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

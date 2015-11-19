@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="spinner">
+    <string-array name="sex">
         <item>男</item>
         <item>女</item>
+    </string-array>
+
+    <string-array name="uplevel">
+        <item>BNZZ</item>
+        <item>BN50</item>
+    </string-array>
+
+    <string-array name="manage_level">
+        <item>管理员</item>
+        <item>员工</item>
     </string-array>
 </resources>

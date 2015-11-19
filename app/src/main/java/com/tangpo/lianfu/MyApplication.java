@@ -8,7 +8,7 @@ import java.io.File;
 /**
  * Created by shengshoubo on 2015/11/2.
  */
-public class MyApplication extends Application{
+public class MyApplication extends Application {
 
     public static MyApplication application;
     private boolean isDownload;

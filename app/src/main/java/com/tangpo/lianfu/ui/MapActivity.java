@@ -1,9 +1,11 @@
 package com.tangpo.lianfu.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -29,6 +32,7 @@ import com.tangpo.lianfu.adapter.ViewPageAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.utils.GetBitmap;
+import com.tangpo.lianfu.utils.Tools;
 import com.tangpo.lianfu.utils.ViewPagerCompat;
 
 import java.util.ArrayList;
@@ -37,9 +41,9 @@ import java.util.List;
 
 public class MapActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
-    private MapView mMapView=null;
-    private BaiduMap mBaiduMap=null;
-    private ArrayList<LatLng> list=new ArrayList<LatLng>();
+    private MapView mMapView = null;
+    private BaiduMap mBaiduMap = null;
+    private ArrayList<LatLng> list = new ArrayList<LatLng>();
 
     private ViewPagerCompat vp;
 
@@ -48,6 +52,9 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
     private ArrayList<FindStore> storeList = null;
 
     private ViewPageAdapter adapter = null;
+
+    private Overlay myOverlay=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,21 +66,33 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
          */
         SDKInitializer.initialize(getApplication());
         setContentView(R.layout.activity_test_baidu_map);
+
+        Tools.gatherActivity(this);
         //获取地图控件引用
-        mMapView= (MapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) findViewById(R.id.bmapView);
         //获取地图
-        mBaiduMap=mMapView.getMap();
+        mBaiduMap = mMapView.getMap();
         //普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         //开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
 
         //设定初始地图中心点坐标
-        SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-        float curLatitude=preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
-        float curLongitude=preferences.getFloat(Configs.KEY_LONGITUDE,(float)120.132947);
-        LatLng cenpt = new LatLng(curLatitude,curLongitude);
-        locate(cenpt);
+        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        float curLatitude = preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
+        float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
+        LatLng cenpt = new LatLng(curLatitude, curLongitude);
+
+        //定义地图状态
+        MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        //显示当前设备位置
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
+        myOverlay=mBaiduMap.addOverlay(overlayOptions);
 
         storeList = getIntent().getExtras().getParcelableArrayList("list");
         vp = (ViewPagerCompat) findViewById(R.id.vp);
@@ -84,16 +103,16 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //百度城市热力图
         // mBaiduMap.setBaiduHeatMapEnabled(true);
 
-        for(int i=0;i<storeList.size();i++){
+        for (int i = 0; i < storeList.size(); i++) {
             //标注覆盖物，定义Maker坐标点
-            float Lng=Float.valueOf(storeList.get(i).getLng())/(10^6);
-            float Lat=Float.valueOf(storeList.get(i).getLat())/(10^6);
-            LatLng pt=new LatLng(Lng,Lat);
+            float Lng = (float)Integer.valueOf(storeList.get(i).getLng()) / 1000000;
+            float Lat = (float)Integer.valueOf(storeList.get(i).getLat()) / 1000000;
+            LatLng pt = new LatLng(Lat, Lng);
             list.add(pt);
             //构建Marker图标
-            BitmapDescriptor bitmap= BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(GetBitmap.getBitmap(i));
             //构建MarkerOption，用于在地图上添加Marker  alpha(float)设置透明度
-            OverlayOptions options=new MarkerOptions().position(pt).icon(bitmap).zIndex(0).animateType(MarkerOptions.MarkerAnimateType.grow);
+            OverlayOptions options = new MarkerOptions().position(pt).icon(bitmap).zIndex(13).animateType(MarkerOptions.MarkerAnimateType.grow);
             mBaiduMap.addOverlay(options);
 
             //适配ViewPager
@@ -101,7 +120,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
             ImageView img = (ImageView) view.findViewById(R.id.img);
             TextView shop_name = (TextView) view.findViewById(R.id.shop_name);
             TextView commodity = (TextView) view.findViewById(R.id.shop_name);
-            TextView address = (TextView)view.findViewById(R.id.address);
+            TextView address = (TextView) view.findViewById(R.id.address);
             //初始化
             //img.setImageURI(null);
             shop_name.setText(storeList.get(i).getStore());
@@ -110,11 +129,12 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
             listViews.add(view);
         }
-        OverlayOptions textOption=new TextOptions().bgColor(0xAAFFFF00).fontSize(24).fontColor(0xFFFF00FF).text("联富地面店").rotate(-30).position(list.get(0));
-        mBaiduMap.addOverlay(textOption);
-
         adapter = new ViewPageAdapter(this, listViews);
+
         vp.setAdapter(adapter);
+        vp.setCurrentItem(0);
+        vp.setOffscreenPageLimit(5);
+        vp.setPageMargin(dip2px(this, 50));
         vp.setOnPageChangeListener(this);
 
     }
@@ -135,6 +155,8 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
     protected void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+        Tools.deleteActivity(this);
+        finish();
     }
 
     @Override
@@ -166,9 +188,10 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
-        for(int i=0;i<10;i++){
-            if(position==i){
+        for (int i = 0; i < list.size(); i++) {
+            if (position == i) {
                 locate(list.get(i));
+                Log.e("tag", list.get(i).toString());
             }
         }
     }
@@ -178,7 +201,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     }
 
-    private void locate(LatLng cenpt){
+    private void locate(LatLng cenpt) {
         //Toast.makeText(this, "latitude" + curLatitude + "," + "longitude" + curLongitude, Toast.LENGTH_SHORT).show();
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
@@ -187,8 +210,15 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //显示当前设备位置
-        BitmapDescriptor mCurrentMaker= BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
-        OverlayOptions overlayOptions=new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
-        mBaiduMap.addOverlay(overlayOptions);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
+        myOverlay.remove();
+        myOverlay=mBaiduMap.addOverlay(overlayOptions);
+    }
+
+    // dip转换成px（像素）
+    private int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }

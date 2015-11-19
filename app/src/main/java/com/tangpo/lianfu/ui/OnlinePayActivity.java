@@ -23,24 +23,35 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
     private TextView money;
 
     @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Tools.deleteActivity(this);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.online_pay_activity);
+
+        Tools.gatherActivity(this);
+
+        init();
     }
 
     private void init() {
-        back_home = (Button)findViewById(R.id.back_home);
+        back_home = (Button) findViewById(R.id.back_home);
         back_home.setOnClickListener(this);
 
-        logo = (ImageView)findViewById(R.id.logo);
+        logo = (ImageView) findViewById(R.id.logo);
 
-        money = (TextView)findViewById(R.id.money);
+        money = (TextView) findViewById(R.id.money);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back_home:
                 Tools.gotoActivity(OnlinePayActivity.this, HomePageActivity.class);
                 finish();

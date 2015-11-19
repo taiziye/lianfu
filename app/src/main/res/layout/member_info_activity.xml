@@ -8,14 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
-        <Button android:id="@+id/back"
+
+        <Button
+            android:id="@+id/back"
             android:layout_width="36dp"
             android:layout_height="match_parent"
             android:background="@drawable/back"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            />
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -23,8 +25,10 @@
             android:gravity="center"
             android:textSize="22sp"
             android:textColor="@android:color/black"
-            android:text="@string/memeber_info"/>
-        <Button android:id="@+id/edit"
+            android:text="@string/memeber_info" />
+
+        <Button
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@anim/btn_style"
@@ -33,7 +37,7 @@
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="@string/edit"/>
+            android:text="@string/edit" />
     </LinearLayout>
 
     <ScrollView
@@ -53,188 +57,189 @@
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/user_name"/>
+                    android:text="@string/user_name" />
 
-                <EditText android:id="@+id/user_name"
+                <EditText
+                    android:id="@+id/user_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/ac_contact_tel"/>
+                    android:text="@string/ac_contact_tel" />
 
-                <EditText android:id="@+id/contact_tel"
+                <EditText
+                    android:id="@+id/contact_tel"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/ae_rel_name"/>
+                    android:text="@string/ae_rel_name" />
 
-                <EditText android:id="@+id/rel_name"
+                <EditText
+                    android:id="@+id/rel_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/member_level"/>
+                    android:text="@string/member_level" />
 
-                <EditText android:id="@+id/member_level"
+                <EditText
+                    android:id="@+id/member_level"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/ae_id"/>
+                    android:text="@string/ae_id" />
 
-                <EditText android:id="@+id/id_card"
+                <EditText
+                    android:id="@+id/id_card"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank"/>
+                    android:text="@string/detail_bank" />
 
-                <EditText android:id="@+id/bank"
+                <EditText
+                    android:id="@+id/bank"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank_card"/>
+                    android:text="@string/detail_bank_card" />
 
-                <EditText android:id="@+id/bank_card"
+                <EditText
+                    android:id="@+id/bank_card"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
-            <View
-                style="@style/view_line_style" />
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank_name"/>
+                    android:text="@string/detail_bank_name" />
 
-                <EditText android:id="@+id/bank_name"
+                <EditText
+                    android:id="@+id/bank_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black"
-                    />
+                    android:textColorHint="@android:color/black" />
             </LinearLayout>
 
         </LinearLayout>
@@ -244,15 +249,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
-        <Button android:id="@+id/send"
+
+        <Button
+            android:id="@+id/send"
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:background="@drawable/send_msg"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_centerInParent="true"
-            android:text="@string/send_msg"
-            />
+            android:text="@string/send_msg" />
     </RelativeLayout>
 
 </LinearLayout>

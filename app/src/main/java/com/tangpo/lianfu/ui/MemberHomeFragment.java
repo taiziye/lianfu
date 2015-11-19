@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,8 +58,14 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private Gson gson = null;
 
     private String userid = null;
-    private String lng="0.000000";
-    private String lat="0.000000";
+    private String lng = "0.000000";
+    private String lat = "0.000000";
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,63 +74,59 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         init(view);
 
-        if(bundle != null) {
+        if (bundle != null) {
             userid = bundle.getString("userid");
             getStores();
-
-            /*String tmp[] = new String []{userid};
-            String tmpParams = CheckCollectedStore.packagingParam(getActivity(), tmp);
-
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    Set<String> store = new HashSet<String>();
-                    JSONObject stores = null;
-                    try {
-                        stores = result.getJSONObject("param");
-                        System.out.println(result.toString());
-                        store.add(stores.toString());
-                        Configs.cacheCollectedStore(getActivity(), store);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    //
-                }
-            }, tmpParams);*/
         }
 
         return view;
     }
 
-    private void init(View view){
+    private void init(View view) {
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        double_code = (Button)view.findViewById(R.id.double_code);
-        locate = (Button)view.findViewById(R.id.locate);
-        map = (Button)view.findViewById(R.id.map);
+        double_code = (Button) view.findViewById(R.id.double_code);
+        double_code.setOnClickListener(this);
+        locate = (Button) view.findViewById(R.id.locate);
+        locate.setOnClickListener(this);
+        map = (Button) view.findViewById(R.id.map);
+        map.setOnClickListener(this);
 
-        search = (EditText)view.findViewById(R.id.search);
+        double_code.setOnClickListener(this);
+        locate.setOnClickListener(this);
+        map.setOnClickListener(this);
 
-        listView = (PullToRefreshListView)view.findViewById(R.id.list);
+        search = (EditText) view.findViewById(R.id.search);
 
-        preferences=getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        listView = (PullToRefreshListView) view.findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getActivity(),ShopActivity.class);
+                intent.putExtra("store_id",storeList.get(position-1).getId());
+                intent.putExtra("userid",userid);
+                startActivity(intent);
+            }
+        });
+
+        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+
 
         gson = new Gson();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.double_code:
                 break;
             case R.id.locate:
                 break;
             case R.id.map:
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putParcelableArrayListExtra("list", storeList);
+                Log.e("tag", storeList.size() + " " + storeList.getClass());
+                Bundle bundle=new Bundle();
+                bundle.putParcelableArrayList("list",storeList);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.search:
@@ -147,8 +151,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    private void getStores(){
-        String kvs[] = new String []{lng,lat, userid};
+    private void getStores() {
+        String kvs[] = new String[]{lng, lat, userid};
 
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
@@ -159,7 +163,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         FindStore store = gson.fromJson(object.toString(), FindStore.class);
                         storeList.add(store);
@@ -179,11 +183,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if(result.getString("status").equals("9")){
+                    if (result.getString("status").equals("9")) {
                         ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         getActivity().startActivity(intent);
-                    } else if(result.getString("status").equals("10")){
+                    } else if (result.getString("status").equals("10")) {
                         ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {

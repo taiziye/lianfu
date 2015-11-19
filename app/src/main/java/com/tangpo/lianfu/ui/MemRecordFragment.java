@@ -41,12 +41,19 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private String user_id = null;
 
     private ProgressDialog dialog = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Tools.closeActivity();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_record_fragment, container, false);
 
         Bundle bundle = getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             user_id = bundle.getString("userid");
             Log.e("tag", "userid=" + user_id);
         }
@@ -57,7 +64,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private void init(View view) {
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         getConsumeRecord();
-        listView = (PullToRefreshListView)view.findViewById(R.id.list);
+        listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
         adapter = new MemberAdapter(list, getActivity());
         listView.setAdapter(adapter);
@@ -74,7 +81,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page ++;
+                page++;
                 getConsumeRecord();
             }
         });
@@ -84,7 +91,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
     }
 
-    private void getConsumeRecord(){
+    private void getConsumeRecord() {
         String kvs[] = new String[]{user_id, "10", page + ""};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 
@@ -94,7 +101,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 Log.e("tag", result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Member member = gson.fromJson(object.toString(), Member.class);
                         list.add(member);
@@ -106,7 +113,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Tools.showToast(getString(R.string.server_exception));
+                Tools.showToast(getActivity(), getString(R.string.server_exception));
             }
         }, param);
     }

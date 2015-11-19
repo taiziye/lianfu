@@ -10,11 +10,14 @@
         android:layout_height="50dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp">
-        <RadioButton android:id="@+id/check"
+
+        <RadioButton
+            android:id="@+id/check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true"/>
+            android:clickable="false"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,48 +25,47 @@
             android:layout_centerInParent="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="@string/detail_discount_type"/>
+            android:text="@string/detail_discount_type" />
 
-        <TextView android:id="@+id/type"
+        <TextView
+            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="国庆"/>
+            android:text="国庆" />
     </RelativeLayout>
 
-    <View
-        style="@style/view_line_style" />
+    <View style="@style/view_line_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="@string/discount"
-            />
+            android:text="@string/discount" />
 
-        <TextView android:id="@+id/discount"
+        <TextView
+            android:id="@+id/discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:text="8"
-            />
+            android:text="8" />
     </RelativeLayout>
 
-    <View
-        style="@style/view_line_style" />
+    <View style="@style/view_line_style" />
 
     <!--<RelativeLayout
     <RelativeLayout

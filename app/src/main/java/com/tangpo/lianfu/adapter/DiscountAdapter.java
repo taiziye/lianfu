@@ -38,11 +38,11 @@ public class DiscountAdapter extends BaseAdapter {
 
         selected = new HashMap<Integer, Boolean>();
 
-        for(int i=0; i<list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             selected.put(i, false);
         }
 
-        for (int i=0; i<list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             checked[i] = false;
         }
     }
@@ -65,14 +65,14 @@ public class DiscountAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.discount_list, null);
             holder = new ViewHolder();
 
             holder.check = (RadioButton) convertView.findViewById(R.id.check);
             holder.type = (TextView) convertView.findViewById(R.id.type);
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
-                    //holder.money = (TextView) convertView.findViewById(R.id.money);
+            //holder.money = (TextView) convertView.findViewById(R.id.money);
 
             convertView.setTag(holder);
         } else {
@@ -88,15 +88,15 @@ public class DiscountAdapter extends BaseAdapter {
     }
 
     public void Click(int position) {
-        if(selected.get(position)){
+        if (selected.get(position)) {
             selected.put(position, false);
-        }else{
+        } else {
             selected.put(position, true);
         }
     }
 
     public void setSelected(int num) {
-        for(int i=0 ; i< list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             selected.put(i, false);
         }
         selected.put(num, true);
@@ -106,14 +106,14 @@ public class DiscountAdapter extends BaseAdapter {
         return selected;
     }
 
-    public void setChecked(int position){
-        for (int i=0; i<list.size(); i++){
+    public void setChecked(int position) {
+        for (int i = 0; i < list.size(); i++) {
             checked[i] = false;
         }
         checked[position] = true;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public RadioButton check;
         public TextView type;
         public TextView discount;

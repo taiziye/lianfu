@@ -5,10 +5,11 @@
     style="@style/title_bar_style"
     android:orientation="horizontal">
 
-    <Button android:id="@+id/scan"
+    <Button
+        android:id="@+id/scan"
         style="@style/btn_style_top"
         android:layout_marginLeft="10dp"
-        android:text="@string/header_leaf"/>
+        android:text="@string/header_leaf" />
 
     <TextView
         android:layout_width="0dp"
@@ -17,11 +18,12 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:text="@string/lianfu_shop"/>
+        android:text="@string/lianfu_shop" />
 
-    <Button android:id="@+id/chat"
+    <Button
+        android:id="@+id/chat"
         style="@style/btn_style_top"
         android:layout_marginRight="10dp"
-        android:text="@string/header_right"/>
+        android:text="@string/header_right" />
 
 </LinearLayout>

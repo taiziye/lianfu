@@ -4,19 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/content"
         style="@style/title_bar_style"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button android:id="@+id/locate"
+        <Button
+            android:id="@+id/locate"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/locate"/>
+            android:background="@drawable/locate" />
 
-        <EditText android:id="@+id/search"
+        <EditText
+            android:id="@+id/search"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -24,13 +27,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/search_blank"
-            android:gravity="center"/>
+            android:gravity="center" />
 
-        <Button android:id="@+id/map"
+        <Button
+            android:id="@+id/map"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            android:background="@drawable/map"/>
+            android:background="@drawable/map" />
 
     </LinearLayout>
 

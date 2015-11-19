@@ -38,17 +38,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private ImageView login_as;
 
-    private ProgressDialog pd=null;
+    private ProgressDialog pd = null;
 
-    private Intent intent=null;
+    private Intent intent = null;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        String token= Configs.getCatchedToken(this);
+        String token = Configs.getCatchedToken(this);
         //判断用户是否登录，如果已登录，则跳过该页面
-        if(token!=null){  //如果已登录
+        if (token != null) {  //如果已登录
             //根据登录身份跳转到相应的界面
             Tools.gotoActivity(MainActivity.this, HomePageActivity.class);
             this.finish();
@@ -56,38 +63,38 @@ public class MainActivity extends Activity implements View.OnClickListener {
         init();
     }
 
-    private void init(){
-        user_name = (EditText)findViewById(R.id.user_name);
-        user_pass = (EditText)findViewById(R.id.user_pass);
-        login = (Button)findViewById(R.id.login);
+    private void init() {
+        user_name = (EditText) findViewById(R.id.user_name);
+        user_pass = (EditText) findViewById(R.id.user_pass);
+        login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
 
-        forget = (TextView)findViewById(R.id.forget);
+        forget = (TextView) findViewById(R.id.forget);
         forget.setOnClickListener(this);
-        register = (TextView)findViewById(R.id.register);
+        register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
-        login_as = (ImageView)findViewById(R.id.login_as);
+        login_as = (ImageView) findViewById(R.id.login_as);
         login_as.setOnClickListener(this);
     }
 
     private void login() {
         String name = user_name.getText().toString();
-        if(name.equals("")){
+        if (name.equals("")) {
             pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.username_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
         String pass = user_pass.getText().toString();
-        if(pass.equals("")){
+        if (pass.equals("")) {
             pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.password_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
         //String openId="";
-        String kvs[]=new String[]{name,pass};
+        String kvs[] = new String[]{name, pass};
 
-        String params= Login.packagingParam(kvs);
+        String params = Login.packagingParam(kvs);
 
         System.out.println(Escape.unescape(params));
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -96,12 +103,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 pd.dismiss();
                 try {
                     Log.e("tag", result.toString());
-                    JSONObject jsonObject=result.getJSONObject("param");
-                    String sessid=jsonObject.getString("session_id");
+                    JSONObject jsonObject = result.getJSONObject("param");
+                    String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
                     System.out.println(Escape.unescape(result.toString()));
-                    intent=new Intent(MainActivity.this,HomePageActivity.class);
+                    intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {
@@ -115,24 +122,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 System.out.println(Escape.unescape(result.toString()));
                 ToastUtils.showToast(MainActivity.this, getString(R.string.fail_to_login), Toast.LENGTH_LONG);
             }
-        },params);
+        }, params);
     }
 
-    public void register(){
-        intent=new Intent(MainActivity.this,RegisterActivity.class);
+    public void register() {
+        intent = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void forgetPassword(){
+    public void forgetPassword() {
 //        intent=new Intent(MainActivity.this,ForgetPasswordActivity.class);
 //        startActivity(intent);
 //        finish();
     }
 
-    public void loginAs(){
+    public void loginAs() {
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -157,9 +165,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.login:
-                pd=ProgressDialog.show(MainActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
+                pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
                 login();
                 break;
             case R.id.register:

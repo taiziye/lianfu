@@ -51,7 +51,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     private List<Member> listMem = null;
     private ProgressDialog dialog = null;
     private UserEntity user = null;
-    private int page = 1;
+    private int page = 0;
     private Gson gson = new Gson();
 
     @Override
@@ -73,9 +73,9 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
         init();
         //如果search_text不为空则改变cancel为搜索
-        if(search_text.getText().toString().length() != 0) {
+        if (search_text.getText().toString().length() != 0) {
             cancel.setText("搜索");
-        }else {
+        } else {
             cancel.setText(getResources().getString(R.string.search));
         }
     }
@@ -86,11 +86,11 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        cancel = (Button)findViewById(R.id.cancel);
+        cancel = (Button) findViewById(R.id.cancel);
 
-        search_text = (EditText)findViewById(R.id.search_text);
+        search_text = (EditText) findViewById(R.id.search_text);
 
-        listView = (PullToRefreshListView)findViewById(R.id.list);
+        listView = (PullToRefreshListView) findViewById(R.id.list);
 
         getMemberList();
 
@@ -98,7 +98,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
-                intent.putExtra("user", listMem.get(position));
+                intent.putExtra("user", listMem.get(position - 1));
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -107,14 +107,14 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 1;
+                page = 0;
                 list.clear();
                 getMemberList();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page ++;
+                page++;
                 getMemberList();
             }
         });
@@ -122,11 +122,11 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cancel:
                 if (search_text.getText().toString().length() != 0) {
                     //搜索
-                }else{
+                } else {
                     finish();
                 }
                 break;
@@ -148,7 +148,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         }
     };
 
-    private void getMemberList(){
+    private void getMemberList() {
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();
@@ -159,7 +159,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
                 dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Member member = gson.fromJson(object.toString(), Member.class);
                         Log.e("tag", object.toString());

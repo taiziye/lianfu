@@ -47,7 +47,7 @@ public class MemRecourdAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.mem_record_list, null);
             holder = new ViewHolder();
 
@@ -62,7 +62,7 @@ public class MemRecourdAdapter extends BaseAdapter {
         }
 
         holder.shop_name.setText(list.get(position).getShop_name());
-        if(list.get(position).isCompute()){
+        if (list.get(position).isCompute()) {
             holder.compute.setText("已计算");
         } else {
             holder.compute.setText("未计算");
@@ -73,7 +73,7 @@ public class MemRecourdAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public TextView shop_name;
         public TextView compute;
         public TextView money;
