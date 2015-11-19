@@ -274,6 +274,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("tag", result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -289,6 +290,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 //
+                Log.e("tag", result.toString());
             }
         }, param);
     }

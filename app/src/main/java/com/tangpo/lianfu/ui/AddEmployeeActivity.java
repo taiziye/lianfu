@@ -170,6 +170,9 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             /*case R.id.select_type:
                 break;*/
             case R.id.select_bank:
+                /**
+                 * 未实现，没有接口
+                 */
                 break;
         }
     }

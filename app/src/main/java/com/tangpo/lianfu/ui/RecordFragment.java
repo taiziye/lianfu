@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog dialog = null;
 
     private Intent intent = null;
+
+    private boolean isEdit = false;
 
     @Override
     public void onDestroy() {
@@ -134,9 +137,17 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             case R.id.search:
                 break;
             case R.id.edit:
-                /*intent = new Intent(getActivity(), ConsumeRecordActivity.class);
-                intent.putExtra("record", recordList.get(index));
-                getActivity().startActivityForResult(intent, REQUEST_EDIT);*/
+                if(!isEdit){
+                    edit.setText(getString(R.string.cancel));
+                    adapter.setEdit(true);
+                    adapter.notifyDataSetChanged();
+                    isEdit = true;
+                } else {
+                    edit.setText(getString(R.string.edit));
+                    adapter.setEdit(false);
+                    adapter.notifyDataSetChanged();
+                    isEdit = false;
+                }
                 break;
             case R.id.add:
                 intent = new Intent(getActivity(), AddConsumeActivity.class);
@@ -167,7 +178,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     recordList = (List<EmployeeConsumeRecord>) msg.obj;
-                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename);
+                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid);
                     list.setAdapter(adapter);
                     break;
             }

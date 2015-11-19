@@ -132,6 +132,9 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                 finish();
                 break;
             case R.id.edit:
+                /**
+                 * 没有接口
+                 */
                 break;
             case R.id.discount:
                 intent = new Intent(this, DiscountActivity.class);

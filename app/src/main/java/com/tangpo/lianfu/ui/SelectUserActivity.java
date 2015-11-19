@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -91,10 +94,6 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
         getMemberList();
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-
-        listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -134,6 +133,21 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         }
     }
 
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    list = (List<String>) msg.obj;
+                    adapter = new ArrayAdapter<String>(SelectUserActivity.this, android.R.layout.simple_list_item_1, list);
+
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
+
     private void getMemberList() {
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
@@ -148,6 +162,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Member member = gson.fromJson(object.toString(), Member.class);
+                        Log.e("tag", object.toString());
                         list.add(member.getUsername());
                         listMem.add(member);
                         set.add(object.toString());
@@ -155,6 +170,10 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = list;
+                mHandler.sendMessage(msg);
                 Configs.cacheMember(SelectUserActivity.this, set);
             }
         }, new NetConnection.FailCallback() {

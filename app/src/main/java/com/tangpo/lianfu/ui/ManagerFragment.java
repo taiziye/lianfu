@@ -132,6 +132,11 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.update_type:
+                /**
+                 * 无接口
+                 */
+                intent = new Intent(getActivity(), MemberUpdateTypeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.modify_pass:
                 intent = new Intent(getActivity(), UpdatePasswordActivity.class);

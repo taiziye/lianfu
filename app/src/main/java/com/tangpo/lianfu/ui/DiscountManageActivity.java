@@ -92,6 +92,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         });
     }
 
+    private boolean isEdit = false;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -99,6 +100,20 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                 finish();
                 break;
             case R.id.edit:
+                /**
+                 * 不知道是如何编辑的
+                 */
+                if(!isEdit){
+                    edit.setText(getString(R.string.cancel));
+                    adapter.setEdit(true);
+                    adapter.notifyDataSetChanged();
+                    isEdit = true;
+                } else {
+                    edit.setText(getString(R.string.edit));
+                    adapter.setEdit(false);
+                    adapter.notifyDataSetChanged();
+                    isEdit = false;
+                }
                 break;
         }
     }
@@ -110,7 +125,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             switch (msg.what) {
                 case 1:
                     list = (List<Discount>) msg.obj;
-                    adapter = new DiscountManageAdapter(DiscountManageActivity.this, list);
+                    adapter = new DiscountManageAdapter(DiscountManageActivity.this, list, user.getUser_id());
                     listView.setAdapter(adapter);
                     break;
             }
