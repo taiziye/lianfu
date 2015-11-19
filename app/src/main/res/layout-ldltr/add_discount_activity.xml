@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:gravity="center_vertical"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout android:id="@+id/top"
+        android:background="@anim/fragment_style"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@anim/fragment_style"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/commit"
+            android:text="@string/confirm"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@anim/btn_style"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="40dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+    </RelativeLayout>
+
+    <LinearLayout android:id="@+id/one"
+        android:layout_below="@id/top"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="60dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -18,21 +46,27 @@
             android:textSize="18sp"
             android:textColor="@android:color/black"
             android:text="@string/discount_type"
-            android:layout_height="match_parent" />
+            android:layout_height="40dp" />
 
         <EditText android:id="@+id/discount_type"
             android:layout_width="match_parent"
             android:gravity="center"
             android:textSize="18sp"
+            android:background="@null"
             android:textColor="@android:color/black"
-            android:layout_height="match_parent" />
+            android:layout_height="40dp" />
     </LinearLayout>
 
-    <LinearLayout
+    <View
+        style="@style/view_line_style"
+        android:layout_below="@id/one" />
+
+    <LinearLayout android:id="@+id/two"
+        android:layout_below="@id/one"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@anim/fragment_style"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
@@ -40,23 +74,28 @@
             android:textSize="18sp"
             android:textColor="@android:color/black"
             android:text="@string/discount"
-            android:layout_height="match_parent" />
+            android:layout_height="40dp" />
 
         <EditText android:id="@+id/discount"
             android:layout_width="match_parent"
             android:gravity="center"
             android:textSize="18sp"
+            android:background="@null"
             android:textColor="@android:color/black"
-            android:layout_height="match_parent" />
+            android:layout_height="40dp" />
     </LinearLayout>
 
-    <LinearLayout
+    <View
+        style="@style/view_line_style"
+        android:layout_below="@id/two" />
+
+<!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:background="@anim/fragment_style"
         android:orientation="horizontal">
-        <Button android:id="@+id/commit"
+        <Button android:id="@+id/"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -75,6 +114,6 @@
             android:background="@android:color/darker_gray"
             android:text="@string/cancel"
             android:layout_height="match_parent" />
-    </LinearLayout>
+    </LinearLayout>-->
 
-</LinearLayout>
+</RelativeLayout>
