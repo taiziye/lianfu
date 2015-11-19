@@ -37,6 +37,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private Button back;
     private Button upload;
     private Button pay_online;
+    private Button pay_offline;
     private ImageView imageView=null;
 
     private TextView shop;
@@ -50,6 +51,9 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private SharedPreferences preferences=null;
     private Gson gson=null;
     private ProgressDialog dialog=null;
+
+    private String imagePath=null;
+    private String receipt_photo=null;
 
     @Override
     public void onDetachedFromWindow() {
@@ -74,6 +78,9 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         upload.setOnClickListener(this);
         pay_online = (Button) findViewById(R.id.pay_online);
         pay_online.setOnClickListener(this);
+
+        pay_offline= (Button) findViewById(R.id.pay_offline);
+        pay_offline.setOnClickListener(this);
 
         shop = (TextView) findViewById(R.id.shop);
         select = (TextView) findViewById(R.id.select);
@@ -107,6 +114,9 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 Intent intent=new Intent(PayBillActivity.this,SelectPicActivity.class);
                 startActivityForResult(intent, 1);
                 break;
+            case R.id.pay_offline:
+                payBill();
+                break;
             case R.id.pay_online:
                 break;
             case R.id.select:
@@ -114,15 +124,14 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void onlinePay(){
+    private void payBill(){
         dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
         String user_id=userEntity.getUser_id();
         String store_id=getIntent().getStringExtra("store_id");
         String fee=money.getText().toString();
         String phone=contact_tel.getText().toString();
         String receipt_no=bill_num.getText().toString();
-        String imagePath=null;
-        String receipt_photo= UploadImage.imgToBase64(imagePath);
+
         String online="true";
         String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online};
 
@@ -162,9 +171,8 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             imageView.setVisibility(View.VISIBLE);
             //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));
-//            Bitmap camerBitmap= (Bitmap) data.getExtras().get("data");
-
-            //imageView.setImageBitmap(camerBitmap);
+            imagePath=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
+            receipt_photo=UploadImage.imgToBase64(imagePath);
         }
     }
 }
