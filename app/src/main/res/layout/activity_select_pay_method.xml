@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/dialog_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/pay_by_alipay"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dip"
+            android:gravity="center"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="@string/pay_by_alipay"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/pay_by_wechat"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:text="@string/pay_by_wechat"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/pay_by_bankcard"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:background="@android:color/white"
+            android:text="@string/pay_by_bank_card"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+</RelativeLayout>
