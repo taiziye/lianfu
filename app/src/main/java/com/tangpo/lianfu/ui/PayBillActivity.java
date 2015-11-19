@@ -103,6 +103,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.back:
                 finish();
@@ -111,7 +112,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 /**
                  * 上传照片需要调用照相机
                  */
-                Intent intent=new Intent(PayBillActivity.this,SelectPicActivity.class);
+                intent=new Intent(PayBillActivity.this,SelectPicActivity.class);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.pay_offline:
@@ -120,6 +121,10 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             case R.id.pay_online:
                 break;
             case R.id.select:
+                break;
+            case R.id.bill:
+                intent=new Intent(PayBillActivity.this,SelectPicActivity.class);
+                startActivityForResult(intent, 1);
                 break;
         }
     }
@@ -167,7 +172,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
-//            upload.setVisibility(View.GONE);
+            upload.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));

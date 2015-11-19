@@ -148,9 +148,11 @@
 
         <View style="@style/view_line_style" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/upload"
                 android:layout_width="wrap_content"
@@ -164,11 +166,9 @@
                 android:text="@string/upload_bill" />
 
             <ImageView android:id="@+id/bill"
-                android:visibility="gone"
-                android:layout_centerInParent="true"
                 android:layout_width="200dp"
                 android:layout_height="match_parent" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

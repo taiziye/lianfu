@@ -176,4 +176,19 @@
 
     <View style="@style/view_line_style" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button android:id="@+id/login_out"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="@string/login_out"
+            android:background="@android:color/holo_red_light"/>
+    </RelativeLayout>
+
 </LinearLayout>
