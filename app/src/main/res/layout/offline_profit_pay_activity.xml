@@ -142,9 +142,10 @@
 
             <TextView
                 android:id="@+id/money"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="1,200"
+                android:singleLine="true"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 

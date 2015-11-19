@@ -159,4 +159,20 @@ public class Profit implements Parcelable {
         dest.writeString(pay_account);
         dest.writeString(desc);
     }
+
+    @Override
+    public String toString() {
+        return "Profit{" +
+                "consume_date='" + consume_date + '\'' +
+                ", id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", fee='" + fee + '\'' +
+                ", profit='" + profit + '\'' +
+                ", pay_status='" + pay_status + '\'' +
+                ", pay_way='" + pay_way + '\'' +
+                ", pay_date='" + pay_date + '\'' +
+                ", pay_account='" + pay_account + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Profit;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,38 +24,43 @@ public class ComputeProfitAdapter extends BaseAdapter {
     private List<Profit> list = null;
     private LayoutInflater inflater = null;
 
-    private static Map<Integer, Boolean> selected;
-    private static int count = 0;
+//    private static Map<Integer, Boolean> selected;
+    private static int count = 1;
+
+    private List<CheckBox>  boxList;
 
     public ComputeProfitAdapter(Context context, List<Profit> list) {
         this.list = list;
         inflater = LayoutInflater.from(context);
 
-        selected = new HashMap<Integer, Boolean>();
+//        selected = new HashMap<Integer, Boolean>();
 
-        for (int i = 0; i < list.size(); i++) {
-            selected.put(i, false);
-        }
+        boxList = new ArrayList<>();
+
+//        for (int i = 0; i < list.size(); i++) {
+//            selected.put(i, false);
+//        }
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.compute_list, null);
             holder = new ViewHolder();
@@ -70,63 +77,75 @@ public class ComputeProfitAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.check.setChecked(false);
-        if (selected.size() > 0) {
-            holder.check.setChecked(selected.get(position));
-        }
-
         holder.name.setText(list.get(position).getUsername());
         holder.bank.setText(list.get(position).getPay_account());
         holder.date.setText(list.get(position).getConsume_date());
         holder.profit.setText(list.get(position).getProfit());
         holder.status.setText(list.get(position).getPay_status());
+
+        boxList.add(holder.check);
+
+        holder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("TAG", position + " " + count);
+                if(!boxList.get(position).isChecked()){
+                    //
+                    boxList.get(position).setChecked(false);
+                    count --;
+                } else {
+                    //
+                    boxList.get(position).setChecked(true);
+                    count ++;
+                }
+            }
+        });
+
         return convertView;
     }
 
-    public Map<Integer, Boolean> getSelected() {
-        return selected;
+    public boolean getSelected(int position) {
+        if(boxList.get(position).isChecked())
+            return true;
+        else
+            return false;
     }
 
     //处于管理状态下单击item将取消或选中item
-    public void Click(int position) {
-        //Log.e("TAG", " " + delSet.toString());
-        if (selected.get(position)) {
-            selected.put(position, false);
-            count--;
+    public boolean Click(int position) {
+        Log.e("TAG", boxList.get(position) + " " + boxList.get(position).isChecked());
+        if (!boxList.get(position).isChecked()) {
+            return true;
         } else {
-            selected.put(position, true);
-            count++;
+            return false;
         }
+
     }
 
     public boolean isAll() {
-        if (count == selected.size()) {
+        if (count == list.size()) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void setSelected(int num) {
-        //清空delSet
-        for (int i = 0; i < num; i++) {
-            selected.put(i, false);
-        }
-    }
-
     //选中所有的item
     public void SelectAll() {
         for (int i = 0; i < list.size(); i++) {
-            selected.put(i, true);
+//            selected.put(i, true);
+            boxList.get(i).setChecked(true);
             //delSet.add(data.get(i).getTmId());
         }
+        count = list.size();
     }
 
     //取消全选
     public void SelecttEmpty() {
         for (int i = 0; i < list.size(); i++) {
-            selected.put(i, false);
+            boxList.get(i).setChecked(false);
         }
+        count = 0;
         //delSet.clear();
     }
 

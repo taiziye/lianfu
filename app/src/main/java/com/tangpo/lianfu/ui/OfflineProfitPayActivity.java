@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private TextView money;
 
     private ComputeProfitAdapter adapter = null;
-    private ArrayList<Profit> list = new ArrayList<>();
+    private List<Profit> list = new ArrayList<>();
     private Gson gson = new Gson();
 
     private String userid = null;
@@ -100,6 +101,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         select_all.setOnClickListener(this);
 
         money = (TextView) findViewById(R.id.money);
+        money.setText(0 + "");
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -119,20 +121,29 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.Click(position - 1);
+                boolean flag = adapter.Click(position - 1);
                 adapter.notifyDataSetChanged();
 
                 if (adapter.isAll()) {
+                    Log.e("tag", "true");
                     select_all.setChecked(true);
                 } else {
                     select_all.setChecked(false);
                 }
 
-                if (adapter.getSelected().get(position - 1)) {
+                if (adapter.getSelected(position - 1)) {
                     set.put(position - 1, list.get(position - 1).getId());
                 } else {
                     set.remove(position - 1);
                 }
+
+                if (flag){
+                    tmp += Double.parseDouble(list.get(position - 1).getProfit());
+                } else {
+                    tmp -= Double.parseDouble(list.get(position - 1).getProfit());
+                }
+
+                money.setText(tmp + "");
             }
         });
 
@@ -165,22 +176,28 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.select_all:
                 if (select_all.isChecked()) {
-                    select_all.setChecked(false);
-                    adapter.SelecttEmpty();
-                    set.clear();
-                    adapter.notifyDataSetChanged();
-
-                    money.setText("0");
-                } else {
                     select_all.setChecked(true);
                     adapter.SelectAll();
                     for (int i = 0; i < list.size(); i++) {
                         set.put(i, list.get(i).getId());
-                        tmp += Double.parseDouble(list.get(i).getFee());
+                        Log.e("tag", list.get(i).getFee());
+                        tmp += Double.parseDouble(list.get(i).getProfit());
+                        Log.e("tag", list.get(i).getProfit() + " " + tmp);
                     }
                     adapter.notifyDataSetChanged();
 
                     money.setText(tmp + "");
+
+                } else {
+                    tmp = 0;
+
+                    select_all.setChecked(false);
+                    adapter.SelecttEmpty();
+                    set.clear();
+                    adapter.SelecttEmpty();
+                    adapter.notifyDataSetChanged();
+
+                    money.setText("0");
                 }
                 break;
         }
@@ -192,10 +209,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    list = (ArrayList<Profit>) msg.obj;
+                    list = (List<Profit>) msg.obj;
                     adapter = new ComputeProfitAdapter(OfflineProfitPayActivity.this, list);
-                    adapter.setSelected(list.size());
-                    adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                     break;
             }
@@ -219,11 +234,13 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.e("tag", "size = " + list.size());
 
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = list;
                 mHandler.sendMessage(msg);
+
             }
         }, new NetConnection.FailCallback() {
             @Override
