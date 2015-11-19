@@ -151,6 +151,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
 
+        Log.e("tag",param);
         final Set<String> set = new HashSet<>();
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -161,8 +162,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
-
-                        System.out.println(object.toString());
 
                         memList.add(employee);
                         set.add(object.toString());

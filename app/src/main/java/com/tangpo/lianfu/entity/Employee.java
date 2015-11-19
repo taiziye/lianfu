@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by 果冻 on 2015/11/9.
  */
 public class Employee implements Parcelable {
-    private String user_id;
+    private String id;
     private String rank;
     private String zsname;
     private String phone;
@@ -24,7 +24,7 @@ public class Employee implements Parcelable {
     public String toString() {
         return "Employee{" +
                 "bank='" + bank + '\'' +
-                ", user_id='" + user_id + '\'' +
+                ", id='" + id + '\'' +
                 ", rank='" + rank + '\'' +
                 ", zsname='" + zsname + '\'' +
                 ", phone='" + phone + '\'' +
@@ -39,7 +39,7 @@ public class Employee implements Parcelable {
 
     private String upgrade;
 
-    public Employee(String bank, String bank_account, String bank_name, String id_number, String phone, String rank, String register_time, String sex, String upgrade, String user_id, String zsname) {
+    public Employee(String bank, String bank_account, String bank_name, String id_number, String phone, String rank, String register_time, String sex, String upgrade, String id, String zsname) {
         this.bank = bank;
         this.bank_account = bank_account;
         this.bank_name = bank_name;
@@ -49,7 +49,7 @@ public class Employee implements Parcelable {
         this.register_time = register_time;
         this.sex = sex;
         this.upgrade = upgrade;
-        this.user_id = user_id;
+        this.id = id;
         this.zsname = zsname;
     }
 
@@ -130,12 +130,13 @@ public class Employee implements Parcelable {
         this.upgrade = upgrade;
     }
 
-    public String getUser_id() {
-        return user_id;
+
+    public String getId() {
+        return id;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getZsname() {
@@ -151,7 +152,7 @@ public class Employee implements Parcelable {
     }
 
     protected Employee(Parcel in) {
-        user_id = in.readString();
+        id = in.readString();
         rank = in.readString();
         zsname = in.readString();
         phone = in.readString();
@@ -183,7 +184,7 @@ public class Employee implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(user_id);
+        dest.writeString(id);
         dest.writeString(rank);
         dest.writeString(zsname);
         dest.writeString(phone);

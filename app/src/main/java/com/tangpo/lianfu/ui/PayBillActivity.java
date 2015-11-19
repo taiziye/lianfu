@@ -119,6 +119,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 payBill();
                 break;
             case R.id.pay_online:
+                Intent intent1=new Intent(PayBillActivity.this,SelectPayMethod.class);
                 break;
             case R.id.select:
                 break;

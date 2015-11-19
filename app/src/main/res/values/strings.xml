@@ -224,4 +224,7 @@
     <string name="pay_result_is_confirming">支付结果确认中</string>
     <string name="pay_fail">支付失败</string>
     <string name="check_pay_result">检查结果为：</string>
+    <string name="pay_amount_cannot_be_null">支付金额不能为空！</string>
+    <string name="pay_profit">利润</string>
+    <string name="store_consume_profit">地面店消费利润</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.ui;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,10 +25,16 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.utils.Key;
 import com.tangpo.lianfu.utils.PayResult;
 import com.tangpo.lianfu.utils.SignUtils;
 import com.tangpo.lianfu.utils.ToastUtils;
+import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class PayByAliPay extends FragmentActivity {
@@ -43,6 +50,10 @@ public class PayByAliPay extends FragmentActivity {
     private TextView tvSubject;
     private TextView tvBody;
     private TextView tvPrice;
+
+    private Bundle bundle=null;
+    private String trad_no=null;
+    private String pay_account=null;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -57,7 +68,7 @@ public class PayByAliPay extends FragmentActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         ToastUtils.showToast(PayByAliPay.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-
+                        ProfitAccount();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -89,9 +100,12 @@ public class PayByAliPay extends FragmentActivity {
         tvPrice= (TextView) findViewById(R.id.product_price);
 
         Bundle bundle=getIntent().getExtras();
-        subject=bundle.getString("subject");
-        body=bundle.getString("body");
-        price=bundle.getString("price");
+        trad_no=getOutTradeNo();
+        //这里的支付账户就是卖家的账户
+        pay_account=Key.SELLER;
+        subject=getString(R.string.pay_profit);
+        body=getString(R.string.store_consume_profit);
+        price=bundle.getString("total_fee");
 
         tvSubject.setText(subject);
         tvBody.setText(body);
@@ -225,7 +239,7 @@ public class PayByAliPay extends FragmentActivity {
         orderInfo += "&seller_id=" + "\"" + Key.SELLER + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+        orderInfo += "&out_trade_no=" + "\"" + trad_no + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -300,5 +314,41 @@ public class PayByAliPay extends FragmentActivity {
      */
     public String getSignType() {
         return "sign_type=\"RSA\"";
+    }
+
+    private void ProfitAccount() {
+        String user_id=bundle.getString("user_id");
+        String store_id=bundle.getString("store_id");
+        String pay_way=bundle.getString("pay_way");
+        String total_fee=bundle.getString("total_fee");
+        String consume_id=bundle.getString("consume_id");
+
+        String kvs[] = new String[]{user_id, store_id, trad_no, pay_way, pay_account,total_fee, consume_id};
+        String param = ProfitAccount.packagingParam(this, kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUtils.showToast(PayByAliPay.this,getString(R.string.success),Toast.LENGTH_SHORT);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                try {
+                    if (result.getString("status").equals("2")) {
+                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    } else if (result.getString("status").equals("9")) {
+                        ToastUtils.showToast(PayByAliPay.this, getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                        Intent intent = new Intent(PayByAliPay.this, MainActivity.class);
+                        startActivity(intent);
+                        PayByAliPay.this.finish();
+                    } else if (result.getString("status").equals("10")) {
+                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
     }
 }

@@ -24,22 +24,34 @@ public class ComputeProfitAdapter extends BaseAdapter {
     private List<Profit> list = null;
     private LayoutInflater inflater = null;
 
-//    private static Map<Integer, Boolean> selected;
     private static int count = 1;
 
-    private List<CheckBox>  boxList;
+    private Context context;
+
+    private static HashMap<Integer,Boolean> isSelected;
+
+    public static HashMap<Integer, Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    public static void setIsSelected(HashMap<Integer, Boolean> isSelected) {
+        ComputeProfitAdapter.isSelected = isSelected;
+    }
 
     public ComputeProfitAdapter(Context context, List<Profit> list) {
+        this.context=context;
         this.list = list;
         inflater = LayoutInflater.from(context);
+        isSelected=new HashMap<Integer,Boolean>();
+        initData();
+        //boxList = new ArrayList<>();
 
-//        selected = new HashMap<Integer, Boolean>();
+    }
 
-        boxList = new ArrayList<>();
-
-//        for (int i = 0; i < list.size(); i++) {
-//            selected.put(i, false);
-//        }
+    private void initData(){
+        for(int i=0;i<list.size();i++){
+            getIsSelected().put(i,false);
+        }
     }
 
     @Override
@@ -82,74 +94,58 @@ public class ComputeProfitAdapter extends BaseAdapter {
         holder.date.setText(list.get(position).getConsume_date());
         holder.profit.setText(list.get(position).getProfit());
         holder.status.setText(list.get(position).getPay_status());
-
-        boxList.add(holder.check);
-
-        holder.check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("TAG", position + " " + count);
-                if(!boxList.get(position).isChecked()){
-                    //
-                    boxList.get(position).setChecked(false);
-                    count --;
-                } else {
-                    //
-                    boxList.get(position).setChecked(true);
-                    count ++;
-                }
-            }
-        });
+        holder.check.setChecked(getIsSelected().get(position));
 
         return convertView;
     }
 
-    public boolean getSelected(int position) {
-        if(boxList.get(position).isChecked())
-            return true;
-        else
-            return false;
-    }
 
-    //处于管理状态下单击item将取消或选中item
-    public boolean Click(int position) {
-        Log.e("TAG", boxList.get(position) + " " + boxList.get(position).isChecked());
-        if (!boxList.get(position).isChecked()) {
-            return true;
-        } else {
-            return false;
-        }
+//    public boolean getSelected(int position) {
+//        if(boxList.get(position).isChecked())
+//            return true;
+//        else
+//            return false;
+//    }
 
-    }
+//    //处于管理状态下单击item将取消或选中item
+//    public boolean Click(int position) {
+//        Log.e("TAG", boxList.get(position) + " " + boxList.get(position).isChecked());
+//        if (!boxList.get(position).isChecked()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//
+//    }
 
-    public boolean isAll() {
-        if (count == list.size()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public boolean isAll() {
+//        if (count == list.size()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//    //选中所有的item
+//    public void SelectAll() {
+//        for (int i = 0; i < list.size(); i++) {
+////            selected.put(i, true);
+//            boxList.get(i).setChecked(true);
+//            //delSet.add(data.get(i).getTmId());
+//        }
+//        count = list.size();
+//    }
+//
+//    //取消全选
+//    public void SelecttEmpty() {
+//        for (int i = 0; i < list.size(); i++) {
+//            boxList.get(i).setChecked(false);
+//        }
+//        count = 0;
+//        //delSet.clear();
+//    }
 
-    //选中所有的item
-    public void SelectAll() {
-        for (int i = 0; i < list.size(); i++) {
-//            selected.put(i, true);
-            boxList.get(i).setChecked(true);
-            //delSet.add(data.get(i).getTmId());
-        }
-        count = list.size();
-    }
-
-    //取消全选
-    public void SelecttEmpty() {
-        for (int i = 0; i < list.size(); i++) {
-            boxList.get(i).setChecked(false);
-        }
-        count = 0;
-        //delSet.clear();
-    }
-
-    private class ViewHolder {
+    public class ViewHolder {
         public CheckBox check;
         private TextView name;
         private TextView bank;

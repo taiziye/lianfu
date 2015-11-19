@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -24,6 +25,7 @@ import com.tangpo.lianfu.entity.Profit;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.parms.ProfitManagement;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -54,6 +56,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private ComputeProfitAdapter adapter = null;
     private List<Profit> list = new ArrayList<>();
+    private int checkNum;
+
     private Gson gson = new Gson();
 
     private String userid = null;
@@ -62,6 +66,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private Map<Integer, String> set = new HashMap<Integer, String>();
 
     private double tmp = 0;
+
 
 
     @Override
@@ -94,8 +99,9 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         online.setOnClickListener(this);
         compute = (Button) findViewById(R.id.compute);
         compute.setOnClickListener(this);
+        listView= (PullToRefreshListView) findViewById(R.id.list);
 
-        listView = (PullToRefreshListView) findViewById(R.id.list);
+        getProfitPay();
 
         select_all = (CheckBox) findViewById(R.id.select_all);
         select_all.setOnClickListener(this);
@@ -108,6 +114,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
+                tmp=0;
+                money.setText(tmp+"");
                 getProfitPay();
             }
 
@@ -121,35 +129,30 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                boolean flag = adapter.Click(position - 1);
-                adapter.notifyDataSetChanged();
+                ComputeProfitAdapter.ViewHolder holder = (ComputeProfitAdapter.ViewHolder) view.getTag();
+                //改变CheckBox的状态
+                holder.check.toggle();
 
-                if (adapter.isAll()) {
-                    Log.e("tag", "true");
-                    select_all.setChecked(true);
-                } else {
-                    select_all.setChecked(false);
-                }
-
-                if (adapter.getSelected(position - 1)) {
-                    set.put(position - 1, list.get(position - 1).getId());
-                } else {
-                    set.remove(position - 1);
-                }
-
-                if (flag){
+                //将CheckBox的选中状态记录下来
+                adapter.getIsSelected().put(position - 1, holder.check.isChecked());
+                //调整选定的条目
+                if (holder.check.isChecked() == true) {
                     tmp += Double.parseDouble(list.get(position - 1).getProfit());
+                    set.put(position - 1, list.get(position - 1).getId());
+                    checkNum++;
                 } else {
                     tmp -= Double.parseDouble(list.get(position - 1).getProfit());
+                    set.remove(position - 1);
+                    checkNum--;
                 }
-
                 money.setText(tmp + "");
             }
         });
-
-        getProfitPay();
     }
 
+    private void dataChanged(){
+        adapter.notifyDataSetChanged();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -166,38 +169,42 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.compute:
 //                Compute();
+                if(tmp==0){
+                    ToastUtils.showToast(this,getString(R.string.pay_amount_cannot_be_null), Toast.LENGTH_SHORT);
+                    return;
+                }
                 Intent intent=new Intent(OfflineProfitPayActivity.this,SelectPayMethod.class);
                 Bundle bundle=new Bundle();
-                bundle.putString("subject","牙膏");
-                bundle.putString("body","高露洁");
-                bundle.putString("price","2.50");
+                bundle.putString("user_id",userid);
+                bundle.putString("store_id",store_id);
+                bundle.putString("total_fee",tmp+"");
+                bundle.putString("consume_id",getConsumeId());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.select_all:
                 if (select_all.isChecked()) {
-                    select_all.setChecked(true);
-                    adapter.SelectAll();
-                    for (int i = 0; i < list.size(); i++) {
-                        set.put(i, list.get(i).getId());
-                        Log.e("tag", list.get(i).getFee());
-                        tmp += Double.parseDouble(list.get(i).getProfit());
-                        Log.e("tag", list.get(i).getProfit() + " " + tmp);
-                    }
-                    adapter.notifyDataSetChanged();
-
-                    money.setText(tmp + "");
-
-                } else {
-                    tmp = 0;
-
-                    select_all.setChecked(false);
-                    adapter.SelecttEmpty();
+                    tmp=0;
                     set.clear();
-                    adapter.SelecttEmpty();
-                    adapter.notifyDataSetChanged();
-
-                    money.setText("0");
+                    for (int i = 0; i < list.size(); i++) {
+                        adapter.getIsSelected().put(i, true);
+                        set.put(i,list.get(i).getId());
+                        tmp += Double.parseDouble(list.get(i).getProfit());
+                    }
+                    checkNum = list.size();
+                    money.setText(tmp + "");
+                    dataChanged();
+                }else{
+                    for(int i=0;i<list.size();i++){
+                        if(adapter.getIsSelected().get(i)){
+                            adapter.getIsSelected().put(i,false);
+                        }
+                    }
+                    tmp=0;
+                    set.clear();
+                    checkNum=0;
+                    money.setText(tmp+"");
+                    dataChanged();
                 }
                 break;
         }
@@ -258,37 +265,5 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             str += set.get(i);
         }
         return str;
-    }
-
-    private void Compute() {
-        String consume_id = getConsumeId();
-
-        String kvs[] = new String[]{userid, store_id, "", "", "", tmp + "", consume_id};
-        String param = ProfitAccount.packagingParam(this, kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                Tools.showToast(OfflineProfitPayActivity.this, getString(R.string.success));
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                try {
-                    if (result.getString("status").equals("2")) {
-                        Tools.showToast(OfflineProfitPayActivity.this, getString(R.string.format_error));
-                    } else if (result.getString("status").equals("9")) {
-                        Tools.showToast(OfflineProfitPayActivity.this, getString(R.string.login_timeout));
-                        Intent intent = new Intent(OfflineProfitPayActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        OfflineProfitPayActivity.this.finish();
-                    } else if (result.getString("status").equals("10")) {
-                        Tools.showToast(OfflineProfitPayActivity.this, getString(R.string.server_exception));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
     }
 }
