@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.entity.UserConsumRecord;
 import com.tangpo.lianfu.utils.Tools;
@@ -69,7 +71,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         Tools.gatherActivity(this);
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        members = preferences.getStringSet(Configs.KEY_USER, null);
+        members = preferences.getStringSet(Configs.KEY_MEMBERS, null);
 
         init();
     }
@@ -141,8 +143,9 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            discount_type.setText(data.getExtras().getString("type"));
-            discount.setText(data.getExtras().getString("discount"));
+            Discount dis = (Discount) data.getExtras().getSerializable("discount");
+            discount_type.setText(dis.getDesc());
+            discount_text.setText(dis.getDiscount());
         }
     }
 }

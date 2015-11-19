@@ -50,6 +50,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private Manager manager = null;
     private Gson mGson = null;
 
+    private String storeid = null;
     private Intent intent;
     private String userid=null;
     private SharedPreferences preferences=null;
@@ -75,6 +76,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
         try {
             JSONObject jsonObject = new JSONObject(preferences.getString(Configs.KEY_USER, ""));
             userid = jsonObject.getString("user_id");
+            storeid = jsonObject.getString("store_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -181,6 +183,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
             case R.id.profit_compute:
                 intent = new Intent(getActivity(), OfflineProfitPayActivity.class);
                 intent.putExtra("userid", userid);
+                intent.putExtra("storeid", storeid);
                 getActivity().startActivity(intent);
                 break;
             case R.id.add_mem:

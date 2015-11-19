@@ -65,6 +65,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private ProgressDialog dialog = null;
 
+    private Intent intent = null;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -119,20 +121,22 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
                 index = position - 1;
+                intent = new Intent(getActivity(), ConsumeRecordActivity.class);
+                intent.putExtra("record", recordList.get(index));
+                getActivity().startActivityForResult(intent, REQUEST_EDIT);
             }
         });
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
         switch (v.getId()) {
             case R.id.search:
                 break;
             case R.id.edit:
-                intent = new Intent(getActivity(), ConsumeRecordActivity.class);
+                /*intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
-                getActivity().startActivityForResult(intent, REQUEST_EDIT);
+                getActivity().startActivityForResult(intent, REQUEST_EDIT);*/
                 break;
             case R.id.add:
                 intent = new Intent(getActivity(), AddConsumeActivity.class);

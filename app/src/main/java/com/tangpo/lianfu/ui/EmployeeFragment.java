@@ -31,6 +31,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
     private Button double_code;
     private Button chat;
+    private Button login_out;
 
     private CircularImage img;
     private ImageView next;
@@ -68,6 +69,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         double_code.setOnClickListener(this);
         chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
+        login_out = (Button) view.findViewById(R.id.login_out);
+        login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
         next = (ImageView) view.findViewById(R.id.next);
@@ -112,6 +115,14 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             case R.id.modify_pass:
                 intent = new Intent(getActivity(), UpdatePasswordActivity.class);
                 intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+            case R.id.login_out:
+                SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove(Configs.KEY_TOKEN);
+                editor.commit();
+                intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 break;
         }
