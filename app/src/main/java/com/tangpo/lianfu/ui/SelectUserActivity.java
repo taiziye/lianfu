@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -84,8 +85,6 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         list = new ArrayList<>();
         listMem = new ArrayList<>();
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
         cancel = (Button) findViewById(R.id.cancel);
 
         search_text = (EditText) findViewById(R.id.search_text);
@@ -93,6 +92,17 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         listView = (PullToRefreshListView) findViewById(R.id.list);
 
         getMemberList();
+
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,6 +119,17 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        SelectUserActivity.this,
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
                 getMemberList();
             }
 
@@ -149,6 +170,8 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     };
 
     private void getMemberList() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();
@@ -157,6 +180,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -180,7 +204,13 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             @Override
             public void onFail(JSONObject result) {
                 //
+                listView.onRefreshComplete();
                 dialog.dismiss();
+                try {
+                    Tools.handleResult(SelectUserActivity.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

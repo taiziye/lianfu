@@ -251,11 +251,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        Tools.showToast(ShopActivity.this, getString(R.string.login_timeout));
-                    } else {
-                        Tools.showToast(ShopActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -279,17 +275,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status=result.getString("status");
-                    if(status.equals("1")){
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.collect_failed),Toast.LENGTH_SHORT);
-                    }else if(status.equals("9")){
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
-                        Intent intent=new Intent(ShopActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else{
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

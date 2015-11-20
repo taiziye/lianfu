@@ -183,13 +183,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        getActivity().startActivity(intent);
-                    } else if (result.getString("status").equals("10")) {
-                        ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

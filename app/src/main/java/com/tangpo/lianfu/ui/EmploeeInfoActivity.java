@@ -159,15 +159,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
                 dialog.dismiss();
                 try {
                     String status=result.getString("status");
-                    if(status.equals("1")){
-                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.update_fail),Toast.LENGTH_SHORT);
-                    }else if(status.equals("2")){
-                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
-                    }else if(status.equals("9")){
-                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
-                    }else{
-                        ToastUtils.showToast(EmploeeInfoActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(EmploeeInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

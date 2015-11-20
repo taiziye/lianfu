@@ -194,11 +194,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("1")) {
-                        Tools.showToast(AddMemberActivity.this, getString(R.string.format_error));
-                    } else if (result.getString("status").equals("10")) {
-                        Tools.showToast(AddMemberActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(AddMemberActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

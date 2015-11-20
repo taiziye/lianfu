@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,20 +63,41 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init(View view) {
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         getConsumeRecord();
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
         adapter = new MemberAdapter(list, getActivity());
         listView.setAdapter(adapter);
 
-        dialog.dismiss();
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
+
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        getActivity(),
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
                 getConsumeRecord();
             }
 
@@ -92,6 +114,8 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     }
 
     private void getConsumeRecord() {
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{user_id, "10", page + ""};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 
@@ -99,6 +123,8 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onSuccess(JSONObject result) {
                 Log.e("tag", result.toString());
+                listView.onRefreshComplete();
+                dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -113,7 +139,13 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Tools.showToast(getActivity(), getString(R.string.server_exception));
+                listView.onRefreshComplete();
+                dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

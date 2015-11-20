@@ -292,6 +292,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 //
+                try {
+                    Tools.handleResult(HomePageActivity.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.e("tag", result.toString());
             }
         }, param);

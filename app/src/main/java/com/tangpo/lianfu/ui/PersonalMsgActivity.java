@@ -125,14 +125,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status = result.getString("status");
-                    if (status.equals("1")) {
-                        ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.username_already_exist), Toast.LENGTH_SHORT);
-                    } else if (status.equals("2")) {
-                        ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.format_error), Toast.LENGTH_SHORT);
-                    } else {
-                        ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(PersonalMsgActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

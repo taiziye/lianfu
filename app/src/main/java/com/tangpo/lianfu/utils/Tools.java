@@ -3,6 +3,7 @@ package com.tangpo.lianfu.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -32,6 +33,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.ui.MainActivity;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -374,5 +377,21 @@ public class Tools {
         return inSampleSize;
     }
 
-
+    public static void handleResult(Context context, String resultCode){
+        if("1".equals(resultCode)) {
+            Tools.showToast(context, context.getString(R.string.add_failed));
+        } else if("2".equals(resultCode)) {
+            Tools.showToast(context, context.getString(R.string.format_error));
+        } else if("9".equals(resultCode)) {
+            Tools.showToast(context, context.getString(R.string.login_timeout));
+            SharedPreferences preferences = context.getSharedPreferences(Configs.APP_ID, context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove(Configs.KEY_TOKEN);
+            editor.commit();
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
+        } else if("10".equals(resultCode)) {
+            Tools.showToast(context, context.getString(R.string.server_exception));
+        }
+    }
 }

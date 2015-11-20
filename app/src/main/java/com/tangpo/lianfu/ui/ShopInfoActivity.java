@@ -182,11 +182,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        Tools.showToast(ShopInfoActivity.this, getString(R.string.login_timeout));
-                    } else {
-                        Tools.showToast(ShopInfoActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(ShopInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

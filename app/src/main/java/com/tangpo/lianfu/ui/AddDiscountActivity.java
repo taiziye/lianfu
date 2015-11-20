@@ -3,18 +3,13 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.NewDiscount;
@@ -87,21 +82,7 @@ public class AddDiscountActivity extends Activity implements View.OnClickListene
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if("1".equals(result.getString("status"))) {
-                        Tools.showToast(AddDiscountActivity.this, getString(R.string.add_failed));
-                    } else if("2".equals(result.getString("status"))) {
-                        Tools.showToast(AddDiscountActivity.this, getString(R.string.format_error));
-                    } else if("9".equals(result.getString("status"))) {
-                        Tools.showToast(AddDiscountActivity.this, getString(R.string.login_timeout));
-                        SharedPreferences preferences = AddDiscountActivity.this.getSharedPreferences(Configs.APP_ID, AddDiscountActivity.this.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.remove(Configs.KEY_TOKEN);
-                        editor.commit();
-                        Intent intent = new Intent(AddDiscountActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    } else if("10".equals(result.getString("status"))) {
-                        Tools.showToast(AddDiscountActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(AddDiscountActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

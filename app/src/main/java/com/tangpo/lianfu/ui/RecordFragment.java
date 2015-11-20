@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,12 +103,33 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         recordList = new ArrayList<>();
         getConsumeRecord();
 
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+        list.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        list.getLoadingLayoutProxy(true, false).setPullLabel("");
+        list.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        list.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        list.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        list.getLoadingLayoutProxy(false, true).setPullLabel("");
+        list.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
         list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 recordList.clear();
                 page = 1;
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        getActivity(),
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
                 getConsumeRecord();
             }
 
@@ -204,6 +225,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                list.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -223,7 +245,13 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                list.onRefreshComplete();
                 dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

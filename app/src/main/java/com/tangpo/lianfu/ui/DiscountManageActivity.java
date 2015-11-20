@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -76,11 +77,34 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
 
         getDiscount();
 
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        DiscountManageActivity.this,
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
                 getDiscount();
             }
 
@@ -142,6 +166,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -162,12 +187,9 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                listView.onRefreshComplete();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        Tools.showToast(DiscountManageActivity.this, getString(R.string.login_timeout));
-                    } else {
-                        Tools.showToast(DiscountManageActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(DiscountManageActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
