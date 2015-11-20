@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditMaterial;
@@ -74,23 +76,35 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
 
-        user = (UserEntity) getIntent().getExtras().getSerializable("user");
+        if(getIntent().getExtras() != null) {
+            user = (UserEntity) getIntent().getExtras().getSerializable("user");
 
-        user_name.setText(user.getUser_id());
-        contact_tel.setText(user.getPhone());
-        rel_name.setText(user.getName());
-        //update_type.setText();
-        id_card.setText(user.getId_number());
-        bank.setText(user.getBank());
-        bank_card.setText(user.getBank_account());
-        bank_name.setText(user.getBank_name());
+            user_name.setText(user.getUser_id());
+            contact_tel.setText(user.getPhone());
+            rel_name.setText(user.getName());
+            //update_type.setText();
+            id_card.setText(user.getId_number());
+            bank.setText(user.getBank());
+            bank_card.setText(user.getBank_account());
+            bank_name.setText(user.getBank_name());
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-                finish();
+                if(user != null)
+                    finish();
+                else {
+                    SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.remove(Configs.KEY_TOKEN);
+                    editor.commit();
+                    Tools.gotoActivity(PersonalInfoActivity.this, MainActivity.class);
+                    finish();
+                }
                 break;
             case R.id.confirm:
                 dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));

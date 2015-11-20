@@ -12,12 +12,12 @@
         android:gravity="center"
         android:background="@android:color/black">
 
-        <Button
+        <!--<Button
             android:id="@+id/back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/back" />
+            android:background="@drawable/back" />-->
 
         <TextView
             android:id="@+id/text"

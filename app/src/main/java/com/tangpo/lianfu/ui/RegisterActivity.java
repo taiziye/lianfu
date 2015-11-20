@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,21 +38,23 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
     private Button get_code;
     private ProgressDialog pd = null;
-
+/*
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Tools.deleteActivity(this);
+    public void onBackPressed() {
+        super.onBackPressed();
+        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(Configs.KEY_TOKEN);
+        editor.commit();
+        Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.register);
-
-        Tools.gatherActivity(this);
 
         init();
     }
@@ -153,6 +156,11 @@ public class RegisterActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
+                SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.remove(Configs.KEY_TOKEN);
+                editor.commit();
+                Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
                 finish();
                 break;
             case R.id.next:

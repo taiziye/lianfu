@@ -228,4 +228,5 @@
     <string name="pay_profit">利润</string>
     <string name="store_consume_profit">地面店消费利润</string>
     <string name="add_discount">添加折扣</string>
+    <string name="back_login">返回登陆</string>
 </resources>

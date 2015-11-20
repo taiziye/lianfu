@@ -94,7 +94,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         /**
          * 获取头像
          */
-        //img.setImageURI(null);
+        Tools.setPhoto(getActivity(), user.getPhoto(), img);
 
         power.setText("");
         name.setText(user.getName());

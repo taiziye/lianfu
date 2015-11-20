@@ -76,6 +76,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
+                        android:inputType="textPassword"
                         android:textColorHint="#999999"
                         android:hint="@string/pass"
                         android:background="@null"/>

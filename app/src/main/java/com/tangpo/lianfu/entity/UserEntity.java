@@ -23,6 +23,15 @@ public class UserEntity implements Serializable {
     private String bank;
     private String bank_address;
     private String rank;
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getUser_type() {
         return user_type;
