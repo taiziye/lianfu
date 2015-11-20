@@ -3,6 +3,8 @@ package com.tangpo.lianfu.ui;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,9 +70,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         getConsumeRecord();
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
-        adapter = new MemRecourdAdapter(getActivity(), list);
-        listView.setAdapter(adapter);
-
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
         listView.getLoadingLayoutProxy(true, false).setPullLabel("");
@@ -115,6 +114,18 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
     }
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                list = (List<MemRecord>) msg.obj;
+                adapter = new MemRecourdAdapter(getActivity(), list);
+                listView.setAdapter(adapter);
+            }
+        }
+    };
+
     private void getConsumeRecord() {
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
@@ -137,6 +148,12 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = list;
+                handler.sendMessage(msg);
+
             }
         }, new NetConnection.FailCallback() {
             @Override

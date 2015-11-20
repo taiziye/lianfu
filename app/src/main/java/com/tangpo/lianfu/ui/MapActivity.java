@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MapActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
+public class MapActivity extends Activity implements ViewPager.OnPageChangeListener {
 
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
@@ -55,6 +58,10 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
 
     private Overlay myOverlay=null;
 
+    private Button scan;
+    private ImageView locate;
+    private Button back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +72,7 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
          SDKInitializer.initialize(getApplicationContext());，因此我们建议该方法放在Application的初始化方法中
          */
         SDKInitializer.initialize(getApplication());
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_test_baidu_map);
 
         Tools.gatherActivity(this);
@@ -137,6 +145,15 @@ public class MapActivity extends ActionBarActivity implements ViewPager.OnPageCh
         vp.setPageMargin(dip2px(this, 50));
         vp.setOnPageChangeListener(this);
 
+        scan = (Button) findViewById(R.id.double_code);
+        locate = (ImageView) findViewById(R.id.locate);
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

@@ -55,7 +55,11 @@ public class NetConnection {
                         try {
                             //将解码后的字符串封装成JSONObject
                             JSONObject resJson = new JSONObject(s);
-                            successCallback.onSuccess(resJson);
+                            if("0".equals(resJson.getString("status"))) {
+                                successCallback.onSuccess(resJson);
+                            } else {
+                                failCallback.onFail(resJson);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

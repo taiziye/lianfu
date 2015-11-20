@@ -71,6 +71,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         next = (ImageView) view.findViewById(R.id.next);
         next.setOnClickListener(this);
 
+        Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
+
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
         personal_info = (TextView) view.findViewById(R.id.personal_info);

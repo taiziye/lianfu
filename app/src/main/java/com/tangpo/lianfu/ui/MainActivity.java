@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 try {
-                    Log.e("tag", result.toString());
+                    Log.e("tag", "tag " + result.toString());
                     JSONObject jsonObject = result.getJSONObject("param");
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
@@ -120,7 +120,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 pd.dismiss();
                 System.out.println(Escape.unescape(result.toString()));
-                ToastUtils.showToast(MainActivity.this, getString(R.string.fail_to_login), Toast.LENGTH_LONG);
+                try {
+                    if("2".equals(result.getString("status"))) {
+                        Tools.showToast(MainActivity.this, "用户名或密码错误");
+                    }else{
+                        Tools.showToast(MainActivity.this, getString(R.string.fail_to_login));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, params);
     }

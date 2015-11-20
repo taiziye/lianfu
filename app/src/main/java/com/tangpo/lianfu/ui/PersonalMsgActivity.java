@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.RegisterMember;
 import com.tangpo.lianfu.utils.Escape;
@@ -30,7 +32,7 @@ import org.json.JSONObject;
  */
 public class PersonalMsgActivity extends Activity implements View.OnClickListener {
 
-    private Button back;
+    //private Button back;
     private Button next;
 
     private TextView text;
@@ -46,26 +48,17 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private ProgressDialog dialog = null;
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Tools.deleteActivity(this);
-        finish();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.personal_msg_activity);
 
-        Tools.gatherActivity(this);
-
         init();
     }
 
     private void init() {
-        back = (Button) findViewById(R.id.back);
-        back.setOnClickListener(this);
+        /*back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);*/
         next = (Button) findViewById(R.id.next);
         next.setEnabled(false);
         next.setOnClickListener(this);
@@ -90,11 +83,13 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);
             return;
         }
-        String password = MD5Tool.md5(pass.getText().toString());
+        dialog = ProgressDialog.show(PersonalMsgActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
+
+        String password = pass.getText().toString();
         String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center = service.getText().toString();
         String service_add = service_address.getText().toString();
-        String referrer = referee.getText().toString();
+        final String referrer = referee.getText().toString();
         String sex = "";
         String birth = "";
         String qq = "";
@@ -113,12 +108,12 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-
+                Log.e("tag", result.toString());
                 System.out.println(result.toString());
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
                 Intent intent = new Intent(PersonalMsgActivity.this, RegisterSuccessActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -140,7 +135,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.next:
-                dialog = ProgressDialog.show(PersonalMsgActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
                 postPersonalInfo();
                 break;
             case R.id.check:

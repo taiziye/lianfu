@@ -103,7 +103,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         /**
          * 获取头像
          */
-        img.setImageURI(null);
+        Tools.setPhoto(getActivity(), user.getPhoto(), img);
 
         power.setText("管");
         name.setText(user.getName());

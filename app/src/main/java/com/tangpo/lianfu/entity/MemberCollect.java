@@ -12,6 +12,7 @@ public class MemberCollect {
     private String tel;
     private String address;
     private String business;
+    private String photo;
 
     public String getBusiness() {
         return business;
@@ -20,8 +21,6 @@ public class MemberCollect {
     public void setBusiness(String business) {
         this.business = business;
     }
-
-    private String photo;
 
     public String getAddress() {
         return address;

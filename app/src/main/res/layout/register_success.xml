@@ -35,7 +35,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:background="@drawable/add_mem"
-            android:text="@string/back_home" />
+            android:text="@string/back_login" />
 
         <Button
             android:id="@+id/perfect_info"
