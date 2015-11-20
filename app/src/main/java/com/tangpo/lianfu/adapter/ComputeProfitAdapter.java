@@ -34,8 +34,10 @@ public class ComputeProfitAdapter extends BaseAdapter {
         return isSelected;
     }
 
-    public static void setIsSelected(HashMap<Integer, Boolean> isSelected) {
-        ComputeProfitAdapter.isSelected = isSelected;
+    public void setIsSelected(int size) {
+        for(int i=0;i<size;i++){
+            getIsSelected().put(i,false);
+        }
     }
 
     public ComputeProfitAdapter(Context context, List<Profit> list) {

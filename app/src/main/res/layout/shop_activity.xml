@@ -5,16 +5,16 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/content"
-        style="@style/title_bar_style"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/back"
-            android:layout_width="36dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
 
@@ -25,18 +25,19 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/lianfu_shop" />
 
-        <Button
+        <ImageView
             android:id="@+id/collect"
-            android:layout_width="90dp"
-            android:layout_height="40dp"
-            android:background="@drawable/cancel_collect"
-            android:layout_marginRight="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/collect" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/s_collect"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
 
     </LinearLayout>
 
@@ -66,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dp">
 
                 <TextView
@@ -78,12 +80,14 @@
 
                 <Button
                     android:id="@+id/locate"
-                    android:layout_width="70dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/cancel_collect"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15sp"
-                    android:text="@string/map_locate" />
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/locate_point"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp" />
 
             </LinearLayout>
 
@@ -249,39 +253,36 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/contact"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@anim/btn_style"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/black"
+            android:background="#999999"
             android:text="@string/contact_employee" />
 
         <Button
             android:id="@+id/pay"
-            android:layout_width="160dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@anim/btn_style"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
+            android:background="@drawable/add_mem"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="@string/pay" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

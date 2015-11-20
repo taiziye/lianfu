@@ -41,7 +41,7 @@
             android:layout_width="55dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
-            android:text="未结算"
+            android:text="未确认"
             android:gravity="center"
             android:background="@drawable/compute"
             android:textSize="16sp"

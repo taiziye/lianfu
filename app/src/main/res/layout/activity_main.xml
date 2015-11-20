@@ -16,38 +16,72 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
                 android:background="@android:color/black"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp" />
 
-            <EditText
-                android:id="@+id/user_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:textColorHint="@android:color/black"
-                android:hint="@string/user_name"
-                style="@style/btn_style_top" />
+                android:background="@anim/fragment_style"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/user_pass"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:textColorHint="@android:color/black"
-                android:hint="@string/user_pass"
-                android:inputType="textPassword"
-                style="@style/btn_style_top" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/user_name"/>
+
+                    <EditText
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:textColorHint="#999999"
+                        android:hint="@string/user_name"
+                        android:background="@null"/>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/view_line_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/pass"/>
+
+                    <EditText
+                        android:id="@+id/user_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:textColorHint="#999999"
+                        android:hint="@string/pass"
+                        android:background="@null"/>
+
+                </LinearLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/login"
@@ -59,7 +93,7 @@
                 android:gravity="center"
                 style="@style/btn_style_top"
                 android:text="@string/login"
-                android:background="@drawable/login" />
+                android:background="@android:color/holo_red_light" />
 
             <RelativeLayout
                 android:layout_marginTop="20dp"
@@ -82,7 +116,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/register"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/holo_red_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

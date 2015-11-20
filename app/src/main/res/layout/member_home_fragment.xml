@@ -6,15 +6,16 @@
 
     <LinearLayout
         android:id="@+id/content"
-        style="@style/title_bar_style"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/double_code"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/double_code" />
 
@@ -24,30 +25,47 @@
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
             android:background="@anim/fragment_style"
             android:orientation="horizontal">
 
-            <Button
+            <ImageView
                 android:id="@+id/locate"
-                android:layout_width="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/locate"
+                />
+
+            <View
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@anim/btn_style"
-                android:text="@string/position" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="10dp"
+                android:background="#cccccc"
+                />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/search"
+                />
 
             <EditText
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="@string/search"
                 android:gravity="center" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/map"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/map" />
 

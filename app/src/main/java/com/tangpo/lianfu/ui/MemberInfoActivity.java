@@ -129,16 +129,7 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
             @Override
             public void onFail(JSONObject result) {
                 try {
-                    String status=result.getString("status");
-                    if(status.equals("1")){
-                        ToastUtils.showToast(MemberInfoActivity.this,getString(R.string.update_fail),Toast.LENGTH_SHORT);
-                    }else if(status.equals("2")){
-                        ToastUtils.showToast(MemberInfoActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
-                    }else if(status.equals("9")){
-                        ToastUtils.showToast(MemberInfoActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
-                    }else{
-                        ToastUtils.showToast(MemberInfoActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(MemberInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

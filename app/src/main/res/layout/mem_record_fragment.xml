@@ -6,10 +6,11 @@
 
     <LinearLayout
         android:id="@+id/content"
-        style="@style/title_bar_style"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/black">
 
         <TextView
             android:id="@+id/shop_name"
@@ -18,7 +19,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/record" />
 
     </LinearLayout>

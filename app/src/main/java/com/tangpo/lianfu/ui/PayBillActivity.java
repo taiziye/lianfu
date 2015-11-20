@@ -154,14 +154,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status=result.getString("status");
-                    if(status.equals("9")){
-                        ToastUtils.showToast(PayBillActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
-                        Intent intent=new Intent(PayBillActivity.this,MainActivity.class);
-                        startActivity(intent);
-                    }else if(status.equals("10")){
-                        ToastUtils.showToast(PayBillActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(PayBillActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

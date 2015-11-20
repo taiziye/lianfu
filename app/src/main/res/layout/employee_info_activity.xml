@@ -6,17 +6,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/back"
-            android:layout_width="36dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/back"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -24,19 +26,20 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="22sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/employee_info" />
 
         <Button
             android:id="@+id/confirm"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@anim/btn_style"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/setting"
             android:layout_marginRight="15dp"
-            android:layout_alignParentRight="true"
-            android:text="@string/confirm" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            />
     </LinearLayout>
 
     <ScrollView
@@ -93,8 +96,17 @@
                     android:id="@+id/user_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -117,8 +129,17 @@
                     android:id="@+id/contact_tel"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -141,8 +162,17 @@
                     android:id="@+id/rel_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -189,8 +219,17 @@
                     android:id="@+id/id_card"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -213,8 +252,17 @@
                     android:id="@+id/bank"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -237,8 +285,17 @@
                     android:id="@+id/bank_card"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -261,8 +318,17 @@
                     android:id="@+id/bank_name"
                     style="@style/manager_personal_style"
                     android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"
+                    />
             </LinearLayout>
 
         </LinearLayout>

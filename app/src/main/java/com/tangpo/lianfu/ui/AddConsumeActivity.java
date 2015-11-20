@@ -155,13 +155,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        Tools.showToast(AddConsumeActivity.this, getString(R.string.login_timeout));
-                        Intent intent = new Intent(AddConsumeActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Tools.showToast(AddConsumeActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(AddConsumeActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

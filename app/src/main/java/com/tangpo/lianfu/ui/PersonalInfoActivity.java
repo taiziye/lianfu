@@ -129,11 +129,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 dialog.dismiss();
                 Log.e("tag", result.toString());
                 try {
-                    if (result.getString("status").equals("1")) {
-                        Tools.showToast(PersonalInfoActivity.this, getString(R.string.format_error));
-                    } else if (result.getString("status").equals("10")) {
-                        Tools.showToast(PersonalInfoActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(PersonalInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

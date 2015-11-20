@@ -219,6 +219,11 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                try {
+                    Tools.handleResult(DiscountActivity.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

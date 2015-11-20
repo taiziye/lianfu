@@ -6,15 +6,16 @@
 
     <LinearLayout
         android:id="@+id/content"
-        style="@style/title_bar_style"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/double_code"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/double_code" />
 
@@ -25,13 +26,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/personal" />
 
         <Button
             android:id="@+id/chat"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/chat" />
 
@@ -121,14 +122,14 @@
 
     <TextView
         android:id="@+id/personal_info"
-        style="@style/manager_personal_style"
+        style="@style/personal_style"
         android:text="@string/personal_msg" />
 
     <View style="@style/view_line_style" />
 
     <TextView
         android:id="@+id/modify_pass"
-        style="@style/manager_personal_style"
+        style="@style/personal_style"
         android:background="@null"
         android:text="@string/modify_pass" />
 

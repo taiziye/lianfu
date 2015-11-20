@@ -335,16 +335,7 @@ public class PayByAliPay extends FragmentActivity {
             @Override
             public void onFail(JSONObject result) {
                 try {
-                    if (result.getString("status").equals("2")) {
-                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
-                    } else if (result.getString("status").equals("9")) {
-                        ToastUtils.showToast(PayByAliPay.this, getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                        Intent intent = new Intent(PayByAliPay.this, MainActivity.class);
-                        startActivity(intent);
-                        PayByAliPay.this.finish();
-                    } else if (result.getString("status").equals("10")) {
-                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(PayByAliPay.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -210,12 +210,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status = result.getString("status");
-                    if (status.equals("1")) {
-                        ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_error), Toast.LENGTH_SHORT);
-                    } else if (status.equals("10")) {
-                        ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(AddEmployeeActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

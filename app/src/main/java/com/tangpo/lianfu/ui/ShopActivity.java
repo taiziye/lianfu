@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,7 +32,7 @@ import org.json.JSONObject;
 public class ShopActivity extends Activity implements View.OnClickListener {
 
     private Button back;
-    private Button collect;
+    private ImageView collect;
     private Button locate;
     private Button contact;
     private Button pay;
@@ -80,7 +82,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         gson=new Gson();
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        collect = (Button) findViewById(R.id.collect);
+        collect = (ImageView) findViewById(R.id.collect);
         collect.setOnClickListener(this);
         locate = (Button) findViewById(R.id.locate);
         locate.setOnClickListener(this);
@@ -251,17 +253,23 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if (result.getString("status").equals("9")) {
-                        Tools.showToast(ShopActivity.this, getString(R.string.login_timeout));
-                    } else {
-                        Tools.showToast(ShopActivity.this, getString(R.string.server_exception));
-                    }
+                    Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, param);
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                collect.setImageResource(R.drawable.s_collect_r);
+            }
+        }
+    };
 
     private void collectStore(){
         dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
@@ -272,6 +280,9 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Message msg = new Message();
+                msg.what = 1;
+                handler.handleMessage(msg);
                 ToastUtils.showToast(ShopActivity.this,getString(R.string.collect_success), Toast.LENGTH_SHORT);
             }
         }, new NetConnection.FailCallback() {
@@ -279,17 +290,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    String status=result.getString("status");
-                    if(status.equals("1")){
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.collect_failed),Toast.LENGTH_SHORT);
-                    }else if(status.equals("9")){
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
-                        Intent intent=new Intent(ShopActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else{
-                        ToastUtils.showToast(ShopActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
-                    }
+                    Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

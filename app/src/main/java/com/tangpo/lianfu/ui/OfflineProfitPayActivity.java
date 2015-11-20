@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -23,7 +23,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ComputeProfitAdapter;
 import com.tangpo.lianfu.entity.Profit;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.parms.ProfitManagement;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -109,19 +107,45 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         money = (TextView) findViewById(R.id.money);
         money.setText(0 + "");
 
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
                 tmp=0;
-                money.setText(tmp+"");
+                money.setText(tmp + "");
+                select_all.setChecked(false);
+
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        OfflineProfitPayActivity.this,
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
                 getProfitPay();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page++;
+                select_all.setChecked(false);
                 getProfitPay();
             }
         });
@@ -144,6 +168,13 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     tmp -= Double.parseDouble(list.get(position - 1).getProfit());
                     set.remove(position - 1);
                     checkNum--;
+                }
+
+                if(checkNum == list.size()) {
+                    select_all.setChecked(true);
+                } else {
+                    if(checkNum == 0) tmp = 0;
+                    select_all.setChecked(false);
                 }
                 money.setText(tmp + "");
             }
@@ -231,6 +262,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -241,7 +273,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("tag", "size = " + list.size());
+                if(adapter != null) adapter.setIsSelected(list.size());
 
                 Message msg = new Message();
                 msg.what = 1;
@@ -252,7 +284,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-
+                listView.onRefreshComplete();
+                try {
+                    Tools.handleResult(OfflineProfitPayActivity.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

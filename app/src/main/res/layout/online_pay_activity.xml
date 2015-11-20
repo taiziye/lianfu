@@ -11,7 +11,8 @@
         android:paddingBottom="10dp"
         android:gravity="center"
         android:textSize="22sp"
-        android:textColor="@android:color/black"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
         android:text="@string/online_pay" />
 
     <LinearLayout
@@ -21,12 +22,18 @@
         android:background="@anim/fragment_style"
         android:gravity="center_horizontal">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="200dp"
-            android:layout_height="120dp"
+        <RelativeLayout
             android:layout_marginTop="20dp"
-            android:background="@android:color/black" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/pay_success">
+            <TextView android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
