@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,7 +32,7 @@ import org.json.JSONObject;
 public class ShopActivity extends Activity implements View.OnClickListener {
 
     private Button back;
-    private Button collect;
+    private ImageView collect;
     private Button locate;
     private Button contact;
     private Button pay;
@@ -80,7 +82,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         gson=new Gson();
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        collect = (Button) findViewById(R.id.collect);
+        collect = (ImageView) findViewById(R.id.collect);
         collect.setOnClickListener(this);
         locate = (Button) findViewById(R.id.locate);
         locate.setOnClickListener(this);
@@ -259,6 +261,16 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         }, param);
     }
 
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                collect.setImageResource(R.drawable.s_collect_r);
+            }
+        }
+    };
+
     private void collectStore(){
         dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{store_id, user_id};
@@ -268,6 +280,9 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Message msg = new Message();
+                msg.what = 1;
+                handler.handleMessage(msg);
                 ToastUtils.showToast(ShopActivity.this,getString(R.string.collect_success), Toast.LENGTH_SHORT);
             }
         }, new NetConnection.FailCallback() {

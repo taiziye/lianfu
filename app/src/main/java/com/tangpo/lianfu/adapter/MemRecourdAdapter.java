@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +64,11 @@ public class MemRecourdAdapter extends BaseAdapter {
 
         holder.shop_name.setText(list.get(position).getShop_name());
         if (list.get(position).isCompute()) {
-            holder.compute.setText("已计算");
+            holder.compute.setText("已确认");
+            holder.compute.setBackgroundColor(Color.RED);
         } else {
-            holder.compute.setText("未计算");
+            holder.compute.setText("未确认");
+            holder.compute.setBackgroundColor(Color.GRAY);
         }
         holder.money.setText(list.get(position).getMoney() + "");
         holder.time.setText((new SimpleDateFormat("yyyy-MM-dd hh:mm")).format(new Date()));

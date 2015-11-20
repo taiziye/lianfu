@@ -227,4 +227,5 @@
     <string name="pay_amount_cannot_be_null">支付金额不能为空！</string>
     <string name="pay_profit">利润</string>
     <string name="store_consume_profit">地面店消费利润</string>
+    <string name="add_discount">添加折扣</string>
 </resources>

@@ -6,13 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/back"
-            android:layout_width="36dp"
-            android:layout_height="match_parent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/back"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -24,7 +25,7 @@
             android:layout_centerInParent="true"
             android:text="@string/add_employee"
             android:textSize="22sp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 
     <View style="@style/view_line_style" />
@@ -329,8 +330,10 @@
                 android:layout_height="50dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
                 android:text="@string/submit" />
         </LinearLayout>
     </ScrollView>

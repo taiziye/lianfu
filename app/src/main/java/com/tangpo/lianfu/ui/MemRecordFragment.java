@@ -14,7 +14,9 @@ import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.adapter.MemRecourdAdapter;
 import com.tangpo.lianfu.adapter.MemberAdapter;
+import com.tangpo.lianfu.entity.MemRecord;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckConsumeRecord;
@@ -34,8 +36,8 @@ import java.util.List;
 public class MemRecordFragment extends Fragment implements View.OnClickListener {
 
     private PullToRefreshListView listView;
-    private MemberAdapter adapter = null;
-    private List<Member> list = new ArrayList<>();
+    private MemRecourdAdapter adapter = null;
+    private List<MemRecord> list = new ArrayList<>();
 
     private int page = 1;
     private Gson gson = new Gson();
@@ -66,7 +68,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         getConsumeRecord();
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
-        adapter = new MemberAdapter(list, getActivity());
+        adapter = new MemRecourdAdapter(getActivity(), list);
         listView.setAdapter(adapter);
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -129,7 +131,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Member member = gson.fromJson(object.toString(), Member.class);
+                        MemRecord member = gson.fromJson(object.toString(), MemRecord.class);
                         list.add(member);
                     }
                 } catch (JSONException e) {

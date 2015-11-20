@@ -5,30 +5,38 @@
     android:layout_height="match_parent">
 
     <RelativeLayout android:id="@+id/top"
-        android:background="@anim/fragment_style"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@android:color/black">
 
         <Button
             android:id="@+id/commit"
-            android:text="@string/confirm"
-            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/setting"
             android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:background="@anim/btn_style"
-            android:layout_width="80dp"
-            android:layout_height="40dp" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:text="@string/add_discount"
+            android:layout_centerInParent="true"/>
 
         <Button
             android:id="@+id/cancel"
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
     </RelativeLayout>
