@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/add_record"
+            android:text="新增消费记录"
             android:textSize="22sp"
             android:textColor="@android:color/white" />
     </RelativeLayout>
@@ -55,14 +55,15 @@
 
                 <TextView
                     android:id="@+id/shop_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
+                    android:layout_marginRight="20dp"
                     android:textSize="18sp"
-                    />
+                    android:textColor="@android:color/black"
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -226,14 +227,19 @@
 
                 <EditText
                     android:id="@+id/consum_money"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -245,8 +251,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="80dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
                 android:textSize="18sp"
                 android:textColor="@android:color/white"
                 android:text="@string/submit" />

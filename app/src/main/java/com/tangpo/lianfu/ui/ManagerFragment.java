@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -37,11 +38,11 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private TextView power;
     private TextView name;
-    private TextView shop_info;
-    private TextView personal_info;
-    private TextView discount_manage;
-    private TextView update_type;
-    private TextView modify_pass;
+    private LinearLayout shop_info;
+    private LinearLayout personal_info;
+    private LinearLayout discount_manage;
+    private LinearLayout update_type;
+    private LinearLayout modify_pass;
 
     private SharedPreferences preferences = null;
     private Gson gson = null;
@@ -75,20 +76,18 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
-        next = (ImageView) view.findViewById(R.id.next);
-        next.setOnClickListener(this);
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
-        shop_info = (TextView) view.findViewById(R.id.shop_info);
+        shop_info = (LinearLayout) view.findViewById(R.id.shop_info);
         shop_info.setOnClickListener(this);
-        personal_info = (TextView) view.findViewById(R.id.personal_info);
+        personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        discount_manage = (TextView) view.findViewById(R.id.discount_manage);
+        discount_manage = (LinearLayout) view.findViewById(R.id.discount_manage);
         discount_manage.setOnClickListener(this);
-        update_type = (TextView) view.findViewById(R.id.update_type);
+        update_type = (LinearLayout) view.findViewById(R.id.update_type);
         update_type.setOnClickListener(this);
-        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
+        modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

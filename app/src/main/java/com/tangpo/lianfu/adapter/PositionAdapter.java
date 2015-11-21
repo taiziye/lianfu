@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +67,7 @@ public class PositionAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        btn = new Button[list.size()];
+        collect = new ImageView[list.size()];
 
         collected = new boolean[list.size()];
 
@@ -112,7 +113,8 @@ public class PositionAdapter extends BaseAdapter {
             holder.shop_name = (TextView) convertView.findViewById(R.id.shop_name);
             holder.commodity = (TextView) convertView.findViewById(R.id.commodity);
             holder.address = (TextView) convertView.findViewById(R.id.address);
-            holder.collect = (Button) convertView.findViewById(R.id.collect);
+            holder.collect = (LinearLayout) convertView.findViewById(R.id.collect);
+            holder.s_img = (ImageView) convertView.findViewById(R.id.s_img);
 
             convertView.setTag(holder);
         } else {
@@ -126,9 +128,9 @@ public class PositionAdapter extends BaseAdapter {
         holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
 
-        holder.collect.setText(context.getString(R.string.collect));
+        holder.s_img.setImageResource(R.drawable.s_collect);
 
-        btn[position] = holder.collect;
+        collect[position] = holder.s_img;
 
         /*if (collectedStore.contains(list.get(position).getId())) {
             holder.collect.setText(context.getString(R.string.cancel_collect));
@@ -151,11 +153,11 @@ public class PositionAdapter extends BaseAdapter {
                 switch (msg.what){
                     case 2:
                         collected[cur] = true;
-                        btn[cur].setText(context.getString(R.string.cancel_collect));
+                        collect[position].setImageResource(R.drawable.s_collect_r);
                         break;
                     case 3:
                         collected[cur] = false;
-                        btn[cur].setText(context.getString(R.string.collect));
+                        collect[position].setImageResource(R.drawable.s_collect);
                         break;
                 }
             }
@@ -179,7 +181,7 @@ public class PositionAdapter extends BaseAdapter {
                     new NetConnection(new NetConnection.SuccessCallback() {
                         @Override
                         public void onSuccess(JSONObject result) {
-
+                            Log.e("tag", result.toString());
                             ViewHolder tmp = holder;
 
                             Message msg = new Message();
@@ -191,6 +193,7 @@ public class PositionAdapter extends BaseAdapter {
                     }, new NetConnection.FailCallback() {
                         @Override
                         public void onFail(JSONObject result) {
+                            Log.e("tag", result.toString());
                             try {
                                 if (result.getString("status").equals("9")) {
                                     ToastUtils.showToast(context, context.getString(R.string.login_timeout), Toast.LENGTH_SHORT);
@@ -210,14 +213,16 @@ public class PositionAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private Button[] btn;
+    private ImageView[] collect;
 
     private class ViewHolder {
         public ImageView img;
         public TextView shop_name;
         public TextView commodity;
         public TextView address;
-        public Button collect;
+        public LinearLayout collect;
         public int position = 0;
+
+        private ImageView s_img;
     }
 }

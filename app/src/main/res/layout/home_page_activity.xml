@@ -14,44 +14,74 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <com.tangpo.lianfu.utils.ImageBt
+        <TextView
             android:id="@+id/one"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/record"
-            style="@style/btn_style_bottom" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:text="@string/record"/>
 
-        <com.tangpo.lianfu.utils.ImageBt
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#cccccc" />
+
+        <TextView
             android:id="@+id/two"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/record"
-            style="@style/btn_style_bottom" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:text="@string/record"/>
 
-        <com.tangpo.lianfu.utils.ImageBt
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#cccccc" />
+
+        <TextView
             android:id="@+id/three"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/member"
-            style="@style/btn_style_bottom" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:text="@string/member"/>
 
-        <com.tangpo.lianfu.utils.ImageBt
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#cccccc" />
+
+        <TextView
             android:id="@+id/four"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/employee"
-            style="@style/btn_style_bottom" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:text="@string/employee"/>
 
-        <com.tangpo.lianfu.utils.ImageBt
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#cccccc" />
+
+        <TextView
             android:id="@+id/five"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/personal"
-            style="@style/btn_style_bottom" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:text="@string/personal"/>
 
     </LinearLayout>
 

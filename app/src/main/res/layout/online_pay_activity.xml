@@ -27,12 +27,27 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:background="@drawable/pay_success">
-            <TextView android:id="@+id/text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"/>
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#aaaaaa"
+                    android:text="理财资金"/>
+
+                <TextView android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/black"
+                    android:text="2000.00"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -67,15 +82,15 @@
         <Button
             android:id="@+id/back_home"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@anim/btn_style"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/add_mem"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/back_home" />
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
@@ -53,33 +54,44 @@ public class MemRecourdAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.shop_name = (TextView) convertView.findViewById(R.id.shop_name);
-            holder.compute = (TextView) convertView.findViewById(R.id.compute);
+            holder.confirm = (TextView) convertView.findViewById(R.id.confirm);
             holder.money = (TextView) convertView.findViewById(R.id.money);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.contact = (Button) convertView.findViewById(R.id.contact);
+            holder.profit = (TextView) convertView.findViewById(R.id.profit);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.shop_name.setText(list.get(position).getShop_name());
-        if (list.get(position).isCompute()) {
-            holder.compute.setText("已确认");
-            holder.compute.setBackgroundColor(Color.RED);
+        holder.shop_name.setText(list.get(position).getStore());
+        if ("已确认".equals(list.get(position).getRecord_status())) {
+            holder.confirm.setText("已确认");
+            holder.confirm.setTextColor(Color.GRAY);
         } else {
-            holder.compute.setText("未确认");
-            holder.compute.setBackgroundColor(Color.GRAY);
+            holder.confirm.setText("未确认");
+            holder.confirm.setTextColor(Color.RED);
         }
-        holder.money.setText(list.get(position).getMoney() + "");
-        holder.time.setText((new SimpleDateFormat("yyyy-MM-dd hh:mm")).format(new Date()));
+        holder.money.setText(list.get(position).getFee() + "");
+        holder.time.setText(list.get(position).getDatetime());
+
+        holder.contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //联系客服
+            }
+        });
 
         return convertView;
     }
 
     private class ViewHolder {
         public TextView shop_name;
-        public TextView compute;
+        public TextView confirm;
         public TextView money;
         public TextView time;
+        public TextView profit;
+        public Button contact;
     }
 }

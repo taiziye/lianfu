@@ -21,16 +21,15 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/back" />
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:orientation="horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_centerInParent="true"
             android:background="@anim/fragment_style">
 
-            <Button
+            &lt;!&ndash;<Button
                 android:id="@+id/offline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,8 +45,16 @@
                 android:background="#cccccc"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="@string/online_compute_record" />
-        </LinearLayout>
+                android:text="@string/online_compute_record" />&ndash;&gt;
+        </LinearLayout>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:text="利润结算"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -115,9 +122,11 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <CheckBox
             android:id="@+id/select_all"
@@ -130,8 +139,10 @@
             android:layout_marginLeft="10dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:orientation="horizontal"
             android:layout_centerInParent="true">
 
@@ -144,7 +155,8 @@
 
             <TextView
                 android:id="@+id/money"
-                android:layout_width="80dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="1,200"
                 android:gravity="center"
@@ -171,6 +183,6 @@
             android:paddingRight="15dp"
             android:text="@string/comput"
             android:background="@android:color/holo_red_light" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
