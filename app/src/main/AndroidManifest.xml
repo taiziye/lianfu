@@ -28,7 +28,7 @@
         <!-- 开发基于百度地图的应用需要先申请key，然后在application中添加开发密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="s8X6qe7XTp1Bvp1l3mHv1r1z" />
+            android:value="9q77sl9vOSDClc1iotIGVnYj" />
 
         <activity
             android:name=".ui.WelcomeActivity"
