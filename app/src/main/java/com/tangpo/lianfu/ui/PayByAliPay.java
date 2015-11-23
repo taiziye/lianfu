@@ -105,8 +105,11 @@ public class PayByAliPay extends FragmentActivity {
         pay_account=Key.SELLER;
         subject=getString(R.string.pay_profit);
         body=getString(R.string.store_consume_profit);
-        price=bundle.getString("total_fee");
-
+        /**
+         * 这里测试的时候先注释这一行，转一分钱到平台支付宝账号
+         */
+//        price=bundle.getString("total_fee");
+        price=bundle.getString("0.01");
         tvSubject.setText(subject);
         tvBody.setText(body);
         tvPrice.setText(price);
