@@ -20,11 +20,12 @@
         android:layout_height="120dp"
         android:layout_weight="1"
         android:paddingRight="10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="4"
+            android:layout_weight="6"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_vertical">
@@ -60,14 +61,29 @@
         </LinearLayout>
 
 
-        <Button
+        <LinearLayout
             android:id="@+id/collect"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="40dp"
-            android:background="@drawable/cancel_collect"
-            android:layout_marginTop="16dp"
-            android:text="@string/collect" />
+            android:gravity="center"
+            android:background="@drawable/cancel_collect">
+
+            <ImageView android:id="@+id/s_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/s_collect"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textColor="@android:color/holo_red_light"
+                android:text="@string/collect"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

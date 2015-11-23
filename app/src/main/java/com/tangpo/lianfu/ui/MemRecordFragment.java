@@ -17,12 +17,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemRecourdAdapter;
-import com.tangpo.lianfu.adapter.MemberAdapter;
 import com.tangpo.lianfu.entity.MemRecord;
-import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckConsumeRecord;
-import com.tangpo.lianfu.parms.MemberManagement;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -135,7 +132,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", result.toString());
+                Log.e("tag", "tag = " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
@@ -158,10 +155,15 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                Log.e("tag", "fail " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    if("404".equals(result.getString("status"))){
+                        Tools.showToast(getActivity(), "没有数据");
+                    } else {
+                        Tools.handleResult(getActivity(), result.getString("status"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

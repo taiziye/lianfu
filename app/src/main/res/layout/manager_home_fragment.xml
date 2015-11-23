@@ -42,129 +42,343 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <View
+                style="@style/view_line_style" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:background="@anim/fragment_style"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <ImageView android:id="@+id/left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_red"
+                    />
+
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="会员消费记录共计"/>
 
                 <TextView
                     android:id="@+id/record"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center" />
+                    android:layout_marginRight="10dp"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="3,000.00"/>
 
                 <TextView
                     android:id="@+id/add_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="70dp"
+                    android:layout_height="36dp"
                     android:gravity="center"
                     android:text="@string/add_record"
+                    android:background="@drawable/cancel_collect"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:background="@anim/text_style" />
+                    android:textColor="@android:color/holo_red_light"
+                    />
 
             </LinearLayout>
 
+            <View
+                style="@style/view_line_style" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:background="@anim/fragment_style"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_purple"
+                    />
+
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="会员人数总计"/>
 
                 <TextView
                     android:id="@+id/mem"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center" />
+                    android:layout_marginRight="10dp"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="3人"/>
 
                 <TextView
                     android:id="@+id/add_mem"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="70dp"
+                    android:layout_height="36dp"
                     android:gravity="center"
-                    android:text="@string/add_mem"
+                    android:text="@string/add_record"
+                    android:background="@drawable/cancel_collect"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:background="@anim/text_style" />
+                    android:textColor="@android:color/holo_red_light"
+                    />
 
             </LinearLayout>
 
+            <View
+                style="@style/view_line_style" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:background="@anim/fragment_style"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="100dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_blue"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|left"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="消费利润共计"/>
+
+                        <TextView
+                            android:id="@+id/pay"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="3,000.00"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|left"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="可支付共计"/>
+
+                        <TextView
+                            android:id="@+id/pay_can"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="3,000.00"/>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/profit_pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="70dp"
+                    android:layout_height="36dp"
                     android:gravity="center"
-                    android:text="@string/profit_pay"
+                    android:text="结算"
+                    android:background="@drawable/cancel_collect"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:background="@anim/text_style" />
+                    android:textColor="@android:color/holo_red_light"
+                    />
 
             </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:background="@anim/fragment_style"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/employee"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_green"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|left"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="管理员人数总计"/>
+
+                        <TextView
+                            android:id="@+id/manager"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="1人"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_marginRight="10dp"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|left"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="员工总计"/>
+
+                        <TextView
+                            android:id="@+id/employee"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"
+                            android:text="5人"/>
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/add_employee"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="70dp"
+                    android:layout_height="36dp"
                     android:gravity="center"
-                    android:text="@string/add_employee"
+                    android:text="@string/add_record"
+                    android:background="@drawable/cancel_collect"
                     android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:background="@anim/text_style" />
+                    android:textColor="@android:color/holo_red_light"
+                    />
 
             </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_orange"
+                    />
+
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:layout_width="150dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="平台返利共计"/>
+
+                <TextView
+                    android:id="@+id/rebate"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:text="3,000.00"/>
+
+                <TextView
+                    android:id="@+id/rebate_pay"
+                    android:layout_width="70dp"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="记录"
+                    android:background="@drawable/cancel_collect"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/holo_red_light"
+                    />
+
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
 
         </LinearLayout>
 

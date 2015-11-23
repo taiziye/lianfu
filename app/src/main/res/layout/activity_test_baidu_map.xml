@@ -17,12 +17,16 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:layout_alignParentBottom="true">
+
         <com.tangpo.lianfu.utils.ViewPagerCompat
             android:id="@+id/vp"
             android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
              />
+
     </LinearLayout>
 
     <LinearLayout

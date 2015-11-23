@@ -12,18 +12,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.DiscountAdapter;
-import com.tangpo.lianfu.adapter.EmployeeAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
-import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.DeleteDiscount;
 import com.tangpo.lianfu.parms.ManageDiscount;
@@ -33,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +40,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private Button back;
     private Button confirm;
-    private Button delete;
-    private Button add;
+    private LinearLayout delete;
+    private LinearLayout add;
 
     private TextView sum;
 
@@ -103,9 +99,9 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
-        delete = (Button) findViewById(R.id.delete);
+        delete = (LinearLayout) findViewById(R.id.delete);
         delete.setOnClickListener(this);
-        add = (Button) findViewById(R.id.add);
+        add = (LinearLayout) findViewById(R.id.add);
         add.setOnClickListener(this);
 
         sum = (TextView) findViewById(R.id.sum);

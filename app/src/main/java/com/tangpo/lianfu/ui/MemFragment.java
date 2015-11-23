@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
@@ -32,8 +33,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
     private TextView power;
     private TextView name;
-    private TextView personal_info;
-    private TextView modify_pass;
+    private LinearLayout personal_info;
+    private LinearLayout modify_pass;
     private TextView remainder;
     private UserEntity userEntity;
 
@@ -68,16 +69,14 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
-        next = (ImageView) view.findViewById(R.id.next);
-        next.setOnClickListener(this);
 
         Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
-        personal_info = (TextView) view.findViewById(R.id.personal_info);
+        personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
+        modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
         remainder = (TextView) view.findViewById(R.id.remainder);
     }

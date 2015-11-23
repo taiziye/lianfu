@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -84,7 +85,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     }
 
     private void init(View view) {
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         locate = (ImageView) view.findViewById(R.id.locate);
@@ -123,12 +123,21 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.locate:
                 break;
             case R.id.map:
-                Intent intent = new Intent(getActivity(), MapActivity.class);
+                /*Intent intent = new Intent(getActivity(), MapActivity.class);
                 Log.e("tag", storeList.size() + " " + storeList.getClass());
                 Bundle bundle=new Bundle();
                 bundle.putParcelableArrayList("list",storeList);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(intent);*/
+                Fragment fragment = new MapActivity();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list",storeList);
+                bundle.putString("userid", userid);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case R.id.search:
                 break;
@@ -153,6 +162,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     };
 
     private void getStores() {
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{lng, lat, userid};
 
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);

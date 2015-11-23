@@ -39,6 +39,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private TextView record;
     private TextView add_record;
     private TextView profit;
+    private TextView profit_can;
     private TextView profit_compute;
     private TextView mem;
     private TextView add_mem;
@@ -93,6 +94,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
         add_record = (TextView) view.findViewById(R.id.add_record);
         add_record.setOnClickListener(this);
         profit = (TextView) view.findViewById(R.id.profit);
+        profit_can = (TextView) view.findViewById(R.id.profit_can);
         profit_compute = (TextView) view.findViewById(R.id.profit_compute);
         profit_compute.setOnClickListener(this);
         mem = (TextView) view.findViewById(R.id.mem);
@@ -114,26 +116,24 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
 
                     shop_name.setText(manager.getStore_name());
                     if (manager.getIncome() == null)
-                        record.setText("会员消费记录共计0元");
+                        record.setText("0");
                     else
-                        record.setText("会员消费记录共计" + manager.getIncome() + "元");
+                        record.setText("" + manager.getIncome() + "");
 
                     if (manager.getMem_num() == null)
-                        mem.setText("会员人数总计0人");
+                        mem.setText("0人");
                     else
-                        mem.setText("会员人数总计" + manager.getMem_num() + "人");
+                        mem.setText("" + manager.getMem_num() + "人");
 
-                    String tmp = "";
                     if (manager.getProfit() == null)
-                        tmp = "消费利润共计0元，";
+                        profit.setText("0");
                     else
-                        tmp = "消费利润共计" + manager.getProfit() + "元，";
+                        profit.setText( manager.getProfit() + "");
 
                     if (manager.getPayback() == null)
-                        tmp += "，可支付共计0元";
+                        profit_can.setText("0");
                     else
-                        tmp += "，可支付共计" + manager.getPayback() + "元";
-                    profit.setText(tmp);
+                        profit_can.setText(manager.getPayback() + "");
 
                     Configs.cacheManager(getActivity(), result.toString());
                 }

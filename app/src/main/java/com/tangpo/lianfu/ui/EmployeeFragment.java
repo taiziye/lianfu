@@ -11,13 +11,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
-import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -38,8 +38,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
     private TextView power;
     private TextView name;
-    private TextView personal_info;
-    private TextView modify_pass;
+    private LinearLayout personal_info;
+    private LinearLayout modify_pass;
 
     private SharedPreferences preferences = null;
     private Gson gson = null;
@@ -73,13 +73,12 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
-        next = (ImageView) view.findViewById(R.id.next);
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
-        personal_info = (TextView) view.findViewById(R.id.personal_info);
+        personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
-        modify_pass = (TextView) view.findViewById(R.id.modify_pass);
+        modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

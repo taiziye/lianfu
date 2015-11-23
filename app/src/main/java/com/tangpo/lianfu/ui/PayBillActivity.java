@@ -35,7 +35,7 @@ import org.json.JSONObject;
 public class PayBillActivity extends Activity implements View.OnClickListener {
 
     private Button back;
-    private Button upload;
+//    private Button upload;
     private Button pay_online;
     private Button pay_offline;
     private ImageView imageView=null;
@@ -74,8 +74,8 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        upload = (Button) findViewById(R.id.upload);
-        upload.setOnClickListener(this);
+//        upload = (Button) findViewById(R.id.upload);
+//        upload.setOnClickListener(this);
         pay_online = (Button) findViewById(R.id.pay_online);
         pay_online.setOnClickListener(this);
 
@@ -108,7 +108,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             case R.id.back:
                 finish();
                 break;
-            case R.id.upload:
+            case R.id.bill:
                 /**
                  * 上传照片需要调用照相机
                  */
@@ -123,10 +123,10 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.select:
                 break;
-            case R.id.bill:
+            /*case R.id.bill:
                 intent=new Intent(PayBillActivity.this,SelectPicActivity.class);
                 startActivityForResult(intent, 1);
-                break;
+                break;*/
         }
     }
 
@@ -166,7 +166,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
-            upload.setVisibility(View.GONE);
+//            upload.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));

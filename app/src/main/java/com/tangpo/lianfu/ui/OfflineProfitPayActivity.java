@@ -42,8 +42,8 @@ import java.util.Map;
 public class OfflineProfitPayActivity extends Activity implements View.OnClickListener {
 
     private Button back;
-    private Button offline;
-    private Button online;
+//    private Button offline;
+//    private Button online;
     private Button compute;
 
     private PullToRefreshListView listView;
@@ -65,12 +65,9 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private double tmp = 0;
 
-
-
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Tools.deleteActivity(this);
         finish();
     }
 
@@ -79,8 +76,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.offline_profit_pay_activity);
-
-        Tools.gatherActivity(this);
 
         userid = getIntent().getExtras().getString("userid");
         store_id = getIntent().getExtras().getString("storeid");
@@ -91,10 +86,10 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-        offline = (Button) findViewById(R.id.offline);
-        offline.setOnClickListener(this);
-        online = (Button) findViewById(R.id.online);
-        online.setOnClickListener(this);
+//        offline = (Button) findViewById(R.id.offline);
+//        offline.setOnClickListener(this);
+//        online = (Button) findViewById(R.id.online);
+//        online.setOnClickListener(this);
         compute = (Button) findViewById(R.id.compute);
         compute.setOnClickListener(this);
         listView= (PullToRefreshListView) findViewById(R.id.list);
@@ -190,14 +185,14 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             case R.id.back:
                 finish();
                 break;
-            case R.id.offline:
+            /*case R.id.offline:
                 offline.setBackgroundColor(Color.WHITE);
                 online.setBackgroundColor(Color.GRAY);
                 break;
             case R.id.online:
                 online.setBackgroundColor(Color.WHITE);
                 offline.setBackgroundColor(Color.GRAY);
-                break;
+                break;*/
             case R.id.compute:
 //                Compute();
                 if(tmp==0){

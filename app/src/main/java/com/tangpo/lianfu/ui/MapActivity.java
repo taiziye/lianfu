@@ -1,9 +1,12 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MapActivity extends Activity implements ViewPager.OnPageChangeListener {
+public class MapActivity extends Fragment implements ViewPager.OnPageChangeListener {
 
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
@@ -62,22 +66,22 @@ public class MapActivity extends Activity implements ViewPager.OnPageChangeListe
     private ImageView locate;
     private Button back;
 
+    private String userid;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /**
          * 在应用程序创建时初始化SDK引用的Context全局变量，注意这里需要获取整个应用的Context，即ApplicationContext
          * 并且注意要在setContentView方法之前实现
          *注意：在SDK各功能组件使用之前都需要调用
          SDKInitializer.initialize(getApplicationContext());，因此我们建议该方法放在Application的初始化方法中
          */
-        SDKInitializer.initialize(getApplication());
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_test_baidu_map);
+        SDKInitializer.initialize(getActivity().getApplicationContext());
+        View view = inflater.inflate(R.layout.activity_test_baidu_map, container, false);
 
-        Tools.gatherActivity(this);
         //获取地图控件引用
-        mMapView = (MapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) view.findViewById(R.id.bmapView);
         //获取地图
         mBaiduMap = mMapView.getMap();
         //普通地图
@@ -86,7 +90,7 @@ public class MapActivity extends Activity implements ViewPager.OnPageChangeListe
         mBaiduMap.setMyLocationEnabled(true);
 
         //设定初始地图中心点坐标
-        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
         float curLatitude = preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
         float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
         LatLng cenpt = new LatLng(curLatitude, curLongitude);
@@ -102,8 +106,9 @@ public class MapActivity extends Activity implements ViewPager.OnPageChangeListe
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
         myOverlay=mBaiduMap.addOverlay(overlayOptions);
 
-        storeList = getIntent().getExtras().getParcelableArrayList("list");
-        vp = (ViewPagerCompat) findViewById(R.id.vp);
+        storeList = getArguments().getParcelableArrayList("list");
+        userid = getArguments().getString("userid");
+        vp = (ViewPagerCompat) view.findViewById(R.id.vp);
         //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         //实时交通图
@@ -124,64 +129,65 @@ public class MapActivity extends Activity implements ViewPager.OnPageChangeListe
             mBaiduMap.addOverlay(options);
 
             //适配ViewPager
-            View view = LayoutInflater.from(this).inflate(R.layout.viewpage_list, null);
-            ImageView img = (ImageView) view.findViewById(R.id.img);
-            TextView shop_name = (TextView) view.findViewById(R.id.shop_name);
-            TextView commodity = (TextView) view.findViewById(R.id.shop_name);
-            TextView address = (TextView) view.findViewById(R.id.address);
+            View viewp = LayoutInflater.from(getActivity()).inflate(R.layout.viewpage_list, null);
+            ImageView img = (ImageView) viewp.findViewById(R.id.img);
+            TextView shop_name = (TextView) viewp.findViewById(R.id.shop_name);
+            TextView commodity = (TextView) viewp.findViewById(R.id.shop_name);
+            TextView address = (TextView) viewp.findViewById(R.id.address);
             //初始化
             //img.setImageURI(null);
             shop_name.setText(storeList.get(i).getStore());
             //commodity.setText(storeList.get(i).get);
             address.setText(storeList.get(i).getAddress());
 
-            listViews.add(view);
+            listViews.add(viewp);
         }
-        adapter = new ViewPageAdapter(this, listViews);
+        adapter = new ViewPageAdapter(getActivity(), listViews);
 
         vp.setAdapter(adapter);
         vp.setCurrentItem(0);
         vp.setOffscreenPageLimit(5);
-        vp.setPageMargin(dip2px(this, 50));
+        vp.setPageMargin(dip2px(getActivity(), 50));
         vp.setOnPageChangeListener(this);
 
-        scan = (Button) findViewById(R.id.double_code);
-        locate = (ImageView) findViewById(R.id.locate);
-        back = (Button) findViewById(R.id.back);
+        scan = (Button) view.findViewById(R.id.double_code);
+        locate = (ImageView) view.findViewById(R.id.locate);
+        back = (Button) view.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //getActivity().finish();
+                Fragment fragment = new MemberHomeFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putString("userid", userid);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+        return view;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mMapView.onResume();
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         mMapView.onPause();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-        Tools.deleteActivity(this);
-        finish();
-    }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

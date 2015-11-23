@@ -11,6 +11,7 @@ public class Profit implements Parcelable {
     private String username;
     private String consume_date;
     private String fee;
+    private String discount;
     private String profit;
     private String pay_status;
     private String pay_way;
@@ -18,10 +19,19 @@ public class Profit implements Parcelable {
     private String pay_account;
     private String desc;
 
-    public Profit(String consume_date, String desc, String fee, String id, String pay_account, String pay_date, String pay_status, String pay_way, String profit, String username) {
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public Profit(String consume_date, String discount, String desc, String fee, String id, String pay_account, String pay_date, String pay_status, String pay_way, String profit, String username) {
         this.consume_date = consume_date;
         this.desc = desc;
         this.fee = fee;
+        this.discount = discount;
         this.id = id;
         this.pay_account = pay_account;
         this.pay_date = pay_date;
@@ -36,6 +46,7 @@ public class Profit implements Parcelable {
         username = in.readString();
         consume_date = in.readString();
         fee = in.readString();
+        discount = in.readString();
         profit = in.readString();
         pay_status = in.readString();
         pay_way = in.readString();
@@ -152,6 +163,7 @@ public class Profit implements Parcelable {
         dest.writeString(username);
         dest.writeString(consume_date);
         dest.writeString(fee);
+        dest.writeString(discount);
         dest.writeString(profit);
         dest.writeString(pay_status);
         dest.writeString(pay_way);
@@ -163,10 +175,11 @@ public class Profit implements Parcelable {
     @Override
     public String toString() {
         return "Profit{" +
-                "consume_date='" + consume_date + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
+                ", consume_date='" + consume_date + '\'' +
                 ", fee='" + fee + '\'' +
+                ", discount='" + discount + '\'' +
                 ", profit='" + profit + '\'' +
                 ", pay_status='" + pay_status + '\'' +
                 ", pay_way='" + pay_way + '\'' +
