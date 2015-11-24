@@ -85,6 +85,7 @@ public class ComputeProfitAdapter extends BaseAdapter {
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.profit = (TextView) convertView.findViewById(R.id.profit);
             holder.status = (TextView) convertView.findViewById(R.id.status);
+            holder.account = (TextView) convertView.findViewById(R.id.account);
 
             convertView.setTag(holder);
         } else {
@@ -154,5 +155,6 @@ public class ComputeProfitAdapter extends BaseAdapter {
         private TextView date;
         private TextView profit;
         private TextView status;
+        private TextView account;
     }
 }

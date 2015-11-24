@@ -39,7 +39,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
@@ -60,7 +60,7 @@
 
         <LinearLayout
             style="@style/consum_top_style"
-            android:layout_marginLeft="8dp">
+            >
 
             <TextView
                 style="@style/consum_top_text_style"
@@ -73,7 +73,7 @@
 
         <LinearLayout
             style="@style/consum_top_style"
-            android:layout_marginLeft="8dp">
+            >
 
             <TextView
                 style="@style/consum_top_text_style"
@@ -83,6 +83,11 @@
                 style="@style/consum_top_img_style"
                 android:background="@drawable/list_sort" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

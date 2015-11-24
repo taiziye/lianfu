@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingLeft="20dp"
+    android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
     <LinearLayout
@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/employee_name"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="16sp"
@@ -41,6 +41,11 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="管" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

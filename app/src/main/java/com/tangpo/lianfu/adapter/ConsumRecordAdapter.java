@@ -114,10 +114,10 @@ public class ConsumRecordAdapter extends BaseAdapter {
         holder.profit.setText("(利润" + list.get(position).getProfit() + "元)");
         if (list.get(position).getPay_status().equals("1")) {
             holder.compute.setText("已结算");
-            holder.compute.setBackgroundColor(Color.RED);
+            holder.compute.setTextColor(Color.RED);
         } else {
             holder.compute.setText("未结算");
-            holder.compute.setBackgroundColor(Color.GRAY);
+            holder.compute.setTextColor(Color.GRAY);
         }
 
         holder.time.setText(list.get(position).getConsume_date());

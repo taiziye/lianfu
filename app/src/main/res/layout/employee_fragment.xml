@@ -45,23 +45,22 @@
         android:layout_marginTop="10dp"
         android:background="@anim/fragment_style">
 
-        <RelativeLayout
+        <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
+            android:background="@android:color/holo_red_light"
             android:layout_height="130dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:orientation="vertical"
+                android:layout_marginLeft="30dp"
                 android:gravity="center_horizontal">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="10dp"
                     android:contentDescription="@null"
                     android:src="@drawable/me_head_bg" />
 
@@ -70,71 +69,111 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="10dp"
                     android:scaleType="centerInside" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/power"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/black"
-                        android:text="权限" />
-
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/black"
-                        android:text="姓名" />
-                </LinearLayout>
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/next"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/next"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="姓名" />
+
+                <TextView
+                    android:id="@+id/power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@android:color/white"
+                    android:text="权限" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <View style="@style/view_line_style" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/personal_info"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:paddingLeft="8dp"
-            android:text="@string/personal_msg" />
+            android:paddingLeft="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:text="@string/personal_msg" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginRight="10dp"
+                android:textColor="@android:color/black"
+                android:text="唯一"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/next"/>
+        </LinearLayout>
 
         <View style="@style/view_line_style" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/modify_pass"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:paddingLeft="8dp"
-            android:text="@string/modify_pass" />
+            android:paddingLeft="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:text="@string/modify_pass" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginRight="10dp"
+                android:textColor="@android:color/black"
+                android:text=""/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/next"/>
+        </LinearLayout>
 
         <View style="@style/view_line_style" />
 
@@ -150,7 +189,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/login_out"
             android:background="@android:color/holo_red_light"/>
     </RelativeLayout>

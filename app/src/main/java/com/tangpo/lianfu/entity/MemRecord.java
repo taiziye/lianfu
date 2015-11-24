@@ -5,40 +5,81 @@ package com.tangpo.lianfu.entity;
  */
 public class MemRecord {
 
-    private String shop_name;
-    private boolean compute;
-    private double money;
+    private String id;
+    private String fee;
+    private String discount;
+    private String store;
+    private String datetime;
+    private String record_status;
 
-    public void setCompute(boolean compute) {
-        this.compute = compute;
+    @Override
+    public String toString() {
+        return "MemRecord{" +
+                "id='" + id + '\'' +
+                ", fee='" + fee + '\'' +
+                ", discount='" + discount + '\'' +
+                ", store='" + store + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", record_status='" + record_status + '\'' +
+                '}';
     }
 
-    public double getMoney() {
-        return money;
+    public MemRecord(String id, String fee, String discount, String store, String datetime, String record_status) {
+        this.id = id;
+        this.fee = fee;
+        this.discount = discount;
+        this.store = store;
+        this.datetime = datetime;
+        this.record_status = record_status;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
+    public String getId() {
+
+        return id;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public boolean isCompute() {
-
-        return compute;
+    public String getFee() {
+        return fee;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public void setFee(String fee) {
+        this.fee = fee;
     }
 
-    public MemRecord(boolean compute, double money, String shop_name) {
+    public String getDiscount() {
+        return discount;
+    }
 
-        this.compute = compute;
-        this.money = money;
-        this.shop_name = shop_name;
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getRecord_status() {
+        return record_status;
+    }
+
+    public void setRecord_status(String record_status) {
+        this.record_status = record_status;
     }
 
     public MemRecord() {
