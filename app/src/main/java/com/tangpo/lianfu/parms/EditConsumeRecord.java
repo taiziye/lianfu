@@ -17,7 +17,7 @@ import org.json.JSONObject;
 public class EditConsumeRecord {
     public static final String packagingParam(Context context, String... kvs) {
         JSONObject jsonObject = new JSONObject();
-        String action = "14";
+        String action = "31";
         String time = GetTime.getTime();
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;
@@ -32,7 +32,8 @@ public class EditConsumeRecord {
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
-            paramJsonObject.put("pay_record_id", Escape.escape(kvs[1]));
+            paramJsonObject.put("consume_id", Escape.escape(kvs[0]));
+            paramJsonObject.put("fee", Escape.escape(kvs[2]));
             paramJsonObject.put("store_id", Escape.escape(kvs[2]));
 
             jsonObject.put("param", paramJsonObject);

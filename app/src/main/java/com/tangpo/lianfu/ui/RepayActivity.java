@@ -131,7 +131,6 @@ public class RepayActivity extends Activity {
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = list;
-                ;
             }
         }, new NetConnection.FailCallback() {
             @Override

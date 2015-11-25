@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,11 +9,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.ConsumeRecord;
+import com.tangpo.lianfu.parms.EditConsumeRecord;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -52,6 +58,12 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private Set<String> members = null;
 
     private Intent intent = null;
+
+    private String user_id=null;
+
+    private String consume_id=null;
+
+    private ProgressDialog dialog=null;
 
     @Override
     protected void onDestroy() {
@@ -98,6 +110,8 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         intent = getIntent();
         if (intent != null) {
             record = (EmployeeConsumeRecord) intent.getSerializableExtra("record");
+            user_id=intent.getStringExtra("user_id");
+            consume_id=intent.getStringExtra("consume_id");
             user_name.setText(record.getId());
             name.setText(record.getUsername());
             if (members != null) {
@@ -130,9 +144,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                 finish();
                 break;
             case R.id.edit:
-                /**
-                 * 没有接口
-                 */
+                editConsumeRecord();
                 break;
             case R.id.discount:
                 intent = new Intent(this, DiscountActivity.class);
@@ -148,5 +160,36 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             discount_type.setText(dis.getDesc());
             discount_text.setText(dis.getDiscount());
         }
+    }
+
+    private void editConsumeRecord(){
+        dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
+        String fee=record.getFee();
+        String discount=discount_text.getText().toString();
+        String kvs[]=new String[]{user_id,consume_id,fee,discount};
+        String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.edit_success), Toast.LENGTH_SHORT);
+                finish();
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("9")){
+                        ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
+                    }else if(status.equals("10")){
+                        ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
     }
 }
