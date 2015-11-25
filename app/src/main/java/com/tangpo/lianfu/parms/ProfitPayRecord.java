@@ -17,7 +17,7 @@ import org.json.JSONObject;
 public class ProfitPayRecord {
     public static final String packagingParam(Context context, String... kvs) {
         JSONObject jsonObject = new JSONObject();
-        String action = "13";
+        String action = "32";
         String time = GetTime.getTime();
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;

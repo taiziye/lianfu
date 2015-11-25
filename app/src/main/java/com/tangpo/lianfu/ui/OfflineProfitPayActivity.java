@@ -157,11 +157,11 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 adapter.getIsSelected().put(position - 1, holder.check.isChecked());
                 //调整选定的条目
                 if (holder.check.isChecked() == true) {
-                    tmp += Double.parseDouble(list.get(position - 1).getProfit());
+                    if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
                     set.put(position - 1, list.get(position - 1).getId());
                     checkNum++;
                 } else {
-                    tmp -= Double.parseDouble(list.get(position - 1).getProfit());
+                    if(list.get(position - 1).getProfit() != null) tmp -= Double.parseDouble(list.get(position - 1).getProfit());
                     set.remove(position - 1);
                     checkNum--;
                 }
@@ -186,14 +186,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             case R.id.back:
                 finish();
                 break;
-            /*case R.id.offline:
-                offline.setBackgroundColor(Color.WHITE);
-                online.setBackgroundColor(Color.GRAY);
-                break;
-            case R.id.online:
-                online.setBackgroundColor(Color.WHITE);
-                offline.setBackgroundColor(Color.GRAY);
-                break;*/
             case R.id.compute:
 //                Compute();
                 if(tmp==0){
@@ -216,7 +208,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     for (int i = 0; i < list.size(); i++) {
                         adapter.getIsSelected().put(i, true);
                         set.put(i,list.get(i).getId());
-                        tmp += Double.parseDouble(list.get(i).getProfit());
+                        if(list.get(i).getProfit() != null) tmp += Double.parseDouble(list.get(i).getProfit());
                     }
                     checkNum = list.size();
                     money.setText(tmp + "");
@@ -254,7 +246,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private void getProfitPay() {
         String kvs[] = new String[]{userid, store_id, " ", " ","0",page + "", "10"};
         String param = ProfitPayRecord.packagingParam(this, kvs);
-        Log.e("tag",param);
+
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -265,6 +257,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         JSONObject object = jsonArray.getJSONObject(i);
                         ProfitPay profitPay = gson.fromJson(object.toString(), ProfitPay.class);
                         list.add(profitPay);
+                        Log.e("tag", "OfflineProfitPay" + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -281,6 +274,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             @Override
             public void onFail(JSONObject result) {
                 listView.onRefreshComplete();
+                Log.e("tag", "fail " + result.toString());
                 try {
                     Tools.handleResult(OfflineProfitPayActivity.this, result.getString("status"));
                 } catch (JSONException e) {

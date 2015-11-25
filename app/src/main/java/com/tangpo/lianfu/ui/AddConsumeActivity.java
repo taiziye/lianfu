@@ -102,7 +102,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.commit:
-                dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 commitConsume();
                 break;
             case R.id.select_user:
@@ -137,6 +136,8 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private void commitConsume() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
