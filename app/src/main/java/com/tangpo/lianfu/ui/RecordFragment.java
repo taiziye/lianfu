@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -218,7 +219,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String[]{userid, store_id, "", "", "", page+"","10"};
+        String kvs[] = new String[]{userid, store_id, "", "", "0", page+"","10"};
         String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -232,6 +233,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         JSONObject object = jsonArray.getJSONObject(i);
                         EmployeeConsumeRecord record = gson.fromJson(object.toString(), EmployeeConsumeRecord.class);
                         recordList.add(record);
+                        Log.e("tag", "record " + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

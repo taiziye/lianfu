@@ -18,7 +18,6 @@ public class ProfitPay implements Parcelable{
     private String pay_account;
     private String desc;
 
-
     public ProfitPay(String id, String store_id, String store_name, String fee, String profit, String omode, String pay_status, String pay_date, String pay_account, String desc) {
         this.id = id;
         this.store_id = store_id;

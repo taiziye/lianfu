@@ -103,7 +103,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             if(msg.what == 1){
                 list = (List<MemberCollect>) msg.obj;
                 Log.e("tag", "size " + list.size());
-                adapter = new MemberCollectAdapter(getActivity(), list);
+                adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
             }
         }

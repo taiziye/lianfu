@@ -38,6 +38,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
     private TextView power;
     private TextView name;
+    private TextView user_name;
     private LinearLayout personal_info;
     private LinearLayout modify_pass;
 
@@ -76,6 +77,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
+        user_name = (TextView) view.findViewById(R.id.user_name);
         personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
         modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
@@ -95,6 +97,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
          */
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
 
+        user_name.setText("");
         power.setText("");
         name.setText(user.getName());
     }
