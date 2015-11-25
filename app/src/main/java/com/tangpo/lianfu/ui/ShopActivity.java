@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CollectStore;
@@ -56,6 +57,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private String store_id=null;
     private String user_id=null;
     private Store store=null;
+    private FindStore findStore=null;
     private ProgressDialog dialog=null;
     private Gson gson=null;
 
@@ -73,7 +75,8 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.shop_activity);
 
         Tools.gatherActivity(this);
-        store_id=getIntent().getExtras().getString("store_id");
+        findStore=getIntent().getParcelableExtra("store");
+        store_id=findStore.getId();
         user_id=getIntent().getExtras().getString("userid");
         init();
     }

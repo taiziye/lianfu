@@ -103,7 +103,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
-                intent.putExtra("store_id",storeList.get(position-1).getId());
+                //intent.putExtra("store_id",storeList.get(position-1).getId());
+                intent.putExtra("store",storeList.get(position-1));
                 intent.putExtra("userid",userid);
                 startActivity(intent);
             }
