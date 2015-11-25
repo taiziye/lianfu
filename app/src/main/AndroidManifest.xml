@@ -17,6 +17,10 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".MyApplication"
@@ -28,7 +32,7 @@
         <!-- 开发基于百度地图的应用需要先申请key，然后在application中添加开发密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="9q77sl9vOSDClc1iotIGVnYj" />
+            android:value="vQlw48SvURoVrQNDCWLQ6mgE" />
 
         <activity
             android:name=".ui.WelcomeActivity"
@@ -62,7 +66,6 @@
         <activity android:name=".ui.ShopInfoActivity" />
         <activity android:name=".ui.StoreLocationActivity" />
         <activity android:name=".ui.UpdatePasswordActivity" />
-        <activity android:name=".ui.MapActivity" />
         <activity
             android:name=".ui.SelectPicActivity"
             android:screenOrientation="portrait"
@@ -81,6 +84,7 @@
             android:label="@string/title_activity_pay_by_ali_pay"
             >
         </activity>
+        <activity android:name=".ui.MipcaActivityCapture"/>
     </application>
 
 </manifest>

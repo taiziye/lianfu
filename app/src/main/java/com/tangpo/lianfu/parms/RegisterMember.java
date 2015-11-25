@@ -33,7 +33,7 @@ public class RegisterMember {
             paramJsonObject.put("password", Escape.escape(kvs[1]));
             paramJsonObject.put("phone", Escape.escape(kvs[2]));
             paramJsonObject.put("service_center", Escape.escape(kvs[3]));
-            paramJsonObject.put("service_address", Escape.escape(kvs[4]));
+            paramJsonObject.put("store_id", Escape.escape(kvs[4]));
             paramJsonObject.put("referrer", Escape.escape(kvs[5]));
             paramJsonObject.put("sex", Escape.escape(kvs[6]));
             paramJsonObject.put("birth", Escape.escape(kvs[7]));

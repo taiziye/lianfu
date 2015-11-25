@@ -2,11 +2,11 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -22,8 +22,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ComputeProfitAdapter;
 import com.tangpo.lianfu.entity.Profit;
+import com.tangpo.lianfu.entity.ProfitPay;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.ProfitManagement;
+import com.tangpo.lianfu.parms.ProfitPayRecord;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -53,7 +54,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private TextView money;
 
     private ComputeProfitAdapter adapter = null;
-    private List<Profit> list = new ArrayList<>();
+    private List<ProfitPay> list = new ArrayList<>();
     private int checkNum;
 
     private Gson gson = new Gson();
@@ -242,7 +243,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    list = (List<Profit>) msg.obj;
+                    list = (List<ProfitPay>) msg.obj;
                     adapter = new ComputeProfitAdapter(OfflineProfitPayActivity.this, list);
                     listView.setAdapter(adapter);
                     break;
@@ -251,9 +252,9 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     };
 
     private void getProfitPay() {
-        String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
-        String param = ProfitManagement.packagingParam(this, kvs);
-
+        String kvs[] = new String[]{userid, store_id, " ", " ","0",page + "", "10"};
+        String param = ProfitPayRecord.packagingParam(this, kvs);
+        Log.e("tag",param);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -262,8 +263,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Profit profit = gson.fromJson(object.toString(), Profit.class);
-                        list.add(profit);
+                        ProfitPay profitPay = gson.fromJson(object.toString(), ProfitPay.class);
+                        list.add(profitPay);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

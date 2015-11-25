@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,7 +33,8 @@ import org.json.JSONObject;
  */
 public class PersonalMsgActivity extends Activity implements View.OnClickListener {
 
-    //private Button back;
+    private final static int SCANNIN_GREQUEST_CODE = 1;
+    private Button double_code;
     private Button next;
 
     private TextView text;
@@ -41,7 +43,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private EditText pass;
     private EditText check_pass;
     private EditText referee;
-    private EditText service_address;
+    private EditText storeid;
     private EditText service;
 
     private CheckBox check;
@@ -59,6 +61,9 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private void init() {
         /*back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);*/
+
+        double_code= (Button) findViewById(R.id.double_code);
+        double_code.setOnClickListener(this);
         next = (Button) findViewById(R.id.next);
         next.setEnabled(false);
         next.setOnClickListener(this);
@@ -70,7 +75,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         pass = (EditText) findViewById(R.id.pass);
         check_pass = (EditText) findViewById(R.id.check_pass);
         referee = (EditText) findViewById(R.id.referee);
-        service_address = (EditText) findViewById(R.id.service_address);
+        storeid = (EditText) findViewById(R.id.store_id);
         service = (EditText) findViewById(R.id.service);
 
         check = (CheckBox) findViewById(R.id.check);
@@ -88,8 +93,8 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         String password = pass.getText().toString();
         String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center = service.getText().toString();
-        String service_add = service_address.getText().toString();
-        final String referrer = referee.getText().toString();
+        String store_id = storeid.getText().toString();
+        String referrer = referee.getText().toString();
         String sex = "";
         String birth = "";
         String qq = "";
@@ -99,7 +104,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         String bank_name = "";
         String bank = "中国银行";
         String bank_address = "";
-        String kvs[] = new String[]{username, password, phone, service_center, service_add, referrer
+        String kvs[] = new String[]{username, password, phone, service_center, store_id, referrer
                 , sex, birth, qq, email, address, bank_account, bank_name, bank, bank_address};
         String params = RegisterMember.packagingParam(this, kvs);
 
@@ -131,8 +136,12 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back:
-                finish();
+            case R.id.double_code:
+                //扫描二维码
+                Intent intent=new Intent();
+                intent.setClass(PersonalMsgActivity.this,MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent,SCANNIN_GREQUEST_CODE);
                 break;
             case R.id.next:
                 postPersonalInfo();
@@ -144,6 +153,31 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                     next.setEnabled(false);
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case SCANNIN_GREQUEST_CODE:
+                if(resultCode==RESULT_OK){
+                    Bundle bundle=data.getExtras();
+                    String result=bundle.getString("result");
+                    //在这里处理返回来的store_id、service_center、referrer
+                    String id=Uri.parse(result).getQueryParameter("store_id");
+                    String center=Uri.parse(result).getQueryParameter("service_center");
+                    String refer=Uri.parse(result).getQueryParameter("referrer");
+                    if(id!=null){
+                        storeid.setText(id);
+                    }
+                    if(center!=null){
+                        service.setText(center);
+                    }
+                    if(refer!=null){
+                        referee.setText(refer);
+                    }
+                }
         }
     }
 }

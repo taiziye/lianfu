@@ -111,7 +111,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         holder.shop_name.setText(list.get(position).getId());
         holder.user_name.setText(list.get(position).getUsername());
         holder.money.setText("消费" + list.get(position).getFee() + "元");
-        holder.profit.setText("(利润" + list.get(position).getProfit() + "元)");
+        holder.profit.setText("(利润" + list.get(position).getDiscount() + "元)");
         if (list.get(position).getPay_status().equals("1")) {
             holder.compute.setText("已结算");
             holder.compute.setTextColor(Color.RED);

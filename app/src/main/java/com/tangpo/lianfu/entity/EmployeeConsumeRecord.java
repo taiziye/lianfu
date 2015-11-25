@@ -13,11 +13,12 @@ public class EmployeeConsumeRecord implements Serializable {
     private String username;
     private String consume_date;
     private String fee;
-    private String profit;
+    private String isPass;
+    private String discount;
     private String pay_status;
     private String pay_way;
     private String pay_date;
-    private String pay_account;
+    private String onLines;
     private String desc;
 
     public String getConsume_date() {
@@ -40,6 +41,30 @@ public class EmployeeConsumeRecord implements Serializable {
         return fee;
     }
 
+    public String getIsPass() {
+        return isPass;
+    }
+
+    public void setIsPass(String isPass) {
+        this.isPass = isPass;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getOnLines() {
+        return onLines;
+    }
+
+    public void setOnLines(String onLines) {
+        this.onLines = onLines;
+    }
+
     public void setFee(String fee) {
         this.fee = fee;
     }
@@ -52,13 +77,6 @@ public class EmployeeConsumeRecord implements Serializable {
         this.id = id;
     }
 
-    public String getPay_account() {
-        return pay_account;
-    }
-
-    public void setPay_account(String pay_account) {
-        this.pay_account = pay_account;
-    }
 
     public String getPay_date() {
         return pay_date;
@@ -84,13 +102,6 @@ public class EmployeeConsumeRecord implements Serializable {
         this.pay_way = pay_way;
     }
 
-    public String getProfit() {
-        return profit;
-    }
-
-    public void setProfit(String profit) {
-        this.profit = profit;
-    }
 
     public String getUsername() {
         return username;
@@ -100,21 +111,22 @@ public class EmployeeConsumeRecord implements Serializable {
         this.username = username;
     }
 
-    public EmployeeConsumeRecord(String consume_date, String desc, String fee, String id, String pay_account, String pay_date, String pay_status, String pay_way, String profit, String username) {
-
-        this.consume_date = consume_date;
-        this.desc = desc;
-        this.fee = fee;
-        this.id = id;
-        this.pay_account = pay_account;
-        this.pay_date = pay_date;
-        this.pay_status = pay_status;
-        this.pay_way = pay_way;
-        this.profit = profit;
-        this.username = username;
-    }
 
     public EmployeeConsumeRecord() {
 
+    }
+
+    public EmployeeConsumeRecord(String id, String username, String consume_date, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onLines, String desc) {
+        this.id = id;
+        this.username = username;
+        this.consume_date = consume_date;
+        this.fee = fee;
+        this.isPass = isPass;
+        this.discount = discount;
+        this.pay_status = pay_status;
+        this.pay_way = pay_way;
+        this.pay_date = pay_date;
+        this.onLines = onLines;
+        this.desc = desc;
     }
 }

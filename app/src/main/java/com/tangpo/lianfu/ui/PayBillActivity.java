@@ -55,6 +55,9 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private String imagePath=null;
     private String receipt_photo=null;
 
+    private String user_id=null;
+    private String store_id=null;
+
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -90,8 +93,11 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         contact_tel = (EditText) findViewById(R.id.contact_tel);
         bill_num = (EditText) findViewById(R.id.bill_num);
         imageView= (ImageView) findViewById(R.id.bill);
+        imageView.setOnClickListener(this);
 
         String storename=getIntent().getStringExtra("storename");
+        String store_id=getIntent().getStringExtra("store_id");
+        String user_id=getIntent().getStringExtra("userid");
         gson=new Gson();
         preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
         String user=preferences.getString(Configs.KEY_USER,"");
@@ -120,6 +126,16 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.pay_online:
                 Intent intent1=new Intent(PayBillActivity.this,SelectPayMethod.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("store_id",store_id);
+                bundle.putString("user_id",user_id);
+                bundle.putString("fee",money.getText().toString());
+                bundle.putString("online","true");
+                if(money.getText().toString().equals("")){
+                    ToastUtils.showToast(PayBillActivity.this,getString(R.string.pay_amount_cannot_be_null),Toast.LENGTH_SHORT);
+                    return;
+                }
+                startActivity(intent1);
                 break;
             case R.id.select:
                 break;
@@ -138,8 +154,12 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         String phone=contact_tel.getText().toString();
         String receipt_no=bill_num.getText().toString();
 
-        String online="true";
-        String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online};
+        String online="f";
+        /**
+         * 这里需要修改支付方式
+         */
+        String pay_way="0";
+        String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
 
         String params= PayBill.packagingParam(this,kvs);
         new NetConnection(new NetConnection.SuccessCallback() {

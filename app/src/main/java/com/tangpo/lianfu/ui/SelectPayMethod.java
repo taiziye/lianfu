@@ -93,7 +93,7 @@ public class SelectPayMethod extends FragmentActivity implements View.OnClickLis
         switch (v.getId()){
             case R.id.pay_by_alipay:
                 Intent intent=new Intent(SelectPayMethod.this,PayByAliPay.class);
-                bundle.putString("pay_way","1");
+                bundle.putString("pay_way","2");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

@@ -23,7 +23,7 @@ import com.tangpo.lianfu.adapter.ConsumRecordAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.ProfitManagement;
+import com.tangpo.lianfu.parms.ConsumeRecord;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -218,8 +218,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
-        String param = ProfitManagement.packagingParam(getActivity(), kvs);
+        String kvs[] = new String[]{userid, store_id, "", "", "", page+"","10"};
+        String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

@@ -12,9 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by shengshoubo on 2015/11/2.
+ * Created by shengshoubo on 2015/11/24.
  */
-public class DeleteConsumeRecord {
+public class EditConsumeRecord {
     public static final String packagingParam(Context context, String... kvs) {
         JSONObject jsonObject = new JSONObject();
         String action = "14";

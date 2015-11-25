@@ -33,11 +33,13 @@ public class PayBill {
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
             paramJsonObject.put("store_id", Escape.escape(kvs[1]));
-            paramJsonObject.put("discount", Escape.escape(kvs[2]));
+            paramJsonObject.put("fee", Escape.escape(kvs[2]));
             paramJsonObject.put("phone", Escape.escape(kvs[3]));
             paramJsonObject.put("receipt _no", Escape.escape(kvs[4]));
             paramJsonObject.put("receipt_photo", Escape.escape(kvs[5]));
             paramJsonObject.put("online", Escape.escape(kvs[6]));
+            paramJsonObject.put("pay_way", Escape.escape(kvs[7]));
+
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

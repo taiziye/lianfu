@@ -12,12 +12,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by shengshoubo on 2015/11/2.
+ * Created by shengshoubo on 2015/11/24.
  */
-public class DeleteConsumeRecord {
+public class ProfitPayRecord {
     public static final String packagingParam(Context context, String... kvs) {
         JSONObject jsonObject = new JSONObject();
-        String action = "14";
+        String action = "13";
         String time = GetTime.getTime();
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;
@@ -32,8 +32,12 @@ public class DeleteConsumeRecord {
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
-            paramJsonObject.put("pay_record_id", Escape.escape(kvs[1]));
-            paramJsonObject.put("store_id", Escape.escape(kvs[2]));
+            paramJsonObject.put("store_id", Escape.escape(kvs[1]));
+            paramJsonObject.put("pay_date", Escape.escape(kvs[2]));
+            paramJsonObject.put("pay_way", Escape.escape(kvs[3]));
+            paramJsonObject.put("pay_status", Escape.escape(kvs[4]));
+            paramJsonObject.put("page_index", Escape.escape(kvs[5]));
+            paramJsonObject.put("page_size", Escape.escape(kvs[6]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

@@ -12,12 +12,12 @@
         android:gravity="center"
         android:background="@android:color/black">
 
-        <!--<Button
-            android:id="@+id/back"
+        <Button
+            android:id="@+id/double_code"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/back" />-->
+            android:background="@drawable/double_code" />
 
         <TextView
             android:id="@+id/text"
@@ -189,10 +189,10 @@
                     android:layout_marginLeft="5dp"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
-                    android:text="@string/service_address" />
+                    android:text="地面店" />
 
                 <EditText
-                    android:id="@+id/service_address"
+                    android:id="@+id/store_id"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/AutoFocusCallback.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/CameraConfigurationManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/CameraManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/FlashlightManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/PlanarYUVLuminanceSource.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/camera/PreviewCallback.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/CaptureActivityHandler.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/DecodeFormatManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/DecodeHandler.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/DecodeThread.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/FinishListener.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/InactivityTimer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/decoding/Intents.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/view/ViewfinderResultPointCallback.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ming/app/zxing/view/ViewfinderView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/mm_title_back_btn.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/mm_title_back_focused.9.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/mm_title_back_normal.9.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/mm_title_back_pressed.9.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/mmtitle_bg_alpha.9.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_capture.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_title.xml" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

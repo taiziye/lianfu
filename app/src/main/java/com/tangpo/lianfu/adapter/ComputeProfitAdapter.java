@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Profit;
+import com.tangpo.lianfu.entity.ProfitPay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Created by 果冻 on 2015/11/17.
  */
 public class ComputeProfitAdapter extends BaseAdapter {
-    private List<Profit> list = null;
+    private List<ProfitPay> list = null;
     private LayoutInflater inflater = null;
 
     private static int count = 1;
@@ -40,7 +41,7 @@ public class ComputeProfitAdapter extends BaseAdapter {
         }
     }
 
-    public ComputeProfitAdapter(Context context, List<Profit> list) {
+    public ComputeProfitAdapter(Context context, List<ProfitPay> list) {
         this.context=context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -92,9 +93,9 @@ public class ComputeProfitAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(list.get(position).getUsername());
+        holder.name.setText(list.get(position).getId());
         holder.bank.setText(list.get(position).getPay_account());
-        holder.date.setText(list.get(position).getConsume_date());
+        holder.date.setText(list.get(position).getPay_date());
         holder.profit.setText(list.get(position).getProfit());
         holder.status.setText(list.get(position).getPay_status());
         holder.check.setChecked(getIsSelected().get(position));
