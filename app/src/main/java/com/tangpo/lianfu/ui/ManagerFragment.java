@@ -38,6 +38,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private TextView power;
     private TextView name;
+    private TextView user_name;
     private LinearLayout shop_info;
     private LinearLayout personal_info;
     private LinearLayout discount_manage;
@@ -79,6 +80,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
+        user_name = (TextView) view.findViewById(R.id.user_name);
         shop_info = (LinearLayout) view.findViewById(R.id.shop_info);
         shop_info.setOnClickListener(this);
         personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
@@ -104,6 +106,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
          */
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
 
+        user_name.setText("");
         power.setText("管");
         name.setText(user.getName());
     }

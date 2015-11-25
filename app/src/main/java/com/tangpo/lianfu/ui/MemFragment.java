@@ -33,6 +33,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
     private TextView power;
     private TextView name;
+    private TextView user_name;
     private LinearLayout personal_info;
     private LinearLayout modify_pass;
     private TextView remainder;
@@ -70,20 +71,22 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
         img = (CircularImage) view.findViewById(R.id.img);
 
-        Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
-
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
+        user_name = (TextView) view.findViewById(R.id.user_name);
         personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
         modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
         remainder = (TextView) view.findViewById(R.id.remainder);
+
+        Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
+        user_name.setText("");
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
+        Intent intent;
         switch (v.getId()) {
             case R.id.double_code:
                 break;

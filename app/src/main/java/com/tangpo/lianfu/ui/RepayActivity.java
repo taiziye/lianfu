@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ListView;
 
@@ -17,6 +18,7 @@ import com.tangpo.lianfu.adapter.RepayAdapter;
 import com.tangpo.lianfu.entity.Repay;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.PlatformRebateRecord;
+import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +38,6 @@ public class RepayActivity extends Activity {
     private String userid = "";
     private String store_id = "";
 
-    private ProgressDialog dialog;
     private Gson gson = new Gson();
 
     private int page = 1;
@@ -107,7 +108,6 @@ public class RepayActivity extends Activity {
     };
 
     private void getRepayList(){
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{userid, "", page + "", "10"};
 
         String param = PlatformRebateRecord.packagingParam(this, kvs);
@@ -115,13 +115,14 @@ public class RepayActivity extends Activity {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                dialog.dismiss();
+                listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for(int i=0; i<jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Repay repay = gson.fromJson(object.toString(), Repay.class);
                         list.add(repay);
+                        Log.e("tag", "Repay" + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +136,12 @@ public class RepayActivity extends Activity {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                dialog.dismiss();
+                listView.onRefreshComplete();
+                try {
+                    Tools.handleResult(RepayActivity.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

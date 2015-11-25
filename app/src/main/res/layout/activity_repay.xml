@@ -11,12 +11,12 @@
         android:gravity="center"
         android:background="@android:color/black">
 
-        <Button
+        <!--<Button
             android:id="@+id/search"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/search" />
+            android:background="@drawable/search" />-->
 
         <TextView
             android:layout_width="0dp"
@@ -27,12 +27,12 @@
             android:textColor="@android:color/white"
             android:text="返利列表" />
 
-        <Button
+        <!--<Button
             android:id="@+id/add"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/add" />
+            android:background="@drawable/add" />-->
 
     </LinearLayout>
 
@@ -81,7 +81,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="金额" />
+                    android:text="返利金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

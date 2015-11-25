@@ -136,7 +136,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
 //                if (!admit.isChecked()){
 //                    ToastUtils.showToast(this,"");
 //                }
-                dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 addMember();
                 break;
             case R.id.select_bank:
@@ -157,10 +156,17 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     }
 
     private void addMember() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String user_id = user_name.getText().toString();
         String username = rel_name.getText().toString();
         String phone = contact_tel.getText().toString();
-        String pw = MD5Tool.md5(phone.substring(phone.length() - 6));
+        String pw="";
+        if(phone.length() < 6) {
+            Tools.showToast(AddMemberActivity.this, "请输入正确的电话号码");
+        } else {
+            pw = MD5Tool.md5(phone.substring(phone.length() - 6));
+        }
         String service_center = "";
         String service_address = "";
         String referrer = "";
@@ -193,8 +199,12 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", result.toString());
                 try {
-                    Tools.handleResult(AddMemberActivity.this, result.getString("status"));
+                    if("300".equals(result.getString("status"))) Tools.showToast(AddMemberActivity.this, "联系电话\\/手机不能少于11位！");
+                    else {
+                        Tools.handleResult(AddMemberActivity.this, result.getString("status"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

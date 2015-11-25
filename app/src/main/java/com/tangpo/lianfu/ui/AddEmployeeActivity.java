@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -195,11 +196,13 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         /**
          * 需要修改   2015-11-14 shengshoubo已修改
          */
-        String kvs[] = new String[]{userid, rank, username, sex, pw, name, id_num, bank_account, bank_nameStr};
+        String kvs[] = new String[]{userid, rank, username, pw, name, "BNZZ", phone, sex, id_num, bank_account, bank_nameStr};
         String params = AddEmployee.packagingParam(AddEmployeeActivity.this, kvs);
+        Log.e("tag", "phone " + params.toString());
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT);
                 AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
@@ -208,9 +211,14 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(AddEmployeeActivity.this, result.getString("status"));
+                    if("300".equals(result.getString("status"))) {
+                        Tools.showToast(AddEmployeeActivity.this, "请输入正确的手机号");
+                    } else {
+                        Tools.handleResult(AddEmployeeActivity.this, result.getString("status"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -37,8 +37,9 @@ public class MemberCollectAdapter extends BaseAdapter {
 
     private boolean flag = false;
 
-    public MemberCollectAdapter(Context context, List<MemberCollect> list) {
+    public MemberCollectAdapter(Context context, List<MemberCollect> list, String userid) {
         this.context = context;
+        this.userid = userid;
         this.list = list;
         inflater = LayoutInflater.from(context);
 
@@ -84,48 +85,22 @@ public class MemberCollectAdapter extends BaseAdapter {
         holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
 
-        /*holder.cancel.setOnClickListener(new View.OnClickListener() {
+        /**
+         * 取消收藏跟联系客服没有接口
+         */
+        holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flag) {
-                    //
-                } else {
-                    String kvs[] = new String[]{list.get(position).getId(), userid};
-                    String params = CollectStore.packagingParam(context, kvs);
-
-                    new NetConnection(new NetConnection.SuccessCallback() {
-                        @Override
-                        public void onSuccess(JSONObject result) {
-                            *//**
-         *
-         *//*
-                        }
-                    }, new NetConnection.FailCallback() {
-                        @Override
-                        public void onFail(JSONObject result) {
-                            try {
-                                if (result.getString("status").equals("9")) {
-                                    ToastUtils.showToast(context, context.getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                                } else if (result.getString("status").equals("10")) {
-                                    ToastUtils.showToast(context, context.getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                                } else {
-                                    ToastUtils.showToast(context, context.getString(R.string.collect_failed), Toast.LENGTH_SHORT);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, params);
-                }
+                //取消收藏
             }
-        });*/
+        });
 
-        /*holder.contact.setOnClickListener(new View.OnClickListener() {
+        holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                //联系客服
             }
-        });*/
+        });
         return convertView;
     }
 

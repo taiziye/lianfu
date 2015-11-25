@@ -162,6 +162,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     else
                         employee.setText("" + man.getStaff_num() + "人");
 
+                    rebate.setText(man.getProfit());
+
                     Configs.cacheManager(getActivity(), result.toString());
                 }
             }, new NetConnection.FailCallback() {
@@ -185,6 +187,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     mem.setText("会员人数总计 人");
                     pay.setText("消费利润共计 元，可支付共计 元");
                     employee.setText("管理员人数总计 人，员工总计 人");
+                    rebate.setText("0");
                 }
             }, params);
         } else {
@@ -193,6 +196,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             mem.setText("会员人数总计 人");
             pay.setText("消费利润共计 元，可支付共计 元");
             employee.setText("管理员人数总计 人，员工总计 人");
+            rebate.setText("0");
         }
 
     }
@@ -226,6 +230,9 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                 getActivity().startActivity(intent);
                 break;
             case R.id.rebate_pay:
+                intent = new Intent(getActivity(), RepayActivity.class);
+                intent.putExtra("userid", userid);
+                getActivity().startActivity(intent);
                 break;
         }
     }
