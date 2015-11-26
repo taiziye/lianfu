@@ -53,7 +53,7 @@
     <string name="referee">推荐人账号</string>
     <string name="service_address">服务中心所在地</string>
     <string name="service">服务中心</string>
-    <string name="protocol">我同意注册协议(点击查看注册协议)</string>
+    <string name="protocol">我同意注册协议</string>
     <string name="success">恭喜您，注册成功！</string>
 
     <string name="back_home">返回首页</string>
