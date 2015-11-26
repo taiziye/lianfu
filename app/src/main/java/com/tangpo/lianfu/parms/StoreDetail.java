@@ -31,7 +31,7 @@ public class StoreDetail {
             jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject = new JSONObject();
-            paramJsonObject.put("stroe_id", Escape.escape(kvs[0]));
+            paramJsonObject.put("store_id", Escape.escape(kvs[0]));
             paramJsonObject.put("user_id", Escape.escape(kvs[1]));
 
             jsonObject.put("param", paramJsonObject);

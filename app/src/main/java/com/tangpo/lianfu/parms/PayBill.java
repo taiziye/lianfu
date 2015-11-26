@@ -36,7 +36,7 @@ public class PayBill {
             paramJsonObject.put("fee", Escape.escape(kvs[2]));
             paramJsonObject.put("phone", Escape.escape(kvs[3]));
             paramJsonObject.put("receipt _no", Escape.escape(kvs[4]));
-            paramJsonObject.put("receipt_photo", Escape.escape(kvs[5]));
+            paramJsonObject.put("receipt_photo", kvs[5]);
             paramJsonObject.put("online", Escape.escape(kvs[6]));
             paramJsonObject.put("pay_way", Escape.escape(kvs[7]));
 

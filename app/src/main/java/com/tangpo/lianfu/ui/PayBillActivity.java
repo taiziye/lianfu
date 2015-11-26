@@ -154,7 +154,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         String phone=contact_tel.getText().toString();
         String receipt_no=bill_num.getText().toString();
 
-        String online="f";
+        String online="false";
         /**
          * 这里需要修改支付方式
          */
