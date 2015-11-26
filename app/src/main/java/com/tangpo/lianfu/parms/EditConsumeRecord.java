@@ -32,9 +32,9 @@ public class EditConsumeRecord {
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
-            paramJsonObject.put("consume_id", Escape.escape(kvs[0]));
+            paramJsonObject.put("consume_id", Escape.escape(kvs[1]));
             paramJsonObject.put("fee", Escape.escape(kvs[2]));
-            paramJsonObject.put("store_id", Escape.escape(kvs[2]));
+            paramJsonObject.put("store_id", Escape.escape(kvs[3]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {
