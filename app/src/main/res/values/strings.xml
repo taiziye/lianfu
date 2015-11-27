@@ -36,7 +36,7 @@
 
     <string name="login">登陆</string>
 
-    <string name="forget_pass">忘记密码</string>
+    <string name="forget_pass">忘记密码？</string>
     <string name="register">注册</string>
     <string name="login_as">使用第三方账号登录</string>
 
@@ -44,7 +44,7 @@
     <string name="next">下一步</string>
     <string name="phone_check">手机验证</string>
     <string name="nation">国家</string>
-    <string name="phone_num">手机号</string>
+    <string name="phone_num">+86</string>
     <string name="code">验证码</string>
     <string name="get_code">获取验证码</string>
     <string name="personal_info">个人信息</string>

@@ -59,12 +59,14 @@
                     android:layout_weight="1"
                     android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
 
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -127,14 +129,18 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    />
+                    android:layout_marginLeft="5dp"
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -156,14 +162,18 @@
 
                 <TextView
                     android:id="@+id/contact_tel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    />
+                    android:layout_marginLeft="5dp"
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 

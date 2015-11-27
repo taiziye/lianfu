@@ -124,7 +124,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
                 Intent intent = new Intent(PersonalMsgActivity.this, RegisterSuccessActivity.class);
                 startActivity(intent);
-                finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

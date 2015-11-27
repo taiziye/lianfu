@@ -30,7 +30,8 @@
 
             <TextView
                 android:id="@+id/shop_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="20sp"
@@ -39,7 +40,8 @@
 
             <TextView
                 android:id="@+id/commodity"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:textSize="16sp"
@@ -48,7 +50,7 @@
 
             <TextView
                 android:id="@+id/address"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:singleLine="true"

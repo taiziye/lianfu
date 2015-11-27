@@ -191,7 +191,9 @@
 
         <TextView
             android:id="@+id/remainder"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
+            android:gravity="center|right"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@android:color/holo_red_light"

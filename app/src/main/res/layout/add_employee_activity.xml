@@ -81,10 +81,18 @@
 
                 <EditText
                     android:id="@+id/user_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -138,10 +146,18 @@
 
                 <EditText
                     android:id="@+id/contact_tel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -163,10 +179,18 @@
 
                 <EditText
                     android:id="@+id/rel_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -224,10 +248,18 @@
 
                 <EditText
                     android:id="@+id/id_card"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -290,10 +322,18 @@
 
                 <EditText
                     android:id="@+id/bank_card"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -315,10 +355,18 @@
 
                 <EditText
                     android:id="@+id/bank_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 

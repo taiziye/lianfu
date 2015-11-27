@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_marginTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
@@ -41,17 +42,15 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="女" />
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:text="2015-10-16 11:28" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:text="10-16 11:28" />
+    </LinearLayout>
 
 </LinearLayout>
