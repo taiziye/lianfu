@@ -117,6 +117,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
+                Log.e("tag", "list = " + list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
             }

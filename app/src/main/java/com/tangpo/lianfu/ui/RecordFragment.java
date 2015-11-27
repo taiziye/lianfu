@@ -187,7 +187,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             if (requestCode == REQUEST_CODE) {
                 //新增
                 EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
-                recordList.add(record);
+                Log.e("tag", "recordfragment " + record.toString());
+                recordList.add(0, record);
                 adapter.notifyDataSetChanged();
             } else {
                 //编辑
@@ -229,6 +230,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 list.onRefreshComplete();
+                Log.e("tag", "result " + result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -251,6 +253,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 list.onRefreshComplete();
                 dialog.dismiss();
+                Log.e("tag", "result_f " + result.toString());
                 try {
                     Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {

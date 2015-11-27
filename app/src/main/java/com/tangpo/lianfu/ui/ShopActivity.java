@@ -111,6 +111,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         commodity = (TextView) findViewById(R.id.commodity);
 
         getStoreInfo();
+
     }
 
     @Override
@@ -150,6 +151,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "store " + result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     detail_address.setText(store.getAddress());
@@ -250,15 +252,26 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                if(store == null) {
+                    Tools.showToast(getApplicationContext(), "该店铺不存在");
+                    ShopActivity.this.finish();
+                }
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "store_fail " + result.toString());
                 try {
                     Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+
+                if(store == null) {
+                    Tools.showToast(getApplicationContext(), "该店铺不存在");
+                    ShopActivity.this.finish();
                 }
             }
         }, param);

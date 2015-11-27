@@ -155,16 +155,18 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     }
 
                     shop_name.setText("");
-                    record.setText("会员消费记录共计 元");
-                    mem.setText("会员人数总计 人");
-                    profit.setText("消费利润共计 元，可支付共计 元");
+                    record.setText("0元");
+                    mem.setText("0人");
+                    profit_can.setText("0");
+                    profit.setText("0元");
                 }
             }, params);
         } else {
             shop_name.setText("");
-            record.setText("会员消费记录共计 元");
-            mem.setText("会员人数总计 人");
-            profit.setText("消费利润共计 元，可支付共计 元");
+            record.setText("0元");
+            mem.setText("0人");
+            profit_can.setText("0");
+            profit.setText("0元");
         }
     }
 

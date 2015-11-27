@@ -136,13 +136,14 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
             TextView address = (TextView) viewp.findViewById(R.id.address);
             //初始化
             //img.setImageURI(null);
+            Tools.setPhoto(getActivity(), storeList.get(i).getPhoto(), img);
             shop_name.setText(storeList.get(i).getStore());
             //commodity.setText(storeList.get(i).get);
             address.setText(storeList.get(i).getAddress());
 
             listViews.add(viewp);
         }
-        adapter = new ViewPageAdapter(getActivity(), listViews);
+        adapter = new ViewPageAdapter(getActivity(), listViews, userid, storeList);
 
         vp.setAdapter(adapter);
         vp.setCurrentItem(0);
