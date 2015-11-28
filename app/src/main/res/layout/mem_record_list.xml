@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:text="13246564" />
         </LinearLayout>
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="#666666"
                 android:text="2015-10-16 11:28" />
         </LinearLayout>
 
@@ -117,19 +117,14 @@
         android:paddingRight="20dp"
         android:gravity="center">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/contact"
+            android:layout_width="76dp"
             android:layout_height="36dp"
-            android:background="@drawable/cancel_collect">
-            <Button
-                android:id="@+id/contact"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:textSize="16sp"
-                android:background="@null"
-                android:text="联系客服"
-                android:textColor="@android:color/holo_red_light"/>
-        </RelativeLayout>
+            android:textSize="16sp"
+            android:background="@anim/btn_style"
+            android:text="联系客服"
+            android:textColor="@android:color/holo_red_light"/>
 
     </LinearLayout>
 

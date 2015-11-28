@@ -130,7 +130,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 Configs.cachePhoneNum(RegisterActivity.this, phone);
                 Intent intent = new Intent(RegisterActivity.this, PersonalMsgActivity.class);
                 startActivity(intent);
-                finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -161,7 +160,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 editor.remove(Configs.KEY_TOKEN);
                 editor.commit();
                 Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
-                finish();
                 break;
             case R.id.next:
                 pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.checking_code), getString(R.string.please_wait));

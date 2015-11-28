@@ -258,6 +258,13 @@
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:text="@string/protocol"/>
+
+                <TextView android:id="@+id/link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#0033ff"
+                    android:text="(点击查看注册协议)"/>
             </LinearLayout>
 
         </LinearLayout>

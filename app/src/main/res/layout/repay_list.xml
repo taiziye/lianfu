@@ -48,8 +48,8 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:text="2015/11/12 12:20" />
+            android:textColor="#333333"
+            android:text="11/12 12:20" />
     </LinearLayout>
 
 </LinearLayout>

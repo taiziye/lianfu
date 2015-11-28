@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingRight="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp">
 
@@ -67,11 +67,12 @@
                     />
 
                 <TextView
-                    android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="center|left"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"
                     android:text="会员消费记录共计"/>
@@ -79,7 +80,8 @@
                 <TextView
                     android:id="@+id/record"
                     android:layout_marginRight="10dp"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:gravity="center"
@@ -89,7 +91,8 @@
 
                 <TextView
                     android:id="@+id/add_record"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
                     android:text="@string/add_record"
@@ -107,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingRight="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp">
 
@@ -120,7 +123,9 @@
                 <TextView
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
                     android:textSize="18sp"
@@ -130,7 +135,8 @@
                 <TextView
                     android:id="@+id/mem"
                     android:layout_marginRight="10dp"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:gravity="center"
@@ -140,7 +146,8 @@
 
                 <TextView
                     android:id="@+id/add_mem"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
                     android:text="@string/add_record"
@@ -159,7 +166,7 @@
                 android:layout_height="100dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingRight="16dp"
                 android:layout_marginTop="10dp">
 
                 <ImageView
@@ -169,7 +176,8 @@
                     />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp"
@@ -181,7 +189,9 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_marginRight="10dp"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:gravity="center|left"
                             android:textSize="18sp"
@@ -190,7 +200,8 @@
 
                         <TextView
                             android:id="@+id/pay"
-                            android:layout_width="70dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:gravity="center"
@@ -205,7 +216,9 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_marginRight="10dp"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:gravity="center|left"
                             android:textSize="18sp"
@@ -214,7 +227,8 @@
 
                         <TextView
                             android:id="@+id/pay_can"
-                            android:layout_width="70dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:gravity="center"
@@ -227,7 +241,8 @@
 
                 <TextView
                     android:id="@+id/profit_pay"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
                     android:text="结算"
@@ -245,7 +260,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingRight="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp">
 
@@ -256,7 +271,8 @@
                     />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
@@ -268,7 +284,9 @@
 
                         <TextView
                             android:layout_marginRight="10dp"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:gravity="center|left"
                             android:textSize="18sp"
@@ -277,7 +295,8 @@
 
                         <TextView
                             android:id="@+id/manager"
-                            android:layout_width="70dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:gravity="center"
@@ -293,7 +312,9 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_marginRight="10dp"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="5"
+                            android:singleLine="true"
                             android:layout_height="wrap_content"
                             android:gravity="center|left"
                             android:textSize="18sp"
@@ -302,7 +323,8 @@
 
                         <TextView
                             android:id="@+id/employee"
-                            android:layout_width="70dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:gravity="center"
@@ -315,7 +337,8 @@
 
                 <TextView
                     android:id="@+id/add_employee"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
                     android:text="@string/add_record"
@@ -333,7 +356,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingRight="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp">
 
@@ -345,7 +368,9 @@
 
                 <TextView
                     android:layout_marginRight="10dp"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:singleLine="true"
                     android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
@@ -356,7 +381,8 @@
                 <TextView
                     android:id="@+id/rebate"
                     android:layout_marginRight="10dp"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:gravity="center"
@@ -366,7 +392,8 @@
 
                 <TextView
                     android:id="@+id/rebate_pay"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
                     android:text="记录"

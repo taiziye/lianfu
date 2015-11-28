@@ -26,7 +26,7 @@
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:text="13246564" />
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_toRightOf="@id/user_name"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="20dp"
             android:text="消费1000元"
             android:textColor="#ff0000" />
 
@@ -66,7 +66,7 @@
             android:textSize="16sp"
             android:layout_toRightOf="@id/money"
             android:textColor="@android:color/black"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:text="(利润400元)" />
 
     </RelativeLayout>
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:textColor="#666666"
         android:text="2015-10-16 11:28" />
 
     <LinearLayout android:id="@+id/three"
@@ -98,6 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -107,7 +108,7 @@
             android:singleLine="true"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:text="鲁大师" />
 
         <View
@@ -121,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:text="级别1" />
 
     </LinearLayout>
@@ -133,8 +134,8 @@
         >
         <Button android:id="@+id/delete"
             android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="66dp"
+            android:layout_height="36dp"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:textColor="@android:color/black"
