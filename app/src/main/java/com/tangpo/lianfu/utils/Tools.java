@@ -8,6 +8,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.InputFilter;
@@ -393,5 +395,18 @@ public class Tools {
         } else if("10".equals(resultCode)) {
             Tools.showToast(context, context.getString(R.string.server_exception));
         }
+    }
+
+    public static boolean checkLAN(){
+        if (context != null) {
+            Log.e("tag", "tag check");
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 }

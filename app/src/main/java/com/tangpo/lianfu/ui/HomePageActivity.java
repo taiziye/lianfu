@@ -269,6 +269,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     }
 
     private void getMember() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String kvs[] = new String[]{userid, store_id, "", "", "", "1", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();

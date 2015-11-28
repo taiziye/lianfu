@@ -136,7 +136,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 getConsumeRecord();
             }
         });
@@ -211,6 +211,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     };
 
     private void getConsumeRecord() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

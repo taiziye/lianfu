@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import java.io.UnsupportedEncodingException;
@@ -320,6 +321,12 @@ public class PayByAliPay extends FragmentActivity {
     }
 
     private void ProfitAccount() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");

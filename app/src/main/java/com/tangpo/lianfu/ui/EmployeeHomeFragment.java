@@ -107,6 +107,12 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
+            if(!Tools.checkLAN()) {
+                Log.e("tag", "check");
+                Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+                return;
+            }
+
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {

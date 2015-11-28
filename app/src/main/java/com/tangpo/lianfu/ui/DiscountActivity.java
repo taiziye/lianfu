@@ -127,7 +127,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 getDiscount();
             }
         });*/
@@ -196,6 +196,12 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     }
 
     private void deleteDiscount() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{userid, list.get(index).getId()};
@@ -225,6 +231,12 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     }
 
     private void getDiscount() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{userid, store_id, page + "", "10"};

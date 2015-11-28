@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,6 +100,12 @@ public class UpdatePasswordActivity extends Activity {
     }
 
     private void updatePassword() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String userid = user.getUser_id();

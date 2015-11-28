@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         String token = Configs.getCatchedToken(this);
         //判断用户是否登录，如果已登录，则跳过该页面
         if (token != null) {  //如果已登录
@@ -73,6 +74,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void login() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
+
         String name = user_name.getText().toString();
         if (name.equals("")) {
             pd.dismiss();
@@ -91,6 +100,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String params = Login.packagingParam(kvs);
 
         System.out.println(Escape.unescape(params));
+
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -168,7 +178,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
-                pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
                 login();
                 break;
             case R.id.register:

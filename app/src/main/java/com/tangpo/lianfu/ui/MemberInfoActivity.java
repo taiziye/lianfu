@@ -111,6 +111,12 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
     }
 
     private void editMember(){
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String kvs[] = new String []{userid,member.getUser_id(), user_name.getText().toString(),
         password,rel_name.getText().toString(),contact_tel.getText().toString(),id_card.getText().toString(),
         member.getSex(),"","","","",bank_card.getText().toString(),bank_name.getText().toString(),

@@ -142,6 +142,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     }
 
     private void getStoreInfo() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{store_id, user_id};
@@ -288,6 +294,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     };
 
     private void collectStore(){
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{store_id, user_id};
         String params= CollectStore.packagingParam(this,kvs);

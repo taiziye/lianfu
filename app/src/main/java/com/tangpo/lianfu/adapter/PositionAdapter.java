@@ -168,6 +168,12 @@ public class PositionAdapter extends BaseAdapter {
             public void onClick(View v) {
                 cur = position;
 
+                if(!Tools.checkLAN()) {
+                    Log.e("tag", "check");
+                    Tools.showToast(context, "网络未连接，请联网后重试");
+                    return;
+                }
+
                 if (collected[position]) {
                     //取消收藏
                     Message msg = new Message();

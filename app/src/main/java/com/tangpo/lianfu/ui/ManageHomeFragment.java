@@ -123,6 +123,12 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
             Log.e("tag", "userid " + userid + "storeid " + store_id);
 
+            if(!Tools.checkLAN()) {
+                Log.e("tag", "check");
+                Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+                return;
+            }
+
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {

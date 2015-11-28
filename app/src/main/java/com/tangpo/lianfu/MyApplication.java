@@ -3,19 +3,18 @@ package com.tangpo.lianfu;
 import android.app.Application;
 import android.content.Context;
 
-import java.io.File;
-
 /**
  * Created by shengshoubo on 2015/11/2.
  */
 public class MyApplication extends Application {
 
-    public static MyApplication application;
+    public static Context context;
     private boolean isDownload;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
     }
 
     public boolean isDownload() {
@@ -51,6 +50,6 @@ public class MyApplication extends Application {
     }
 
     public static Context getContext() {
-        return application;
+        return context;
     }
 }
