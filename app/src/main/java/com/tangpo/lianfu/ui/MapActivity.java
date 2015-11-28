@@ -132,13 +132,13 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
             View viewp = LayoutInflater.from(getActivity()).inflate(R.layout.viewpage_list, null);
             ImageView img = (ImageView) viewp.findViewById(R.id.img);
             TextView shop_name = (TextView) viewp.findViewById(R.id.shop_name);
-            TextView commodity = (TextView) viewp.findViewById(R.id.shop_name);
+            TextView commodity = (TextView) viewp.findViewById(R.id.commodity);
             TextView address = (TextView) viewp.findViewById(R.id.address);
             //初始化
             //img.setImageURI(null);
             Tools.setPhoto(getActivity(), storeList.get(i).getPhoto(), img);
             shop_name.setText(storeList.get(i).getStore());
-            //commodity.setText(storeList.get(i).get);
+            commodity.setText(storeList.get(i).getBusiness());
             address.setText(storeList.get(i).getAddress());
 
             listViews.add(viewp);

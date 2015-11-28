@@ -30,10 +30,12 @@
 
         <Button
             android:id="@+id/next"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/next" />
+            android:background="@null"
+            android:textColor="@android:color/white"
+            android:text="@string/next"/>
 
     </LinearLayout>
 
@@ -65,6 +67,7 @@
                 android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
+                android:editable="false"
                 android:background="@null" />
 
             <ImageView
@@ -83,18 +86,27 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:gravity="center"
                 android:textSize="18sp"
-                android:textColor="@android:color/black"
+                android:textColor="#666666"
                 android:text="@string/phone_num" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#999999"/>
 
             <EditText
                 android:id="@+id/phone_num"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"
+                android:hint="请输入您的手机号"
                 android:layout_marginLeft="5dp"
                 android:background="@null" />
 
@@ -113,34 +125,29 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:text="@string/phone_num" />
-
             <EditText
                 android:id="@+id/code"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:hint="请输入验证码"
                 android:background="@null" />
 
             <Button
                 android:id="@+id/get_code"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:layout_marginRight="20dp"
+                android:textColor="@android:color/white"
                 android:text="@string/get_code"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@anim/btn_style" />
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:background="#FF6A6A" />
 
         </LinearLayout>
 

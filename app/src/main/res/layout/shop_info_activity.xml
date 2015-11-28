@@ -69,10 +69,18 @@
 
                 <EditText
                     android:id="@+id/shop_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -93,11 +101,18 @@
 
                 <EditText
                     android:id="@+id/shop_host"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -118,11 +133,18 @@
 
                 <EditText
                     android:id="@+id/contact_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -143,10 +165,18 @@
 
                 <EditText
                     android:id="@+id/contact_tel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -167,11 +197,18 @@
 
                 <EditText
                     android:id="@+id/const_tel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -192,11 +229,18 @@
 
                 <EditText
                     android:id="@+id/contact_intel"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -217,11 +261,18 @@
 
                 <EditText
                     android:id="@+id/shop_employee"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -242,11 +293,18 @@
 
                 <EditText
                     android:id="@+id/contact_email"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -267,11 +325,18 @@
 
                 <EditText
                     android:id="@+id/occupation"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -292,10 +357,18 @@
 
                 <EditText
                     android:id="@+id/address"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -316,11 +389,18 @@
 
                 <EditText
                     android:id="@+id/detail_address"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -341,11 +421,18 @@
 
                 <EditText
                     android:id="@+id/commodity"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:background="@null"
-                    android:editable="false" />
+                    android:background="@null" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />

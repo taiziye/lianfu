@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -45,6 +47,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private EditText referee;
     private EditText storeid;
     private EditText service;
+    private TextView link;
 
     private CheckBox check;
     private ProgressDialog dialog = null;
@@ -77,6 +80,9 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         referee = (EditText) findViewById(R.id.referee);
         storeid = (EditText) findViewById(R.id.store_id);
         service = (EditText) findViewById(R.id.service);
+
+        link = (TextView) findViewById(R.id.link);
+        link.setOnClickListener(this);
 
         check = (CheckBox) findViewById(R.id.check);
         check.setOnClickListener(this);
@@ -118,7 +124,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
                 Intent intent = new Intent(PersonalMsgActivity.this, RegisterSuccessActivity.class);
                 startActivity(intent);
-                finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -135,10 +140,11 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.double_code:
                 //扫描二维码
-                Intent intent=new Intent();
+                intent=new Intent();
                 intent.setClass(PersonalMsgActivity.this,MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(intent,SCANNIN_GREQUEST_CODE);
@@ -152,6 +158,13 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 } else {
                     next.setEnabled(false);
                 }
+                break;
+            case R.id.link:
+                intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri url = Uri.parse("http://www.51xfzf.com/lfindex/helpinfo.aspx?id=5");
+                intent.setData(url);
+                startActivity(intent);
                 break;
         }
     }
