@@ -137,6 +137,11 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private void commitConsume() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
         if(consume_money.getText().toString().length() == 0) {
             Tools.showToast(this, "请填写正确的消费金额");
             return;
@@ -149,12 +154,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
         if(discount.getText().toString().length() == 0) {
             Tools.showToast(this, "请选择折扣");
-            return;
-        }
-
-        if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
 
