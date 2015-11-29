@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
+import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -36,7 +36,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private TextView forget;
     private TextView register;
 
-    private ImageView login_as;
+    private CircularImage weibo;
+    private CircularImage weixin;
+    private CircularImage qq;
 
     private ProgressDialog pd = null;
 
@@ -69,8 +71,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
-        login_as = (ImageView) findViewById(R.id.login_as);
-        login_as.setOnClickListener(this);
+        weibo = (CircularImage) findViewById(R.id.weibo);
+        weibo.setOnClickListener(this);
+        weixin = (CircularImage) findViewById(R.id.weixin);
+        weixin.setOnClickListener(this);
+        qq = (CircularImage) findViewById(R.id.qq);
+        qq.setOnClickListener(this);
     }
 
     private void login() {
@@ -148,10 +154,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        finish();
     }
 
-    public void loginAs() {
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -186,9 +188,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.forget:
                 forgetPassword();
                 break;
-            case R.id.login_as:
-                loginAs();
+            case R.id.weixin:
+                //微信第三方登录
+                Weixin();
+                break;
+            case R.id.weibo:
+                //微博第三方登录
+                Weibo();
+                break;
+            case R.id.qq:
+                //qq第三方登录
+                QQ();
                 break;
         }
+    }
+
+    public void Weixin() {
+    }
+
+    public void Weibo() {
+    }
+
+    public void QQ() {
     }
 }
