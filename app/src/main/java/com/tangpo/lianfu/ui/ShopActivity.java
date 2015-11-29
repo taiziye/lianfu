@@ -111,6 +111,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         commodity = (TextView) findViewById(R.id.commodity);
 
         getStoreInfo();
+
     }
 
     @Override
@@ -141,6 +142,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     }
 
     private void getStoreInfo() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{store_id, user_id};
@@ -150,6 +157,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "store " + result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     detail_address.setText(store.getAddress());
@@ -250,15 +258,26 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                if(store == null) {
+                    Tools.showToast(getApplicationContext(), "该店铺不存在");
+                    ShopActivity.this.finish();
+                }
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "store_fail " + result.toString());
                 try {
                     Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+
+                if(store == null) {
+                    Tools.showToast(getApplicationContext(), "该店铺不存在");
+                    ShopActivity.this.finish();
                 }
             }
         }, param);
@@ -275,6 +294,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     };
 
     private void collectStore(){
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{store_id, user_id};
         String params= CollectStore.packagingParam(this,kvs);

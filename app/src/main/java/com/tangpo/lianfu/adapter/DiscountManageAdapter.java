@@ -2,6 +2,7 @@ package com.tangpo.lianfu.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,12 @@ public class DiscountManageAdapter extends BaseAdapter {
     }
 
     private void deleteDiscount(final int position) {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(context, "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
         String kvs[] = new String[]{userid, list.get(position).getId()};
         String param = DeleteDiscount.packagingParam(context, kvs);

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -162,10 +163,22 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
                 break;
             case R.id.next:
+                if(!Tools.checkLAN()) {
+                    Log.e("tag", "check");
+                    Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+                    return;
+                }
+
                 pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.checking_code), getString(R.string.please_wait));
                 checkCode();
                 break;
             case R.id.get_code:
+                if(!Tools.checkLAN()) {
+                    Log.e("tag", "check");
+                    Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+                    return;
+                }
+
                 pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.send_message), getString(R.string.please_wait));
                 getCode();
                 break;

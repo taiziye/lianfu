@@ -88,7 +88,7 @@ public class RepayActivity extends Activity {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page ++;
+                page = page + 1;
                 getRepayList();
             }
         });
@@ -108,6 +108,12 @@ public class RepayActivity extends Activity {
     };
 
     private void getRepayList(){
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String kvs[] = new String[]{userid, "", page + "", "10"};
 
         String param = PlatformRebateRecord.packagingParam(this, kvs);

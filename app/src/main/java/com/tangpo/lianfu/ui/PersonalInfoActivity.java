@@ -107,13 +107,19 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 }
                 break;
             case R.id.confirm:
-                dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
                 updatePersonalInfo();
                 break;
         }
     }
 
     private void updatePersonalInfo() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String user_id = user_name.getText().toString();
         String phone = contact_tel.getText().toString();
         String name = rel_name.getText().toString();

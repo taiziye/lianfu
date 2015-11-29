@@ -117,6 +117,12 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     }
 
     private void updateEmployee() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String employee_id = employee.getId();
         String rank = "";

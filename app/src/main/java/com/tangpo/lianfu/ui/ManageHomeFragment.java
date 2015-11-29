@@ -123,6 +123,12 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
             Log.e("tag", "userid " + userid + "storeid " + store_id);
 
+            if(!Tools.checkLAN()) {
+                Log.e("tag", "check");
+                Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+                return;
+            }
+
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
@@ -183,19 +189,23 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     }
 
                     shop_name.setText("");
-                    record.setText("会员消费记录共计 元");
-                    mem.setText("会员人数总计 人");
-                    pay.setText("消费利润共计 元，可支付共计 元");
-                    employee.setText("管理员人数总计 人，员工总计 人");
+                    record.setText("0");
+                    mem.setText("0人");
+                    pay.setText("0元");
+                    pay_can.setText("0元");
+                    employee.setText("0人");
+                    manager.setText("0人");
                     rebate.setText("0");
                 }
             }, params);
         } else {
             shop_name.setText("");
-            record.setText("会员消费记录共计 元");
-            mem.setText("会员人数总计 人");
-            pay.setText("消费利润共计 元，可支付共计 元");
-            employee.setText("管理员人数总计 人，员工总计 人");
+            record.setText("0");
+            mem.setText("0人");
+            pay.setText("0元");
+            pay_can.setText("0元");
+            employee.setText("0人");
+            manager.setText("0人");
             rebate.setText("0");
         }
 

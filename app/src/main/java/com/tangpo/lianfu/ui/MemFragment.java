@@ -81,6 +81,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         remainder = (TextView) view.findViewById(R.id.remainder);
 
         Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
+        name.setText(userEntity.getName());
+        power.setText("会员");
         user_name.setText("");
     }
 

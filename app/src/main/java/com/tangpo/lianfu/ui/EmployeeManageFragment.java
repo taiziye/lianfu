@@ -124,7 +124,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 getEmployeeList();
             }
         });
@@ -169,6 +169,12 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     };
 
     private void getEmployeeList() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{userid, store_id, page + "", "10"};

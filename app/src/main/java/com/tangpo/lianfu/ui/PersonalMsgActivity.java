@@ -89,6 +89,12 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     }
 
     private void postPersonalInfo() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String username = user_name.getText().toString();
         if (!TextUtils.equals(pass.getText().toString(), check_pass.getText().toString())) {
             ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);

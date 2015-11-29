@@ -110,6 +110,12 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     };
 
     private void getCollectStore() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         //获取收藏店铺列表
         /*preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

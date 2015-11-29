@@ -179,6 +179,12 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     }
 
     private void addEmployee() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
 //        rank = manage_level.getText().toString();

@@ -140,7 +140,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 select_all.setChecked(false);
                 getProfitPay();
             }
@@ -244,6 +244,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     };
 
     private void getProfitPay() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         String kvs[] = new String[]{userid, store_id, " ", " ","0",page + "", "10"};
         String param = ProfitPayRecord.packagingParam(this, kvs);
 

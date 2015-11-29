@@ -116,6 +116,23 @@ public class EmployeeConsumeRecord implements Serializable {
 
     }
 
+    @Override
+    public String toString() {
+        return "EmployeeConsumeRecord{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", consume_date='" + consume_date + '\'' +
+                ", fee='" + fee + '\'' +
+                ", isPass='" + isPass + '\'' +
+                ", discount='" + discount + '\'' +
+                ", pay_status='" + pay_status + '\'' +
+                ", pay_way='" + pay_way + '\'' +
+                ", pay_date='" + pay_date + '\'' +
+                ", onLines='" + onLines + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
+
     public EmployeeConsumeRecord(String id, String username, String consume_date, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onLines, String desc) {
         this.id = id;
         this.username = username;

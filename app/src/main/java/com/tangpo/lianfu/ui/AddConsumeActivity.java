@@ -16,17 +16,18 @@ import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
-import com.tangpo.lianfu.entity.Manager;
+import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.entity.Member;
-import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CommitConsumeRecord;
-import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -136,12 +137,40 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private void commitConsume() {
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
 
+        if(consume_money.getText().toString().length() == 0) {
+            Tools.showToast(this, "请填写正确的消费金额");
+            return;
+        }
+
+        if(user_name.getText().toString().length() == 0) {
+            Tools.showToast(this, "请选择消费用户");
+            return;
+        }
+
+        if(discount.getText().toString().length() == 0) {
+            Tools.showToast(this, "请选择折扣");
+            return;
+        }
+
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
-        Log.e("tag",user.getStore_id());
+        final EmployeeConsumeRecord record = new EmployeeConsumeRecord();
+        record.setId(user.getUser_id());
+        record.setUsername(user.getName());
+        record.setDiscount(dis.getDiscount());
+        record.setFee(consume_money.getText().toString());
+        record.setPay_status("1");
+        record.setPay_date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date()));
+
+        Log.e("tag","storeid_add " + user.getStore_id());
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -149,6 +178,10 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Tools.showToast(AddConsumeActivity.this, getString(R.string.add_success));
+                Intent intent = new Intent();
+                intent.putExtra("record", record);
+                setResult(RESULT_OK, intent);
+
                 AddConsumeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {

@@ -101,7 +101,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 getConsumeRecord();
             }
         });
@@ -117,6 +117,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
+                Log.e("tag", "list = " + list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
             }
@@ -124,6 +125,12 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     };
 
     private void getConsumeRecord() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{user_id, "10", page + ""};

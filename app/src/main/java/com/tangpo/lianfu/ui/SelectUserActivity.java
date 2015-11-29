@@ -135,7 +135,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
+                page = page + 1;
                 getMemberList();
             }
         });
@@ -170,6 +170,12 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     };
 
     private void getMemberList() {
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
