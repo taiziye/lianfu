@@ -118,7 +118,12 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                 public void onSuccess(JSONObject result) {
                     dialog.dismiss();
 
-                    manager = mGson.fromJson(result.toString(), Manager.class);
+                    try {
+                        JSONObject object = result.getJSONObject("param");
+                        manager = mGson.fromJson(object.toString(), Manager.class);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     shop_name.setText(manager.getStore_name());
                     if (manager.getIncome() == null)
@@ -133,13 +138,19 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
 
                     if (manager.getProfit() == null)
                         profit.setText("0");
-                    else
-                        profit.setText( manager.getProfit() + "");
+                    else {
+                        String tmp = manager.getIncome();
+                        int l = tmp.length();
+                        profit.setText(tmp.substring(0, l-2) + "");
+                    }
 
                     if (manager.getPayback() == null)
                         profit_can.setText("0");
-                    else
-                        profit_can.setText(manager.getPayback() + "");
+                    else {
+                        String tmp = manager.getNeed_pay();
+                        int l = tmp.length();
+                        profit_can.setText(tmp.substring(0, l-2) + "");
+                    }
 
                     Configs.cacheManager(getActivity(), result.toString());
                 }

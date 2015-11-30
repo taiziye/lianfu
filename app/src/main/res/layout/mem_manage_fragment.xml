@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/register_date" />
+                    android:text="用户ID" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -89,9 +89,12 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"/>
+                style="@style/consum_top_text_style"
+                android:text="@string/register_date" />
+
+            <ImageView
+                style="@style/consum_top_img_style"
+                android:background="@drawable/list_sort" />
 
         </LinearLayout>
 
@@ -101,6 +104,7 @@
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

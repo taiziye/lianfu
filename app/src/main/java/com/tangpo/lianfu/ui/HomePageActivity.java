@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,11 +36,23 @@ import java.util.Set;
 public class HomePageActivity extends Activity implements View.OnClickListener {
 
     private LinearLayout frame;
-    private TextView one;
-    private TextView two;
-    private TextView three;
-    private TextView four;
-    private TextView five;
+    private LinearLayout one;
+    private LinearLayout two;
+    private LinearLayout three;
+    private LinearLayout four;
+    private LinearLayout five;
+
+    private ImageView one_i;
+    private ImageView two_i;
+    private ImageView three_i;
+    private ImageView four_i;
+    private ImageView five_i;
+
+    private TextView one_t;
+    private TextView two_t;
+    private TextView three_t;
+    private TextView four_t;
+    private TextView five_t;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
@@ -64,7 +77,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
         gson=new Gson();
-        userEntity=gson.fromJson(user,UserEntity.class);
+        userEntity=gson.fromJson(user, UserEntity.class);
         userType=userEntity.getUser_type();
         userid=userEntity.getUser_id();
         employeename=userEntity.getName();
@@ -73,24 +86,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
         fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
-        /*if (userType.equals("2")) { //管理员
-            Bundle bundle = new Bundle();
-            bundle.putString("userid", userid);
-            bundle.putString("storeid", store_id);
-            fragment = new ManageHomeFragment();
-            fragment.setArguments(bundle);
-            getMember();
-        } else if (userType.equals("1")) {  //员工
-            Bundle bundle = new Bundle();
-            bundle.putString("userid", userid);
-            bundle.putString("storeid", store_id);
-            fragment = new EmployeeHomeFragment();
-            fragment.setArguments(bundle);
-            getMember();
-        } else {  //会员
-            fragment = new MemberHomeFragment();
-        }*/
-        Log.e("tag", "userid =" + userid + "  storeid =" + store_id);
 
         if (userType.equals("3") || userType.equals("4")) { //管理员
             Bundle bundle = new Bundle();
@@ -110,9 +105,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             fragment = new MemberHomeFragment();
             fragment.setArguments(bundle);
         }
-        /*Bundle bundle = new Bundle();
-        bundle.putString("userid", userid);
-        fragment.setArguments(bundle);*/
 
         transaction.replace(R.id.frame, fragment);
         transaction.addToBackStack(null);
@@ -125,42 +117,57 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         frame = (LinearLayout) findViewById(R.id.frame);
 
         //根据不同的身份信息需要隐藏一个button，且注意更换button的text
-        one = (TextView) findViewById(R.id.one);
+        one = (LinearLayout) findViewById(R.id.one);
         one.setOnClickListener(this);
-        one.setText("地面店铺");
-        two = (TextView) findViewById(R.id.two);
+        one_i = (ImageView) findViewById(R.id.one_i);
+        one_t = (TextView) findViewById(R.id.one_t);
+        one_t.setText("地面店铺");
+        two = (LinearLayout) findViewById(R.id.two);
         two.setOnClickListener(this);
-        two.setText("消费记录");
-        three = (TextView) findViewById(R.id.three);
+        two_i = (ImageView) findViewById(R.id.two_i);
+        two_t = (TextView) findViewById(R.id.two_t);
+        two_t.setText("消费记录");
+        three = (LinearLayout) findViewById(R.id.three);
         three.setOnClickListener(this);
-        three.setText("会员管理");
+        three_i = (ImageView) findViewById(R.id.three_i);
+        three_t = (TextView) findViewById(R.id.three_t);
+        three_t.setText("会员管理");
 
-        four = (TextView) findViewById(R.id.four);
+        four = (LinearLayout) findViewById(R.id.four);
         four.setOnClickListener(this);
+        four_i = (ImageView) findViewById(R.id.four_i);
+        four_t = (TextView) findViewById(R.id.four_t);
         if (userType.equals("1") || userType.equals("2")) {  //如果是非管理员登录，则隐藏改按钮
             four.setVisibility(View.GONE);
         } else {
-            four.setText(getResources().getString(R.string.employee_management));
+            four_t.setText(getResources().getString(R.string.employee_management));
         }
-        five = (TextView) findViewById(R.id.five);
+        five = (LinearLayout) findViewById(R.id.five);
         five.setOnClickListener(this);
-        five.setText(getResources().getString(R.string.personal));
+        five_i = (ImageView) findViewById(R.id.five_i);
+        five_t = (TextView) findViewById(R.id.five_t);
+        five_t.setText(getResources().getString(R.string.personal));
 
         if (userType.equals("2") || userType.equals("3") || userType.equals("4")) {
-            one.setText(getResources().getString(R.string.home_page));
-            two.setText(getResources().getString(R.string.record));
-            three.setText(getResources().getString(R.string.member));
+            one_t.setText(getResources().getString(R.string.home_page));
+            two_t.setText(getResources().getString(R.string.record));
+            three_t.setText(getResources().getString(R.string.member));
         } else {
-            one.setText(getResources().getString(R.string.shop));
-            two.setText(getResources().getString(R.string.collect));
-            three.setText(getResources().getString(R.string.record));
+            one_t.setText(getResources().getString(R.string.shop));
+            two_t.setText(getResources().getString(R.string.collect));
+            three_t.setText(getResources().getString(R.string.record));
         }
 
-        one.setTextColor(Color.RED);
-        two.setTextColor(Color.BLACK);
-        three.setTextColor(Color.BLACK);
-        four.setTextColor(Color.BLACK);
-        five.setTextColor(Color.BLACK);
+        one_t.setTextColor(Color.RED);
+        one_i.setImageResource(R.drawable.home_page_r);
+        two_t.setTextColor(Color.BLACK);
+        two_i.setImageResource(R.drawable.record);
+        three_t.setTextColor(Color.BLACK);
+        three_i.setImageResource(R.drawable.member_manage);
+        four_t.setTextColor(Color.BLACK);
+        four_i.setImageResource(R.drawable.employee_manage);
+        five_t.setTextColor(Color.BLACK);
+        five_i.setImageResource(R.drawable.personal);
     }
 
     @Override
@@ -168,11 +175,16 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         transaction = fragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.one:
-                one.setTextColor(Color.RED);
-                two.setTextColor(Color.BLACK);
-                three.setTextColor(Color.BLACK);
-                four.setTextColor(Color.BLACK);
-                five.setTextColor(Color.BLACK);
+                one_t.setTextColor(Color.RED);
+                one_i.setImageResource(R.drawable.home_page_r);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
 
                 if (userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
@@ -194,11 +206,16 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.two:
-                one.setTextColor(Color.BLACK);
-                two.setTextColor(Color.RED);
-                three.setTextColor(Color.BLACK);
-                four.setTextColor(Color.BLACK);
-                five.setTextColor(Color.BLACK);
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.RED);
+                two_i.setImageResource(R.drawable.record_r);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
 
                 if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
@@ -214,11 +231,16 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.three:
-                one.setTextColor(Color.BLACK);
-                two.setTextColor(Color.BLACK);
-                three.setTextColor(Color.RED);
-                four.setTextColor(Color.BLACK);
-                five.setTextColor(Color.BLACK);
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.RED);
+                three_i.setImageResource(R.drawable.member_manage_r);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
 
                 if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
                     Bundle bundle = new Bundle();
@@ -235,20 +257,30 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.four:
-                one.setTextColor(Color.BLACK);
-                two.setTextColor(Color.BLACK);
-                three.setTextColor(Color.BLACK);
-                four.setTextColor(Color.RED);
-                five.setTextColor(Color.BLACK);
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.RED);
+                four_i.setImageResource(R.drawable.employee_manage_r);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
 
                 fragment = new EmployeeManageFragment();
                 break;
             case R.id.five:
-                one.setTextColor(Color.BLACK);
-                two.setTextColor(Color.BLACK);
-                three.setTextColor(Color.BLACK);
-                four.setTextColor(Color.BLACK);
-                five.setTextColor(Color.RED);
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.RED);
+                five_i.setImageResource(R.drawable.personal_r);
 
                 if (userType.equals("3") || userType.equals("4")) { //管理员
                     fragment = new ManagerFragment();

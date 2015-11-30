@@ -13,7 +13,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:layout_height="30dp"
             android:background="@drawable/back"
             android:layout_marginTop="10dp"

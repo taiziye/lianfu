@@ -14,74 +14,119 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/one"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:text="@string/record"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/one_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/home_page"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#cccccc" />
+            <TextView
+                android:id="@+id/one_t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#666666"
+                android:text="@string/home_page"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/two"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:text="@string/record"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/two_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/record"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#cccccc" />
+            <TextView
+                android:id="@+id/two_t"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:text="@string/record"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/three"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:text="@string/member"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/three_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/member_manage"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#cccccc" />
+            <TextView
+                android:id="@+id/three_t"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:text="@string/member"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/four"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:text="@string/employee"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/four_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/employee_manage"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#cccccc" />
+            <TextView
+                android:id="@+id/four_t"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:text="@string/employee"/>
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/five"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:text="@string/personal"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/five_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/personal"/>
+
+            <TextView
+                android:id="@+id/five_t"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:text="@string/personal"/>
+        </LinearLayout>
 
     </LinearLayout>
 

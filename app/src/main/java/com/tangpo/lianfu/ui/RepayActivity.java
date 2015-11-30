@@ -1,13 +1,14 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -33,10 +34,10 @@ import java.util.List;
 public class RepayActivity extends Activity {
 
     private RepayAdapter adapter;
+    private Button back;
     private PullToRefreshListView listView;
     private List<Repay> list = new ArrayList<>();
     private String userid = "";
-    private String store_id = "";
 
     private Gson gson = new Gson();
 
@@ -52,6 +53,14 @@ public class RepayActivity extends Activity {
         userid = getIntent().getExtras().getString("userid");
 
         listView = (PullToRefreshListView) findViewById(R.id.list);
+
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RepayActivity.this.finish();
+            }
+        });
 
         getRepayList();
 
@@ -101,6 +110,7 @@ public class RepayActivity extends Activity {
             switch (msg.what){
                 case 1:
                     list = (List<Repay>) msg.obj;
+                    Log.e("tag", "Repaylist " + list.size());
                     adapter = new RepayAdapter(RepayActivity.this, list);
                     listView.setAdapter(adapter);
             }
@@ -137,6 +147,7 @@ public class RepayActivity extends Activity {
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = list;
+                handler.sendMessage(msg);
             }
         }, new NetConnection.FailCallback() {
             @Override

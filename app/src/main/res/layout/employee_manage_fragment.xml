@@ -44,7 +44,7 @@
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:paddingRight="10dp">
 
         <LinearLayout style="@style/consum_top_style">
@@ -87,13 +87,15 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"/>
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
+    <View style="@style/view_line_style" />
+
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/emlist"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

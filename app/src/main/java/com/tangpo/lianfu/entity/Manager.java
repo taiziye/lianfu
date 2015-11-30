@@ -17,6 +17,21 @@ public class Manager implements Serializable {
     private String staff_num;
     private String payback;
 
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "admin_num='" + admin_num + '\'' +
+                ", store_id='" + store_id + '\'' +
+                ", store_name='" + store_name + '\'' +
+                ", income='" + income + '\'' +
+                ", mem_num='" + mem_num + '\'' +
+                ", profit='" + profit + '\'' +
+                ", need_pay='" + need_pay + '\'' +
+                ", staff_num='" + staff_num + '\'' +
+                ", payback='" + payback + '\'' +
+                '}';
+    }
+
     public Manager() {
     }
 
