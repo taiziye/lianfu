@@ -18,8 +18,8 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textSize="13sp"
+            android:textColor="#333333"
             android:text="aa39213" />
 
         <TextView

@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:background="@android:color/black">
 
         <Button
             android:id="@+id/search"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
@@ -20,40 +20,42 @@
 
         <TextView
             android:id="@+id/shop_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:gravity="center"
             android:textSize="20sp"
+            android:layout_centerInParent="true"
             android:textColor="@android:color/white"
             android:text="@string/record" />
-
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/setting"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" />
 
         <Button
             android:id="@+id/add"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
             android:background="@drawable/add" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/setting"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@id/add"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,11 +65,13 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <LinearLayout style="@style/consum_top_style">
+            <LinearLayout
+                style="@style/consum_top_style"
+                android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/shop" />
+                    android:text="@string/compute_date" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -87,32 +91,6 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
-
-                <TextView
-                    style="@style/consum_top_text_style"
-                    android:text="@string/profit" />
-
-                <ImageView
-                    style="@style/consum_top_img_style"
-                    android:background="@drawable/list_sort" />
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
-
-                <TextView
-                    style="@style/consum_top_text_style"
-                    android:text="@string/compute_date" />
-
-                <ImageView
-                    style="@style/consum_top_img_style"
-                    android:background="@drawable/list_sort" />
-            </LinearLayout>
-
         </LinearLayout>
 
         <View style="@style/view_line_style" />
@@ -121,6 +99,7 @@
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

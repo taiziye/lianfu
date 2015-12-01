@@ -59,12 +59,12 @@ public class RepayAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.user_id.setText(list.get(position).getId());
-        holder.user_name.setText(list.get(position).getUsername());
+        holder.user_id.setText(list.get(position).getUsername());
+        holder.user_name.setText(list.get(position).getFee());
         holder.money.setText(list.get(position).getProfit());
-        holder.time.setText(list.get(position).getPay_date());
+        holder.time.setText(list.get(position).getConsume_date());
 
-        return null;
+        return convertView;
     }
 
     public class ViewHolder{
