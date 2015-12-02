@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -32,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -44,6 +47,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private Button search;
     private Button edit;
     private Button add;
+
+    private LinearLayout time;
+    private boolean f1 = false;
+    private LinearLayout money;
+    private boolean f2 = false;
 
     private PullToRefreshListView list;
 
@@ -98,6 +106,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         edit.setOnClickListener(this);
         add = (Button) view.findViewById(R.id.add);
         add.setOnClickListener(this);
+        time = (LinearLayout) view.findViewById(R.id.time);
+        time.setOnClickListener(this);
+        money = (LinearLayout) view.findViewById(R.id.money);
+        money.setOnClickListener(this);
 
         list = (PullToRefreshListView) view.findViewById(R.id.list);
 
@@ -176,6 +188,50 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             case R.id.add:
                 intent = new Intent(getActivity(), AddConsumeActivity.class);
                 getActivity().startActivityForResult(intent, REQUEST_CODE);
+                break;
+            case R.id.time:
+                if(recordList.size() > 0) {
+                    if(f1) {
+                        f1 = !f1;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.money:
+                if(recordList.size() > 0) {
+                    if(f2) {
+                        f2 = !f2;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return lhs.getFee().compareTo(rhs.getFee());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return rhs.getFee().compareTo(lhs.getFee());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
                 break;
         }
     }

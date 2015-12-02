@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -26,18 +27,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by 果冻 on 2015/11/25.
  */
-public class RepayActivity extends Activity {
+public class RepayActivity extends Activity implements View.OnClickListener {
 
     private RepayAdapter adapter;
     private Button back;
     private PullToRefreshListView listView;
     private List<Repay> list = new ArrayList<>();
     private String userid = "";
+
+    private LinearLayout id;
+    private boolean f1 = false;
+    private LinearLayout fee;
+    private boolean f2 = false;
+    private LinearLayout repay;
+    private boolean f3 = false;
+    private LinearLayout time;
+    private boolean f4 = false;
 
     private Gson gson = new Gson();
 
@@ -61,6 +73,15 @@ public class RepayActivity extends Activity {
                 RepayActivity.this.finish();
             }
         });
+
+        id = (LinearLayout) findViewById(R.id.id);
+        id.setOnClickListener(this);
+        fee = (LinearLayout) findViewById(R.id.fee);
+        fee.setOnClickListener(this);
+        repay = (LinearLayout) findViewById(R.id.repay);
+        repay.setOnClickListener(this);
+        time = (LinearLayout) findViewById(R.id.time);
+        time.setOnClickListener(this);
 
         getRepayList();
 
@@ -160,5 +181,99 @@ public class RepayActivity extends Activity {
                 }
             }
         }, param);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.id:
+                if(list.size() > 0) {
+                    if(f1) {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return lhs.getUsername().compareTo(rhs.getUsername());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return rhs.getUsername().compareTo(lhs.getUsername());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.fee:
+                if(list.size() > 0) {
+                    if(f2) {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return lhs.getFee().compareTo(rhs.getFee());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return rhs.getFee().compareTo(lhs.getFee());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.repay:
+                if(list.size() > 0) {
+                    if(f3) {
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return lhs.getProfit().compareTo(rhs.getProfit());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return rhs.getProfit().compareTo(lhs.getProfit());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.time:
+                if(list.size() > 0) {
+                    if(f4) {
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<Repay>() {
+                            @Override
+                            public int compare(Repay lhs, Repay rhs) {
+                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 }

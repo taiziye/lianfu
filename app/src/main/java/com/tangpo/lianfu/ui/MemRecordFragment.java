@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -27,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -37,6 +40,11 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private PullToRefreshListView listView;
     private MemRecourdAdapter adapter = null;
     private List<MemRecord> list = new ArrayList<>();
+
+    private LinearLayout time;
+    private boolean f1 = false;
+    private LinearLayout money;
+    private boolean f2 = false;
 
     private int page = 1;
     private Gson gson = new Gson();
@@ -66,6 +74,10 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private void init(View view) {
         getConsumeRecord();
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
+        time = (LinearLayout) view.findViewById(R.id.time);
+        time.setOnClickListener(this);
+        money = (LinearLayout) view.findViewById(R.id.money);
+        money.setOnClickListener(this);
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -109,6 +121,52 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.time:
+                if(list.size() > 0) {
+                    if(f1) {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<MemRecord>() {
+                            @Override
+                            public int compare(MemRecord lhs, MemRecord rhs) {
+                                return Tools.Compare(lhs.getDatetime(), rhs.getDatetime());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<MemRecord>() {
+                            @Override
+                            public int compare(MemRecord lhs, MemRecord rhs) {
+                                return Tools.Compare(rhs.getDatetime(), lhs.getDatetime());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.money:
+                if(list.size() > 0) {
+                    if(f2) {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<MemRecord>() {
+                            @Override
+                            public int compare(MemRecord lhs, MemRecord rhs) {
+                                return lhs.getFee().compareTo(rhs.getFee());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<MemRecord>() {
+                            @Override
+                            public int compare(MemRecord lhs, MemRecord rhs) {
+                                return rhs.getFee().compareTo(lhs.getFee());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 
     private Handler handler = new Handler(){

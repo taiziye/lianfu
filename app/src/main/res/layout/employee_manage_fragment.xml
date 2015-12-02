@@ -47,7 +47,8 @@
         android:background="@android:color/white"
         android:paddingRight="10dp">
 
-        <LinearLayout style="@style/consum_top_style">
+        <LinearLayout android:id="@+id/time"
+            style="@style/consum_top_style">
 
             <TextView
                 style="@style/consum_top_text_style"
@@ -58,7 +59,7 @@
                 android:background="@drawable/list_sort" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/manager"
             style="@style/consum_top_style"
             >
 
@@ -71,7 +72,7 @@
                 android:background="@drawable/list_sort" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/name"
             style="@style/consum_top_style"
             >
 

@@ -65,7 +65,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/time"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
@@ -78,7 +78,7 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/money"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
