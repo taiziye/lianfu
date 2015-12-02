@@ -43,8 +43,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -408,5 +412,28 @@ public class Tools {
             }
         }
         return false;
+    }
+
+    /**
+     * 时间排序
+     */
+    public static int Compare(String s1, String s2) {
+        boolean flag = false;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss",
+                Locale.CHINA);
+        try {
+            Date d1 = dateFormat.parse(s1);
+            Date d2 = dateFormat.parse(s2);
+            if(d1.getTime() > d2.getTime()) {
+                flag = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(flag) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }

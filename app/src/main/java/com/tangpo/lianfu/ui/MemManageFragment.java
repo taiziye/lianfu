@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -31,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +50,14 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private Button add;
 
     private PullToRefreshListView listView;
+    private LinearLayout id;
+    private boolean f1 = false;
+    private LinearLayout name;
+    private boolean f2 = false;
+    private LinearLayout sex;
+    private boolean f3 = false;
+    private LinearLayout time;
+    private boolean f4 = false;
 
     private SharedPreferences preferences = null;
 //    private Set<String> members = null;
@@ -89,6 +100,15 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         search.setOnClickListener(this);
         add = (Button) view.findViewById(R.id.add);
         add.setOnClickListener(this);
+
+        id = (LinearLayout) view.findViewById(R.id.id);
+        id.setOnClickListener(this);
+        name = (LinearLayout) view.findViewById(R.id.name);
+        name.setOnClickListener(this);
+        sex = (LinearLayout) view.findViewById(R.id.sex);
+        sex.setOnClickListener(this);
+        time = (LinearLayout) view.findViewById(R.id.time);
+        time.setOnClickListener(this);
 
         /*Iterator<String> it = members.iterator();
         while (it.hasNext()) {
@@ -162,6 +182,94 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 Intent intent = new Intent(getActivity(), AddMemberActivity.class);
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, REQUEST_CODE);
+                break;
+            case R.id.id:
+                if(list.size() > 0) {
+                    if(f1){
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return lhs.getUser_id().compareTo(rhs.getUser_id());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return rhs.getUser_id().compareTo(lhs.getUser_id());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.name:
+                if(list.size() > 0) {
+                    if(f2){
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return rhs.getName().compareTo(lhs.getName());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.sex:
+                if(list.size() > 0) {
+                    if(f3){
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return lhs.getSex().compareTo(rhs.getSex());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return rhs.getSex().compareTo(lhs.getSex());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.time:
+                if(list.size() > 0) {
+                    if(f4){
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return Tools.Compare(lhs.getRegister_time(), rhs.getRegister_time());
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<Member>() {
+                            @Override
+                            public int compare(Member lhs, Member rhs) {
+                                return Tools.Compare(rhs.getRegister_time(), lhs.getRegister_time());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
                 break;
         }
     }

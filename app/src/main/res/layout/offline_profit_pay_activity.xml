@@ -73,39 +73,39 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/name"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/consume_money" />
+                    android:text="@string/name" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/time"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/consume_money" />
+                    android:text="结算时间" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/repay"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/consume_money" />
+                    android:text="返还金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

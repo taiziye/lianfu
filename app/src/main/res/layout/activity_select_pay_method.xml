@@ -3,21 +3,145 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <LinearLayout
         android:id="@+id/dialog_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
-        <TextView
+        <LinearLayout
             android:id="@+id/pay_by_alipay"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dip"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/me_head_bg" />
+
+                <com.tangpo.lianfu.utils.CircularImage
+                    android:id="@+id/img1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerInside" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:layout_marginTop="15dp"
+                android:text="@string/pay_by_alipay"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pay_by_wechat"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/me_head_bg" />
+
+                <com.tangpo.lianfu.utils.CircularImage
+                    android:id="@+id/img2"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerInside" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:layout_marginTop="15dp"
+                android:text="@string/pay_by_wechat"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pay_by_bankcard"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/me_head_bg" />
+
+                <com.tangpo.lianfu.utils.CircularImage
+                    android:id="@+id/img3"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerInside" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:layout_marginTop="15dp"
+                android:text="@string/pay_by_bank_card"
+                />
+
+        </LinearLayout>
+
+        <!--<TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
@@ -25,13 +149,13 @@
             android:textStyle="bold" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:background="@android:color/transparent" />
 
         <TextView
             android:id="@+id/pay_by_wechat"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:gravity="center"
             android:background="@android:color/white"
@@ -40,13 +164,13 @@
             android:textStyle="bold" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:background="@android:color/transparent" />
 
         <TextView
             android:id="@+id/pay_by_bankcard"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:gravity="center"
             android:background="@android:color/white"
@@ -55,9 +179,9 @@
             android:textStyle="bold" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="5dp"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent" />-->
     </LinearLayout>
 
 </RelativeLayout>

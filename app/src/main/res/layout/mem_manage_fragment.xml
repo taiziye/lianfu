@@ -51,7 +51,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <LinearLayout style="@style/consum_top_style">
+            <LinearLayout android:id="@+id/id"
+                style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
@@ -62,7 +63,7 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/name"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
@@ -75,7 +76,7 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/sex"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
@@ -88,13 +89,16 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <TextView
-                style="@style/consum_top_text_style"
-                android:text="@string/register_date" />
+            <LinearLayout android:id="@+id/time"
+                style="@style/consum_top_style">
+                <TextView
+                    style="@style/consum_top_text_style"
+                    android:text="@string/register_date" />
 
-            <ImageView
-                style="@style/consum_top_img_style"
-                android:background="@drawable/list_sort" />
+                <ImageView
+                    style="@style/consum_top_img_style"
+                    android:background="@drawable/list_sort" />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -1,9 +1,7 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -11,18 +9,22 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.utils.Tools;
 
 public class SelectPayMethod extends FragmentActivity implements View.OnClickListener {
 
-    private TextView pay_by_alipay;
-    private TextView pay_by_wechat;
-    private TextView pay_by_bankcard;
+    private LinearLayout pay_by_alipay;
+    private LinearLayout pay_by_wechat;
+    private LinearLayout pay_by_bankcard;
     private LinearLayout dialogLayout;
+
+    private ImageView img1;
+    private ImageView img2;
+    private ImageView img3;
 
     private Bundle bundle;
 
@@ -40,14 +42,22 @@ public class SelectPayMethod extends FragmentActivity implements View.OnClickLis
         dialogLayout= (LinearLayout) findViewById(R.id.dialog_layout);
         dialogLayout.setOnClickListener(this);
 
-        pay_by_alipay= (TextView) findViewById(R.id.pay_by_alipay);
+        pay_by_alipay= (LinearLayout) findViewById(R.id.pay_by_alipay);
         pay_by_alipay.setOnClickListener(this);
 
-        pay_by_wechat= (TextView) findViewById(R.id.pay_by_wechat);
+        pay_by_wechat= (LinearLayout) findViewById(R.id.pay_by_wechat);
         pay_by_wechat.setOnClickListener(this);
 
-        pay_by_bankcard= (TextView) findViewById(R.id.pay_by_bankcard);
+        pay_by_bankcard= (LinearLayout) findViewById(R.id.pay_by_bankcard);
         pay_by_bankcard.setOnClickListener(this);
+
+        img1 = (ImageView) findViewById(R.id.img1);
+        img2 = (ImageView) findViewById(R.id.img2);
+        img3 = (ImageView) findViewById(R.id.img3);
+
+        img1.setImageResource(R.drawable.ali_pay);
+        img2.setImageResource(R.drawable.weixin_pay);
+        img3.setImageResource(R.drawable.card_pay);
 
         bundle=getIntent().getExtras();
     }

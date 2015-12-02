@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -33,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,6 +52,13 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
     private ArrayList<Employee> memList = new ArrayList<>();
+
+    private LinearLayout date;
+    private boolean f1 = false;
+    private LinearLayout manager;
+    private boolean f2 = false;
+    private LinearLayout name;
+    private boolean f3 = false;
 
     private SharedPreferences preferences = null;
     private String userid = null;
@@ -103,6 +113,13 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
+        date = (LinearLayout) view.findViewById(R.id.time);
+        date.setOnClickListener(this);
+        manager = (LinearLayout) view.findViewById(R.id.manager);
+        manager.setOnClickListener(this);
+        name = (LinearLayout) view.findViewById(R.id.name);
+        name.setOnClickListener(this);
+
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -150,6 +167,73 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                 Intent intent = new Intent(getActivity(), AddEmployeeActivity.class);
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, ADD_REQUEST_CODE);
+                break;
+            case R.id.time:
+                if(memList.size() > 0) {
+                    if(f1) {
+                        f1 = !f1;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return Tools.Compare(lhs.getRegister_time(), rhs.getRegister_time());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return Tools.Compare(rhs.getRegister_time(), lhs.getRegister_time());
+                            }
+                        });
+
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.manager:
+                if(memList.size() > 0) {
+                    if(f2) {
+                        f2 = !f2;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return lhs.getRank().compareTo(rhs.getRank());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return rhs.getRank().compareTo(lhs.getRank());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.name:
+                if(memList.size() > 0) {
+                    if(f3) {
+                        f3 = !f3;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return lhs.getZsname().compareTo(rhs.getZsname());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return rhs.getZsname().compareTo(lhs.getZsname());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
                 break;
         }
     }

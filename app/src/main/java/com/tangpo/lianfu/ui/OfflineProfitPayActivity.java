@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,13 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private Button compute;
 
     private PullToRefreshListView listView;
+
+    private LinearLayout name;
+    private boolean f1 = false;
+    private LinearLayout time;
+    private boolean f2 = false;
+    private LinearLayout repay;
+    private boolean f3 = false;
 
     private CheckBox select_all;
 
@@ -99,6 +109,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
         select_all = (CheckBox) findViewById(R.id.select_all);
         select_all.setOnClickListener(this);
+        name = (LinearLayout) findViewById(R.id.name);
+        name.setOnClickListener(this);
+        time = (LinearLayout) findViewById(R.id.time);
+        time.setOnClickListener(this);
+        repay = (LinearLayout) findViewById(R.id.repay);
+        repay.setOnClickListener(this);
 
         money = (TextView) findViewById(R.id.money);
         money.setText(0 + "");
@@ -224,6 +240,72 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     checkNum=0;
                     money.setText(tmp+"");
                     dataChanged();
+                }
+                break;
+            case R.id.name:
+                if(list.size() > 0) {
+                    if(f1) {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return lhs.getId().compareTo(rhs.getId());
+                            }
+                        });
+                    } else {
+                        f1 = !f1;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return rhs.getId().compareTo(lhs.getId());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.time:
+                if(list.size() > 0) {
+                    if(f2) {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return Tools.Compare(lhs.getPay_date(), rhs.getPay_date());
+                            }
+                        });
+                    } else {
+                        f2 = !f2;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return Tools.Compare(rhs.getPay_date(), lhs.getPay_date());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.repay:
+                if(list.size() > 0) {
+                    if(f3) {
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return lhs.getProfit().compareTo(rhs.getProfit());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return rhs.getProfit().compareTo(lhs.getProfit());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
                 }
                 break;
         }
