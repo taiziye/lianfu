@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/libs/libammsdk.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/libs/open_sdk_r5509.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/libs/weiboSDKCore_3.1.2.jar" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/QQ/AppConstants.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/QQ/BaseUIListener.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/QQ/Util.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/AbsOpenAPI.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/AccessTokenKeeper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/Constants.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/ErrorInfo.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/Geo.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/Status.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/User.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/UsersAPI.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiBo/Visible.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tangpo/lianfu/config/WeiXin/Constants.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/jniLibs/arm64-v8a/libweibosdkcore.so" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/jniLibs/armeabi-v7a/libweibosdkcore.so" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/jniLibs/armeabi/libweibosdkcore.so" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/jniLibs/x86/libweibosdkcore.so" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/jniLibs/x86_64/libweibosdkcore.so" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

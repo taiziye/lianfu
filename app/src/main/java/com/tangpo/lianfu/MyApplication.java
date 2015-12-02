@@ -3,6 +3,10 @@ package com.tangpo.lianfu;
 import android.app.Application;
 import android.content.Context;
 
+import com.tangpo.lianfu.config.WeiXin.Constants;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
 /**
  * Created by shengshoubo on 2015/11/2.
  */
@@ -10,6 +14,8 @@ public class MyApplication extends Application {
 
     public static Context context;
     private boolean isDownload;
+
+
 
     @Override
     public void onCreate() {
