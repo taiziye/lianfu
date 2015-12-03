@@ -22,7 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * ������Ϣ�ṹ�塣
+ * 错误信息结构体。
  * 
  * @author SINA
  * @since 2013-11-24

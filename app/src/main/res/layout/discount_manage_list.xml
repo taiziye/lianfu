@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:paddingLeft="10dp"
+    android:layout_height="120dp"
     android:paddingRight="10dp"
-    android:layout_margin="10dp"
-    android:background="@anim/fragment_style"
+    android:background="@android:color/white"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -19,6 +17,8 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/dis"/>
 
@@ -65,7 +65,7 @@
 
             <Button android:id="@+id/delete"
                 android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_height="36dp"
                 android:layout_centerInParent="true"
                 android:textSize="15sp"
                 android:textColor="@android:color/black"
