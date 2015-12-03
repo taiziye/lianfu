@@ -9,12 +9,12 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
@@ -25,14 +25,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white"
             android:text="@string/employee_info" />
 
         <Button
             android:id="@+id/confirm"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/setting"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
@@ -42,12 +42,15 @@
             />
     </LinearLayout>
 
+    <View android:layout_marginTop="5dp"
+        style="@style/view_line_style" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@anim/fragment_style"
-        android:layout_marginTop="5dp">
+        android:background="@android:color/white"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/ae_manage_level" />
@@ -87,7 +90,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/user_name" />
@@ -102,8 +105,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -120,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/ac_contact_tel" />
@@ -135,8 +138,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -153,7 +156,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/ae_rel_name" />
@@ -168,8 +171,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -186,7 +189,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/sex" />
@@ -210,7 +213,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/ae_id" />
@@ -225,8 +228,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -243,7 +246,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/detail_bank" />
@@ -258,8 +261,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -276,7 +279,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/detail_bank_card" />
@@ -291,8 +294,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />
@@ -309,7 +312,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/detail_bank_name" />
@@ -324,8 +327,8 @@
                     android:textColorHint="@android:color/black" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"
                     />

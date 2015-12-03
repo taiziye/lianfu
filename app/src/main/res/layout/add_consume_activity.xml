@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp" />
@@ -24,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="新增消费记录"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
@@ -43,12 +46,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/shop_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -63,8 +67,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
             </LinearLayout>
@@ -75,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -82,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ac_user_name"
                     android:layout_alignParentLeft="true" />
@@ -96,7 +101,7 @@
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/select_user"
@@ -117,12 +122,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ac_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -137,8 +143,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -150,12 +156,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ac_contact_tel"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -170,8 +177,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -183,6 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -190,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ac_discount"
                     android:layout_alignParentLeft="true" />
@@ -212,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingRight="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:background="@null"
                     android:layout_alignParentRight="true"
@@ -225,12 +233,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ac_consum_sum"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -245,10 +254,10 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
             </LinearLayout>
@@ -258,12 +267,12 @@
             <Button
                 android:id="@+id/commit"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/white"
                 android:text="@string/submit" />
         </LinearLayout>

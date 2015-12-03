@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
@@ -31,12 +32,14 @@
 
     </RelativeLayout>
 
+    <View android:layout_marginTop="10dp"
+        style="@style/view_line_style" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -50,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="@string/shop" />
 
@@ -66,7 +69,7 @@
                 android:id="@+id/select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="@string/ac_select" />
         </LinearLayout>
@@ -82,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:layout_marginLeft="10dp"
                 android:text="@string/consume_money" />
@@ -110,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:layout_marginLeft="10dp"
                 android:text="@string/ac_contact_tel" />
@@ -138,7 +141,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:layout_marginLeft="10dp"
                 android:text="@string/bill_num" />
@@ -195,7 +198,7 @@
             android:layout_height="match_parent"
             android:background="#cccccc"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="@string/offline_pay" />
         <Button
@@ -205,7 +208,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/holo_blue_light"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="@string/online_pay" />
     </LinearLayout>

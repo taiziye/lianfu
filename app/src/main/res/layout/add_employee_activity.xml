@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp" />
@@ -24,13 +27,14 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/add_employee"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 
     <View style="@style/view_line_style" />
 
     <ScrollView
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -51,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ae_manage_level"
                     android:layout_alignParentLeft="true" />
@@ -74,7 +78,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_user_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -89,8 +93,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -107,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/sex"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -139,7 +143,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_contact_tel"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -154,8 +158,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -172,7 +176,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_rel_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -187,8 +191,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -241,7 +245,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_id"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -256,8 +260,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -276,7 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/ae_bank"
                     android:layout_alignParentLeft="true" />
@@ -297,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingRight="15dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:background="@null"
                     android:layout_alignParentRight="true"
@@ -315,7 +319,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_bank_card"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -330,8 +334,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -348,7 +352,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/ae_bank_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -363,8 +367,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
 
@@ -375,13 +379,13 @@
             <Button
                 android:id="@+id/commit"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="80dp"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:text="@string/submit" />
         </LinearLayout>
     </ScrollView>

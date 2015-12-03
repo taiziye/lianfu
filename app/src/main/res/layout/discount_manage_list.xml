@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:layout_margin="10dp"
@@ -17,8 +17,8 @@
         >
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/dis"/>
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="周年庆活动" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center|left"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/holo_blue_light"
                 android:text="3折" />
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="审核中" />
 
@@ -67,7 +67,7 @@
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:background="@anim/fragment_style"
                 android:text="@string/delete"/>

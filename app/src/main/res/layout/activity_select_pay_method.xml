@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
+    android:background="#efeef4"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -13,6 +14,7 @@
         android:paddingRight="30dp"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
+        android:background="#535456"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -48,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#666666"
                 android:layout_marginTop="15dp"
                 android:text="@string/pay_by_alipay"
@@ -89,7 +91,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#666666"
                 android:layout_marginTop="15dp"
                 android:text="@string/pay_by_wechat"
@@ -130,7 +132,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#666666"
                 android:layout_marginTop="15dp"
                 android:text="@string/pay_by_bank_card"

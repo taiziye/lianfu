@@ -6,11 +6,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:gravity="center"
-        android:textSize="22sp"
+        android:textSize="16sp"
         android:background="@android:color/black"
         android:textColor="@android:color/white"
         android:text="@string/online_pay" />
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:gravity="center_horizontal">
 
         <RelativeLayout
@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:text="消费利润共计支付 " />
 
@@ -67,14 +67,14 @@
                 android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:text="1,200" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:text=" 元！" />
         </LinearLayout>
@@ -89,7 +89,7 @@
             android:layout_marginRight="60dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             android:text="@string/back_home" />
     </LinearLayout>

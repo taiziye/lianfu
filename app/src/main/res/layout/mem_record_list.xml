@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:orientation="horizontal">
+    android:layout_height="140dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
+        android:gravity="center_vertical"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,14 +25,14 @@
                 android:text="地面点名"
                 android:layout_marginLeft="20dp"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_marginLeft="20dp"
                 android:text="13246564" />
         </LinearLayout>
@@ -39,44 +42,44 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/holo_red_light"
                 android:text="消费"/>
             <TextView android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/holo_red_light"
                 android:text="1000"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/holo_red_light"
                 android:text="元"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text=" (利润"/>
 
             <TextView android:id="@+id/profit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="400"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="元)"/>
         </LinearLayout>
@@ -88,14 +91,14 @@
             android:text="未确认"
             android:gravity="center"
             android:layout_marginLeft="20dp"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_marginTop="5dp"
             android:textColor="@android:color/holo_red_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:orientation="horizontal">
 
@@ -103,9 +106,9 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="#666666"
-                android:text="2015-10-16 11:28" />
+                android:text="2015-10-15 11:28" />
         </LinearLayout>
 
     </LinearLayout>
@@ -121,7 +124,7 @@
             android:id="@+id/contact"
             android:layout_width="76dp"
             android:layout_height="36dp"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:background="@anim/btn_style"
             android:text="联系客服"
             android:textColor="@android:color/holo_red_light"/>

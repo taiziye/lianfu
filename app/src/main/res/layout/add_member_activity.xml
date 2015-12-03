@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp" />
@@ -24,14 +27,17 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/add_mem"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white" />
     </RelativeLayout>
+
+    <View
+        style="@style/view_line_style" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@anim/fragment_style">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/am_user_name"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -62,8 +68,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -81,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:text="@string/am_contact_tel"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
@@ -96,8 +102,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -115,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/am_rel_name" />
@@ -130,8 +136,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -151,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/select_sex"
                     android:layout_alignParentLeft="true" />
@@ -175,7 +181,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/am_id" />
@@ -190,8 +196,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -209,7 +215,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/ae_update_type" />
@@ -236,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingLeft="5dp"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="@string/am_bank"
                     android:layout_alignParentLeft="true" />
@@ -256,8 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingRight="5dp"
-                    android:textSize="18sp"
+                    android:paddingRight="10dp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:background="@null"
                     android:layout_alignParentRight="true"
@@ -275,7 +281,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/am_bank_card" />
@@ -290,8 +296,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -309,7 +315,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:text="@string/am_bank_name" />
@@ -324,8 +330,8 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:src="@drawable/next"/>
@@ -340,7 +346,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/am_send_msg"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/commit"
@@ -350,7 +356,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/white"
                 android:text="@string/submit" />
         </LinearLayout>

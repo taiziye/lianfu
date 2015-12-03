@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,12 +11,12 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
 
@@ -24,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white"
             android:text="@string/phone_check" />
 
@@ -39,11 +40,13 @@
 
     </LinearLayout>
 
+    <View android:layout_marginTop="5dp"
+        style="@style/view_line_style" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -57,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:text="@string/nation" />
 
@@ -71,8 +74,8 @@
                 android:background="@null" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/next"/>
         </LinearLayout>
@@ -90,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textColor="#666666"
                 android:text="@string/phone_num" />
 
@@ -111,8 +114,8 @@
                 android:background="@null" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/next"/>
         </LinearLayout>
@@ -138,15 +141,16 @@
 
             <Button
                 android:id="@+id/get_code"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginRight="20dp"
                 android:textColor="@android:color/white"
                 android:text="@string/get_code"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:layout_width="100dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
+                android:textSize="15sp"
                 android:background="#FF6A6A" />
 
         </LinearLayout>
