@@ -22,30 +22,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * µØÀíĞÅÏ¢½á¹¹Ìå¡£
+ * åœ°ç†ä¿¡æ¯ç»“æ„ä½“ã€‚
  *
  * @author SINA
  * @since 2013-11-24
  */
 public class Geo {
 
-    /** ¾­¶È×ø±ê */
+    /** ç»åº¦åæ ‡ */
     public String longitude;
-    /** Î¬¶È×ø±ê */
+    /** ç»´åº¦åæ ‡ */
     public String latitude;
-    /** ËùÔÚ³ÇÊĞµÄ³ÇÊĞ´úÂë */
+    /** æ‰€åœ¨åŸå¸‚çš„åŸå¸‚ä»£ç  */
     public String city;
-    /** ËùÔÚÊ¡·İµÄÊ¡·İ´úÂë */
+    /** æ‰€åœ¨çœä»½çš„çœä»½ä»£ç  */
     public String province;
-    /** ËùÔÚ³ÇÊĞµÄ³ÇÊĞÃû³Æ */
+    /** æ‰€åœ¨åŸå¸‚çš„åŸå¸‚åç§° */
     public String city_name;
-    /** ËùÔÚÊ¡·İµÄÊ¡·İÃû³Æ */
+    /** æ‰€åœ¨çœä»½çš„çœä»½åç§° */
     public String province_name;
-    /** ËùÔÚµÄÊµ¼ÊµØÖ·£¬¿ÉÒÔÎª¿Õ */
+    /** æ‰€åœ¨çš„å®é™…åœ°å€ï¼Œå¯ä»¥ä¸ºç©º */
     public String address;
-    /** µØÖ·µÄººÓïÆ´Òô£¬²»ÊÇËùÓĞÇé¿ö¶¼»á·µ»Ø¸Ã×Ö¶Î */
+    /** åœ°å€çš„æ±‰è¯­æ‹¼éŸ³ï¼Œä¸æ˜¯æ‰€æœ‰æƒ…å†µéƒ½ä¼šè¿”å›è¯¥å­—æ®µ */
     public String pinyin;
-    /** ¸ü¶àĞÅÏ¢£¬²»ÊÇËùÓĞÇé¿ö¶¼»á·µ»Ø¸Ã×Ö¶Î */
+    /** æ›´å¤šä¿¡æ¯ï¼Œä¸æ˜¯æ‰€æœ‰æƒ…å†µéƒ½ä¼šè¿”å›è¯¥å­—æ®µ */
     public String more;
     
     public static Geo parse(String jsonString) {
