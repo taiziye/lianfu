@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <LinearLayout
@@ -9,12 +10,12 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
 
@@ -24,14 +25,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white"
             android:text="@string/lianfu_shop" />
 
         <ImageView
             android:id="@+id/collect"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/s_collect"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
@@ -46,7 +47,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="10dp"
-        android:background="@anim/fragment_style">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,8 +81,8 @@
 
                 <Button
                     android:id="@+id/locate"
-                    android:layout_width="26dp"
-                    android:layout_height="36dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/locate_point"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="8dp"
@@ -266,7 +267,7 @@
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:background="#999999"
             android:text="@string/contact_employee" />
@@ -280,7 +281,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/add_mem"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="@string/pay" />
     </LinearLayout>

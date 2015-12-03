@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="#efeef4"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,12 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/commit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/setting"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/add_discount"
             android:layout_centerInParent="true"/>
 
@@ -36,22 +37,28 @@
             android:layout_width="20dp"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
     </RelativeLayout>
 
-    <LinearLayout android:id="@+id/one"
-        android:layout_below="@id/top"
+    <View android:id="@+id/t2"
         android:layout_marginTop="5dp"
+        android:layout_below="@id/top"
+        style="@style/view_line_style" />
+
+    <LinearLayout android:id="@+id/one"
+        android:layout_below="@id/t2"
+
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="60dp"
+        android:background="@android:color/white"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="@string/discount_type"
             android:layout_height="40dp" />
@@ -65,27 +72,27 @@
             android:background="@null" />
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/next"/>
     </LinearLayout>
 
-    <View
-        style="@style/view_line_style"
-        android:layout_below="@id/one" />
+    <View android:id="@+id/t1"
+        android:layout_below="@id/one"
+        style="@style/view_line_style" />
 
     <LinearLayout android:id="@+id/two"
-        android:layout_below="@id/one"
+        android:layout_below="@id/t1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:background="@android:color/white"
         android:orientation="horizontal">
         <TextView
             android:layout_width="120dp"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="@string/discount"
             android:layout_height="40dp" />
@@ -99,8 +106,8 @@
             android:background="@null" />
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/next"/>
     </LinearLayout>

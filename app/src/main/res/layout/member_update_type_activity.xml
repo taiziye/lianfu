@@ -2,21 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#efeef4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="#535456">
 
         <Button
             android:id="@+id/back"
             android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:background="@drawable/back"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp" />
 
         <TextView
@@ -24,13 +27,13 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/type"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/setting"
@@ -41,10 +44,12 @@
             android:paddingRight="15dp" />
     </RelativeLayout>
 
+    <View android:layout_marginTop="10dp"
+        style="@style/view_line_style" />
+
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
-        android:layout_marginTop="5dp"
-        android:background="@anim/fragment_style"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
@@ -10,6 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="10dp"
+        android:background="@android:color/white"
         android:paddingLeft="20dp"
         android:paddingBottom="10dp">
 
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="李娜" />
 
         <LinearLayout
@@ -35,14 +35,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="中国银行" />
 
             <TextView android:id="@+id/account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginLeft="30dp"
                 android:text="6252520****5223211"
                 />
@@ -54,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textColor="#666666"
-            android:textSize="16sp"
-            android:text="2015-10-16 11:28" />
+            android:textSize="14sp"
+            android:text="2015-10-14 11:28" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,8 +67,8 @@
 
             <CheckBox
                 android:id="@+id/check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:focusable="false"
                 android:clickable="false"
                 />
@@ -78,7 +78,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="#666666"
-                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"
                 android:text="利润总额" />
 
             <TextView
@@ -88,7 +89,7 @@
                 android:singleLine="true"
                 android:gravity="center"
                 android:textColor="#666666"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="400" />
 
             <TextView
@@ -96,7 +97,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="#666666"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="元"/>
 
             <TextView
@@ -105,7 +106,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="#666666"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="(未发款)" />
         </LinearLayout>
 
