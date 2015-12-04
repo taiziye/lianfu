@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -51,8 +52,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private ProgressDialog dialog = null;
 
-    private SharedPreferences preferences;
-
     private PositionAdapter adapter = null;
 
     private ArrayList<FindStore> storeList = new ArrayList<>();
@@ -62,6 +61,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private String userid = null;
     private String lng = "0.000000";
     private String lat = "0.000000";
+
+    private SharedPreferences preferences=null;
 
     @Override
     public void onDestroy() {
@@ -168,7 +169,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-
+        preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        lat=preferences.getFloat(Configs.KEY_LATITUDE,0.000000f)+"";
+        lng=preferences.getFloat(Configs.KEY_LONGITUDE,0.000000f)+"";
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{lng, lat, userid};

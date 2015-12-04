@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * Created by shengshoubo on 2015/12/2.
  */
 public class OAuth {
-    public static final String packagingParam(Context context, String... kvs) {
+    public static final String packagingParam(String... kvs) {
         JSONObject jsonObject = new JSONObject();
         String action = "34";
         String time = GetTime.getTime();

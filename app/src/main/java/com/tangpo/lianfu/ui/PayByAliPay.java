@@ -55,6 +55,8 @@ public class PayByAliPay extends FragmentActivity {
     private Bundle bundle=null;
     private String trad_no=null;
     private String pay_account=null;
+
+    private boolean isExistAccount=false;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -83,7 +85,13 @@ public class PayByAliPay extends FragmentActivity {
                     break;
                 }
                 case SDK_CHECK_FLAG: {
-                    ToastUtils.showToast(PayByAliPay.this, getString(R.string.check_pay_result) + msg.obj, Toast.LENGTH_SHORT);
+                    if((boolean)msg.obj==false){
+                        ToastUtils.showToast(PayByAliPay.this, getString(R.string.please_check_and_login_your_alipay_account), Toast.LENGTH_SHORT);
+                    }
+                    isExistAccount= (boolean) msg.obj;
+                    if(isExistAccount==true){
+                        pay();
+                    }
                     break;
                 }
                 default:
@@ -100,7 +108,7 @@ public class PayByAliPay extends FragmentActivity {
         tvBody= (TextView) findViewById(R.id.product_body);
         tvPrice= (TextView) findViewById(R.id.product_price);
 
-        Bundle bundle=getIntent().getExtras();
+        bundle=getIntent().getExtras();
         trad_no=getOutTradeNo();
         //这里的支付账户就是卖家的账户
         pay_account=Key.SELLER;
@@ -110,10 +118,11 @@ public class PayByAliPay extends FragmentActivity {
          * 这里测试的时候先注释这一行，转一分钱到平台支付宝账号
          */
 //        price=bundle.getString("total_fee");
-        price=bundle.getString("0.01");
+        //price=bundle.getString("0.01");
+        price="0.01";
         tvSubject.setText(subject);
         tvBody.setText(body);
-        tvPrice.setText(price);
+        tvPrice.setText(price+"元");
     }
 
     @Override
@@ -141,7 +150,9 @@ public class PayByAliPay extends FragmentActivity {
      * call alipay sdk pay. 调用SDK支付
      *
      */
-    public void pay(View v) {
+    private void pay() {
+        Log.e("tag",isExistAccount+"");
+        if(isExistAccount==false)return;
         if (TextUtils.isEmpty(Key.PARTNER) || TextUtils.isEmpty(Key.RSA_PRIVATE)
                 || TextUtils.isEmpty(Key.SELLER)) {
             new AlertDialog.Builder(this)
@@ -199,7 +210,7 @@ public class PayByAliPay extends FragmentActivity {
      * 查询终端设备是否存在支付宝认证账户
      *
      */
-    public void check(View v) {
+    public void check(View view) {
         Runnable checkRunnable = new Runnable() {
 
             @Override
@@ -339,7 +350,8 @@ public class PayByAliPay extends FragmentActivity {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                ToastUtils.showToast(PayByAliPay.this,getString(R.string.success),Toast.LENGTH_SHORT);
+                ToastUtils.showToast(PayByAliPay.this,getString(R.string.request_success),Toast.LENGTH_SHORT);
+                PayByAliPay.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override

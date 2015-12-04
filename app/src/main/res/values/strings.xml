@@ -235,4 +235,16 @@
     <string name="weibosdk_demo_toast_auth_success">授权成功</string>
     <string name="weibosdk_demo_toast_auth_failed">授权失败</string>
     <string name="weibosdk_demo_toast_auth_canceled">取消授权</string>
+    <string name="no_account_profit">没有需要结算的利润！</string>
+    <string name="request_success">请求成功！</string>
+    <string name="wechat_pay_has_not_online">微信支付尚未开通，敬请期待！</string>
+    <string name="bankcard_pay_has_not_online">银行卡支付尚未开通，敬请期待！</string>
+    <string name="please_check_and_login_your_alipay_account">请检查并登录您的支付宝账户！</string>
+    <string name="second">秒</string>
+    <string name="reget_check_code">重新获取验证码</string>
+    <string name="invalid_code">授权码失效！</string>
+    <string name="invalid_openid">openid失效</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="return_is_null">返回为空</string>
 </resources>

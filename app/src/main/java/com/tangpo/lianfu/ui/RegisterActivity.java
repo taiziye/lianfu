@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +27,9 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by 果冻 on 2015/11/3.
  */
@@ -39,6 +44,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
     private Button get_code;
     private ProgressDialog pd = null;
+
+    private Timer timer=null;
+    private TimerTask task=null;
+    private int i=60;
 /*
     @Override
     public void onBackPressed() {
@@ -60,6 +69,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
+
     private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -74,6 +89,38 @@ public class RegisterActivity extends Activity implements OnClickListener {
         get_code.setOnClickListener(this);
     }
 
+    private Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if((int)msg.obj==0){
+                stopTime();
+                get_code.setText(getString(R.string.reget_check_code));
+                i=60;
+            }else{
+                get_code.setText(msg.obj + getString(R.string.second));
+                startTime();
+            }
+        }
+    };
+
+    public void startTime(){
+        timer=new Timer();
+        task=new TimerTask() {
+            @Override
+            public void run() {
+                i--;
+                Message msg=mHandler.obtainMessage();
+                msg.obj=i;
+                mHandler.sendMessage(msg);
+            }
+        };
+        timer.schedule(task,1000);
+    }
+
+    public void stopTime(){
+        timer.cancel();
+    }
     private void getCode() {
         String phone = phone_Num.getText().toString();
         if (phone.equals("")) {
@@ -178,7 +225,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }
-
+                startTime();
                 pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.send_message), getString(R.string.please_wait));
                 getCode();
                 break;

@@ -36,6 +36,7 @@ import com.tangpo.lianfu.config.WeiBo.User;
 import com.tangpo.lianfu.config.WeiBo.UsersAPI;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
+import com.tangpo.lianfu.parms.OAuth;
 import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
@@ -93,12 +94,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //这里是微信授权的实例的对象
     public static IWXAPI api;
 
+    private String openid;
+    private String logintype;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        Intent intent=getIntent();
+        if(intent!=null){
+            Util.showResultDialog(MainActivity.this, intent.getStringExtra("user"), "登录成功");
+        }
         String token = Configs.getCatchedToken(this);
         //判断用户是否登录，如果已登录，则跳过该页面
         if (token != null) {  //如果已登录
@@ -345,9 +353,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 调用 User#parse 将JSON串解析成User对象
                 User user = User.parse(response);
                 if (user != null) {
-                    Util.showResultDialog(MainActivity.this, response.toString(), "登录成功");
+                    Util.showResultDialog(MainActivity.this, response.toString(), getString(R.string.login_success));
                 } else {
-                    Util.showResultDialog(MainActivity.this, "返回为空", "登录失败");
+                    Util.showResultDialog(MainActivity.this, getString(R.string.return_is_null), getString(R.string.login_fail));
                 }
             }
         }
@@ -382,8 +390,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     mUsersAPI.show(uid,mListener);
                 }
             }
-        }
-        if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN ||
+        }else if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN ||
                 requestCode == com.tencent.connect.common.Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
             mInfo=new UserInfo(this,MainActivity.mTencent.getQQToken());
@@ -420,12 +427,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         public void onComplete(Object response) {
             if (null == response) {
-                Util.showResultDialog(MainActivity.this, "返回为空", "登录失败");
+                Util.showResultDialog(MainActivity.this, getString(R.string.return_is_null), getString(R.string.login_fail));
                 return;
             }
             JSONObject jsonResponse = (JSONObject) response;
             if (null != jsonResponse && jsonResponse.length() == 0) {
-                Util.showResultDialog(MainActivity.this, "返回为空", "登录失败");
+                Util.showResultDialog(MainActivity.this, getString(R.string.return_is_null), getString(R.string.login_fail));
                 return;
             }
             //Util.showResultDialog(MainActivity.this, response.toString(), "登录成功");
@@ -447,5 +454,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Util.toastMessage(MainActivity.this, "onCancel: ");
             Util.dismissDialog();
         }
+    }
+
+
+    private void OAuthLogin(){
+        pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[]=new String[]{openid,logintype};
+        String params= OAuth.packagingParam(kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                pd.dismiss();
+                try {
+                    Log.e("tag", "tag " + result.toString());
+                    JSONObject jsonObject = result.getJSONObject("param");
+                    String sessid = jsonObject.getString("session_id");
+                    Configs.cacheToken(getApplicationContext(), sessid);
+                    Configs.cacheUser(getApplicationContext(), jsonObject.toString());
+                    System.out.println(Escape.unescape(result.toString()));
+                    intent = new Intent(MainActivity.this, HomePageActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                pd.dismiss();
+            }
+        },params);
     }
 }

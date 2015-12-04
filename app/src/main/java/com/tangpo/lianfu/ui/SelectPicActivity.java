@@ -38,11 +38,15 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
     public static final String KEY_PHOTO_PATH = "photo_path";
 
+    public static final String SMALL_KEY_PHOTO_PATH = "smalll_photo_path";
+
     private LinearLayout dialogLayout;
     private TextView takePhotoBtn, pickPhotoBtn, cancelBtn;
 
     /** 获取到的图片路径 */
     private String picPath = "";
+
+    private String SmallpicPath="";
 
     private Intent lastIntent;
 
@@ -173,7 +177,7 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                     //ToastUtils.showMessage(getApplicationContext(), "去成功");
                     Tools.isHasFile(picPath);
                     Tools.saveImage(bitmap1, picPath);
-
+                    SmallpicPath = save(picPath);
                 }
                 // bitmap = ImageUtil.toRoundBitmap(bitmap1);
             } catch (FileNotFoundException e) {
@@ -189,10 +193,13 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 cursor.close();
             }
 
-            picPath = save(picPath);
+            SmallpicPath = save(picPath);
         }
         // 返回头像图片的地址
         lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
+        lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
+        Log.e("tag","picPath:" + picPath);
+        Log.e("tag","SmallpicPath:"+SmallpicPath);
         setResult(Activity.RESULT_OK, lastIntent);
         finish();
     }
@@ -243,10 +250,9 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, 480, 800);
-
+//        BitmapFactory.decodeFile(filePath, options);
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-
         return BitmapFactory.decodeFile(filePath, options);
     }
 
@@ -272,4 +278,5 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
         return inSampleSize;
     }
+
 }

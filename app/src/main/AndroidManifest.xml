@@ -21,6 +21,8 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -78,8 +80,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.SelectPayMethod"
-            android:label="@string/title_activity_select_pay_method"
-            android:theme="@style/MyDialogStyleBottom">
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom">
         </activity>
         <activity
             android:name=".ui.PayByAliPay"
@@ -114,6 +116,16 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"
+            android:permission="android.permission.BAIDU_LOCATION_SERVICE">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v3_6_1"></action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

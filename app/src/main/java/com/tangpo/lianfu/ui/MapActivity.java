@@ -102,7 +102,7 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //显示当前设备位置
-        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
         myOverlay=mBaiduMap.addOverlay(overlayOptions);
 
@@ -234,7 +234,7 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //显示当前设备位置
-        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.locate_point);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
         myOverlay.remove();
         myOverlay=mBaiduMap.addOverlay(overlayOptions);

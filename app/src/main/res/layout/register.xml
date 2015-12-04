@@ -15,7 +15,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
@@ -74,7 +74,7 @@
                 android:background="@null" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/next"/>
@@ -114,7 +114,7 @@
                 android:background="@null" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/next"/>
@@ -148,7 +148,7 @@
                 android:text="@string/get_code"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:textSize="15sp"
                 android:background="#FF6A6A" />

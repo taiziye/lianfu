@@ -13,7 +13,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:layout_height="20dp"
             android:background="@drawable/back"
             android:layout_centerInParent="true"
@@ -68,7 +68,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
@@ -102,7 +102,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
@@ -136,7 +136,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
@@ -163,6 +163,7 @@
                     android:layout_alignParentLeft="true" />
 
                 <Spinner
+                    android:layout_marginStart="10dp"
                     android:id="@+id/sex"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="10dp"
@@ -196,7 +197,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
@@ -296,7 +297,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
@@ -330,7 +331,7 @@
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"

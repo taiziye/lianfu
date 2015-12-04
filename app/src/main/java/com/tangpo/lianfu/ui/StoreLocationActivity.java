@@ -69,7 +69,7 @@ public class StoreLocationActivity extends Activity {
 
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         mBaiduMap.setMyLocationEnabled(true);
-        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.shop_gound_r);
+        BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
         OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11).animateType(MarkerOptions.MarkerAnimateType.drop);
         mBaiduMap.addOverlay(overlayOptions);
     }

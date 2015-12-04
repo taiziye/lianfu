@@ -13,7 +13,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
@@ -142,7 +142,7 @@
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
             android:text="@string/select_all"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_marginLeft="10dp" />
 
         <LinearLayout
@@ -150,7 +150,9 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
+            android:gravity="center"
             android:layout_centerInParent="true">
 
             <TextView
@@ -158,36 +160,36 @@
                 android:layout_height="wrap_content"
                 android:text="共计："
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/money"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1,200"
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 元"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <Button
             android:id="@+id/compute"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="80dp"
+            android:layout_height="36dp"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@android:color/white"
             android:text="@string/comput"
             android:background="@android:color/holo_red_light" />
     </LinearLayout>

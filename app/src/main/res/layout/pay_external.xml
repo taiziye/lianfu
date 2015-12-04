@@ -88,17 +88,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:onClick="pay"
-            android:text="支付"
-            tools:ignore="HardcodedText" />
-        
-        <Button
-            android:id="@+id/check"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:onClick="check"
-            android:text="@string/check_account"
+            android:text="支付"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_light"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 

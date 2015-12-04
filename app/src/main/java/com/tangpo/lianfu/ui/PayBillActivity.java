@@ -195,7 +195,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
 //            upload.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
-            imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));
+            imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH)));
             imagePath=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
             receipt_photo=UploadImage.imgToBase64(imagePath);
         }

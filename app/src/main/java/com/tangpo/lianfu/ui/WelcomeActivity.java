@@ -12,6 +12,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.utils.Tools;
@@ -19,10 +23,12 @@ import com.tangpo.lianfu.utils.Tools;
 /**
  * Created by 果冻 on 2015/11/3.
  */
-public class WelcomeActivity extends Activity implements LocationListener {
+public class WelcomeActivity extends Activity{
     private static final String TAG = "WelcomeActivity";
     private boolean isStartGuide;
     private LocationManager locationManager = null;
+
+    private LocationClient mLocationClient=null;
 
     @Override
     public void onDetachedFromWindow() {
@@ -34,7 +40,35 @@ public class WelcomeActivity extends Activity implements LocationListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.welcome);
-        initAppConfig();
+
+        mLocationClient=new LocationClient(this);
+        LocationClientOption option=new LocationClientOption();
+        option.setOpenGps(true);//打开GPS
+        option.setCoorType("bd09ll");//设置坐标类型为bd09ll
+        option.setPriority(LocationClientOption.NetWorkFirst);//设置网络优先
+        option.setProdName("locSDKDemo2");//设置产品线名称
+        option.setScanSpan(5000);//定时定位，每隔5秒钟定位一次
+        mLocationClient.setLocOption(option);
+        mLocationClient.registerLocationListener(new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                if(bdLocation==null){
+                    return;
+                }
+                Configs.cacheCurLocation(WelcomeActivity.this, bdLocation.getLatitude(), bdLocation.getLongitude());
+               // Log.e("tag",bdLocation.getLatitude()+":"+bdLocation.getLongitude());
+            }
+        });
+
+        if(mLocationClient==null){
+            return;
+        }
+        if(mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }else{
+            mLocationClient.start();
+        }
+        //initAppConfig();
         /*ActivityManager.getInstance().addActivity(WelcomeActivity.this);
         Tools.changeSystemBar(this);
 
@@ -45,7 +79,7 @@ public class WelcomeActivity extends Activity implements LocationListener {
 
         isStartGuide = AppInfo.getInstance(WelcomeActivity.this).isStartGuide();
         */
-        // 在欢迎界面停留一秒
+        // 在欢迎界面停留3秒
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 /*
@@ -58,7 +92,7 @@ public class WelcomeActivity extends Activity implements LocationListener {
                 Tools.gotoActivity(WelcomeActivity.this, MainActivity.class);
                 WelcomeActivity.this.finish();
             }
-        }, 1000);
+        }, 3000);
     }
 
     @Override
@@ -74,43 +108,8 @@ public class WelcomeActivity extends Activity implements LocationListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
-    }
-
-    /**
-     * 异步启动服务进行数据库及其他资源的初始化
-     */
-    private void initAppConfig() {
-        //获取到当前手机的位置信息并缓存到本地的SharedPreference
-        Log.e(TAG, "启动服务进行数据库及其他资源的初始化！");
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        /*if(networkInfo.isAvailable()){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,10,this);
-        }else{
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,10,this);
-        }*/
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Configs.cacheCurLocation(this, location.getLatitude(), location.getLongitude());
-        //SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+        mLocationClient.stop();
+        mLocationClient=null;
+        //finish();
     }
 }

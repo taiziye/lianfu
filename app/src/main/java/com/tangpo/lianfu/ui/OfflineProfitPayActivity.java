@@ -117,7 +117,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         repay.setOnClickListener(this);
 
         money = (TextView) findViewById(R.id.money);
-        money.setText(0 + "");
+        money.setText("0.00");
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -135,7 +135,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
-                tmp=0;
+                tmp=0.00;
                 money.setText(tmp + "");
                 select_all.setChecked(false);
 
@@ -185,7 +185,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 if(checkNum == list.size()) {
                     select_all.setChecked(true);
                 } else {
-                    if(checkNum == 0) tmp = 0;
+                    if(checkNum == 0) tmp = 0.00;
                     select_all.setChecked(false);
                 }
                 money.setText(tmp + "");
@@ -194,6 +194,10 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     }
 
     private void dataChanged(){
+        if(adapter==null){
+            ToastUtils.showToast(this,getString(R.string.no_account_profit),Toast.LENGTH_SHORT);
+            return;
+        }
         adapter.notifyDataSetChanged();
     }
     @Override
@@ -204,10 +208,10 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.compute:
 //                Compute();
-                if(tmp==0){
-                    ToastUtils.showToast(this,getString(R.string.pay_amount_cannot_be_null), Toast.LENGTH_SHORT);
-                    return;
-                }
+//                if(tmp==0){
+//                    ToastUtils.showToast(this,getString(R.string.pay_amount_cannot_be_null), Toast.LENGTH_SHORT);
+//                    return;
+//                }
                 Intent intent=new Intent(OfflineProfitPayActivity.this,SelectPayMethod.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("user_id",userid);

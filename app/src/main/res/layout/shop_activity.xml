@@ -14,7 +14,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="20dp"
+            android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/detail_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
@@ -81,7 +81,7 @@
 
                 <Button
                     android:id="@+id/locate"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:background="@drawable/locate_point"
                     android:layout_marginLeft="15dp"

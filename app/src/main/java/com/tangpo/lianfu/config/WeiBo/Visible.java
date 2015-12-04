@@ -19,7 +19,7 @@ package com.tangpo.lianfu.config.WeiBo;
 import org.json.JSONObject;
 
 /**
- * Î¢²©¿É¼ûĞÔ½á¹¹Ìå¡£
+ * å¾®åšå¯è§æ€§ç»“æ„ä½“ã€‚
  *
  * @author SINA
  * @since 2013-11-24
@@ -31,9 +31,9 @@ public class Visible {
     public static final int VISIBLE_GROUPED = 2;
     public static final int VISIBLE_FRIEND  = 3;
 
-    /** type È¡Öµ£¬0£ºÆÕÍ¨Î¢²©£¬1£ºË½ÃÜÎ¢²©£¬3£ºÖ¸¶¨·Ö×éÎ¢²©£¬4£ºÃÜÓÑÎ¢²© */
+    /** type å–å€¼ï¼Œ0ï¼šæ™®é€šå¾®åšï¼Œ1ï¼šç§å¯†å¾®åšï¼Œ3ï¼šæŒ‡å®šåˆ†ç»„å¾®åšï¼Œ4ï¼šå¯†å‹å¾®åš */
     public int type;
-    /** ·Ö×éµÄ×éºÅ */
+    /** åˆ†ç»„çš„ç»„å· */
     public int list_id;
     
     public static Visible parse(JSONObject jsonObject) {
