@@ -93,10 +93,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     //这里是微信授权的实例的对象
     public static IWXAPI api;
-
     private String openid;
     private String logintype;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -390,8 +388,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     mUsersAPI.show(uid,mListener);
                 }
             }
-        }else if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN ||
-                requestCode == com.tencent.connect.common.Constants.REQUEST_APPBAR) {
+        }
+        if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN || requestCode == com.tencent.connect.common.Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
             mInfo=new UserInfo(this,MainActivity.mTencent.getQQToken());
             mInfo.getUserInfo(new BaseUIListener(this, "get_simple_userinfo"));

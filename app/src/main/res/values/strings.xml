@@ -247,4 +247,5 @@
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败</string>
     <string name="return_is_null">返回为空</string>
+    <string name="newpassword_same_with_oldpassword">新密码与旧密码一致!请重新输入</string>
 </resources>

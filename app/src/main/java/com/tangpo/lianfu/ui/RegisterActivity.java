@@ -96,6 +96,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             if((int)msg.obj==0){
                 stopTime();
                 get_code.setText(getString(R.string.reget_check_code));
+                get_code.setClickable(true);
                 i=60;
             }else{
                 get_code.setText(msg.obj + getString(R.string.second));
@@ -227,6 +228,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 }
                 startTime();
                 pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.send_message), getString(R.string.please_wait));
+                get_code.setClickable(false);
                 getCode();
                 break;
         }

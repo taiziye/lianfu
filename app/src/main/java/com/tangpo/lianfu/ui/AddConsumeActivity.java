@@ -143,7 +143,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        if(consume_money.getText().toString().length() == 0) {
+        if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
             Tools.showToast(this, "请填写正确的消费金额");
             return;
         }

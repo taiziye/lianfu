@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -94,6 +95,12 @@ public class UpdatePasswordActivity extends Activity {
                     etNewCheck.setText("");
                     return;
                 }
+                if(etOld.getText().toString().equals(etNew.getText().toString())){
+                    ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.newpassword_same_with_oldpassword),Toast.LENGTH_SHORT);
+                    etNew.setText("");
+                    etNewCheck.setText("");
+                    return;
+                }
                 updatePassword();
             }
         });
@@ -109,11 +116,11 @@ public class UpdatePasswordActivity extends Activity {
         dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String userid = user.getUser_id();
-        String old_pw = oldPassword;
-        String new_pw = newPassword;
+        String old_pw = etOld.getText().toString();
+        String new_pw = etNew.getText().toString();
         String kvs[] = new String[]{userid, old_pw, new_pw};
-        String params = com.tangpo.lianfu.parms.UpdatePassword.packagingParam(kvs);
-
+        String params = com.tangpo.lianfu.parms.UpdatePassword.packagingParam(UpdatePasswordActivity.this,kvs);
+        Log.e("tag",params);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -134,6 +141,8 @@ public class UpdatePasswordActivity extends Activity {
                         etNewCheck.setText("");
                     } else if (status.equals("10")) {
                         ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                    }else if(status.equals("9")){
+                        ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
