@@ -75,6 +75,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
+        finish();
     }
 
     private void init() {
@@ -102,7 +103,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 i=60;
             }else{
                 get_code.setText(msg.obj + getString(R.string.second));
-                startTime();
             }
         }
     };
@@ -152,6 +152,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 ToastUtils.showToast(RegisterActivity.this, getString(R.string.message_send_success), Toast.LENGTH_LONG);
+                startTime();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -231,6 +232,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 editor.remove(Configs.KEY_TOKEN);
                 editor.commit();
                 Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
+                finish();
                 break;
             case R.id.next:
                 if(!Tools.checkLAN()) {
@@ -246,8 +248,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }
-                startTime();
-                pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.send_message), getString(R.string.please_wait));
                 get_code.setClickable(false);
                 getCode();
                 break;

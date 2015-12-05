@@ -10,6 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +31,12 @@ public class NetConnection {
             @Override
             protected String doInBackground(Void... params) {
                 HttpClient client = new DefaultHttpClient();
+                HttpParams httpParams=null;
+                httpParams=client.getParams();
                 String result = null;
                 try {
+                    httpParams.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+                    httpParams.setParameter(CoreConnectionPNames.SO_TIMEOUT,35000);
                     String urlString = Configs.SERVER_URL;
                     HttpPost post = new HttpPost(urlString);
                     StringEntity entity = new StringEntity(param, "UTF-8");
