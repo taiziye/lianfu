@@ -161,7 +161,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
                 intent.putExtra("user_id",userid);
-                intent.putExtra("consume_id",index);
+                intent.putExtra("consume_id",recordList.get(index).getId());
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -218,7 +218,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return lhs.getFee().compareTo(rhs.getFee());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if(f1 > f2)
+                                    return 1;
+                                else
+                                    return -1;
                             }
                         });
                     } else {
@@ -226,7 +231,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return rhs.getFee().compareTo(lhs.getFee());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if(f1 > f2)
+                                    return -1;
+                                else
+                                    return 1;
                             }
                         });
                     }

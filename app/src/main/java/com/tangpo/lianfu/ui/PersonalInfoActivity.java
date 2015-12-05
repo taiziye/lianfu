@@ -79,10 +79,10 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         if(getIntent().getExtras() != null) {
             user = (UserEntity) getIntent().getExtras().getSerializable("user");
 
-            user_name.setText(user.getUser_id());
+            user_name.setText(user.getName());
             contact_tel.setText(user.getPhone());
-            rel_name.setText(user.getName());
-            //update_type.setText();
+            rel_name.setText(user.getBank_name());
+            update_type.setText("BNZZ");
             id_card.setText(user.getId_number());
             bank.setText(user.getBank());
             bank_card.setText(user.getBank_account());

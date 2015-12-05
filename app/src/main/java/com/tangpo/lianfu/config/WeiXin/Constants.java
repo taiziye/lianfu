@@ -17,7 +17,7 @@
 package com.tangpo.lianfu.config.WeiXin;
 
 /**
- * ���ඨ����΢����Ȩʱ����Ҫ�Ĳ�����
+ * 该类定义了微信授权时所需要的参数。
  *
  * @author SINA
  * @since 2013-09-29
