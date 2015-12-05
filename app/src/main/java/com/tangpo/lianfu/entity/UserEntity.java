@@ -168,4 +168,28 @@ public class UserEntity implements Serializable {
     public void setStorename(String storename) {
         this.storename = storename;
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "user_type='" + user_type + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", store_id='" + store_id + '\'' +
+                ", storename='" + storename + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", id_number='" + id_number + '\'' +
+                ", sex='" + sex + '\'' +
+                ", birth='" + birth + '\'' +
+                ", qq='" + qq + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", bank_account='" + bank_account + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", bank='" + bank + '\'' +
+                ", bank_address='" + bank_address + '\'' +
+                ", rank='" + rank + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,11 @@
 package com.tangpo.lianfu.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by 果冻 on 2015/11/15.
  */
-public class MemberCollect {
+public class MemberCollect implements Serializable {
     private String id;
     private String lng;
     private String lat;

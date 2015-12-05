@@ -84,6 +84,8 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         name = (TextView) findViewById(R.id.name);
         contact_tel = (TextView) findViewById(R.id.contact_tel);
         consume_money = (EditText) findViewById(R.id.consum_money);
+        consume_money.setOnClickListener(this);
+        consume_money.setSelectAllOnFocus(true);
 
         user_name = (TextView) findViewById(R.id.user_name);
         discount = (TextView) findViewById(R.id.discount);
@@ -113,6 +115,10 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             case R.id.select_discount:
                 intent = new Intent(AddConsumeActivity.this, DiscountActivity.class);
                 startActivityForResult(intent, SELECT_DIS);
+                break;
+            case R.id.consume_money:
+                consume_money.setText(consume_money.getText().toString());
+                consume_money.selectAll();
                 break;
         }
     }
@@ -158,7 +164,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
@@ -173,10 +178,12 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         Log.e("tag","storeid_add " + user.getStore_id());
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "AddConsumeActivity s " + result.toString());
                 Tools.showToast(AddConsumeActivity.this, getString(R.string.add_success));
                 Intent intent = new Intent();
                 intent.putExtra("record", record);
@@ -188,8 +195,25 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "AddConsumeActivity f " + result.toString());
                 try {
-                    Tools.handleResult(AddConsumeActivity.this, result.getString("status"));
+                    if("1".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.add_failed));
+                    } else if("2".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.format_error));
+                    } else if("9".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.login_timeout));
+                        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.remove(Configs.KEY_TOKEN);
+                        editor.commit();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    } else if("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), result.getString("info"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

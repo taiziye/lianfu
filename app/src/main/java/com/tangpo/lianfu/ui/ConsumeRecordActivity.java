@@ -170,28 +170,37 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             return;
         }
 
-        dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         String fee=record.getFee();
         String discount=discount_text.getText().toString();
+        if (discount == null || discount.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请选择折扣");
+            return;
+        }
         String kvs[]=new String[]{user_id,consume_id,fee,discount};
         String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
+
+        dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "ConsumeRecordActivity s " + result.toString());
                 ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.edit_success), Toast.LENGTH_SHORT);
-                finish();
+                ConsumeRecordActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "ConsumeRecordActivity s " + result.toString());
                 try {
                     String status=result.getString("status");
                     if(status.equals("9")){
                         ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.login_timeout),Toast.LENGTH_SHORT);
                     }else if(status.equals("10")){
                         ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    } else {
+                        ToastUtils.showToast(ConsumeRecordActivity.this,result.getString("info"),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

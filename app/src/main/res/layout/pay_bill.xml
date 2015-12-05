@@ -61,9 +61,9 @@
                 android:id="@+id/shop"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
                 android:textColor="@android:color/black"
                 android:layout_marginLeft="5dp"
+                android:gravity="center|left"
                 android:layout_marginRight="5dp"
                 android:layout_height="40dp" />
 
@@ -98,6 +98,7 @@
                 android:layout_height="40dp"
                 android:background="@null"
                 android:gravity="center|right"
+                android:inputType="numberDecimal"
                 android:textColorHint="@android:color/black"
                 android:textColor="@android:color/holo_red_light"
                 android:layout_margin="20dp"
@@ -190,7 +191,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <Button
@@ -198,20 +199,20 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:background="#cccccc"
+            android:background="@drawable/comput_r"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/offline_pay" />
         <Button
             android:id="@+id/pay_online"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_light"
+            android:background="@drawable/add_mem"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/online_pay" />
     </LinearLayout>
 

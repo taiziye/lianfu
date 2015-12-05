@@ -29,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by 果冻 on 2015/11/3.
@@ -122,14 +124,29 @@ public class RegisterActivity extends Activity implements OnClickListener {
     public void stopTime(){
         timer.cancel();
     }
+    private boolean isMobile(String str) {
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+        m = p.matcher(str);
+        b = m.matches();
+        return b;
+    }
+
     private void getCode() {
         String phone = phone_Num.getText().toString();
         if (phone.equals("")) {
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
+        } else if(isMobile(phone)) {
+            ToastUtils.showToast(RegisterActivity.this, "电话号码不存在", Toast.LENGTH_LONG);
+            return;
         }
         String kvs[] = new String[]{phone};
         String params = GetCode.packagingParam(kvs);
+
+        pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.send_message), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -146,6 +163,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         ToastUtils.showToast(RegisterActivity.this, getString(R.string.format_error), Toast.LENGTH_LONG);
                     } else if (status.equals("10")) {
                         ToastUtils.showToast(RegisterActivity.this, getString(R.string.server_exception), Toast.LENGTH_LONG);
+                    } else {
+                        ToastUtils.showToast(RegisterActivity.this, result.getString("info"), Toast.LENGTH_LONG);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -171,6 +190,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
         String params = CheckCode.packagingParam(kvs);
 
         System.out.println(Escape.unescape(params));
+
+        pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.checking_code), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -178,6 +199,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 System.out.println(result.toString());
                 Configs.cachePhoneNum(RegisterActivity.this, phone);
                 Intent intent = new Intent(RegisterActivity.this, PersonalMsgActivity.class);
+                intent.putExtra("tel", phone);
                 startActivity(intent);
             }
         }, new NetConnection.FailCallback() {
@@ -216,8 +238,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }
-
-                pd = ProgressDialog.show(RegisterActivity.this, getString(R.string.checking_code), getString(R.string.please_wait));
                 checkCode();
                 break;
             case R.id.get_code:

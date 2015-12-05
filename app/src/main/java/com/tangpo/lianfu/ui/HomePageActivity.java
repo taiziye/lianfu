@@ -148,26 +148,32 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         five_t = (TextView) findViewById(R.id.five_t);
         five_t.setText(getResources().getString(R.string.personal));
 
-        if (userType.equals("2") || userType.equals("3") || userType.equals("4")) {
-            one_t.setText(getResources().getString(R.string.home_page));
-            two_t.setText(getResources().getString(R.string.record));
-            three_t.setText(getResources().getString(R.string.member));
-        } else {
-            one_t.setText(getResources().getString(R.string.shop));
-            two_t.setText(getResources().getString(R.string.collect));
-            three_t.setText(getResources().getString(R.string.record));
-        }
-
         one_t.setTextColor(Color.RED);
         one_i.setImageResource(R.drawable.home_page_r);
         two_t.setTextColor(Color.BLACK);
-        two_i.setImageResource(R.drawable.record);
         three_t.setTextColor(Color.BLACK);
-        three_i.setImageResource(R.drawable.member_manage);
+
         four_t.setTextColor(Color.BLACK);
         four_i.setImageResource(R.drawable.employee_manage);
         five_t.setTextColor(Color.BLACK);
         five_i.setImageResource(R.drawable.personal);
+
+        if (userType.equals("2") || userType.equals("3") || userType.equals("4")) {
+            one_t.setText(getResources().getString(R.string.home_page));
+            two_t.setText(getResources().getString(R.string.record));
+            three_t.setText(getResources().getString(R.string.member));
+
+            two_i.setImageResource(R.drawable.record);
+            three_i.setImageResource(R.drawable.member_manage);
+        } else {
+            one_i.setImageResource(R.drawable.map_locate_r);
+            one_t.setText(getResources().getString(R.string.shop));
+            two_t.setText("收藏店铺");
+            three_t.setText(getResources().getString(R.string.record));
+            two_i.setImageResource(R.drawable.s_collect);
+            three_i.setImageResource(R.drawable.record);
+        }
+
     }
 
     @Override
@@ -199,6 +205,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     fragment = new EmployeeHomeFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate_r);
+                    two_i.setImageResource(R.drawable.s_collect);
+                    three_i.setImageResource(R.drawable.record);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     fragment = new MemberHomeFragment();
@@ -209,21 +218,26 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 one_t.setTextColor(Color.BLACK);
                 one_i.setImageResource(R.drawable.home_page);
                 two_t.setTextColor(Color.RED);
-                two_i.setImageResource(R.drawable.record_r);
                 three_t.setTextColor(Color.BLACK);
-                three_i.setImageResource(R.drawable.member_manage);
+
                 four_t.setTextColor(Color.BLACK);
                 four_i.setImageResource(R.drawable.employee_manage);
                 five_t.setTextColor(Color.BLACK);
                 five_i.setImageResource(R.drawable.personal);
 
                 if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
+                    two_i.setImageResource(R.drawable.record_r);
+                    three_i.setImageResource(R.drawable.member_manage);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
                     fragment = new RecordFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate);
+                    two_i.setImageResource(R.drawable.s_collect_r);
+                    three_i.setImageResource(R.drawable.record);
+
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     fragment = new MemCollectFragment();
@@ -234,21 +248,26 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 one_t.setTextColor(Color.BLACK);
                 one_i.setImageResource(R.drawable.home_page);
                 two_t.setTextColor(Color.BLACK);
-                two_i.setImageResource(R.drawable.record);
+
                 three_t.setTextColor(Color.RED);
-                three_i.setImageResource(R.drawable.member_manage_r);
+
                 four_t.setTextColor(Color.BLACK);
                 four_i.setImageResource(R.drawable.employee_manage);
                 five_t.setTextColor(Color.BLACK);
                 five_i.setImageResource(R.drawable.personal);
 
                 if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
+                    two_i.setImageResource(R.drawable.record);
+                    three_i.setImageResource(R.drawable.member_manage_r);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
                     fragment = new MemManageFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate);
+                    two_i.setImageResource(R.drawable.s_collect);
+                    three_i.setImageResource(R.drawable.record_r);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
@@ -288,6 +307,10 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
                 } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate);
+                    two_i.setImageResource(R.drawable.s_collect);
+                    three_i.setImageResource(R.drawable.record);
+
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("user", userEntity);
                     fragment = new MemFragment();
