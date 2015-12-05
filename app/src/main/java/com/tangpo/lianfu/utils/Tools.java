@@ -403,7 +403,6 @@ public class Tools {
 
     public static boolean checkLAN(){
         if (context != null) {
-            Log.e("tag", "tag check");
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();

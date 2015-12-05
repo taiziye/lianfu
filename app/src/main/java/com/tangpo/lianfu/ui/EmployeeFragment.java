@@ -126,6 +126,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                 editor.commit();
                 intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }

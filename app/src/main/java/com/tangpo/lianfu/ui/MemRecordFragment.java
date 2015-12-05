@@ -151,7 +151,13 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<MemRecord>() {
                             @Override
                             public int compare(MemRecord lhs, MemRecord rhs) {
-                                return lhs.getFee().compareTo(rhs.getFee());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if(f1 > f2) {
+                                    return 1;
+                                } else {
+                                    return -1;
+                                }
                             }
                         });
                     } else {
@@ -159,7 +165,13 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<MemRecord>() {
                             @Override
                             public int compare(MemRecord lhs, MemRecord rhs) {
-                                return rhs.getFee().compareTo(lhs.getFee());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if(f1 > f2) {
+                                    return 1;
+                                } else {
+                                    return -1;
+                                }
                             }
                         });
                     }

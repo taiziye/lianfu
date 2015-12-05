@@ -20,83 +20,83 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * ÓÃ»§ĞÅÏ¢½á¹¹Ìå¡£
+ * ç”¨æˆ·ä¿¡æ¯ç»“æ„ä½“ã€‚
  *
  * @author SINA
  * @since 2013-11-24
  */
 public class User {
 
-    /** ÓÃ»§UID£¨int64£© */
+    /** ç”¨æˆ·UIDï¼ˆint64ï¼‰ */
     public String id;
-    /** ×Ö·û´®ĞÍµÄÓÃ»§ UID */
+    /** å­—ç¬¦ä¸²å‹çš„ç”¨æˆ· UID */
     public String idstr;
-    /** ÓÃ»§êÇ³Æ */
+    /** ç”¨æˆ·æ˜µç§° */
     public String screen_name;
-    /** ÓÑºÃÏÔÊ¾Ãû³Æ */
+    /** å‹å¥½æ˜¾ç¤ºåç§° */
     public String name;
-    /** ÓÃ»§ËùÔÚÊ¡¼¶ID */
+    /** ç”¨æˆ·æ‰€åœ¨çœçº§ID */
     public int province;
-    /** ÓÃ»§ËùÔÚ³ÇÊĞID */
+    /** ç”¨æˆ·æ‰€åœ¨åŸå¸‚ID */
     public int city;
-    /** ÓÃ»§ËùÔÚµØ */
+    /** ç”¨æˆ·æ‰€åœ¨åœ° */
     public String location;
-    /** ÓÃ»§¸öÈËÃèÊö */
+    /** ç”¨æˆ·ä¸ªäººæè¿° */
     public String description;
-    /** ÓÃ»§²©¿ÍµØÖ· */
+    /** ç”¨æˆ·åšå®¢åœ°å€ */
     public String url;
-    /** ÓÃ»§Í·ÏñµØÖ·£¬50¡Á50ÏñËØ */
+    /** ç”¨æˆ·å¤´åƒåœ°å€ï¼Œ50Ã—50åƒç´  */
     public String profile_image_url;
-    /** ÓÃ»§µÄÎ¢²©Í³Ò»URLµØÖ· */
+    /** ç”¨æˆ·çš„å¾®åšç»Ÿä¸€URLåœ°å€ */
     public String profile_url;
-    /** ÓÃ»§µÄ¸öĞÔ»¯ÓòÃû */
+    /** ç”¨æˆ·çš„ä¸ªæ€§åŒ–åŸŸå */
     public String domain;
-    /** ÓÃ»§µÄÎ¢ºÅ */
+    /** ç”¨æˆ·çš„å¾®å· */
     public String weihao;
-    /** ĞÔ±ğ£¬m£ºÄĞ¡¢f£ºÅ®¡¢n£ºÎ´Öª */
+    /** æ€§åˆ«ï¼Œmï¼šç”·ã€fï¼šå¥³ã€nï¼šæœªçŸ¥ */
     public String gender;
-    /** ·ÛË¿Êı */
+    /** ç²‰ä¸æ•° */
     public int followers_count;
-    /** ¹Ø×¢Êı */
+    /** å…³æ³¨æ•° */
     public int friends_count;
-    /** Î¢²©Êı */
+    /** å¾®åšæ•° */
     public int statuses_count;
-    /** ÊÕ²ØÊı */
+    /** æ”¶è—æ•° */
     public int favourites_count;
-    /** ÓÃ»§´´½¨£¨×¢²á£©Ê±¼ä */
+    /** ç”¨æˆ·åˆ›å»ºï¼ˆæ³¨å†Œï¼‰æ—¶é—´ */
     public String created_at;
-    /** ÔİÎ´Ö§³Ö */
+    /** æš‚æœªæ”¯æŒ */
     public boolean following;
-    /** ÊÇ·ñÔÊĞíËùÓĞÈË¸øÎÒ·¢Ë½ĞÅ£¬true£ºÊÇ£¬false£º·ñ */
+    /** æ˜¯å¦å…è®¸æ‰€æœ‰äººç»™æˆ‘å‘ç§ä¿¡ï¼Œtrueï¼šæ˜¯ï¼Œfalseï¼šå¦ */
     public boolean allow_all_act_msg;
-    /** ÊÇ·ñÔÊĞí±êÊ¶ÓÃ»§µÄµØÀíÎ»ÖÃ£¬true£ºÊÇ£¬false£º·ñ */
+    /** æ˜¯å¦å…è®¸æ ‡è¯†ç”¨æˆ·çš„åœ°ç†ä½ç½®ï¼Œtrueï¼šæ˜¯ï¼Œfalseï¼šå¦ */
     public boolean geo_enabled;
-    /** ÊÇ·ñÊÇÎ¢²©ÈÏÖ¤ÓÃ»§£¬¼´¼ÓVÓÃ»§£¬true£ºÊÇ£¬false£º·ñ */
+    /** æ˜¯å¦æ˜¯å¾®åšè®¤è¯ç”¨æˆ·ï¼Œå³åŠ Vç”¨æˆ·ï¼Œtrueï¼šæ˜¯ï¼Œfalseï¼šå¦ */
     public boolean verified;
-    /** ÔİÎ´Ö§³Ö */
+    /** æš‚æœªæ”¯æŒ */
     public int verified_type;
-    /** ÓÃ»§±¸×¢ĞÅÏ¢£¬Ö»ÓĞÔÚ²éÑ¯ÓÃ»§¹ØÏµÊ±²Å·µ»Ø´Ë×Ö¶Î */
+    /** ç”¨æˆ·å¤‡æ³¨ä¿¡æ¯ï¼Œåªæœ‰åœ¨æŸ¥è¯¢ç”¨æˆ·å…³ç³»æ—¶æ‰è¿”å›æ­¤å­—æ®µ */
     public String remark;
-    /** ÓÃ»§µÄ×î½üÒ»ÌõÎ¢²©ĞÅÏ¢×Ö¶Î */
+    /** ç”¨æˆ·çš„æœ€è¿‘ä¸€æ¡å¾®åšä¿¡æ¯å­—æ®µ */
     public Status status;
-    /** ÊÇ·ñÔÊĞíËùÓĞÈË¶ÔÎÒµÄÎ¢²©½øĞĞÆÀÂÛ£¬true£ºÊÇ£¬false£º·ñ */
+    /** æ˜¯å¦å…è®¸æ‰€æœ‰äººå¯¹æˆ‘çš„å¾®åšè¿›è¡Œè¯„è®ºï¼Œtrueï¼šæ˜¯ï¼Œfalseï¼šå¦ */
     public boolean allow_all_comment;
-    /** ÓÃ»§´óÍ·ÏñµØÖ· */
+    /** ç”¨æˆ·å¤§å¤´åƒåœ°å€ */
     public String avatar_large;
-    /** ÓÃ»§¸ßÇå´óÍ·ÏñµØÖ· */
+    /** ç”¨æˆ·é«˜æ¸…å¤§å¤´åƒåœ°å€ */
     public String avatar_hd;
-    /** ÈÏÖ¤Ô­Òò */
+    /** è®¤è¯åŸå›  */
     public String verified_reason;
-    /** ¸ÃÓÃ»§ÊÇ·ñ¹Ø×¢µ±Ç°µÇÂ¼ÓÃ»§£¬true£ºÊÇ£¬false£º·ñ */
+    /** è¯¥ç”¨æˆ·æ˜¯å¦å…³æ³¨å½“å‰ç™»å½•ç”¨æˆ·ï¼Œtrueï¼šæ˜¯ï¼Œfalseï¼šå¦ */
     public boolean follow_me;
-    /** ÓÃ»§µÄÔÚÏß×´Ì¬£¬0£º²»ÔÚÏß¡¢1£ºÔÚÏß */
+    /** ç”¨æˆ·çš„åœ¨çº¿çŠ¶æ€ï¼Œ0ï¼šä¸åœ¨çº¿ã€1ï¼šåœ¨çº¿ */
     public int online_status;
-    /** ÓÃ»§µÄ»¥·ÛÊı */
+    /** ç”¨æˆ·çš„äº’ç²‰æ•° */
     public int bi_followers_count;
-    /** ÓÃ»§µ±Ç°µÄÓïÑÔ°æ±¾£¬zh-cn£º¼òÌåÖĞÎÄ£¬zh-tw£º·±ÌåÖĞÎÄ£¬en£ºÓ¢Óï */
+    /** ç”¨æˆ·å½“å‰çš„è¯­è¨€ç‰ˆæœ¬ï¼Œzh-cnï¼šç®€ä½“ä¸­æ–‡ï¼Œzh-twï¼šç¹ä½“ä¸­æ–‡ï¼Œenï¼šè‹±è¯­ */
     public String lang;
 
-    /** ×¢Òâ£ºÒÔÏÂ×Ö¶ÎÔİÊ±²»Çå³ş¾ßÌåº¬Òå£¬OpenAPI ËµÃ÷ÎÄµµÔİÊ±Ã»ÓĞÍ¬²½¸üĞÂ¶ÔÓ¦×Ö¶Î */
+    /** æ³¨æ„ï¼šä»¥ä¸‹å­—æ®µæš‚æ—¶ä¸æ¸…æ¥šå…·ä½“å«ä¹‰ï¼ŒOpenAPI è¯´æ˜æ–‡æ¡£æš‚æ—¶æ²¡æœ‰åŒæ­¥æ›´æ–°å¯¹åº”å­—æ®µ */
     public String star;
     public String mbtype;
     public String mbrank;
@@ -154,7 +154,7 @@ public class User {
         user.bi_followers_count = jsonObject.optInt("bi_followers_count", 0);
         user.lang               = jsonObject.optString("lang", "");
 
-        // ×¢Òâ£ºÒÔÏÂ×Ö¶ÎÔİÊ±²»Çå³ş¾ßÌåº¬Òå£¬OpenAPI ËµÃ÷ÎÄµµÔİÊ±Ã»ÓĞÍ¬²½¸üĞÂ¶ÔÓ¦×Ö¶Îº¬Òå
+        // æ³¨æ„ï¼šä»¥ä¸‹å­—æ®µæš‚æ—¶ä¸æ¸…æ¥šå…·ä½“å«ä¹‰ï¼ŒOpenAPI è¯´æ˜æ–‡æ¡£æš‚æ—¶æ²¡æœ‰åŒæ­¥æ›´æ–°å¯¹åº”å­—æ®µå«ä¹‰
         user.star               = jsonObject.optString("star", "");
         user.mbtype             = jsonObject.optString("mbtype", "");
         user.mbrank             = jsonObject.optString("mbrank", "");

@@ -118,6 +118,8 @@ public class UpdatePasswordActivity extends Activity {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "updatepasswd s " + result.toString());
+
                 ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.update_password_success), Toast.LENGTH_SHORT);
                 UpdatePasswordActivity.this.finish();
             }
@@ -125,6 +127,7 @@ public class UpdatePasswordActivity extends Activity {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "updatepasswd f " + result.toString());
                 try {
                     String status = result.getString("status");
                     if (status.equals("1")) {
@@ -133,7 +136,9 @@ public class UpdatePasswordActivity extends Activity {
                         etNew.setText("");
                         etNewCheck.setText("");
                     } else if (status.equals("10")) {
-                        ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                        Log.e("tag", "updatepasswd f " + result.toString());
+                    } else {
+                        ToastUtils.showToast(UpdatePasswordActivity.this, result.getString("info"), Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

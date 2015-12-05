@@ -3,6 +3,7 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
@@ -52,6 +54,8 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     private CheckBox check;
     private ProgressDialog dialog = null;
 
+    private String phone = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +90,8 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
 
         check = (CheckBox) findViewById(R.id.check);
         check.setOnClickListener(this);
+
+        phone = getIntent().getStringExtra("tel");
     }
 
     private void postPersonalInfo() {
@@ -95,15 +101,15 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             return;
         }
 
-        String username = user_name.getText().toString();
+        final String username = user_name.getText().toString();
         if (!TextUtils.equals(pass.getText().toString(), check_pass.getText().toString())) {
             ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);
             return;
         }
         dialog = ProgressDialog.show(PersonalMsgActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String password = pass.getText().toString();
-        String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
+        final String password = pass.getText().toString();
+        final String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center = service.getText().toString();
         String store_id = storeid.getText().toString();
         String referrer = referee.getText().toString();
@@ -125,18 +131,44 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
+                Log.e("tag", "PersonalMsgActivity s " + result.toString());
                 System.out.println(result.toString());
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
+
+                try {
+                    JSONObject object = result.getJSONObject("param");
+                    //user = gson.fromJson(object.toString(), UserEntity.class);
+                    Configs.cacheUser(getApplicationContext(), object.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent = new Intent(PersonalMsgActivity.this, RegisterSuccessActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("passwd", password);
+                intent.putExtra("tel", phone);
                 startActivity(intent);
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "PersonalMsgActivity f " + result.toString());
                 try {
-                    Tools.handleResult(PersonalMsgActivity.this, result.getString("status"));
+                    //Tools.handleResult(PersonalMsgActivity.this, result.getString("status"));
+                    if("300".equals(result.getString("status"))) {
+                        Tools.showToast(PersonalMsgActivity.this, result.getString("info"));
+                    } else if("2".equals(result.getString("status"))) {
+                        Tools.showToast(PersonalMsgActivity.this, "格式有误");
+                    } else if("9".equals(result.getString("status"))) {
+                        Tools.showToast(PersonalMsgActivity.this, getString(R.string.login_timeout));
+                        /*SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.remove(Configs.KEY_TOKEN);
+                        editor.commit();
+                        Intent intent = new Intent(PersonalMsgActivity.this, MainActivity.class);
+                        startActivity(intent);*/
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

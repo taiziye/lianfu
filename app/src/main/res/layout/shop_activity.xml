@@ -256,7 +256,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <Button
@@ -268,8 +268,8 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="@android:color/black"
-            android:background="#999999"
+            android:textColor="@android:color/white"
+            android:background="@drawable/comput_r"
             android:text="@string/contact_employee" />
 
         <Button
@@ -282,7 +282,7 @@
             android:background="@drawable/add_mem"
             android:gravity="center"
             android:textSize="15sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/pay" />
     </LinearLayout>
 
