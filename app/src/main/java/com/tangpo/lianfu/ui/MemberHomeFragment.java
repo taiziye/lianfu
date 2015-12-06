@@ -25,6 +25,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PositionAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
+import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -55,6 +56,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private PositionAdapter adapter = null;
 
     private ArrayList<FindStore> storeList = new ArrayList<>();
+    private ArrayList<String> v = new ArrayList<>();
 
     private Gson gson = null;
 
@@ -79,6 +81,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         if (bundle != null) {
             userid = bundle.getString("userid");
+            getCollectedStore();
             getStores();
         }
 
@@ -112,8 +115,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         });
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-
-
         gson = new Gson();
     }
 
@@ -156,8 +157,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
                     Log.e("tag", "tag = " + list.get(0).getAddress());
                     Log.e("tag", storeList.size() + "size");
-                    adapter = new PositionAdapter(getActivity(), list);
+                    adapter = new PositionAdapter(getActivity(), list, v);
                     listView.setAdapter(adapter);
+                    break;
+                case 2:
+                    v = (ArrayList<String>) msg.obj;
                     break;
             }
         }
@@ -204,6 +208,49 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, params);
+    }
+
+    private void getCollectedStore(){
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        String kvs[] = new String[]{userid};
+        String params = com.tangpo.lianfu.parms.CheckCollectedStore.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                try {
+                    JSONArray jsonArray = result.getJSONArray("param");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        Store store = gson.fromJson(object.toString(), Store.class);
+                        v.add(store.getId());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 2;
+                msg.obj = v;
+                mHandler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
                 try {
                     Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {
