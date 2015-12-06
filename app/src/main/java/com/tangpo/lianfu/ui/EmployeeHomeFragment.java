@@ -139,17 +139,13 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     if (manager.getProfit() == null)
                         profit.setText("0");
                     else {
-                        String tmp = manager.getIncome();
-                        int l = tmp.length();
-                        profit.setText(tmp.substring(0, l-2) + "");
+                        profit.setText(manager.getIncome() + "元");
                     }
 
                     if (manager.getPayback() == null)
                         profit_can.setText("0");
                     else {
-                        String tmp = manager.getNeed_pay();
-                        int l = tmp.length();
-                        profit_can.setText(tmp.substring(0, l-2) + "");
+                        profit_can.setText(manager.getNeed_pay() + "");
                     }
 
                     Configs.cacheManager(getActivity(), result.toString());
