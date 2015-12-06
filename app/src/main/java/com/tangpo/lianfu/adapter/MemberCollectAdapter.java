@@ -95,6 +95,10 @@ public class MemberCollectAdapter extends BaseAdapter {
             }
         });
 
+        /**
+         * 隐藏联系客服按钮
+         */
+        holder.contact.setVisibility(View.GONE);
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -76,6 +76,11 @@ public class MemRecourdAdapter extends BaseAdapter {
         holder.money.setText(list.get(position).getFee() + "");
         holder.time.setText(list.get(position).getDatetime());
 
+        /**
+         * 隐藏联系客服按钮
+         */
+        holder.contact.setVisibility(View.GONE);
+
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -99,7 +99,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", userEntity);
-                startActivity(intent);
+                /*startActivity(intent);*/
+                Tools.showToast(getActivity(), "请期待下一个版本");
                 break;
             case R.id.modify_pass:
                 intent = new Intent(getActivity(), UpdatePasswordActivity.class);

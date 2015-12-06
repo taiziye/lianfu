@@ -126,7 +126,8 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", user);
-                startActivity(intent);
+                /*startActivity(intent);*/
+                Tools.showToast(getActivity(), "请期待下一个版本");
                 break;
             case R.id.discount_manage:
                 intent = new Intent(getActivity(), DiscountManageActivity.class);
