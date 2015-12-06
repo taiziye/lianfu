@@ -62,14 +62,14 @@ public class UpdatePasswordActivity extends Activity {
 
         user = (UserEntity) getIntent().getSerializableExtra("user");
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkPassword();
+                UpdatePasswordActivity.this.finish();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etOld.getText().toString().equals("")) {
@@ -90,12 +90,13 @@ public class UpdatePasswordActivity extends Activity {
                     etNewCheck.setText("");
                     return;
                 }
-                if(etOld.getText().toString().equals(etNew.getText().toString())){
-                    ToastUtils.showToast(UpdatePasswordActivity.this,getString(R.string.newpassword_same_with_oldpassword),Toast.LENGTH_SHORT);
+                if (etOld.getText().toString().equals(etNew.getText().toString())) {
+                    ToastUtils.showToast(UpdatePasswordActivity.this, getString(R.string.newpassword_same_with_oldpassword), Toast.LENGTH_SHORT);
                     etNew.setText("");
                     etNewCheck.setText("");
                     return;
                 }
+                checkPassword();
             }
         });
     }
