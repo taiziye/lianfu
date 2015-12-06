@@ -231,6 +231,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
+                    bundle.putString("username", userEntity.getName());
                     fragment = new RecordFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
