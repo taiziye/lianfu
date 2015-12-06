@@ -125,11 +125,15 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                         e.printStackTrace();
                     }
 
-                    shop_name.setText(manager.getStore_name());
+                    if(manager.getStore_name() == null || manager.getStore_name().length() == 0) {
+                        shop_name.setText("");
+                    } else {
+                        shop_name.setText(manager.getStore_name());
+                    }
                     if (manager.getIncome() == null)
-                        record.setText("0");
+                        record.setText("0人");
                     else
-                        record.setText("" + manager.getIncome() + "");
+                        record.setText("" + manager.getIncome() + "人");
 
                     if (manager.getMem_num() == null)
                         mem.setText("0人");
@@ -141,15 +145,17 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     else {
                         String tmp = manager.getIncome();
                         int l = tmp.length();
-                        profit.setText(tmp.substring(0, l-2) + "");
+                        if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
+                        else profit.setText(tmp + "元");
                     }
 
                     if (manager.getPayback() == null)
-                        profit_can.setText("0");
+                        profit_can.setText("0元");
                     else {
                         String tmp = manager.getNeed_pay();
                         int l = tmp.length();
-                        profit_can.setText(tmp.substring(0, l-2) + "");
+                        if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
+                        else profit.setText(tmp + "元");
                     }
 
                     Configs.cacheManager(getActivity(), result.toString());
