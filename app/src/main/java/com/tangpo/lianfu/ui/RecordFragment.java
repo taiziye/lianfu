@@ -60,6 +60,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private List<EmployeeConsumeRecord> recordList = null;
 
     private String userid = "";
+    private String username = "";
 
     private int page = 1;
 
@@ -93,6 +94,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         if (bundle != null) {
             userid = bundle.getString("userid");
             employeename = bundle.getString("employeename");
+            username = bundle.getString("username");
         }
         init(view);
 
@@ -160,6 +162,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 index = position - 1;
                 intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
+                intent.putExtra("username", username);
                 intent.putExtra("user_id",userid);
                 intent.putExtra("consume_id",recordList.get(index).getId());
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);
@@ -258,6 +261,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 adapter.notifyDataSetChanged();
             } else {
                 //编辑
+                //getConsumeRecord();
+                EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
+                Log.e("tag", "record " + record.toString());
+                recordList.remove(index);
+                recordList.add(index, record);
+                adapter.notifyDataSetInvalidated();
             }
         }
     }

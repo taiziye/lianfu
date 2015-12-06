@@ -80,6 +80,7 @@
                     android:layout_height="40dp"
                     android:background="@null"
                     android:gravity="right|center"
+                    android:editable="false"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
@@ -115,6 +116,7 @@
                     android:layout_height="40dp"
                     android:background="@null"
                     android:gravity="right|center"
+                    android:editable="false"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:textColorHint="@android:color/black" />
