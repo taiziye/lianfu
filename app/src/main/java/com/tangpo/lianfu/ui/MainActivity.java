@@ -389,7 +389,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
-        if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN || requestCode == com.tencent.connect.common.Constants.REQUEST_APPBAR) {
+        if (requestCode == com.tencent.connect.common.Constants.REQUEST_LOGIN ||
+                requestCode == com.tencent.connect.common.Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
             mInfo=new UserInfo(this,MainActivity.mTencent.getQQToken());
             mInfo.getUserInfo(new BaseUIListener(this, "get_simple_userinfo"));
