@@ -1,9 +1,13 @@
 package com.tangpo.lianfu.http;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.tangpo.lianfu.MyApplication;
+import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.utils.Escape;
+import com.tangpo.lianfu.utils.ToastUtils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -72,15 +76,14 @@ public class NetConnection {
                         }
                     }
                 } else {
-                    if (failCallback != null) {
-                        try {
-                            //将解码后的字符串封装成JSONObject
-                            JSONObject resJson = new JSONObject(s);
-                            failCallback.onFail(resJson);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    JSONObject resJson=new JSONObject();
+                    try {
+                        resJson.put("status","Dabo+Guodong");
+                        failCallback.onFail(resJson);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    ToastUtils.showToast(MyApplication.getContext(), MyApplication.getContext().getString(R.string.internet_request_timeout), Toast.LENGTH_SHORT);
                 }
             }
         }.execute();

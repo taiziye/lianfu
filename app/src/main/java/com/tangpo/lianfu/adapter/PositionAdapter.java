@@ -115,6 +115,7 @@ public class PositionAdapter extends BaseAdapter {
             holder.address = (TextView) convertView.findViewById(R.id.address);
             holder.collect = (LinearLayout) convertView.findViewById(R.id.collect);
             holder.s_img = (ImageView) convertView.findViewById(R.id.s_img);
+            holder.text = (TextView) convertView.findViewById(R.id.text);
 
             convertView.setTag(holder);
         } else {
@@ -153,11 +154,15 @@ public class PositionAdapter extends BaseAdapter {
                 switch (msg.what){
                     case 2:
                         collected[cur] = true;
-                        collect[position].setImageResource(R.drawable.s_collect_r);
+//                        collect[position].setImageResource(R.drawable.s_collect_r);
+                        collect[position].setVisibility(View.GONE);
+                        holder.text.setText(R.string.cancel_collect);
                         break;
                     case 3:
                         collected[cur] = false;
                         collect[position].setImageResource(R.drawable.s_collect);
+                        collect[position].setVisibility(View.VISIBLE);
+                        holder.text.setText(R.string.collect);
                         break;
                 }
             }
@@ -228,6 +233,7 @@ public class PositionAdapter extends BaseAdapter {
         public TextView address;
         public LinearLayout collect;
         public int position = 0;
+        public TextView text;
 
         private ImageView s_img;
     }

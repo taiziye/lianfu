@@ -139,6 +139,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.contact:
+                ToastUtils.showToast(ShopActivity.this,getString(R.string.new_function_has_not_online),Toast.LENGTH_SHORT);
                 break;
             case R.id.pay:
                 Intent payIntent=new Intent(ShopActivity.this,PayBillActivity.class);
@@ -181,125 +182,38 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     String tmp[] = store.getPhoto().split("\\,");
                     Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
 
-                    if(tmp.length <1){
-                        /*Tools.setPhoto(ShopActivity.this, "", img1);
-                        Tools.setPhoto(ShopActivity.this, "", img2);
-                        Tools.setPhoto(ShopActivity.this, "", img3);
-                        Tools.setPhoto(ShopActivity.this, "", img4);
-                        Tools.setPhoto(ShopActivity.this, "", img5);
-                        Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <2){
+                    if (tmp.length>0){
                         img1.setVisibility(View.VISIBLE);
                         Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        /*Tools.setPhoto(ShopActivity.this, "", img2);
-                        Tools.setPhoto(ShopActivity.this, "", img3);
-                        Tools.setPhoto(ShopActivity.this, "", img4);
-                        Tools.setPhoto(ShopActivity.this, "", img5);
-                        Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <3){
-                        img1.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>1){
                         img2.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
                         Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        /*Tools.setPhoto(ShopActivity.this, "", img3);
-                        Tools.setPhoto(ShopActivity.this, "", img4);
-                        Tools.setPhoto(ShopActivity.this, "", img5);
-                        Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <4){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>2){
                         img3.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
                         Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                        /*Tools.setPhoto(ShopActivity.this, "", img4);
-                        Tools.setPhoto(ShopActivity.this, "", img5);
-                        Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <5){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
-                        img3.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>3){
                         img4.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
                         Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                        /*Tools.setPhoto(ShopActivity.this, "", img5);
-                        Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <6){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
-                        img3.setVisibility(View.VISIBLE);
-                        img4.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>4){
                         img5.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
                         Tools.setPhoto(ShopActivity.this, tmp[4], img5);
-                        /*Tools.setPhoto(ShopActivity.this, "", img6);
-                        Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <7){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
-                        img3.setVisibility(View.VISIBLE);
-                        img4.setVisibility(View.VISIBLE);
-                        img5.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>5){
                         img6.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
                         Tools.setPhoto(ShopActivity.this, tmp[5], img6);
-                        /*Tools.setPhoto(ShopActivity.this, "", img7);
-                        Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <8){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
-                        img3.setVisibility(View.VISIBLE);
-                        img4.setVisibility(View.VISIBLE);
-                        img5.setVisibility(View.VISIBLE);
-                        img6.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>6){
                         img7.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
-                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
                         Tools.setPhoto(ShopActivity.this, tmp[6], img7);
-                        /*Tools.setPhoto(ShopActivity.this, "", img8);*/
-                    }else if(tmp.length <9){
-                        img1.setVisibility(View.VISIBLE);
-                        img2.setVisibility(View.VISIBLE);
-                        img3.setVisibility(View.VISIBLE);
-                        img4.setVisibility(View.VISIBLE);
-                        img5.setVisibility(View.VISIBLE);
-                        img6.setVisibility(View.VISIBLE);
-                        img7.setVisibility(View.VISIBLE);
+                    }
+                    if(tmp.length>7){
                         img8.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
-                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
-                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
                         Tools.setPhoto(ShopActivity.this, tmp[7], img8);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

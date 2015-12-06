@@ -250,4 +250,6 @@
     <string name="newpassword_same_with_oldpassword">新密码与旧密码一致!请重新输入</string>
     <string name="fee_can_not_be_null">金额不能为空！</string>
     <string name="receipt_no_can_not_be_null">小票单号不能为空！</string>
+    <string name="new_function_has_not_online">新功能尚未开通，敬请期待！</string>
+    <string name="internet_request_timeout">网络请求超时！</string>
 </resources>
