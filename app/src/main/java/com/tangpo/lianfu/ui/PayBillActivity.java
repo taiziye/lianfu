@@ -96,8 +96,8 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         imageView.setOnClickListener(this);
 
         String storename=getIntent().getStringExtra("storename");
-        String store_id=getIntent().getStringExtra("store_id");
-        String user_id=getIntent().getStringExtra("userid");
+        store_id=getIntent().getStringExtra("store_id");
+        user_id=getIntent().getStringExtra("userid");
         gson=new Gson();
         preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
         String user=preferences.getString(Configs.KEY_USER,"");
@@ -130,11 +130,15 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 bundle.putString("store_id",store_id);
                 bundle.putString("user_id",user_id);
                 bundle.putString("fee",money.getText().toString());
+                bundle.putString("phone",contact_tel.getText().toString());
+                bundle.putString("receipt_no","");
+                bundle.putString("receipt_photo","");
                 bundle.putString("online","true");
                 if(money.getText().toString().equals("")){
                     ToastUtils.showToast(PayBillActivity.this,getString(R.string.pay_amount_cannot_be_null),Toast.LENGTH_SHORT);
                     return;
                 }
+                intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;
             case R.id.select:

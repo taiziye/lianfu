@@ -162,7 +162,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 index = position - 1;
                 intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
-                intent.putExtra("username", username);
+                intent.putExtra("username", recordList.get(index).getUsername());
                 intent.putExtra("user_id",userid);
                 intent.putExtra("consume_id",recordList.get(index).getId());
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);

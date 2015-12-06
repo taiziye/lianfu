@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 /**
@@ -42,6 +44,8 @@ public class MemberUpdateTypeActivity extends Activity implements View.OnClickLi
         back = (Button) findViewById(R.id.back);
         edit = (Button) findViewById(R.id.edit);
 
+        back.setOnClickListener(this);
+        edit.setOnClickListener(this);
         list = (PullToRefreshListView) findViewById(R.id.list);
     }
 
@@ -52,6 +56,7 @@ public class MemberUpdateTypeActivity extends Activity implements View.OnClickLi
                 finish();
                 break;
             case R.id.edit:
+                ToastUtils.showToast(this,getString(R.string.new_function_has_not_online), Toast.LENGTH_SHORT);
                 break;
         }
     }

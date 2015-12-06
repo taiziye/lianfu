@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.PayBill;
 import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.utils.Key;
 import com.tangpo.lianfu.utils.PayResult;
@@ -71,7 +73,11 @@ public class PayByAliPay extends FragmentActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         ToastUtils.showToast(PayByAliPay.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-                        ProfitAccount();
+                        if(bundle.getString("online")!=null){
+                            payBill();
+                        }else{
+                            ProfitAccount();
+                        }
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -337,7 +343,7 @@ public class PayByAliPay extends FragmentActivity {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-
+        final ProgressDialog dialog=ProgressDialog.show(PayByAliPay.this,getString(R.string.connecting),getString(R.string.please_wait));
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
@@ -350,12 +356,14 @@ public class PayByAliPay extends FragmentActivity {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 ToastUtils.showToast(PayByAliPay.this,getString(R.string.request_success),Toast.LENGTH_SHORT);
                 PayByAliPay.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                dialog.dismiss();
                 try {
                     Tools.handleResult(PayByAliPay.this, result.getString("status"));
                 } catch (JSONException e) {
@@ -363,5 +371,49 @@ public class PayByAliPay extends FragmentActivity {
                 }
             }
         }, param);
+    }
+
+    private void payBill(){
+
+        if(!Tools.checkLAN()) {
+            Log.e("tag", "check");
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        String user_id=bundle.getString("user_id");
+        String store_id=bundle.getString("store_id");
+        String pay_way=bundle.getString("pay_way");
+        String fee=bundle.getString("fee");
+        String phone=bundle.getString("phone");
+        String receipt_no=bundle.getString("receipt_no");
+        String receipt_photo=bundle.getString("receipt_photo");
+
+        String online="false";
+
+        String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
+        if (fee.equals("")){
+            ToastUtils.showToast(this,getString(R.string.fee_can_not_be_null),Toast.LENGTH_SHORT);
+            return;
+        }
+        final ProgressDialog dialog= ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String params= PayBill.packagingParam(this, kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                ToastUtils.showToast(PayByAliPay.this,getString(R.string.request_success),Toast.LENGTH_SHORT);
+                PayByAliPay.this.finish();
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    Tools.handleResult(PayByAliPay.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
     }
 }

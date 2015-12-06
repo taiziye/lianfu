@@ -83,7 +83,7 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
 
-        user_name.setText(member.getUser_id());
+        user_name.setText(member.getUsername());
         contact_tel.setText(member.getPhone());
         rel_name.setText(member.getName());
         member_level.setText("");
@@ -128,12 +128,14 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 ToastUtils.showToast(MemberInfoActivity.this,getString(R.string.edit_success), Toast.LENGTH_SHORT);
                 MemberInfoActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                dialog.dismiss();
                 try {
                     Tools.handleResult(MemberInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {

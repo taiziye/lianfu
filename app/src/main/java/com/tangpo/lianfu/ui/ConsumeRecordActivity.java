@@ -115,7 +115,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             consume_id=intent.getStringExtra("consume_id");
             username = intent.getStringExtra("username");
             user_name.setText(username);
-            name.setText(record.getUsername());
+            name.setText("");
             if (members != null) {
                 Iterator<String> it = members.iterator();
                 while (it.hasNext()) {
