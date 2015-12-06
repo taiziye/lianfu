@@ -142,41 +142,47 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     }
                     Log.e("tag", man.toString());
 
-                    shop_name.setText(man.getStore_name());
+                    if(man.getStore_name() == null || man.getStore_name().length() == 0) {
+                        shop_name.setText("");
+                    } else {
+                        shop_name.setText(man.getStore_name());
+                    }
 
-                    if (man.getIncome() == null)
+                    if (man.getIncome() == null || man.getIncome().length() == 0)
                         record.setText("0");
                     else
                         record.setText("" + man.getIncome() + "");
 
-                    if (man.getMem_num() == null)
+                    if (man.getMem_num() == null || man.getMem_num().length() == 0)
                         mem.setText("0人");
                     else
                         mem.setText("" + man.getMem_num() + "人");
 
-                    if (man.getProfit() == null)
+                    if (man.getProfit() == null || man.getProfit().length() == 0)
                         pay.setText("0元");
                     else{
                         String tmp = man.getIncome();
                         int l = tmp.length();
-                        pay.setText("" + tmp.substring(0, l-2) + "元");
+                        if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
+                        else pay.setText("" + tmp + "元");
                         Log.e("tag", tmp.substring(0, l-2));
                     }
 
-                    if (man.getPayback() == null)
+                    if (man.getPayback() == null || man.getPayback().length() == 0)
                         pay_can.setText("0元");
                     else {
                         String tmp = man.getNeed_pay();
                         int l = tmp.length();
-                        pay_can.setText("" + tmp.substring(0, l-2) + "元");
+                        if (l>2) pay_can.setText("" + tmp.substring(0, l-2) + "元");
+                        else pay_can.setText("" + tmp + "元");
                     }
 
-                    if (man.getAdmin_num() == null)
+                    if (man.getAdmin_num() == null || man.getAdmin_num().length() == 0)
                         manager.setText("0人");
                     else
                         manager.setText("" + man.getAdmin_num() + "人");
 
-                    if (man.getStaff_num() == null)
+                    if (man.getStaff_num() == null || man.getStaff_num().length() == 0)
                         employee.setText("0人");
                     else
                         employee.setText("" + man.getStaff_num() + "人");
@@ -186,7 +192,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     } else {
                         String tmp = man.getPayback();
                         int l = tmp.length();
-                        rebate.setText(tmp.substring(0, l - 2));
+                        if (l>2) rebate.setText(tmp.substring(0, l - 2) + "元");
+                        else rebate.setText(tmp + "元");
                     }
 
                     Configs.cacheManager(getActivity(), result.toString());
