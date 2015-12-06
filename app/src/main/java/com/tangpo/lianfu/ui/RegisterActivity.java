@@ -234,8 +234,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.remove(Configs.KEY_TOKEN);
                 editor.commit();
-                Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
-                finish();
+               Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
+//                RegisterActivity.this.finish();
                 break;
             case R.id.next:
                 if(!Tools.checkLAN()) {
