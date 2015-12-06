@@ -153,7 +153,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             return;
         }
 
-        dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
         String user_id=userEntity.getUser_id();
         String store_id=getIntent().getStringExtra("store_id");
         String fee=money.getText().toString();
@@ -166,7 +165,15 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
          */
         String pay_way="0";
         String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
-
+        if (fee.equals("")){
+            ToastUtils.showToast(this,getString(R.string.fee_can_not_be_null),Toast.LENGTH_SHORT);
+            return;
+        }
+        if(receipt_no.equals("")){
+            ToastUtils.showToast(this,getString(R.string.receipt_no_can_not_be_null),Toast.LENGTH_SHORT);
+            return;
+        }
+        dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
         String params= PayBill.packagingParam(this,kvs);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -197,7 +204,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH)));
             imagePath=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
-            receipt_photo=UploadImage.imgToBase64(imagePath);
+            receipt_photo=UploadImage.imgToBase64(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH));
         }
     }
 }

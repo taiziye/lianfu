@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-<<<<<<< HEAD
-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> c3785cc5f22c19592180df418d0bca198dc17cdf
-=======
->>>>>>> Stashed changes
+    <mapping directory="" vcs="" />
   </component>
 </project>

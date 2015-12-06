@@ -103,6 +103,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 i=60;
             }else{
                 get_code.setText(msg.obj + getString(R.string.second));
+                startTime();
             }
         }
     };
@@ -128,7 +129,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
         Pattern p = null;
         Matcher m = null;
         boolean b = false;
-        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+        p = Pattern
+                .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         m = p.matcher(str);
         b = m.matches();
         return b;
@@ -139,7 +141,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         if (phone.equals("")) {
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
-        } else if(isMobile(phone)) {
+        } else if(!isMobile(phone)) {
             ToastUtils.showToast(RegisterActivity.this, "电话号码不存在", Toast.LENGTH_LONG);
             return;
         }
@@ -153,6 +155,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 pd.dismiss();
                 ToastUtils.showToast(RegisterActivity.this, getString(R.string.message_send_success), Toast.LENGTH_LONG);
                 startTime();
+                get_code.setClickable(false);
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -248,7 +251,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }
-                get_code.setClickable(false);
                 getCode();
                 break;
         }

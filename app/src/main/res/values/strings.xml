@@ -203,7 +203,7 @@
     <string name="username_already_exist">用户名已经存在！</string>
     <string name="edit_success">编辑成功！</string>
     <string name="update_fail">修改失败！</string>
-    <string name="offline_pay">线下支付</string>
+    <string name="offline_pay">已线下付款</string>
     <string name="login_out">退出登录</string>
     <string name="delete_failed">删除失败</string>
     <string name="delete_success">删除成功</string>
@@ -248,4 +248,6 @@
     <string name="login_fail">登录失败</string>
     <string name="return_is_null">返回为空</string>
     <string name="newpassword_same_with_oldpassword">新密码与旧密码一致!请重新输入</string>
+    <string name="fee_can_not_be_null">金额不能为空！</string>
+    <string name="receipt_no_can_not_be_null">小票单号不能为空！</string>
 </resources>
