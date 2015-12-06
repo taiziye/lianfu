@@ -60,9 +60,9 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
 
     private Intent intent = null;
 
-    private String user_id=null;
-
-    private String consume_id=null;
+    private String user_id= "";
+    private String username = "";
+    private String consume_id= "";
 
     private ProgressDialog dialog=null;
 
@@ -113,7 +113,8 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             record = (EmployeeConsumeRecord) intent.getSerializableExtra("record");
             user_id=intent.getStringExtra("user_id");
             consume_id=intent.getStringExtra("consume_id");
-            user_name.setText(record.getId());
+            username = intent.getStringExtra("username");
+            user_name.setText(username);
             name.setText(record.getUsername());
             if (members != null) {
                 Iterator<String> it = members.iterator();
@@ -170,7 +171,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             return;
         }
 
-        String fee=record.getFee();
+        String fee=consume_money.getText().toString();
         String discount=discount_text.getText().toString();
         if (discount == null || discount.length() == 0) {
             Tools.showToast(getApplicationContext(), "请选择折扣");
@@ -179,13 +180,20 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         String kvs[]=new String[]{user_id,consume_id,fee,discount};
         String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
 
+        record.setFee(fee);
+        record.setDiscount(discount);
+        record.setDesc(discount_type.getText().toString());
+
         dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Log.e("tag", "ConsumeRecordActivity s " + result.toString());
-                ToastUtils.showToast(ConsumeRecordActivity.this,getString(R.string.edit_success), Toast.LENGTH_SHORT);
+                ToastUtils.showToast(ConsumeRecordActivity.this, getString(R.string.edit_success), Toast.LENGTH_SHORT);
+                Intent intent = new Intent();
+                intent.putExtra("record", record);
+                setResult(RESULT_OK, intent);
                 ConsumeRecordActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
