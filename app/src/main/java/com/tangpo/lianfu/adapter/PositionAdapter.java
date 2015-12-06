@@ -49,14 +49,16 @@ public class PositionAdapter extends BaseAdapter {
     private ViewHolder holder = null;
     private List<String> collectedStore = new ArrayList<>();
     private SharedPreferences preferences = null;
+    private ArrayList<String> v = new ArrayList<>();
 
     private String userid = null;
 
     private boolean[] collected;
 
-    public PositionAdapter(Context context, List<FindStore> list) {
+    public PositionAdapter(Context context, List<FindStore> list, ArrayList<String> v) {
         this.context = context;
         this.list = list;
+        this.v = v;
         inflater = LayoutInflater.from(context);
         preferences = context.getSharedPreferences(Configs.APP_ID, Context.MODE_APPEND);
         String user = preferences.getString(Configs.KEY_USER, "0");
@@ -128,7 +130,6 @@ public class PositionAdapter extends BaseAdapter {
         holder.shop_name.setText(list.get(position).getStore());
         holder.commodity.setText(list.get(position).getBusiness());
         holder.address.setText(list.get(position).getAddress());
-
         holder.s_img.setImageResource(R.drawable.s_collect);
 
         collect[position] = holder.s_img;
@@ -139,6 +140,13 @@ public class PositionAdapter extends BaseAdapter {
         } else {
             holder.collect.setText(context.getString(R.string.collect));
         }*/
+        if(v.contains(list.get(position).getId())) {
+            holder.s_img.setImageResource(R.drawable.s_collect_r);
+            holder.text.setText("已收藏");
+        } else {
+            holder.s_img.setImageResource(R.drawable.s_collect);
+            holder.text.setText(R.string.collect);
+        }
 
         final Handler handler = new Handler(){
             @Override
@@ -156,7 +164,7 @@ public class PositionAdapter extends BaseAdapter {
                         collected[cur] = true;
 //                        collect[position].setImageResource(R.drawable.s_collect_r);
                         collect[position].setVisibility(View.GONE);
-                        holder.text.setText(R.string.cancel_collect);
+                        holder.text.setText("已收藏");
                         break;
                     case 3:
                         collected[cur] = false;
