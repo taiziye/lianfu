@@ -133,7 +133,6 @@ public class UpdatePasswordActivity extends Activity {
             return;
         }
 
-        dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String userid = user.getUser_id();
         String old_pw = etOld.getText().toString();
@@ -141,6 +140,7 @@ public class UpdatePasswordActivity extends Activity {
         String kvs[] = new String[]{userid, old_pw, new_pw};
         String params = com.tangpo.lianfu.parms.UpdatePassword.packagingParam(UpdatePasswordActivity.this,kvs);
         Log.e("tag",params);
+        dialog = ProgressDialog.show(UpdatePasswordActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {

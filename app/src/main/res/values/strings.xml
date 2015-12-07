@@ -252,4 +252,6 @@
     <string name="receipt_no_can_not_be_null">小票单号不能为空！</string>
     <string name="new_function_has_not_online">新功能尚未开通，敬请期待！</string>
     <string name="internet_request_timeout">网络请求超时！</string>
+    <string name="realname_cannot_be_null">真实姓名不能为空</string>
+    <string name="phone_format_error">电话号码格式错误</string>
 </resources>

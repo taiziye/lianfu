@@ -15,18 +15,23 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddMember;
+import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -155,6 +160,16 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         }
     }
 
+    private boolean isMobileOrTel(String str) {
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        p = Pattern
+                .compile("^((13[0-9])|(15[^4,\\\\D])|(18[0,5-9]))\\\\d{8}|[0]{1}[0-9]{2,3}-[0-9]{7,8}$");
+        m = p.matcher(str);
+        b = m.matches();
+        return b;
+    }
     private void addMember() {
         if(!Tools.checkLAN()) {
             Log.e("tag", "check");
@@ -162,11 +177,22 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String user_id = user_name.getText().toString();
         String username = rel_name.getText().toString();
         String phone = contact_tel.getText().toString();
+        if (user_id.equals("")){
+            ToastUtils.showToast(this,getString(R.string.username_cannot_be_null),Toast.LENGTH_SHORT);
+            return;
+        }
+        if(username.equals("")){
+            ToastUtils.showToast(this,getString(R.string.realname_cannot_be_null),Toast.LENGTH_SHORT);
+            return;
+        }
+        if(!isMobileOrTel(phone)){
+            ToastUtils.showToast(this,getString(R.string.phone_format_error),Toast.LENGTH_SHORT);
+            return;
+        }
         String pw="";
         if(phone.length() < 6) {
             Tools.showToast(AddMemberActivity.this, "请输入正确的电话号码");
@@ -190,6 +216,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
 
         final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sexStr);
 
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -207,7 +234,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 dialog.dismiss();
                 Log.e("tag", result.toString());
                 try {
-                    if("300".equals(result.getString("status"))) Tools.showToast(AddMemberActivity.this, "联系电话\\/手机不能少于11位！");
+                    if("300".equals(result.getString("status"))){
+                        ToastUtils.showToast(AddMemberActivity.this,Escape.unescape(result.toString()), Toast.LENGTH_SHORT);
+                    }
                     else {
                         Tools.handleResult(AddMemberActivity.this, result.getString("status"));
                     }
