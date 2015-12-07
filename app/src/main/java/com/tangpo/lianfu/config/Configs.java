@@ -166,16 +166,16 @@ public class Configs {
         editor.putString(KEY_USER, user);
         editor.commit();
     }
-
-    /**
-     * @param context
-     * @param stores  店铺id集
-     */
-    public static void cacheCollectedStore(Context context, Set<String> stores) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(APP_ID, Context.MODE_APPEND).edit();
-        editor.putStringSet(KEY_STORE, stores);
-        editor.commit();
-    }
+//
+//    /**
+//     * @param context
+//     * @param stores  店铺id集
+//     */
+//    public static void cacheCollectedStore(Context context, Set<String> stores) {
+//        SharedPreferences.Editor editor = context.getSharedPreferences(APP_ID, Context.MODE_APPEND).edit();
+//        editor.putStringSet(KEY_STORE, stores);
+//        editor.commit();
+//    }
 
     /**
      * 保存管理的所有会员

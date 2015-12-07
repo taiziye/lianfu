@@ -140,9 +140,15 @@ public class PositionAdapter extends BaseAdapter {
         } else {
             holder.collect.setText(context.getString(R.string.collect));
         }*/
-        if(v.contains(list.get(position).getId())) {
+//        if(list.get(position).getFavorite().equals("1")){
+//            holder.s_img.setImageResource(R.drawable.s_collect_r);
+//            holder.text.setText(R.string.has_been_collected);
+//        }else{
+//            holder.
+//        }
+        if(list.get(position).getFavorite().equals("1")) {
             holder.s_img.setImageResource(R.drawable.s_collect_r);
-            holder.text.setText("已收藏");
+            holder.text.setText(R.string.has_been_collected);
         } else {
             holder.s_img.setImageResource(R.drawable.s_collect);
             holder.text.setText(R.string.collect);
@@ -162,9 +168,9 @@ public class PositionAdapter extends BaseAdapter {
                 switch (msg.what){
                     case 2:
                         collected[cur] = true;
-//                        collect[position].setImageResource(R.drawable.s_collect_r);
+                        collect[position].setImageResource(R.drawable.s_collect_r);
                         collect[position].setVisibility(View.GONE);
-                        holder.text.setText("已收藏");
+                        holder.text.setText(R.string.has_been_collected);
                         break;
                     case 3:
                         collected[cur] = false;

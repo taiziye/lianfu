@@ -16,6 +16,26 @@ public class FindStore implements Parcelable {
     private String contact;
     private String tel;
     private String business;
+    private String address;
+    private String photo;
+    private String favorite;
+    private String distance;
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
 
     public String getBusiness() {
         return business;
@@ -24,9 +44,6 @@ public class FindStore implements Parcelable {
     public void setBusiness(String business) {
         this.business = business;
     }
-
-    private String address;
-    private String photo;
 
     public FindStore(Parcel in) {
         id = in.readString();
@@ -37,6 +54,8 @@ public class FindStore implements Parcelable {
         tel = in.readString();
         address = in.readString();
         photo = in.readString();
+        favorite=in.readString();
+        distance=in.readString();
     }
 
     public static final Creator<FindStore> CREATOR = new Creator<FindStore>() {
@@ -52,6 +71,8 @@ public class FindStore implements Parcelable {
             store.address = in.readString();
             store.business = in.readString();
             store.photo = in.readString();
+            store.favorite=in.readString();
+            store.distance=in.readString();
             return store;
         }
 
@@ -125,16 +146,18 @@ public class FindStore implements Parcelable {
         this.tel = tel;
     }
 
-    public FindStore(String address, String business, String contact, String id, String lat, String lng, String photo, String store, String tel) {
-        this.address = address;
-        this.business = business;
-        this.contact = contact;
+    public FindStore(String id, String lng, String lat, String store, String contact, String tel, String business, String address, String photo, String favorite, String distance) {
         this.id = id;
-        this.lat = lat;
         this.lng = lng;
-        this.photo = photo;
+        this.lat = lat;
         this.store = store;
+        this.contact = contact;
         this.tel = tel;
+        this.business = business;
+        this.address = address;
+        this.photo = photo;
+        this.favorite = favorite;
+        this.distance = distance;
     }
 
     public FindStore() {
@@ -157,6 +180,8 @@ public class FindStore implements Parcelable {
         dest.writeString(address);
         dest.writeString(business);
         dest.writeString(photo);
+        dest.writeString(favorite);
+        dest.writeString(distance);
     }
 
 }
