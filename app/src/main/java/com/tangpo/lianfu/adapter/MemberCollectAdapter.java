@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.MemberCollect;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CancelCollectedStore;
@@ -33,7 +34,7 @@ import java.util.List;
 public class MemberCollectAdapter extends BaseAdapter {
 
     private Context context;
-    private List<MemberCollect> list;
+    private List<FindStore> list;
     private LayoutInflater inflater;
     private ViewHolder holder = null;
 
@@ -41,7 +42,7 @@ public class MemberCollectAdapter extends BaseAdapter {
 
     private boolean flag = false;
 
-    public MemberCollectAdapter(Context context, List<MemberCollect> list, String userid) {
+    public MemberCollectAdapter(Context context, List<FindStore> list, String userid) {
         this.context = context;
         this.userid = userid;
         this.list = list;

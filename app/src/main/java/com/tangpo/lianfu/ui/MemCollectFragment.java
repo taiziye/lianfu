@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.MemRecord;
 import com.tangpo.lianfu.entity.MemberCollect;
 import com.tangpo.lianfu.http.NetConnection;
@@ -44,7 +45,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private PullToRefreshListView listView;
     private MemberCollectAdapter adapter = null;
-    private List<MemberCollect> list = new ArrayList<>();
+    private List<FindStore> list = new ArrayList<>();
 
     private ProgressDialog dialog = null;
     private SharedPreferences preferences = null;
@@ -84,13 +85,15 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         search.setOnClickListener(this);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*Intent intent=new Intent(getActivity(),ShopActivity.class);
+                Log.e("tag", "index " + position);
+                Intent intent=new Intent(getActivity(),ShopActivity.class);
                 intent.putExtra("store",list.get(position-1));
                 intent.putExtra("userid",userid);
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
     }
@@ -112,7 +115,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what == 1){
-                list = (List<MemberCollect>) msg.obj;
+                list = (List<FindStore>) msg.obj;
                 Log.e("tag", "size " + list.size());
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
@@ -128,21 +131,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        //获取收藏店铺列表
-        /*preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        Set<String> storeSet = preferences.getStringSet(Configs.KEY_STORE, null);
-        if (storeSet != null) {
-            Iterator<String> it = storeSet.iterator();
-            while (it.hasNext()) {
-                try {
-                    JSONObject object = new JSONObject(it.next());
-                    MemberCollect store = gson.fromJson(object.toString(), MemberCollect.class);
-                    list.add(store);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
         String kvs[] = new String []{userid};
         String parm = CheckCollectedStore.packagingParam(getActivity(), kvs);
 
@@ -156,12 +144,10 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        MemberCollect store = gson.fromJson(object.toString(), MemberCollect.class);
+                        FindStore store = gson.fromJson(object.toString(), FindStore.class);
+                        Log.e("tag", "collect " + store.toString());
                         list.add(store);
                     }
-                    /*JSONObject object = result.getJSONObject("param");
-                    MemberCollect store = gson.fromJson(object.toString(), MemberCollect.class);
-                    list.add(store);*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
