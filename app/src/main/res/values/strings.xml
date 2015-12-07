@@ -254,4 +254,5 @@
     <string name="internet_request_timeout">网络请求超时！</string>
     <string name="realname_cannot_be_null">真实姓名不能为空</string>
     <string name="phone_format_error">电话号码格式错误</string>
+    <string name="operate_fail">操作失败</string>
 </resources>

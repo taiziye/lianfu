@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.MemberCollect;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.CancelCollectedStore;
 import com.tangpo.lianfu.parms.CollectStore;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -92,6 +96,33 @@ public class MemberCollectAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //取消收藏
+                String store_id=list.get(position).getId();
+                String kvs[]=new String[]{store_id,userid};
+                String params= CancelCollectedStore.packagingParam(context,kvs);
+                new NetConnection(new NetConnection.SuccessCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        list.remove(position);
+                        ToastUtils.showToast(context,context.getString(R.string.request_success),Toast.LENGTH_SHORT);
+                        notifyDataSetChanged();
+                    }
+                }, new NetConnection.FailCallback() {
+                    @Override
+                    public void onFail(JSONObject result) {
+                        try {
+                            String status=result.getString("status");
+                            if(status.equals("1")){
+                                ToastUtils.showToast(context,context.getString(R.string.operate_fail),Toast.LENGTH_SHORT);
+                            }else if(status.equals("9")){
+                                ToastUtils.showToast(context,context.getString(R.string.login_timeout),Toast.LENGTH_SHORT);
+                            }else{
+                                ToastUtils.showToast(context,context.getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },params);
             }
         });
 
@@ -116,4 +147,5 @@ public class MemberCollectAdapter extends BaseAdapter {
         public Button cancel;
         public Button contact;
     }
+
 }
