@@ -2,22 +2,17 @@ package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.internal.IndicatorLayout;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
@@ -29,14 +24,10 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 /**
  * Created by 果冻 on 2015/11/11.
@@ -53,8 +44,6 @@ public class PositionAdapter extends BaseAdapter {
 
     private String userid = null;
 
-    private boolean[] collected;
-
     public PositionAdapter(Context context, List<FindStore> list, ArrayList<String> v) {
         this.context = context;
         this.list = list;
@@ -68,10 +57,8 @@ public class PositionAdapter extends BaseAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         collect = new ImageView[list.size()];
-
-        collected = new boolean[list.size()];
+        text = new TextView[list.size()];
 
         Set<String> store = preferences.getStringSet(Configs.KEY_STORE, null);
         if (store != null) {
@@ -133,19 +120,8 @@ public class PositionAdapter extends BaseAdapter {
         holder.s_img.setImageResource(R.drawable.s_collect);
 
         collect[position] = holder.s_img;
+        text[position] = holder.text;
 
-        /*if (collectedStore.contains(list.get(position).getId())) {
-            holder.collect.setText(context.getString(R.string.cancel_collect));
-            collected[position] = true;
-        } else {
-            holder.collect.setText(context.getString(R.string.collect));
-        }*/
-//        if(list.get(position).getFavorite().equals("1")){
-//            holder.s_img.setImageResource(R.drawable.s_collect_r);
-//            holder.text.setText(R.string.has_been_collected);
-//        }else{
-//            holder.
-//        }
         if(list.get(position).getFavorite().equals("1")) {
             holder.s_img.setImageResource(R.drawable.s_collect_r);
             holder.text.setText(R.string.has_been_collected);
@@ -158,25 +134,16 @@ public class PositionAdapter extends BaseAdapter {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                /*if(msg.what == 1){
-                    ViewHolder tmp = (ViewHolder) msg.obj;
-                    Log.e("tag", "postion = " + tmp.position);
-                    collected[tmp.position] = true;
-                    tmp.collect.setText(context.getString(R.string.cancel_collect));
-                }*/
-                Log.e("tag", "cur " + cur);
                 switch (msg.what){
                     case 2:
-                        collected[cur] = true;
                         collect[position].setImageResource(R.drawable.s_collect_r);
-                        collect[position].setVisibility(View.GONE);
-                        holder.text.setText(R.string.has_been_collected);
+                        text[position].setText(R.string.has_been_collected);
+                        list.get(position).setFavorite("1");
                         break;
                     case 3:
-                        collected[cur] = false;
                         collect[position].setImageResource(R.drawable.s_collect);
-                        collect[position].setVisibility(View.VISIBLE);
-                        holder.text.setText(R.string.collect);
+                        text[position].setText(R.string.collect);
+                        list.get(position).setFavorite("0");
                         break;
                 }
             }
@@ -188,25 +155,35 @@ public class PositionAdapter extends BaseAdapter {
                 cur = position;
 
                 if(!Tools.checkLAN()) {
-                    Log.e("tag", "check");
                     Tools.showToast(context, "网络未连接，请联网后重试");
                     return;
                 }
 
-                if (collected[position]) {
+                if (list.get(position).getFavorite().equals("1")) {
                     //取消收藏
-                    Message msg = new Message();
-                    msg.what = 3;
-                    handler.sendMessage(msg);
-                } else {
-                    Log.e("tag", "collect");
+                    /*String kvs[] = new String[]{list.get(position).getId(), userid};
+                    String param = CancelCollectedStore.packagingParam(context, kvs);
 
+                    new NetConnection(new NetConnection.SuccessCallback() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            //
+                            Message msg = new Message();
+                            msg.what = 3;
+                            handler.sendMessage(msg);
+                        }
+                    }, new NetConnection.FailCallback() {
+                        @Override
+                        public void onFail(JSONObject result) {
+                            //
+                        }
+                    }, param);*/
+                } else {
                     String kvs[] = new String[]{list.get(position).getId(), userid};
                     String param = CollectStore.packagingParam(context, kvs);
                     new NetConnection(new NetConnection.SuccessCallback() {
                         @Override
                         public void onSuccess(JSONObject result) {
-                            Log.e("tag", result.toString());
                             ViewHolder tmp = holder;
 
                             Message msg = new Message();
@@ -218,7 +195,6 @@ public class PositionAdapter extends BaseAdapter {
                     }, new NetConnection.FailCallback() {
                         @Override
                         public void onFail(JSONObject result) {
-                            Log.e("tag", result.toString());
                             try {
                                 if (result.getString("status").equals("9")) {
                                     ToastUtils.showToast(context, context.getString(R.string.login_timeout), Toast.LENGTH_SHORT);
@@ -239,6 +215,7 @@ public class PositionAdapter extends BaseAdapter {
     }
 
     private ImageView[] collect;
+    private TextView[] text;
 
     private class ViewHolder {
         public ImageView img;
@@ -248,7 +225,6 @@ public class PositionAdapter extends BaseAdapter {
         public LinearLayout collect;
         public int position = 0;
         public TextView text;
-
         private ImageView s_img;
     }
 }
