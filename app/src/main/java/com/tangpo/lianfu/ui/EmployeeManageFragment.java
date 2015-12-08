@@ -294,8 +294,8 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                listView.onRefreshComplete();
                 dialog.dismiss();
+                listView.onRefreshComplete();
                 try {
                     Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {
