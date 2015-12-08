@@ -135,7 +135,7 @@
     <string name="employee_info">员工信息</string>
 
     <!-- 店铺资料 -->
-    <string name="shop_name">地面店名称</string>
+    <string name="shop_name">地面店名</string>
     <string name="shop_host">店主姓名</string>
     <string name="contact_name">联系人姓名</string>
     <string name="contact_tel">联系人手机</string>

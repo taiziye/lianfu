@@ -165,7 +165,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         int l = tmp.length();
                         if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
                         else pay.setText("" + tmp + "元");
-//                        Log.e("tag", tmp.substring(0, l-2));
                     }
 
                     if (man.getPayback() == null || man.getPayback().length() == 0)

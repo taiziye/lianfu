@@ -64,6 +64,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     private String userid = null;
     private String employeename = null;
     private String store_id = null;
+    private String store_name = "";
     private Gson gson=null;
     private UserEntity userEntity;
 
@@ -82,6 +83,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         userid=userEntity.getUser_id();
         employeename=userEntity.getName();
         store_id=userEntity.getStore_id();
+        store_name = userEntity.getStorename();
         init();
 
         fragmentManager = getFragmentManager();
@@ -232,6 +234,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     bundle.putString("userid", userid);
                     bundle.putString("employeename", employeename);
                     bundle.putString("username", userEntity.getName());
+                    bundle.putString("storename", store_name);
                     fragment = new RecordFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员

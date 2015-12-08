@@ -52,6 +52,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean f1 = false;
     private LinearLayout money;
     private boolean f2 = false;
+    private LinearLayout store;
+    private boolean f3 = false;
+    private LinearLayout profit;
+    private boolean f4 = false;
 
     private PullToRefreshListView list;
 
@@ -71,6 +75,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences preferences = null;
 
     private String store_id = null;
+    private String store_name = "";
 
     private String employeename = null;
 
@@ -95,6 +100,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             userid = bundle.getString("userid");
             employeename = bundle.getString("employeename");
             username = bundle.getString("username");
+            store_name = bundle.getString("storename");
         }
         init(view);
 
@@ -112,6 +118,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         time.setOnClickListener(this);
         money = (LinearLayout) view.findViewById(R.id.money);
         money.setOnClickListener(this);
+        store = (LinearLayout) view.findViewById(R.id.store);
+        store.setOnClickListener(this);
+        profit = (LinearLayout) view.findViewById(R.id.profit);
+        profit.setOnClickListener(this);
 
         list = (PullToRefreshListView) view.findViewById(R.id.list);
 
@@ -246,6 +256,42 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     adapter.notifyDataSetChanged();
                 }
                 break;
+            case R.id.store:
+                break;
+            case R.id.profit:
+                if(recordList.size() > 0) {
+                    if(f4) {
+                        f4 = !f4;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                float f1 = Float.parseFloat(lhs.getDiscount());
+                                float f2 = Float.parseFloat(rhs.getDiscount());
+                                Log.e("tag", "f1 = " + f1 + " f2 = " + f2);
+                                if(f1 > f2)
+                                    return 1;
+                                else
+                                    return -1;
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                float f1 = Float.parseFloat(lhs.getDiscount());
+                                float f2 = Float.parseFloat(rhs.getDiscount());
+                                Log.e("tag", "f1 = " + f1 + " f2 = " + f2);
+                                if(f1 > f2)
+                                    return -1;
+                                else
+                                    return 1;
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
         }
     }
 
@@ -278,7 +324,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     recordList = (List<EmployeeConsumeRecord>) msg.obj;
-                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid);
+                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
                     list.setAdapter(adapter);
                     break;
             }

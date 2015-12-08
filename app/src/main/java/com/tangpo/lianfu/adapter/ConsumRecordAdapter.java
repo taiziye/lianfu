@@ -44,16 +44,19 @@ public class ConsumRecordAdapter extends BaseAdapter {
     private String employeename = "";
 
     private String userid = "";
+    private String store_name = "";
 
     private boolean isEdit = false;
 
-    public ConsumRecordAdapter(List<EmployeeConsumeRecord> list, Context context, String store_id, String employeename, String userid) {
+    public ConsumRecordAdapter(List<EmployeeConsumeRecord> list, Context context,
+                               String store_id, String employeename, String userid, String store_name) {
         this.context = context;
         this.list = list;
         container = LayoutInflater.from(context);
         this.store_id = store_id;
         this.employeename = employeename;
         this.userid = userid;
+        this.store_name = store_name;
     }
 
     @Override
@@ -108,7 +111,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             }
         });
 
-        holder.shop_name.setText(list.get(position).getId());
+        holder.shop_name.setText(store_name);
         holder.user_name.setText(list.get(position).getUsername());
         holder.money.setText("消费" + list.get(position).getFee() + "元");
         holder.profit.setText("(利润" + list.get(position).getDiscount() + "元)");

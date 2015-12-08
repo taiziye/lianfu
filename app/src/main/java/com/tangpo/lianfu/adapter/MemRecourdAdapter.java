@@ -58,7 +58,7 @@ public class MemRecourdAdapter extends BaseAdapter {
             holder.money = (TextView) convertView.findViewById(R.id.money);
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.contact = (Button) convertView.findViewById(R.id.contact);
-            holder.profit = (TextView) convertView.findViewById(R.id.profit);
+            //holder.profit = (TextView) convertView.findViewById(R.id.profit);
 
             convertView.setTag(holder);
         } else {
@@ -96,7 +96,7 @@ public class MemRecourdAdapter extends BaseAdapter {
         public TextView confirm;
         public TextView money;
         public TextView time;
-        public TextView profit;
+        //public TextView profit;
         public Button contact;
     }
 }
