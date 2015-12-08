@@ -233,6 +233,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH)));
             imagePath=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
             receipt_photo=UploadImage.imgToBase64(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH));
+            Log.e("tag",receipt_photo);
         }
     }
 }
