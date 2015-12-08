@@ -201,7 +201,7 @@ public class Tools {
         boolean flag = false;
         try {
             Pattern p = Pattern
-                    .compile("^(((13|15|18|14|17)[0-9]{9})|((13|15|18|14|17)[0-9]{9})(,|,)((13|15|18|14|17)[0-9]{9}))$");
+                    .compile("^[1][3,4,5,8][0-9]{9}$");
             Matcher m = p.matcher(mobiles);
             flag = m.matches();
         } catch (Exception e) {
