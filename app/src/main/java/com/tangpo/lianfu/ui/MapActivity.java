@@ -88,12 +88,14 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         //开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
+        storeList = getArguments().getParcelableArrayList("list");
+        userid = getArguments().getString("userid");
+        vp = (ViewPagerCompat) view.findViewById(R.id.vp);
 
-        //设定初始地图中心点坐标
-        SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-        float curLatitude = preferences.getFloat(Configs.KEY_LATITUDE, (float) 30.283178);
-        float curLongitude = preferences.getFloat(Configs.KEY_LONGITUDE, (float) 120.132947);
-        LatLng cenpt = new LatLng(curLatitude, curLongitude);
+        //标注覆盖物，定义Maker坐标点
+        float lng = (float)Integer.valueOf(storeList.get(0).getLng()) / 1000000;
+        float lat = (float)Integer.valueOf(storeList.get(0).getLat()) / 1000000;
+        LatLng cenpt = new LatLng(lat, lng);
 
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(13).build();
@@ -103,12 +105,8 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //显示当前设备位置
         BitmapDescriptor mCurrentMaker = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
-        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(11);
+        OverlayOptions overlayOptions = new MarkerOptions().position(cenpt).icon(mCurrentMaker).zIndex(13);
         myOverlay=mBaiduMap.addOverlay(overlayOptions);
-
-        storeList = getArguments().getParcelableArrayList("list");
-        userid = getArguments().getString("userid");
-        vp = (ViewPagerCompat) view.findViewById(R.id.vp);
         //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         //实时交通图
@@ -143,6 +141,7 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
 
             listViews.add(viewp);
         }
+
         adapter = new ViewPageAdapter(getActivity(), listViews, userid, storeList);
 
         vp.setAdapter(adapter);
