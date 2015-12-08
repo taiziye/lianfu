@@ -75,9 +75,11 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.shop_activity);
 
         Tools.gatherActivity(this);
-        findStore=getIntent().getParcelableExtra("store");
-        store_id=findStore.getId();
-        user_id=getIntent().getExtras().getString("userid");
+        if(getIntent() != null) {
+            findStore=getIntent().getParcelableExtra("store");
+            store_id=findStore.getId();
+            user_id=getIntent().getExtras().getString("userid");
+        }
         init();
     }
 

@@ -41,6 +41,23 @@ public class FindStore implements Parcelable {
         return business;
     }
 
+    @Override
+    public String toString() {
+        return "FindStore{" +
+                "address='" + address + '\'' +
+                ", id='" + id + '\'' +
+                ", lng='" + lng + '\'' +
+                ", lat='" + lat + '\'' +
+                ", store='" + store + '\'' +
+                ", contact='" + contact + '\'' +
+                ", tel='" + tel + '\'' +
+                ", business='" + business + '\'' +
+                ", photo='" + photo + '\'' +
+                ", favorite='" + favorite + '\'' +
+                ", distance='" + distance + '\'' +
+                '}';
+    }
+
     public void setBusiness(String business) {
         this.business = business;
     }

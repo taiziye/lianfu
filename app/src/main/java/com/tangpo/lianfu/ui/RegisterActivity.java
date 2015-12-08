@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -100,6 +101,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 stopTime();
                 get_code.setText(getString(R.string.reget_check_code));
                 get_code.setClickable(true);
+                get_code.setBackgroundColor(Color.parseColor("#FF6A6A"));
                 i=60;
             }else{
                 get_code.setText(msg.obj + getString(R.string.second));
@@ -156,6 +158,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 ToastUtils.showToast(RegisterActivity.this, getString(R.string.message_send_success), Toast.LENGTH_LONG);
                 startTime();
                 get_code.setClickable(false);
+                get_code.setBackgroundColor(Color.GRAY);
             }
         }, new NetConnection.FailCallback() {
             @Override

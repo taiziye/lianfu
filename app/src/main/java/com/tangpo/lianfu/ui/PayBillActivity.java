@@ -157,6 +157,11 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             return;
         }
 
+        if(receipt_photo == null || receipt_photo.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请添加购物凭证");
+            return;
+        }
+
         String user_id=userEntity.getUser_id();
         String store_id=getIntent().getStringExtra("store_id");
         String fee=money.getText().toString();
@@ -183,6 +188,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "s " + result.toString());
                 ToastUtils.showToast(PayBillActivity.this,"请求成功！", Toast.LENGTH_SHORT);
                 PayBillActivity.this.finish();
             }
@@ -190,8 +196,26 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag", "f " + result.toString());
                 try {
                     Tools.handleResult(PayBillActivity.this, result.getString("status"));
+                    if("1".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.add_failed));
+                    } else if("2".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.format_error));
+                    } else if("9".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.login_timeout));
+                        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.remove(Configs.KEY_TOKEN);
+                        editor.commit();
+                        Intent intent = new Intent(PayBillActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else if("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), "上传小票失败");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
