@@ -13,22 +13,22 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="地面点名"
+            android:text="地面店名"
             android:layout_marginLeft="20dp"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:layout_marginLeft="20dp"
-            android:text="13246564" />
+            />
     </LinearLayout>
 
     <RelativeLayout android:id="@+id/two"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_toRightOf="@id/user_name"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:text="消费1000元"
             android:textColor="#ff0000" />
 
