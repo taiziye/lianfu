@@ -132,7 +132,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         Matcher m = null;
         boolean b = false;
         p = Pattern
-                .compile("^[1][3,4,5,8][0-9]{9}$");
+                .compile("^[1][3,4,5,7,8][0-9]{9}$");
         m = p.matcher(str);
         b = m.matches();
         return b;

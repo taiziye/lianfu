@@ -39,11 +39,11 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private TextView remainder;
     private UserEntity userEntity;
 
-    @Override
-    public void onDestroyOptionsMenu() {
-        super.onDestroyOptionsMenu();
-        Tools.closeActivity();
-    }
+//    @Override
+//    public void onDestroyOptionsMenu() {
+//        super.onDestroyOptionsMenu();
+//        Tools.closeActivity();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

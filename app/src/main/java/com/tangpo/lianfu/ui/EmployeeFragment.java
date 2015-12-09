@@ -51,7 +51,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Tools.closeActivity();
+//        Tools.closeActivity();
+        getActivity().finish();
     }
 
     @Override

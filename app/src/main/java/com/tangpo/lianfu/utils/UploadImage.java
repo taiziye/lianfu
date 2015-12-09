@@ -7,6 +7,7 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Created by shengshoubo on 2015/11/18.
@@ -31,7 +32,7 @@ public class UploadImage {
             out.flush();
             out.close();
             byte[] imgBytes = out.toByteArray();
-            return Base64.encodeToString(imgBytes, Base64.DEFAULT);
+            return URLEncoder.encode(Base64.encodeToString(imgBytes, Base64.NO_WRAP));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             return null;

@@ -59,7 +59,8 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Tools.closeActivity();
+        //Tools.closeActivity();
+        getActivity().finish();
     }
 
     @Nullable

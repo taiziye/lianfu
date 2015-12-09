@@ -14,6 +14,11 @@ public class Member implements Serializable {
     private String sex;
     private String name;
     private String phone;
+    private String bank;
+    private String bank_account;
+    private String bank_name;
+    private String register_time;
+    private String id_number;
 
     @Override
     public String toString() {
@@ -30,12 +35,6 @@ public class Member implements Serializable {
                 ", id_number='" + id_number + '\'' +
                 '}';
     }
-
-    private String bank;
-    private String bank_account;
-    private String bank_name;
-    private String register_time;
-    private String id_number;
 
     public String getSex() {
         return sex;

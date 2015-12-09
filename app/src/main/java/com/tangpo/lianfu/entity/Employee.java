@@ -9,24 +9,27 @@ import java.io.Serializable;
  * Created by 果冻 on 2015/11/9.
  */
 public class Employee implements Parcelable {
-    private String id;
+    private String user_id;
     private String rank;
-    private String zsname;
+    private String sex;
+    private String username;
+    private String name;
     private String phone;
     private String bank;
     private String bank_account;
     private String bank_name;
     private String register_time;
-    private String sex;
     private String id_number;
+    private String upgrade;
 
     @Override
     public String toString() {
         return "Employee{" +
                 "bank='" + bank + '\'' +
-                ", id='" + id + '\'' +
+                ", id='" + user_id + '\'' +
                 ", rank='" + rank + '\'' +
-                ", zsname='" + zsname + '\'' +
+                ", zsname='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", phone='" + phone + '\'' +
                 ", bank_account='" + bank_account + '\'' +
                 ", bank_name='" + bank_name + '\'' +
@@ -37,20 +40,19 @@ public class Employee implements Parcelable {
                 '}';
     }
 
-    private String upgrade;
-
-    public Employee(String bank, String bank_account, String bank_name, String id_number, String phone, String rank, String register_time, String sex, String upgrade, String id, String zsname) {
+    public Employee(String user_id, String rank, String sex, String username, String name, String phone, String bank, String bank_account, String bank_name, String register_time, String id_number, String upgrade) {
+        this.user_id = user_id;
+        this.rank = rank;
+        this.sex = sex;
+        this.username = username;
+        this.name = name;
+        this.phone = phone;
         this.bank = bank;
         this.bank_account = bank_account;
         this.bank_name = bank_name;
-        this.id_number = id_number;
-        this.phone = phone;
-        this.rank = rank;
         this.register_time = register_time;
-        this.sex = sex;
+        this.id_number = id_number;
         this.upgrade = upgrade;
-        this.id = id;
-        this.zsname = zsname;
     }
 
     public String getBank() {
@@ -130,21 +132,28 @@ public class Employee implements Parcelable {
         this.upgrade = upgrade;
     }
 
-
-    public String getId() {
-        return id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getZsname() {
-        return zsname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setZsname(String zsname) {
-        this.zsname = zsname;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Employee() {
@@ -152,9 +161,10 @@ public class Employee implements Parcelable {
     }
 
     protected Employee(Parcel in) {
-        id = in.readString();
+        user_id = in.readString();
         rank = in.readString();
-        zsname = in.readString();
+        name = in.readString();
+        username=in.readString();
         phone = in.readString();
         bank = in.readString();
         bank_account = in.readString();
@@ -184,9 +194,10 @@ public class Employee implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(user_id);
         dest.writeString(rank);
-        dest.writeString(zsname);
+        dest.writeString(name);
+        dest.writeString(username);
         dest.writeString(phone);
         dest.writeString(bank);
         dest.writeString(bank_account);

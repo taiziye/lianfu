@@ -132,7 +132,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         if (data != null) {
             if (requestCode == SELECT_MEM) {
                 mem = (Member) data.getExtras().getSerializable("user");
-                user_name.setText(mem.getUser_id());
+                user_name.setText(mem.getUsername());
                 name.setText(mem.getName());
                 contact_tel.setText(mem.getPhone());
             } else if (requestCode == SELECT_DIS) {

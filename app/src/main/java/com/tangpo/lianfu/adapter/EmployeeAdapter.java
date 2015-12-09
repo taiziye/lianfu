@@ -71,7 +71,7 @@ public class EmployeeAdapter extends BaseAdapter {
         }else {
             holder.role.setText("员");
         }*/
-        holder.role.setText(list.get(position).getZsname());
+        holder.role.setText(list.get(position).getName());
 
         return convertView;
     }

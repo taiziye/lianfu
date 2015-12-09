@@ -55,7 +55,8 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Tools.closeActivity();
+        //Tools.closeActivity();
+        getActivity().finish();
     }
 
     @Override

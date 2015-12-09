@@ -165,7 +165,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         Matcher m = null;
         boolean b = false;
         p = Pattern
-                .compile("^((13[0-9])|(15[^4,\\\\D])|(18[0,5-9]))\\\\d{8}|[0]{1}[0-9]{2,3}-[0-9]{7,8}$");
+                .compile("^[1][3,4,5,7,8][0-9]{9}$");
         m = p.matcher(str);
         b = m.matches();
         return b;

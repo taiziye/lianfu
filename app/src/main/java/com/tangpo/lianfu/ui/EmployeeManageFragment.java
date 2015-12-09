@@ -74,7 +74,8 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Tools.closeActivity();
+//        Tools.closeActivity();
+        getActivity().finish();
     }
 
     @Override
@@ -220,7 +221,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return lhs.getZsname().compareTo(rhs.getZsname());
+                                return lhs.getName().compareTo(rhs.getName());
                             }
                         });
                     } else {
@@ -228,7 +229,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return rhs.getZsname().compareTo(lhs.getZsname());
+                                return rhs.getName().compareTo(lhs.getName());
                             }
                         });
                     }

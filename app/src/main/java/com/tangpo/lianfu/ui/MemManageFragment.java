@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -70,10 +71,13 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     private int page = 1;
 
+    private ProgressDialog dialog=null;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Tools.closeActivity();
+//        Tools.closeActivity();
+        getActivity().finish();
     }
 
     @Override
@@ -298,10 +302,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(getActivity(), kvs);
         final Set<String> set = new HashSet<>();
-
+        dialog=ProgressDialog.show(getActivity(),getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 Log.e("tag", result.toString());
                 listView.onRefreshComplete();
                 try {
@@ -327,6 +332,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onFail(JSONObject result) {
                 //
+                dialog.dismiss();
                 try {
                     Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {

@@ -91,9 +91,9 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         else
             manage_level.setSelection(1);
 
-        user_name.setText(employee.getId());
+        user_name.setText(employee.getUsername());
         contact_tel.setText(employee.getPhone());
-        rel_name.setText(employee.getZsname());
+        rel_name.setText(employee.getName());
         if (employee.getSex().equals("0"))
             sex.setSelection(0);
         else
@@ -124,7 +124,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         }
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String employee_id = employee.getId();
+        String employee_id = employee.getUser_id();
         String rank = "";
         if (manage_level.getSelectedItemId() == 0) {
             rank = "0";
