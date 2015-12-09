@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +132,54 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         e.printStackTrace();
                     }
 
+                    Message msg = new Message();
+                    msg.what = 1;
+                    msg.obj = man;
+                    handler.sendMessage(msg);
+                    Configs.cacheManager(getActivity(), result.toString());
+                }
+            }, new NetConnection.FailCallback() {
+                @Override
+                public void onFail(JSONObject result) {
+                    dialog.dismiss();
+                    try {
+                        if (result.getString("status").equals("9")) {
+                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            getActivity().startActivity(intent);
+                        } else if (result.getString("status").equals("10")) {
+                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Message msg = new Message();
+                    msg.what = 2;
+                    handler.sendMessage(msg);
+                }
+            }, params);
+        } else {
+            shop_name.setText("");
+            record.setText("0");
+            mem.setText("0人");
+            pay.setText("0元");
+            pay_can.setText("0元");
+            employee.setText("0人");
+            manager.setText("0人");
+            rebate.setText("0");
+        }
+
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    man = (Manager) msg.obj;
+                    Log.e("tag", man.toString());
                     if(man.getStore_name() == null || man.getStore_name().length() == 0) {
                         shop_name.setText("");
                     } else {
@@ -181,25 +232,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         if (l>2) rebate.setText(tmp.substring(0, l - 2) + "元");
                         else rebate.setText(0 + "元");
                     }
-
-                    Configs.cacheManager(getActivity(), result.toString());
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        if (result.getString("status").equals("9")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                        } else if (result.getString("status").equals("10")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    break;
+                case 2:
                     shop_name.setText("");
                     record.setText("0");
                     mem.setText("0人");
@@ -208,20 +242,10 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     employee.setText("0人");
                     manager.setText("0人");
                     rebate.setText("0");
-                }
-            }, params);
-        } else {
-            shop_name.setText("");
-            record.setText("0");
-            mem.setText("0人");
-            pay.setText("0元");
-            pay_can.setText("0元");
-            employee.setText("0人");
-            manager.setText("0人");
-            rebate.setText("0");
+                    break;
+            }
         }
-
-    }
+    };
 
     @Override
     public void onClick(View v) {
