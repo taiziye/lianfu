@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -22,7 +21,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ComputeProfitAdapter;
-import com.tangpo.lianfu.entity.Profit;
 import com.tangpo.lianfu.entity.ProfitPay;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ProfitPayRecord;
@@ -331,7 +329,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private void getProfitPay() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -349,7 +346,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         JSONObject object = jsonArray.getJSONObject(i);
                         ProfitPay profitPay = gson.fromJson(object.toString(), ProfitPay.class);
                         list.add(profitPay);
-                        Log.e("tag", "OfflineProfitPay" + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -366,7 +362,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             @Override
             public void onFail(JSONObject result) {
                 listView.onRefreshComplete();
-                Log.e("tag", "fail " + result.toString());
                 try {
                     Tools.handleResult(OfflineProfitPayActivity.this, result.getString("status"));
                 } catch (JSONException e) {

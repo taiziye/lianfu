@@ -2,9 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -62,7 +60,6 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
         Tools.gatherActivity(this);
         member = (Member) getIntent().getExtras().getSerializable("member");
         userid=getIntent().getExtras().getString("userid");
-        Log.e("tag",userid);
         init();
     }
 
@@ -102,7 +99,6 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.edit:
-                dialog=ProgressDialog.show(MemberInfoActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
                 editMember();
                 break;
             case R.id.send:
@@ -112,19 +108,21 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
 
     private void editMember(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
+        if (user_name.getText().toString().length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写用户名");
+            return;
+        }
 
+        dialog=ProgressDialog.show(MemberInfoActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         String kvs[] = new String []{userid,member.getUser_id(), user_name.getText().toString(),
         password,rel_name.getText().toString(),contact_tel.getText().toString(),id_card.getText().toString(),
         member.getSex(),"","","","",bank_card.getText().toString(),bank_name.getText().toString(),
                 bank.getText().toString(),""
         };
-
         String params= EditMember.packagingParam(MemberInfoActivity.this,kvs);
-
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {

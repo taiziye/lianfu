@@ -102,7 +102,6 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
             String params = HomePage.packagingParam(getActivity(), kvs);
 
             if(!Tools.checkLAN()) {
-                Log.e("tag", "check");
                 Tools.showToast(getActivity(), "网络未连接，请联网后重试");
                 return;
             }
@@ -124,18 +123,18 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     } else {
                         shop_name.setText(manager.getStore_name());
                     }
-                    if (manager.getIncome() == null)
+                    if (manager.getIncome() == null || manager.getIncome().length() == 0)
                         record.setText("0人");
                     else
                         record.setText("" + manager.getIncome() + "人");
 
-                    if (manager.getMem_num() == null)
+                    if (manager.getMem_num() == null || manager.getMem_num().length() == 0)
                         mem.setText("0人");
                     else
                         mem.setText("" + manager.getMem_num() + "人");
 
-                    if (manager.getProfit() == null)
-                        profit.setText("0");
+                    if (manager.getProfit() == null || manager.getIncome().length() == 0)
+                        profit.setText("0元");
                     else {
                         String tmp = manager.getIncome();
                         int l = tmp.length();
@@ -143,7 +142,7 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                         else profit.setText(tmp + "元");
                     }
 
-                    if (manager.getPayback() == null)
+                    if (manager.getPayback() == null || manager.getNeed_pay().length() == 0)
                         profit_can.setText("0元");
                     else {
                         String tmp = manager.getNeed_pay();

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -151,7 +149,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("tag", "OnItemClickListener" + list.get(position - 1).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position - 1));
                 intent.putExtra("userid",userid);
@@ -328,7 +325,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         if (data != null) {
             if (requestCode == REQUEST_CODE) {
                 Member member = (Member) data.getExtras().getSerializable("member");
-                Log.e("tag", "add");
                 list.add(0, member);
                 adapter.notifyDataSetChanged();
                 Set<String> set = new HashSet<>();

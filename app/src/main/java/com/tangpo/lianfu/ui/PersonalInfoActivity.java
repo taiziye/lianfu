@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -114,31 +113,33 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     private void updatePersonalInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String user_id = user_name.getText().toString();
-        String phone = contact_tel.getText().toString();
-        String name = rel_name.getText().toString();
-        String id_number = id_card.getText().toString();
-        String bankStr = bank.getText().toString();
-        String bank_account = bank_card.getText().toString();
-        String bank_nameStr = bank_name.getText().toString();
+        String user_id = user_name.getText().toString().length() == 0 ? user.getName() : user_name.getText().toString();
+        String phone = contact_tel.getText().toString().length() == 0 ? user.getPhone() : contact_tel.getText().toString();
+        String name = rel_name.getText().toString().length() == 0 ? user.getBank_name() : rel_name.getText().toString();
+        String id_number = id_card.getText().toString().length() == 0 ? user.getId_number() : id_card.getText().toString();
+        String bankStr = bank.getText().toString().length() == 0 ? user.getBank() : bank.getText().toString();
+        String bank_account = bank_card.getText().toString().length() == 0 ? user.getBank_account() : bank_card.getText().toString();
+        String bank_nameStr = bank_name.getText().toString().length() == 0 ? user.getBank_name() : bank_name.getText().toString();
+
+        if (!Tools.isMobileNum(phone)) {
+            Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
+            return;
+        }
 
         String kvs[] = new String[]{user_id, name, id_number, phone, "", "", "", user.getSex(),
                 user.getBirth(), user.getQq(), user.getEmail(), user.getAddress(), bank_account,
                 bank_nameStr, bankStr, user.getBank_address()};
-
         String param = EditMaterial.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 //Tools.showToast(getString(R.string.update_success));
                 ToastUtils.showToast(PersonalInfoActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT);
                 PersonalInfoActivity.this.finish();
@@ -147,7 +148,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 try {
                     Tools.handleResult(PersonalInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {

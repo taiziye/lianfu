@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,6 +18,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.CancelCollectedStore;
 import com.tangpo.lianfu.parms.CollectStore;
 import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.utils.ToastUtils;
@@ -56,6 +56,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private String store_id=null;
     private String user_id=null;
+    private String favorite = "";
     private Store store=null;
     private FindStore findStore=null;
     private ProgressDialog dialog=null;
@@ -79,6 +80,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             findStore=getIntent().getParcelableExtra("store");
             store_id=findStore.getId();
             user_id=getIntent().getExtras().getString("userid");
+            favorite = getIntent().getStringExtra("favorite");
         }
         init();
     }
@@ -120,9 +122,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         qq = (TextView) findViewById(R.id.qq);
         email = (TextView) findViewById(R.id.email);
         commodity = (TextView) findViewById(R.id.commodity);
-
+        if(favorite.equals("1")) {
+            collect.setBackgroundResource(R.drawable.s_collect_r);
+        } else {
+            collect.setBackgroundResource(R.drawable.s_collect);
+        }
         getStoreInfo();
-
     }
 
     @Override
@@ -132,7 +137,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.collect:
-                collectStore();
+                if(favorite.equals("1")) {
+                    cancelCollect();
+                } else {
+                    collectStore();
+                }
+
                 break;
             case R.id.locate:
                 Intent intent=new Intent(ShopActivity.this,StoreLocationActivity.class);
@@ -155,7 +165,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -169,53 +178,8 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "store " + result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
-                    detail_address.setText(store.getAddress());
-                    tel.setText(store.getTel());
-                    qq.setText("");
-                    email.setText("");
-                    commodity.setText(store.getBusiness());
-                    /**
-                     * 需要修改的：地图定位，加载图片
-                     */
-                    Log.e("tag", "photo = " + store.getPhoto());
-                    String tmp[] = store.getPhoto().split("\\,");
-                    Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
-
-                    if (tmp.length>0){
-                        img1.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                    }
-                    if(tmp.length>1){
-                        img2.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                    }
-                    if(tmp.length>2){
-                        img3.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                    }
-                    if(tmp.length>3){
-                        img4.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                    }
-                    if(tmp.length>4){
-                        img5.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
-                    }
-                    if(tmp.length>5){
-                        img6.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
-                    }
-                    if(tmp.length>6){
-                        img7.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
-                    }
-                    if(tmp.length>7){
-                        img8.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[7], img8);
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -224,12 +188,16 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     Tools.showToast(getApplicationContext(), "该店铺不存在");
                     ShopActivity.this.finish();
                 }
+
+                Message msg = new Message();
+                msg.what = 3;
+                msg.obj = store;
+                handler.sendMessage(msg);
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "store_fail " + result.toString());
                 try {
                     Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
@@ -249,14 +217,92 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what == 1){
-                collect.setImageResource(R.drawable.s_collect_r);
+                favorite = "1";
+                collect.setBackgroundResource(R.drawable.s_collect_r);
+            }else if (msg.what == 2) {
+                favorite = "0";
+                collect.setBackgroundResource(R.drawable.s_collect);
+            } else if (msg.what == 3) {
+                store = (Store) msg.obj;
+                detail_address.setText(store.getAddress());
+                tel.setText(store.getTel());
+                qq.setText("");
+                email.setText("");
+                commodity.setText(store.getBusiness());
+                /**
+                 * 需要修改的：地图定位，加载图片
+                 */
+                String tmp[] = store.getPhoto().split("\\,");
+                Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
+
+                if (tmp.length>0){
+                    img1.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                }
+                if(tmp.length>1){
+                    img2.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                }
+                if(tmp.length>2){
+                    img3.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                }
+                if(tmp.length>3){
+                    img4.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                }
+                if(tmp.length>4){
+                    img5.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                }
+                if(tmp.length>5){
+                    img6.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[5], img6);
+                }
+                if(tmp.length>6){
+                    img7.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[6], img7);
+                }
+                if(tmp.length>7){
+                    img8.setVisibility(View.VISIBLE);
+                    Tools.setPhoto(ShopActivity.this, tmp[7], img8);
+                }
             }
         }
     };
 
+    private void cancelCollect() {
+        String kvs[]=new String[]{store_id,user_id};
+        String params= CancelCollectedStore.packagingParam(getApplicationContext(), kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ToastUtils.showToast(getApplicationContext(),getString(R.string.request_success),Toast.LENGTH_SHORT);
+                Message msg = new Message();
+                msg.what = 2;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(getApplicationContext(),getString(R.string.operate_fail),Toast.LENGTH_SHORT);
+                    }else if(status.equals("9")){
+                        ToastUtils.showToast(getApplicationContext(),getString(R.string.login_timeout),Toast.LENGTH_SHORT);
+                    }else{
+                        ToastUtils.showToast(getApplicationContext(),getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
+    }
+
     private void collectStore(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -279,7 +325,11 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(ShopActivity.this, result.getString("status"));
+                    if(result.getString("status").equals("300")) {
+                        Tools.showToast(getApplicationContext(), "已收藏过该店铺");
+                    } else {
+                        Tools.handleResult(ShopActivity.this, result.getString("status"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

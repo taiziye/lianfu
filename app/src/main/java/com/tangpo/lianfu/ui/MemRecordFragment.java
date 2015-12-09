@@ -59,7 +59,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = getArguments();
         if (bundle != null) {
             user_id = bundle.getString("userid");
-            Log.e("tag", "userid=" + user_id);
         }
         init(view);
         return view;
@@ -181,7 +180,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
-                Log.e("tag", "list = " + list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
             }
@@ -190,20 +188,17 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
     private void getConsumeRecord() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-
         String kvs[] = new String[]{user_id, "10", page + ""};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", "tag = " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
@@ -226,7 +221,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Log.e("tag", "fail " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {

@@ -1,12 +1,6 @@
 package com.tangpo.lianfu.ui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -17,18 +11,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.utils.Tools;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class SelectPicActivity extends Activity implements OnClickListener {
 
@@ -169,7 +166,6 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 //options.inJustDecodeBounds = false;
 
                 if(bitmap1 == null) {
-                    Log.e("TAG", "NULL");
                 }
 
                 if (bitmap1 != null) {
@@ -198,8 +194,6 @@ public class SelectPicActivity extends Activity implements OnClickListener {
         // 返回头像图片的地址
         lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
         lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
-        Log.e("tag","picPath:" + picPath);
-        Log.e("tag","SmallpicPath:"+SmallpicPath);
         setResult(Activity.RESULT_OK, lastIntent);
         finish();
     }
@@ -233,13 +227,11 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 // PictureUtil.deleteTempFile(picpath);
 
             } catch (Exception e) {
-                Log.e("TAG", "error", e);
             }
 
         } else {
             // Toast.makeText(this, "请先点击拍照按钮拍摄照片", Toast.LENGTH_SHORT).show();
         }
-        Log.e("TAG", "PICPATH2    " + path);
 
         return path;
     }

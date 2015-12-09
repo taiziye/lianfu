@@ -53,22 +53,18 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         View view = inflater.inflate(R.layout.employee_fragment, container, false);
 
         init(view);
-        Log.e("tag", "EmployeeFragment");
         return view;
     }
 
     private void init(View view) {
         gson = new Gson();
-
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
         login_out = (Button) view.findViewById(R.id.login_out);
         login_out.setOnClickListener(this);
-
         img = (CircularImage) view.findViewById(R.id.img);
-
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
         user_name = (TextView) view.findViewById(R.id.user_name);
@@ -76,7 +72,6 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         personal_info.setOnClickListener(this);
         modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
-
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
         String str = preferences.getString(Configs.KEY_USER, "0");
         try {
@@ -86,11 +81,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
 
-        /**
-         * 获取头像
-         */
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
-
         user_name.setText("");
         power.setText("员工");
         name.setText(user.getName());
