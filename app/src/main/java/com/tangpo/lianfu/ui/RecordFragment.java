@@ -333,11 +333,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private void getConsumeRecord() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
@@ -352,6 +350,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         String kvs[] = new String[]{userid, store_id, "", "", "0", page+"","10"};
         String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
+        Log.e("tag", "record");
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {

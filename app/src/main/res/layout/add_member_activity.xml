@@ -352,13 +352,14 @@
             <Button
                 android:id="@+id/commit"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
                 android:textSize="15sp"
                 android:textColor="@android:color/white"
+                android:layout_marginBottom="30dp"
                 android:text="@string/submit" />
         </LinearLayout>
     </ScrollView>

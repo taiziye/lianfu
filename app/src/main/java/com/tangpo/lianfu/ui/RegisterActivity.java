@@ -127,23 +127,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
     public void stopTime(){
         timer.cancel();
     }
-    private boolean isMobile(String str) {
-        Pattern p = null;
-        Matcher m = null;
-        boolean b = false;
-        p = Pattern
-                .compile("^[1][3,4,5,7,8][0-9]{9}$");
-        m = p.matcher(str);
-        b = m.matches();
-        return b;
-    }
 
     private void getCode() {
         String phone = phone_Num.getText().toString();
         if (phone.equals("")) {
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
-        } else if(!isMobile(phone)) {
+        } else if(!Tools.isMobileNum(phone)) {
             ToastUtils.showToast(RegisterActivity.this, "电话号码不存在", Toast.LENGTH_LONG);
             return;
         }

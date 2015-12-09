@@ -117,7 +117,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         //初始化控件，填充数据
         if (bundle != null) {
             if(!Tools.checkLAN()) {
-                Log.e("tag", "check");
                 Tools.showToast(getActivity(), "网络未连接，请联网后重试");
                 return;
             }
@@ -127,21 +126,17 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             store_id = bundle.getString("storeid");
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
-
-            Log.e("tag", "userid " + userid + "storeid " + store_id);
-
+            Log.e("tag", "manageHome");
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
                     dialog.dismiss();
-
                     try {
                         JSONObject object = result.getJSONObject("param");
                         man = mGson.fromJson(object.toString(), Manager.class);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.e("tag", man.toString());
 
                     if(man.getStore_name() == null || man.getStore_name().length() == 0) {
                         shop_name.setText("");
@@ -165,7 +160,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getIncome();
                         int l = tmp.length();
                         if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
-                        else pay.setText("" + tmp + "元");
+                        else pay.setText("" + 0 + "元");
                     }
 
                     if (man.getPayback() == null || man.getPayback().length() == 0)
@@ -174,7 +169,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getNeed_pay();
                         int l = tmp.length();
                         if (l>2) pay_can.setText("" + tmp.substring(0, l-2) + "元");
-                        else pay_can.setText("" + tmp + "元");
+                        else pay_can.setText("" + 0 + "元");
                     }
 
                     if (man.getAdmin_num() == null || man.getAdmin_num().length() == 0)
@@ -193,7 +188,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getPayback();
                         int l = tmp.length();
                         if (l>2) rebate.setText(tmp.substring(0, l - 2) + "元");
-                        else rebate.setText(tmp + "元");
+                        else rebate.setText(0 + "元");
                     }
 
                     Configs.cacheManager(getActivity(), result.toString());

@@ -198,16 +198,14 @@ public class Tools {
      * @return
      */
     public static boolean isMobileNum(String mobiles) {
-        boolean flag = false;
-        try {
-            Pattern p = Pattern
-                    .compile("^[1][3,4,5,8][0-9]{9}$");
-            Matcher m = p.matcher(mobiles);
-            flag = m.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
+        Pattern p = null;
+        Matcher m = null;
+        boolean b = false;
+        p = Pattern
+                .compile("^[1][3,4,5,8][0-9]{9}$");
+        m = p.matcher(mobiles);
+        b = m.matches();
+        return b;
     }
 
     /**
