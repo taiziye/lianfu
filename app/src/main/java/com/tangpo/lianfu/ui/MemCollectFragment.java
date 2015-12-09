@@ -55,13 +55,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     private Gson gson = null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_collect_fragment, container, false);
 

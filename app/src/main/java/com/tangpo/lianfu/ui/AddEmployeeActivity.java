@@ -2,10 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -17,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
 import com.tangpo.lianfu.utils.MD5Tool;
@@ -38,37 +33,32 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private Button back;
     private Button commit;
-
     private Spinner manage_level;
     private TextView bank;
     private TextView select_level;
     private TextView select_bank;
-
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
     private EditText id_card;
     private EditText bank_card;
     private EditText bank_name;
-
     private Spinner spinner = null;
     private List<String> list = null;
     private ArrayAdapter<String> adapter = null;
 
     private String userid = null;
-
     private ProgressDialog dialog = null;
-
-    String rank = null;
-    String username = null;
-    String phone = null;
-    String pw = null;
-    String name = null;
-    String id_num = null;
-    String bankStr = null;
-    String bank_account = null;
-    String bank_nameStr = null;
-    String sex = null;
+    private String rank = null;
+    private String username = null;
+    private String phone = null;
+    private String pw = null;
+    private String name = null;
+    private String id_num = null;
+    private String bankStr = null;
+    private String bank_account = null;
+    private String bank_nameStr = null;
+    private String sex = null;
 
     @Override
     protected void onDestroy() {
@@ -83,7 +73,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_employee_activity);
         userid = getIntent().getExtras().getString("userid");
-
         Tools.gatherActivity(this);
         init();
     }
@@ -136,7 +125,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         list.add("男");
         list.add("女");
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,7 +136,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 }
                 view.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 parent.setVisibility(View.VISIBLE);
@@ -180,14 +167,11 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private void addEmployee() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
-//        rank = manage_level.getText().toString();
+        //rank = manage_level.getText().toString();
         rank = "0";
         username = user_name.getText().toString();
         phone = contact_tel.getText().toString();
@@ -198,17 +182,41 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         bank_account = bank_card.getText().toString();
         bank_nameStr = bank_name.getText().toString();
 
+        if(username.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写用户名");
+            return;
+        }
+        if(!Tools.isMobileNum(phone)) {
+            Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
+            return;
+        }
+        if(name.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写姓名");
+            return;
+        }
+        if(id_num.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写身份证号码");
+            return;
+        }
+        if(bank_account.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写银行账户");
+            return;
+        }
+        if(bank_nameStr.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写银行名称");
+            return;
+        }
+
 //        final Employee employee=new Employee()
         /**
          * 需要修改   2015-11-14 shengshoubo已修改
          */
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{userid, rank, username, pw, name, "BNZZ", phone, sex, id_num, bank_account, bank_nameStr};
         String params = AddEmployee.packagingParam(AddEmployeeActivity.this, kvs);
-        Log.e("tag", "phone " + params.toString());
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT);
                 AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
@@ -217,7 +225,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 try {
                     if("300".equals(result.getString("status"))) {

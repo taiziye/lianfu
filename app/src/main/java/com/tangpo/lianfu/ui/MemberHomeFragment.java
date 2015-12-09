@@ -67,13 +67,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private SharedPreferences preferences=null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.member_home_fragment, container, false);
         bundle = getArguments();

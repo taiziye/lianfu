@@ -98,7 +98,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             fragment.setArguments(bundle);
         }
 
-        transaction.replace(R.id.frame, fragment);
+        transaction.add(R.id.frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -314,6 +314,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         transaction.replace(R.id.frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Tools.closeActivity();
     }
 
     @Override

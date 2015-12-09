@@ -66,13 +66,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private UserEntity userEntity=null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_manage_fragment, container, false);
 

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -144,23 +143,22 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
     private void commitConsume() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        if(mem == null) {
+            Tools.showToast(this, "请选择消费用户");
+            return;
+        }
+
+        if(dis == null) {
+            Tools.showToast(this, "请选择折扣");
             return;
         }
 
         if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
             Tools.showToast(this, "请填写正确的消费金额");
-            return;
-        }
-
-        if(user_name.getText().toString().length() == 0) {
-            Tools.showToast(this, "请选择消费用户");
-            return;
-        }
-
-        if(discount.getText().toString().length() == 0) {
-            Tools.showToast(this, "请选择折扣");
             return;
         }
 
@@ -175,7 +173,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
         record.setPay_status("1");
         record.setPay_date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date()));
 
-        Log.e("tag","storeid_add " + user.getStore_id());
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
@@ -183,19 +180,16 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "AddConsumeActivity s " + result.toString());
                 Tools.showToast(AddConsumeActivity.this, getString(R.string.add_success));
                 Intent intent = new Intent();
                 intent.putExtra("record", record);
                 setResult(RESULT_OK, intent);
-
                 AddConsumeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "AddConsumeActivity f " + result.toString());
                 try {
                     if("1".equals(result.getString("status"))) {
                         Tools.showToast(getApplicationContext(), getString(R.string.add_failed));

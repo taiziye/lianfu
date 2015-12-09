@@ -53,12 +53,6 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().finish();
-    }
-
     private void init(View view) {
 
         userEntity= (UserEntity) getArguments().getSerializable("user");

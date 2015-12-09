@@ -56,13 +56,6 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private String userid=null;
     private SharedPreferences preferences=null;
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Tools.closeActivity();
-        getActivity().finish();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -53,13 +53,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog dialog = null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_record_fragment, container, false);
 
