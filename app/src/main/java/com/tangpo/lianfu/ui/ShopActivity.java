@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -155,7 +154,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -169,7 +167,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "store " + result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     detail_address.setText(store.getAddress());
@@ -180,7 +177,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     /**
                      * 需要修改的：地图定位，加载图片
                      */
-                    Log.e("tag", "photo = " + store.getPhoto());
                     String tmp[] = store.getPhoto().split("\\,");
                     Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
 
@@ -229,7 +225,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "store_fail " + result.toString());
                 try {
                     Tools.handleResult(ShopActivity.this, result.getString("status"));
                 } catch (JSONException e) {
@@ -256,7 +251,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private void collectStore(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }

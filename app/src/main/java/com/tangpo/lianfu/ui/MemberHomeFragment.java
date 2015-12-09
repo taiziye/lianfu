@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -27,7 +25,6 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -127,12 +124,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.locate:
                 break;
             case R.id.map:
-                /*Intent intent = new Intent(getActivity(), MapActivity.class);
-                Log.e("tag", storeList.size() + " " + storeList.getClass());
-                Bundle bundle=new Bundle();
-                bundle.putParcelableArrayList("list",storeList);
-                intent.putExtras(bundle);
-                startActivity(intent);*/
                 Fragment fragment = new MapActivity();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
@@ -155,9 +146,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             switch (msg.what) {
                 case 1:
                     ArrayList<FindStore> list = (ArrayList<FindStore>) msg.obj;
-
-                    Log.e("tag", "tag = " + list.get(0).getAddress());
-                    Log.e("tag", storeList.size() + "size");
                     adapter = new PositionAdapter(getActivity(), list, v);
                     listView.setAdapter(adapter);
                     break;
@@ -170,7 +158,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private void getStores() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
@@ -220,7 +207,6 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private void getCollectedStore(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }

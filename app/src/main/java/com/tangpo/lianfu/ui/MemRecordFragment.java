@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = getArguments();
         if (bundle != null) {
             user_id = bundle.getString("userid");
-            Log.e("tag", "userid=" + user_id);
         }
         init(view);
         return view;
@@ -188,7 +186,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
-                Log.e("tag", "list = " + list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
             }
@@ -197,7 +194,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
     private void getConsumeRecord() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
@@ -210,7 +206,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", "tag = " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
@@ -233,7 +228,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Log.e("tag", "fail " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {

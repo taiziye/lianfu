@@ -2,10 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -17,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
 import com.tangpo.lianfu.utils.MD5Tool;
@@ -180,7 +175,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private void addEmployee() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -204,11 +198,9 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
          */
         String kvs[] = new String[]{userid, rank, username, pw, name, "BNZZ", phone, sex, id_num, bank_account, bank_nameStr};
         String params = AddEmployee.packagingParam(AddEmployeeActivity.this, kvs);
-        Log.e("tag", "phone " + params.toString());
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT);
                 AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
@@ -217,7 +209,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                Log.e("tag", "addemployee " + result.toString());
                 dialog.dismiss();
                 try {
                     if("300".equals(result.getString("status"))) {

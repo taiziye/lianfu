@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -131,7 +130,6 @@ public class RepayActivity extends Activity implements View.OnClickListener {
             switch (msg.what){
                 case 1:
                     list = (List<Repay>) msg.obj;
-                    Log.e("tag", "Repaylist " + list.size());
                     adapter = new RepayAdapter(RepayActivity.this, list);
                     listView.setAdapter(adapter);
             }
@@ -140,7 +138,6 @@ public class RepayActivity extends Activity implements View.OnClickListener {
 
     private void getRepayList(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -159,7 +156,6 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Repay repay = gson.fromJson(object.toString(), Repay.class);
                         list.add(repay);
-                        Log.e("tag", "Repay" + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

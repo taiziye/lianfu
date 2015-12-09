@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -242,7 +241,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 break;
             case R.id.next:
                 if(!Tools.checkLAN()) {
-                    Log.e("tag", "check");
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }
@@ -250,7 +248,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 break;
             case R.id.get_code:
                 if(!Tools.checkLAN()) {
-                    Log.e("tag", "check");
                     Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
                     return;
                 }

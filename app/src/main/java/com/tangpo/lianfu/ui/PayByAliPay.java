@@ -1,26 +1,15 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
-
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +27,13 @@ import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 
 
 public class PayByAliPay extends FragmentActivity {
@@ -157,7 +153,6 @@ public class PayByAliPay extends FragmentActivity {
      *
      */
     private void pay() {
-        Log.e("tag",isExistAccount+"");
         if(isExistAccount==false)return;
         if (TextUtils.isEmpty(Key.PARTNER) || TextUtils.isEmpty(Key.RSA_PRIVATE)
                 || TextUtils.isEmpty(Key.SELLER)) {
@@ -339,7 +334,6 @@ public class PayByAliPay extends FragmentActivity {
 
     private void ProfitAccount() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -376,7 +370,6 @@ public class PayByAliPay extends FragmentActivity {
     private void payBill(){
 
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }

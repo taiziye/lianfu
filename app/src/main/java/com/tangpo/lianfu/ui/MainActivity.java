@@ -23,7 +23,6 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.utils.LogUtil;
-import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.QQ.AppConstants;
@@ -137,7 +136,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void login() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -168,7 +166,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 try {
-                    Log.e("tag", "tag " + result.toString());
                     JSONObject jsonObject = result.getJSONObject("param");
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
@@ -304,7 +301,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             //从这里获取用户输入的 电话号码信息
             String  uid =  mAccessToken.getUid();
-            Log.e("tag",uid);
             if (mAccessToken.isSessionValid()) {
                 // 显示 Token
                 //updateTokenView(false);
@@ -465,7 +461,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
                 try {
-                    Log.e("tag", "tag " + result.toString());
                     JSONObject jsonObject = result.getJSONObject("param");
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);

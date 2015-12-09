@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +116,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         //初始化控件，填充数据
         if (bundle != null) {
             if(!Tools.checkLAN()) {
-                Log.e("tag", "check");
                 Tools.showToast(getActivity(), "网络未连接，请联网后重试");
                 return;
             }
@@ -128,7 +126,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
-            Log.e("tag", "userid " + userid + "storeid " + store_id);
 
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
@@ -141,7 +138,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.e("tag", man.toString());
 
                     if(man.getStore_name() == null || man.getStore_name().length() == 0) {
                         shop_name.setText("");

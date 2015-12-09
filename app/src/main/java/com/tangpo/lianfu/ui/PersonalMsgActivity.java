@@ -3,13 +3,9 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,14 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.RegisterMember;
 import com.tangpo.lianfu.utils.Escape;
-import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -96,7 +89,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
 
     private void postPersonalInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -131,7 +123,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "PersonalMsgActivity s " + result.toString());
                 System.out.println(result.toString());
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
 
@@ -153,7 +144,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "PersonalMsgActivity f " + result.toString());
                 try {
                     //Tools.handleResult(PersonalMsgActivity.this, result.getString("status"));
                     if("300".equals(result.getString("status"))) {

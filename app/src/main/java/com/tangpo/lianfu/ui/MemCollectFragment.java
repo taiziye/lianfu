@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
 import com.tangpo.lianfu.entity.FindStore;
-import com.tangpo.lianfu.entity.MemRecord;
-import com.tangpo.lianfu.entity.MemberCollect;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckCollectedStore;
 import com.tangpo.lianfu.utils.Tools;
@@ -90,7 +87,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("tag", "index " + position);
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
                 intent.putExtra("store",list.get(position-1));
                 intent.putExtra("userid",userid);
@@ -117,7 +113,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<FindStore>) msg.obj;
-                Log.e("tag", "size " + list.size());
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
             }
@@ -126,7 +121,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private void getCollectStore() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
@@ -138,7 +132,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", "collect " + result.toString());
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
@@ -146,7 +139,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         FindStore store = gson.fromJson(object.toString(), FindStore.class);
-                        Log.e("tag", "collect " + store.toString());
                         list.add(store);
                     }
                 } catch (JSONException e) {

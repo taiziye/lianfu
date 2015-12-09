@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +108,6 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
             String params = HomePage.packagingParam(getActivity(), kvs);
 
             if(!Tools.checkLAN()) {
-                Log.e("tag", "check");
                 Tools.showToast(getActivity(), "网络未连接，请联网后重试");
                 return;
             }

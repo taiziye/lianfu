@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -114,7 +113,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     private void updatePersonalInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -138,7 +136,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 //Tools.showToast(getString(R.string.update_success));
                 ToastUtils.showToast(PersonalInfoActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT);
                 PersonalInfoActivity.this.finish();
@@ -147,7 +144,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 try {
                     Tools.handleResult(PersonalInfoActivity.this, result.getString("status"));
                 } catch (JSONException e) {

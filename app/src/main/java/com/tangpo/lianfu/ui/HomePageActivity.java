@@ -308,7 +308,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 if (userType.equals("3") || userType.equals("4")) { //管理员
                     fragment = new ManagerFragment();
                 } else if (userType.equals("2")) {  //员工
-                    Log.e("tag", "tag = EmployeeFragment");
                     fragment = new EmployeeFragment();
                 } else {  //会员
                     one_i.setImageResource(R.drawable.map_locate);
@@ -329,7 +328,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
     private void getMember() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -341,7 +339,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -362,7 +359,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("tag", result.toString());
             }
         }, param);
     }
@@ -370,9 +366,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("tag", "tag ++++++++++++" + requestCode + " " + resultCode);
         if (data != null) {
-            Log.e("tag", "tag----------");
             switch (requestCode) {
                 case MemManageFragment.REQUEST_CODE:
                 case MemManageFragment.REQUEST_EDIT:
@@ -388,7 +382,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     break;
                 case RecordFragment.REQUEST_CODE:
                 case RecordFragment.REQUEST_EDIT:
-                    Log.e("tag", "tag =============");
                     fragmentManager = getFragmentManager();
                     transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);

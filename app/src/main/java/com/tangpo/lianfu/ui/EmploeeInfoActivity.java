@@ -3,7 +3,6 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -63,7 +62,6 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         employee = getIntent().getExtras().getParcelable("employee");
         userid = getIntent().getStringExtra("userid");
 
-        Log.e("tag", "id = " + employee.toString());
         init();
     }
 
@@ -82,9 +80,6 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         bank = (EditText) findViewById(R.id.bank);
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
-
-        Log.e("tag", employee.getRank() + " ");
-        Log.e("tag", employee.toString());
 
         if (employee.getRank().equals("管理员"))
             manage_level.setSelection(0);
@@ -118,7 +113,6 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
 
     private void updateEmployee() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -145,7 +139,6 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             sexStr = "1";
         }
 
-        Log.e("tag", "id == " + employee.toString());
 
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
                 upgrade,phone,bank_account, bankStr, sexStr};

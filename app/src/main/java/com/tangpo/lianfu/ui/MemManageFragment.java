@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -168,7 +166,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("tag", "OnItemClickListener" + list.get(position - 1).toString());
                 Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position - 1));
                 intent.putExtra("userid",userid);
@@ -294,7 +291,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     private void getMembers() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
@@ -307,7 +303,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");

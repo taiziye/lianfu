@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.ConsumeRecord;
 import com.tangpo.lianfu.parms.EditConsumeRecord;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -166,7 +164,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
 
     private void editConsumeRecord(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -189,7 +186,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "ConsumeRecordActivity s " + result.toString());
                 ToastUtils.showToast(ConsumeRecordActivity.this, getString(R.string.edit_success), Toast.LENGTH_SHORT);
                 Intent intent = new Intent();
                 intent.putExtra("record", record);
@@ -200,7 +196,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "ConsumeRecordActivity s " + result.toString());
                 try {
                     String status=result.getString("status");
                     if(status.equals("9")){

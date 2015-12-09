@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -116,32 +115,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 adapter.notifyDataSetChanged();
             }
         });
-
-        /*listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = 1;
-                list.clear();
-                getDiscount();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page = page + 1;
-                getDiscount();
-            }
-        });*/
-
         getDiscount();
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                intent.putExtra("discount", list.get(position));
-                setResult(RESULT_OK, intent);
-            }
-        });*/
     }
 
     @Override
@@ -176,7 +151,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     list = (ArrayList<Discount>) msg.obj;
-                    Log.e("tag", "list" + list.size());
                     adapter = new DiscountAdapter(DiscountActivity.this, list);
                     listView.setAdapter(adapter);
                     break;
@@ -197,7 +171,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private void deleteDiscount() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -232,7 +205,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private void getDiscount() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }

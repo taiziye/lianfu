@@ -3,10 +3,8 @@ package com.tangpo.lianfu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -18,12 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddMember;
 import com.tangpo.lianfu.utils.Escape;
-import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -32,8 +28,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by 果冻 on 2015/11/7.
@@ -142,7 +136,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             case R.id.select_bank:
                 break;
             case R.id.admit:
-                Log.e("tag", admit.isChecked() + "");
                 if (admit.isChecked()) {
                     admit.setChecked(true);
                     commit.setClickable(true);
@@ -157,7 +150,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     }
     private void addMember() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -195,13 +187,11 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};
         String param = AddMember.packagingParam(this, kvs);
         final Member member = new Member(bank, bank_account, bank_name, user_id, phone, register_time,userid, username,   sexStr);
-        Log.e("tag", member.toString());
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Log.e("tag", result.toString());
                 dialog.dismiss();
                 Tools.showToast(AddMemberActivity.this, getString(R.string.success));
                 Intent intent = new Intent();
@@ -213,7 +203,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", result.toString());
                 try {
                     if("300".equals(result.getString("status"))){
                         ToastUtils.showToast(AddMemberActivity.this,Escape.unescape(result.toString()), Toast.LENGTH_SHORT);

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +151,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EmploeeInfoActivity.class);
                 intent.putExtra("employee", memList.get(position - 1));
-                Log.e("tag", "id " + memList.get(position - 1).toString());
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
             }
@@ -255,7 +253,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private void getEmployeeList() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
@@ -264,8 +261,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
-
-        Log.e("tag",param);
         final Set<String> set = new HashSet<>();
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

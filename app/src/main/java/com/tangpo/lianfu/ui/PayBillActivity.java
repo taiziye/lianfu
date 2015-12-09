@@ -6,11 +6,8 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -159,7 +156,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
 
     private void payBill(){
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -195,7 +191,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "s " + result.toString());
                 ToastUtils.showToast(PayBillActivity.this, "请求成功！", Toast.LENGTH_SHORT);
                 PayBillActivity.this.finish();
             }
@@ -203,7 +198,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag", "f " + result.toString());
                 try {
                     Tools.handleResult(PayBillActivity.this, result.getString("status"));
                     if("1".equals(result.getString("status"))) {
@@ -236,7 +230,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         if(data!=null){
 //            upload.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
-            //Log.e("tag",data.getExtras().getString(SelectPicActivity.KEY_PHOTO_PATH));
             imageView.setImageURI(Uri.parse(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH)));
             imagePath=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
             receipt_photo=UploadImage.imgToBase64(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH));
