@@ -52,13 +52,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     private Gson gson = null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_collect_fragment, container, false);
 
@@ -89,7 +82,8 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
                 intent.putExtra("store",list.get(position-1));
-                intent.putExtra("userid",userid);
+                intent.putExtra("userid", userid);
+                intent.putExtra("favorite", "1");
                 startActivity(intent);
             }
         });

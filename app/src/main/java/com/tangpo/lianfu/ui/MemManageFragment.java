@@ -72,13 +72,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog dialog=null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_manage_fragment, container, false);
 
@@ -112,15 +105,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         time = (LinearLayout) view.findViewById(R.id.time);
         time.setOnClickListener(this);
 
-        /*Iterator<String> it = members.iterator();
-        while (it.hasNext()) {
-            Member member = gson.fromJson(it.next().toString(), Member.class);
-            list.add(member);
-        }*/
-
         getMembers();
-
-        //adapter = new MemberAdapter(list, getActivity());
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
@@ -134,8 +119,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.getLoadingLayoutProxy(false, true).setPullLabel("");
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
-
-//        listView.setAdapter(adapter);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -294,7 +277,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-
         String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
         String param = MemberManagement.packagingParam(getActivity(), kvs);
         final Set<String> set = new HashSet<>();
@@ -343,7 +325,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         if (data != null) {
             if (requestCode == REQUEST_CODE) {
                 Member member = (Member) data.getExtras().getSerializable("member");
-                list.add(member);
+                list.add(0, member);
                 adapter.notifyDataSetChanged();
                 Set<String> set = new HashSet<>();
                 set.add(gson.toJson(member));

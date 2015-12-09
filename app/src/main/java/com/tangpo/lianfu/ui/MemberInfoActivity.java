@@ -99,7 +99,6 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.edit:
-                dialog=ProgressDialog.show(MemberInfoActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
                 editMember();
                 break;
             case R.id.send:
@@ -112,15 +111,18 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
+        if (user_name.getText().toString().length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写用户名");
+            return;
+        }
 
+        dialog=ProgressDialog.show(MemberInfoActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         String kvs[] = new String []{userid,member.getUser_id(), user_name.getText().toString(),
         password,rel_name.getText().toString(),contact_tel.getText().toString(),id_card.getText().toString(),
         member.getSex(),"","","","",bank_card.getText().toString(),bank_name.getText().toString(),
                 bank.getText().toString(),""
         };
-
         String params= EditMember.packagingParam(MemberInfoActivity.this,kvs);
-
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {

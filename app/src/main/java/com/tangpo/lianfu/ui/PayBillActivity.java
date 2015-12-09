@@ -159,12 +159,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-
-        if(receipt_photo == null || receipt_photo.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请添加购物凭证");
-            return;
-        }
-
         String user_id=userEntity.getUser_id();
         String store_id=getIntent().getStringExtra("store_id");
         String fee=money.getText().toString();
@@ -176,7 +170,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
          * 这里需要修改支付方式
          */
         String pay_way="0";
-        String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
         if (fee.equals("")){
             ToastUtils.showToast(this,getString(R.string.fee_can_not_be_null),Toast.LENGTH_SHORT);
             return;
@@ -185,7 +178,17 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             ToastUtils.showToast(this,getString(R.string.receipt_no_can_not_be_null),Toast.LENGTH_SHORT);
             return;
         }
+        if(receipt_photo == null || receipt_photo.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请添加购物凭证");
+            return;
+        }
+        if(!Tools.isMobileNum(phone)) {
+            Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
+            return;
+        }
+
         dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
+        String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
         String params= PayBill.packagingParam(this,kvs);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

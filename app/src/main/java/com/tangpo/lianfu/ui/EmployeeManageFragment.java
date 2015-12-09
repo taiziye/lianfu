@@ -47,35 +47,22 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private Button search;
     private Button add;
-
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
     private ArrayList<Employee> memList = new ArrayList<>();
-
     private LinearLayout date;
     private boolean f1 = false;
     private LinearLayout manager;
     private boolean f2 = false;
     private LinearLayout name;
     private boolean f3 = false;
-
     private SharedPreferences preferences = null;
     private String userid = null;
     private String store_id = null;
     private Gson gson = null;
-
     private int page = 1;
-
     private ProgressDialog dialog = null;
-
     private UserEntity userEntity=null;
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -261,6 +248,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
         String kvs[] = new String[]{userid, store_id, page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
+
         final Set<String> set = new HashSet<>();
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

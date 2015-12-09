@@ -43,19 +43,10 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     private LinearLayout discount_manage;
     private LinearLayout update_type;
     private LinearLayout modify_pass;
-
     private SharedPreferences preferences = null;
     private Gson gson = null;
     private UserEntity user = null;
-
     private Intent intent = null;
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

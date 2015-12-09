@@ -163,7 +163,6 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         }
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
         String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), page + "", "10"};
         String param = ManageDiscount.packagingParam(this, kvs);
 

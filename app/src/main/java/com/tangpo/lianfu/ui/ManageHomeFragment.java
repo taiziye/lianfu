@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,13 +62,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private String store_id = null;
     private SharedPreferences preferences = null;
     private String userid = null;
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,12 +122,10 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
-
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
                     dialog.dismiss();
-
                     try {
                         JSONObject object = result.getJSONObject("param");
                         man = mGson.fromJson(object.toString(), Manager.class);
@@ -139,6 +133,54 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         e.printStackTrace();
                     }
 
+                    Message msg = new Message();
+                    msg.what = 1;
+                    msg.obj = man;
+                    handler.sendMessage(msg);
+                    Configs.cacheManager(getActivity(), result.toString());
+                }
+            }, new NetConnection.FailCallback() {
+                @Override
+                public void onFail(JSONObject result) {
+                    dialog.dismiss();
+                    try {
+                        if (result.getString("status").equals("9")) {
+                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            getActivity().startActivity(intent);
+                        } else if (result.getString("status").equals("10")) {
+                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Message msg = new Message();
+                    msg.what = 2;
+                    handler.sendMessage(msg);
+                }
+            }, params);
+        } else {
+            shop_name.setText("");
+            record.setText("0");
+            mem.setText("0人");
+            pay.setText("0元");
+            pay_can.setText("0元");
+            employee.setText("0人");
+            manager.setText("0人");
+            rebate.setText("0");
+        }
+
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    man = (Manager) msg.obj;
+                    Log.e("tag", man.toString());
                     if(man.getStore_name() == null || man.getStore_name().length() == 0) {
                         shop_name.setText("");
                     } else {
@@ -161,7 +203,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getIncome();
                         int l = tmp.length();
                         if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
-                        else pay.setText("" + tmp + "元");
+                        else pay.setText("" + 0 + "元");
                     }
 
                     if (man.getPayback() == null || man.getPayback().length() == 0)
@@ -170,7 +212,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getNeed_pay();
                         int l = tmp.length();
                         if (l>2) pay_can.setText("" + tmp.substring(0, l-2) + "元");
-                        else pay_can.setText("" + tmp + "元");
+                        else pay_can.setText("" + 0 + "元");
                     }
 
                     if (man.getAdmin_num() == null || man.getAdmin_num().length() == 0)
@@ -189,27 +231,10 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         String tmp = man.getPayback();
                         int l = tmp.length();
                         if (l>2) rebate.setText(tmp.substring(0, l - 2) + "元");
-                        else rebate.setText(tmp + "元");
+                        else rebate.setText(0 + "元");
                     }
-
-                    Configs.cacheManager(getActivity(), result.toString());
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        if (result.getString("status").equals("9")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                        } else if (result.getString("status").equals("10")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    break;
+                case 2:
                     shop_name.setText("");
                     record.setText("0");
                     mem.setText("0人");
@@ -218,20 +243,10 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     employee.setText("0人");
                     manager.setText("0人");
                     rebate.setText("0");
-                }
-            }, params);
-        } else {
-            shop_name.setText("");
-            record.setText("0");
-            mem.setText("0人");
-            pay.setText("0元");
-            pay_can.setText("0元");
-            employee.setText("0人");
-            manager.setText("0人");
-            rebate.setText("0");
+                    break;
+            }
         }
-
-    }
+    };
 
     @Override
     public void onClick(View v) {

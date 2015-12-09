@@ -50,7 +50,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private List<Discount> list = new ArrayList<>();
 
-    private int index = 0;
+    private int index = -1;
 
     private SharedPreferences preferences;
 
@@ -172,6 +172,11 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     private void deleteDiscount() {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        if(index == -1) {
+            Tools.showToast(getApplicationContext(), "请选择要删除的折扣");
             return;
         }
 

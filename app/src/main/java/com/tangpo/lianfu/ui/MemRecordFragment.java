@@ -52,13 +52,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private ProgressDialog dialog = null;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Tools.closeActivity();
-        getActivity().finish();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mem_record_fragment, container, false);
 
@@ -199,7 +192,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-
         String kvs[] = new String[]{user_id, "10", page + ""};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 

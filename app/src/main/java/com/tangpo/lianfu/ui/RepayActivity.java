@@ -49,9 +49,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
     private boolean f3 = false;
     private LinearLayout time;
     private boolean f4 = false;
-
     private Gson gson = new Gson();
-
     private int page = 1;
 
     @Override
@@ -143,7 +141,6 @@ public class RepayActivity extends Activity implements View.OnClickListener {
         }
 
         String kvs[] = new String[]{userid, "", page + "", "10"};
-
         String param = PlatformRebateRecord.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

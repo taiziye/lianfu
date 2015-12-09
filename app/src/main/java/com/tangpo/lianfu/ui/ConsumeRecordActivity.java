@@ -30,13 +30,11 @@ import java.util.Set;
  * Created by 果冻 on 2015/11/7.
  */
 public class ConsumeRecordActivity extends Activity implements View.OnClickListener {
-
     public static final int REQUEST_CODE = 1;
 
     private Button back;
     private Button edit;
     private Button discount;
-
     private EditText user_name;
     private EditText name;
     private EditText contact_tel;
@@ -49,19 +47,13 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private EditText discount_type;
     private EditText discount_text;
     private EditText son_money;
-
     private EmployeeConsumeRecord record = null;
-
     private SharedPreferences preferences;
-
     private Set<String> members = null;
-
     private Intent intent = null;
-
     private String user_id= "";
     private String username = "";
     private String consume_id= "";
-
     private ProgressDialog dialog=null;
 
     @Override
@@ -76,12 +68,9 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.consum_record_activity);
-
         Tools.gatherActivity(this);
-
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         members = preferences.getStringSet(Configs.KEY_MEMBERS, null);
-
         init();
     }
 
@@ -92,7 +81,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         edit.setOnClickListener(this);
         discount = (Button) findViewById(R.id.discount);
         discount.setOnClickListener(this);
-
         user_name = (EditText) findViewById(R.id.user_name);
         name = (EditText) findViewById(R.id.name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -119,7 +107,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                 while (it.hasNext()) {
                     try {
                         JSONObject object = new JSONObject(it.next());
-                        //collectedStore.add(object.getString("id"));
                         if (object.getString("user_id").equals(record.getId())) {
                             contact_tel.setText(object.getString("phone"));
                             //update_type.setText("1");
@@ -174,9 +161,12 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             Tools.showToast(getApplicationContext(), "请选择折扣");
             return;
         }
+        if(fee==null || fee.length() == 0 || Float.valueOf(fee) <= 0) {
+            Tools.showToast(getApplicationContext(), "请填写正确的消费金额");
+            return;
+        }
         String kvs[]=new String[]{user_id,consume_id,fee,discount};
         String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
-
         record.setFee(fee);
         record.setDiscount(discount);
         record.setDesc(discount_type.getText().toString());

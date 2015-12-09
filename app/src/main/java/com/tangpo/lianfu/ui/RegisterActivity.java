@@ -29,8 +29,6 @@ import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by 果冻 on 2015/11/3.
@@ -50,17 +48,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private Timer timer=null;
     private TimerTask task=null;
     private int i=60;
-/*
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(Configs.KEY_TOKEN);
-        editor.commit();
-        Tools.gotoActivity(RegisterActivity.this, MainActivity.class);
-        finish();
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +70,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
         back.setOnClickListener(this);
         next = (Button) findViewById(R.id.next);
         next.setOnClickListener(this);
-
         nation = (EditText) findViewById(R.id.nation);
         phone_Num = (EditText) findViewById(R.id.phone_num);
         code = (EditText) findViewById(R.id.code);
-
         get_code = (Button) findViewById(R.id.get_code);
         get_code.setOnClickListener(this);
     }
@@ -120,21 +105,11 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 mHandler.sendMessage(msg);
             }
         };
-        timer.schedule(task,1000);
+        timer.schedule(task, 1000);
     }
 
     public void stopTime(){
         timer.cancel();
-    }
-    private boolean isMobile(String str) {
-        Pattern p = null;
-        Matcher m = null;
-        boolean b = false;
-        p = Pattern
-                .compile("^[1][3,4,5,7,8][0-9]{9}$");
-        m = p.matcher(str);
-        b = m.matches();
-        return b;
     }
 
     private void getCode() {
@@ -142,7 +117,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         if (phone.equals("")) {
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
-        } else if(!isMobile(phone)) {
+        } else if(!Tools.isMobileNum(phone)) {
             ToastUtils.showToast(RegisterActivity.this, "电话号码不存在", Toast.LENGTH_LONG);
             return;
         }
@@ -206,6 +181,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 Configs.cachePhoneNum(RegisterActivity.this, phone);
                 Intent intent = new Intent(RegisterActivity.this, PersonalMsgActivity.class);
                 intent.putExtra("tel", phone);
+                Tools.gatherActivity(RegisterActivity.this);
                 startActivity(intent);
             }
         }, new NetConnection.FailCallback() {

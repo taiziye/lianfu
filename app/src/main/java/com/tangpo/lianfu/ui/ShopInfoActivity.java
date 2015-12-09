@@ -134,7 +134,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
         String param = StoreDetail.packagingParam(this, kvs);
 

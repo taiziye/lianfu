@@ -21,11 +21,9 @@ import org.json.JSONObject;
 public class AddDiscountActivity extends Activity implements View.OnClickListener {
     private EditText type;
     private EditText discount;
-
     private Button commit;
     private Button cancel;
     private ProgressDialog dialog;
-
     private String userid;
     private String storeid;
 
@@ -64,11 +62,16 @@ public class AddDiscountActivity extends Activity implements View.OnClickListene
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-
+        if(type.getText().toString().length() == 0) {
+            Tools.showToast(getApplicationContext(), "请输入正确的折扣类型");
+            return;
+        }
+        if (discount.getText().toString().length() == 0) {
+            Tools.showToast(getApplicationContext(), "请输入正确的折扣");
+            return;
+        }
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
         String kvs[] = new String []{userid, storeid, type.getText().toString(), discount.getText().toString()};
-
         String param = NewDiscount.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

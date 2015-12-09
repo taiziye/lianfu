@@ -85,12 +85,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean isEdit = false;
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-     getActivity().finish();
-    }
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.record_fragment, container, false);
 
@@ -331,7 +325,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

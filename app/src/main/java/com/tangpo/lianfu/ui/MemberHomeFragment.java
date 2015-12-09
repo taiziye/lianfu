@@ -41,34 +41,18 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private Button double_code;
     private ImageView locate;
     private Button map;
-
     private EditText search;
-
     private PullToRefreshListView listView;
-
     private Bundle bundle = null;
-
     private ProgressDialog dialog = null;
-
     private PositionAdapter adapter = null;
-
     private ArrayList<FindStore> storeList = new ArrayList<>();
     private ArrayList<String> v = new ArrayList<>();
-
     private Gson gson = null;
-
     private String userid = null;
     private String lng = "0.000000";
     private String lat = "0.000000";
-
     private SharedPreferences preferences=null;
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        Tools.closeActivity();
-        getActivity().finish();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,9 +89,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
-                //intent.putExtra("store_id",storeList.get(position-1).getId());
                 intent.putExtra("store",storeList.get(position-1));
                 intent.putExtra("userid",userid);
+                intent.putExtra("favorite", storeList.get(position - 1).getFavorite());
                 startActivity(intent);
             }
         });
@@ -124,6 +108,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.locate:
                 break;
             case R.id.map:
+                /*Intent intent = new Intent(getActivity(), MapActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putParcelableArrayList("list",storeList);
+                intent.putExtras(bundle);
+                startActivity(intent);*/
                 Fragment fragment = new MapActivity();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();

@@ -18,7 +18,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.RegisterMember;
-import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -59,9 +58,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
     }
 
     private void init() {
-        /*back = (Button) findViewById(R.id.back);
-        back.setOnClickListener(this);*/
-
         double_code= (Button) findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         next = (Button) findViewById(R.id.next);
@@ -94,11 +90,14 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         }
 
         final String username = user_name.getText().toString();
+        if(username.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写用户名");
+            return;
+        }
         if (!TextUtils.equals(pass.getText().toString(), check_pass.getText().toString())) {
             ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);
             return;
         }
-        dialog = ProgressDialog.show(PersonalMsgActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
 
         final String password = pass.getText().toString();
         final String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
@@ -114,11 +113,12 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         String bank_name = "";
         String bank = "中国银行";
         String bank_address = "";
+
+        dialog = ProgressDialog.show(PersonalMsgActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{username, password, phone, service_center, store_id, referrer
                 , sex, birth, qq, email, address, bank_account, bank_name, bank, bank_address};
         String params = RegisterMember.packagingParam(this, kvs);
 
-        System.out.println(Escape.unescape(params));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -128,7 +128,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
 
                 try {
                     JSONObject object = result.getJSONObject("param");
-                    //user = gson.fromJson(object.toString(), UserEntity.class);
                     Configs.cacheUser(getApplicationContext(), object.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -138,6 +137,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                 intent.putExtra("username", username);
                 intent.putExtra("passwd", password);
                 intent.putExtra("tel", phone);
+                Tools.gatherActivity(PersonalMsgActivity.this);
                 startActivity(intent);
             }
         }, new NetConnection.FailCallback() {
@@ -152,12 +152,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
                         Tools.showToast(PersonalMsgActivity.this, "格式有误");
                     } else if("9".equals(result.getString("status"))) {
                         Tools.showToast(PersonalMsgActivity.this, getString(R.string.login_timeout));
-                        /*SharedPreferences preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.remove(Configs.KEY_TOKEN);
-                        editor.commit();
-                        Intent intent = new Intent(PersonalMsgActivity.this, MainActivity.class);
-                        startActivity(intent);*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

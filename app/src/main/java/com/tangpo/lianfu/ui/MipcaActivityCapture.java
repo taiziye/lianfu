@@ -28,10 +28,6 @@ import com.tangpo.lianfu.R;
 import java.io.IOException;
 import java.util.Vector;
 
-/**
- * Initial the camera
- * @author Ryan.Tang
- */
 public class MipcaActivityCapture extends Activity implements Callback {
 
 	private CaptureActivityHandler handler;

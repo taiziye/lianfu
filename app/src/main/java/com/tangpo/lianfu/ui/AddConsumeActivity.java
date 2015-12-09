@@ -147,18 +147,18 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
-            Tools.showToast(this, "请填写正确的消费金额");
-            return;
-        }
-
-        if(user_name.getText().toString().length() == 0) {
+        if(mem == null) {
             Tools.showToast(this, "请选择消费用户");
             return;
         }
 
-        if(discount.getText().toString().length() == 0) {
+        if(dis == null) {
             Tools.showToast(this, "请选择折扣");
+            return;
+        }
+
+        if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
+            Tools.showToast(this, "请填写正确的消费金额");
             return;
         }
 
@@ -184,7 +184,6 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
                 Intent intent = new Intent();
                 intent.putExtra("record", record);
                 setResult(RESULT_OK, intent);
-
                 AddConsumeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {

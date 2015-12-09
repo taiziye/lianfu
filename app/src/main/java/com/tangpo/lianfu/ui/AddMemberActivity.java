@@ -47,7 +47,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     private EditText id_card;
     private EditText bank_card;
     private EditText bank_nameTextView;
-    private String sexStr = "0";
+    private String sexStr = "";
     private String uplevelStr = "";
     private ProgressDialog dialog = null;
     private String userid = null;
@@ -64,9 +64,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_member_activity);
-
         Tools.gatherActivity(this);
-
         userid = getIntent().getExtras().getString("userid");
         init();
     }
@@ -88,10 +86,8 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 String[] sexes = getResources().getStringArray(R.array.sex);
                 sexStr = position + "";
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -102,10 +98,8 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 String[] uplevels = getResources().getStringArray(R.array.uplevel);
                 uplevelStr = uplevels[position];
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -153,7 +147,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-
         String user_id = user_name.getText().toString();
         String username = rel_name.getText().toString();
         String phone = contact_tel.getText().toString();
@@ -170,7 +163,6 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             return;
         }
         String pw= phone.substring(phone.length() - 6);
-
         String service_center = "";
         String service_address = "";
         String referrer = "";
@@ -179,9 +171,9 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         String email = "";
         String address = "";
         String register_time = (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date());
-        String bank_account = bank_card.getText().toString();
-        String bank_name = bank_nameTextView.getText().toString();
-        String bank = bankTextView.getText().toString();
+        String bank_account = (bank_card.getText().length() == 0 ) ? "" : bank_card.getText().toString();
+        String bank_name = (bank_nameTextView.getText().length() == 0 ) ? "" : bank_nameTextView.getText().toString();
+        String bank = (bankTextView.getText().length() == 0 ) ? "" : bankTextView.getText().toString();
         String bank_address = "";
         String kvs[] = new String[]{username, user_id, pw, phone, service_center, service_address,
                 referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};

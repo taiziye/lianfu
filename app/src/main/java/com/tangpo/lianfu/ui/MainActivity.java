@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (token != null) {  //如果已登录
             //根据登录身份跳转到相应的界面
             Tools.gotoActivity(MainActivity.this, HomePageActivity.class);
-            this.finish();
+            finish();
         }
         init();
     }
@@ -140,8 +140,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             return;
         }
 
-        pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
-
         String name = user_name.getText().toString();
         if (name.equals("")) {
             pd.dismiss();
@@ -161,6 +159,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         System.out.println(Escape.unescape(params));
 
+        pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -173,7 +172,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     System.out.println(Escape.unescape(result.toString()));
                     intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
-                    finish();
+                    MainActivity.this.finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -198,6 +197,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     public void register() {
         intent = new Intent(MainActivity.this, RegisterActivity.class);
+        Tools.gatherActivity(this);
         startActivity(intent);
     }
 

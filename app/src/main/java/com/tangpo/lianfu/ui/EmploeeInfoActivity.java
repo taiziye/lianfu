@@ -117,7 +117,6 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String employee_id = employee.getUser_id();
         String rank = "";
         if (manage_level.getSelectedItemId() == 0) {
@@ -139,10 +138,34 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
             sexStr = "1";
         }
 
+        if(username == null || username.length() == 0){
+            Tools.showToast(getApplicationContext(), "请输入用户名");
+            return;
+        }
+        if(name == null || name.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请输入真实姓名");
+            return;
+        }
+        if(id_number == null || id_number.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请输入身份证号码");
+            return;
+        }
+        if (!Tools.isMobileNum(phone)) {
+            Tools.showToast(getApplicationContext(), "请输入正确的电话号码");
+            return;
+        }
+        if (bank_account == null || bank_account.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请输入银行卡账户");
+            return;
+        }
+        if ((bankStr == null || bankStr.length() == 0)) {
+            Tools.showToast(getApplicationContext(), "请输入银行名称");
+            return;
+        }
 
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
                 upgrade,phone,bank_account, bankStr, sexStr};
-
         String param = EditStaff.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -19,16 +18,7 @@ import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
-import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.MemberManagement;
 import com.tangpo.lianfu.utils.Tools;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -108,7 +98,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             fragment.setArguments(bundle);
         }
 
-        transaction.replace(R.id.frame, fragment);
+        transaction.add(R.id.frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -326,41 +316,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         transaction.commit();
     }
 
-    private void getMember() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-
-        String kvs[] = new String[]{userid, store_id, "", "", "", "1", "10"};
-        String param = MemberManagement.packagingParam(this, kvs);
-        final Set<String> set = new HashSet<>();
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                try {
-                    JSONArray jsonArray = result.getJSONArray("param");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        set.add(object.toString());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Configs.cacheMember(HomePageActivity.this, set);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                try {
-                    Tools.handleResult(HomePageActivity.this, result.getString("status"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
+    @Override
+    public void onBackPressed() {
+        Tools.closeActivity();
     }
 
     @Override
@@ -370,13 +328,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             switch (requestCode) {
                 case MemManageFragment.REQUEST_CODE:
                 case MemManageFragment.REQUEST_EDIT:
-                    fragmentManager = getFragmentManager();
                     transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);
                     break;
                 case EmployeeManageFragment.ADD_REQUEST_CODE:
                 case EmployeeManageFragment.EDIT_REQUEST_CODE:
-                    fragmentManager = getFragmentManager();
                     transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);
                     break;

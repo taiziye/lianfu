@@ -34,6 +34,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:textSize="16sp"
+            android:textColor="@android:color/white"
             android:background="@android:color/holo_red_light"
             android:text="@string/back_home" />
 
@@ -43,6 +44,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:textSize="16sp"
+            android:textColor="@android:color/white"
             android:background="@drawable/add_mem"
             android:text="@string/perfect"
             android:layout_marginLeft="36dp" />

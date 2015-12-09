@@ -33,7 +33,6 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
     private Button perfect_info;
 
     private ImageView logo;
-
     private UserEntity user;
     private Gson gson = new Gson();
 
@@ -64,7 +63,6 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
         name = getIntent().getStringExtra("username");
         pass = getIntent().getStringExtra("passwd");
         phone = getIntent().getStringExtra("tel");
-
     }
 
     @Override
@@ -90,12 +88,14 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                 case 1:
                     intent = new Intent(RegisterSuccessActivity.this, HomePageActivity.class);
                     startActivity(intent);
+                    Tools.closeActivity();
                     finish();
                     break;
                 case 2:
                     intent = new Intent(RegisterSuccessActivity.this, PersonalInfoActivity.class);
                     intent.putExtra("user", user);
-                    startActivity(intent);
+                    /*startActivity(intent);*/
+                    Tools.showToast(getApplicationContext(), "请期待下一版");
                     break;
             }
         }
@@ -120,7 +120,6 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
                     System.out.println(Escape.unescape(result.toString()));
-
                     user = gson.fromJson(jsonObject.toString(), UserEntity.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
