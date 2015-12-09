@@ -180,6 +180,49 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
+                    detail_address.setText(store.getAddress());
+                    tel.setText(store.getTel());
+                    qq.setText("");
+                    email.setText("");
+                    commodity.setText(store.getBusiness());
+                    /**
+                     * 需要修改的：地图定位，加载图片
+                     */
+                    String tmp[] = store.getPhoto().split("\\,");
+                    Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
+
+                    if (tmp.length>0){
+                        img1.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
+                    }
+                    if(tmp.length>1){
+                        img2.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
+                    }
+                    if(tmp.length>2){
+                        img3.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
+                    }
+                    if(tmp.length>3){
+                        img4.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
+                    }
+                    if(tmp.length>4){
+                        img5.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
+                    }
+                    if(tmp.length>5){
+                        img6.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
+                    }
+                    if(tmp.length>6){
+                        img7.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
+                    }
+                    if(tmp.length>7){
+                        img8.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopActivity.this, tmp[7], img8);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

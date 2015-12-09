@@ -1,14 +1,9 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 
@@ -56,7 +51,6 @@ public class WelcomeActivity extends Activity{
                     return;
                 }
                 Configs.cacheCurLocation(WelcomeActivity.this, bdLocation.getLatitude(), bdLocation.getLongitude());
-               // Log.e("tag",bdLocation.getLatitude()+":"+bdLocation.getLongitude());
             }
         });
 
@@ -68,27 +62,10 @@ public class WelcomeActivity extends Activity{
         }else{
             mLocationClient.start();
         }
-        //initAppConfig();
-        /*ActivityManager.getInstance().addActivity(WelcomeActivity.this);
-        Tools.changeSystemBar(this);
-
-        if (User.getInstance(WelcomeActivity.this).checkLogin()) {
-            GetAccount.getData(WelcomeActivity.this,
-                    User.getInstance(WelcomeActivity.this).getTmId());
-        }
-
-        isStartGuide = AppInfo.getInstance(WelcomeActivity.this).isStartGuide();
-        */
         // 在欢迎界面停留3秒
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                /*
-				 * if (isStartGuide) {
-				 * Tools.gotoActivity(WelcomeActivity.this,GuideActivity.class);
-				 * } else {
-				 * Tools.gotoActivity(WelcomeActivity.this,MainActivity.class);
-				 * }
-				 */
+
                 Tools.gotoActivity(WelcomeActivity.this, MainActivity.class);
                 WelcomeActivity.this.finish();
             }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -261,7 +260,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
                                 float f1 = Float.parseFloat(lhs.getDiscount());
                                 float f2 = Float.parseFloat(rhs.getDiscount());
-                                Log.e("tag", "f1 = " + f1 + " f2 = " + f2);
                                 if(f1 > f2)
                                     return 1;
                                 else
@@ -275,7 +273,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
                                 float f1 = Float.parseFloat(lhs.getDiscount());
                                 float f2 = Float.parseFloat(rhs.getDiscount());
-                                Log.e("tag", "f1 = " + f1 + " f2 = " + f2);
                                 if(f1 > f2)
                                     return -1;
                                 else
@@ -296,14 +293,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             if (requestCode == REQUEST_CODE) {
                 //新增
                 EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
-                Log.e("tag", "recordfragment " + record.toString());
                 recordList.add(0, record);
                 adapter.notifyDataSetChanged();
             } else {
                 //编辑
                 //getConsumeRecord();
                 EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
-                Log.e("tag", "record " + record.toString());
                 recordList.remove(index);
                 recordList.add(index, record);
                 adapter.notifyDataSetInvalidated();
@@ -344,20 +339,17 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         String kvs[] = new String[]{userid, store_id, "", "", "0", page+"","10"};
         String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
-        Log.e("tag", "record");
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 list.onRefreshComplete();
-                Log.e("tag", "result " + result.toString());
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         EmployeeConsumeRecord record = gson.fromJson(object.toString(), EmployeeConsumeRecord.class);
                         recordList.add(record);
-                        Log.e("tag", "record " + object.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -373,7 +365,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onFail(JSONObject result) {
                 list.onRefreshComplete();
                 dialog.dismiss();
-                Log.e("tag", "result_f " + result.toString());
                 try {
                     Tools.handleResult(getActivity(), result.getString("status"));
                 } catch (JSONException e) {

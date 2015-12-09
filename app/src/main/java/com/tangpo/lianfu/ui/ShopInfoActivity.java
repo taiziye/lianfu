@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -21,8 +20,6 @@ import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.tangpo.lianfu.R;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -132,7 +129,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -146,7 +142,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Log.e("tag", result.toString());
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                     shop_name.setText(store.getStore());
                     shop_host.setText(store.getContact());

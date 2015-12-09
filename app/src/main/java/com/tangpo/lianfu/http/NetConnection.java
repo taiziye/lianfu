@@ -78,7 +78,7 @@ public class NetConnection {
                 } else {
                     JSONObject resJson=new JSONObject();
                     try {
-                        resJson.put("status","Dabo+Guodong");
+                        resJson.put("status","999999");
                         failCallback.onFail(resJson);
                     } catch (JSONException e) {
                         e.printStackTrace();

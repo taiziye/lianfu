@@ -338,6 +338,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     break;
                 case RecordFragment.REQUEST_CODE:
                 case RecordFragment.REQUEST_EDIT:
+                    fragmentManager = getFragmentManager();
                     transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);
                     break;

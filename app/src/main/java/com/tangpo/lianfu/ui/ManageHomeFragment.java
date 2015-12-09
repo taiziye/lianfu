@@ -121,6 +121,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             store_id = bundle.getString("storeid");
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
+
             new NetConnection(new NetConnection.SuccessCallback() {
                 @Override
                 public void onSuccess(JSONObject result) {
