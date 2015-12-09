@@ -30,6 +30,8 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,26 +42,20 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
 
     private Button back;
     private Button commit;
-
     private CheckBox admit;
-
     private Spinner sex;
     private Spinner uplevel;
-
     private TextView bankTextView;
     private TextView select_bank;
-
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
     private EditText id_card;
     private EditText bank_card;
     private EditText bank_nameTextView;
-
-    private String sexStr = "";
+    private String sexStr = "0";
     private String uplevelStr = "";
     private ProgressDialog dialog = null;
-
     private String userid = null;
 
     @Override
@@ -96,7 +92,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] sexes = getResources().getStringArray(R.array.sex);
-                sexStr = sexes[position];
+                sexStr = position + "";
             }
 
             @Override
@@ -159,24 +155,12 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
                 break;
         }
     }
-
-    private boolean isMobileOrTel(String str) {
-        Pattern p = null;
-        Matcher m = null;
-        boolean b = false;
-        p = Pattern
-                .compile("^[1][3,4,5,7,8][0-9]{9}$");
-        m = p.matcher(str);
-        b = m.matches();
-        return b;
-    }
     private void addMember() {
         if(!Tools.checkLAN()) {
             Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-
 
         String user_id = user_name.getText().toString();
         String username = rel_name.getText().toString();
@@ -189,16 +173,12 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             ToastUtils.showToast(this,getString(R.string.realname_cannot_be_null),Toast.LENGTH_SHORT);
             return;
         }
-        if(!isMobileOrTel(phone)){
+        if(!Tools.isMobileNum(phone)){
             ToastUtils.showToast(this,getString(R.string.phone_format_error),Toast.LENGTH_SHORT);
             return;
         }
-        String pw="";
-        if(phone.length() < 6) {
-            Tools.showToast(AddMemberActivity.this, "请输入正确的电话号码");
-        } else {
-            pw = MD5Tool.md5(phone.substring(phone.length() - 6));
-        }
+        String pw= phone.substring(phone.length() - 6);
+
         String service_center = "";
         String service_address = "";
         String referrer = "";
@@ -206,15 +186,16 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         String qq = "";
         String email = "";
         String address = "";
+        String register_time = (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date());
         String bank_account = bank_card.getText().toString();
         String bank_name = bank_nameTextView.getText().toString();
         String bank = bankTextView.getText().toString();
         String bank_address = "";
-        String kvs[] = new String[]{user_id, username, pw, phone, service_center, service_address,
+        String kvs[] = new String[]{username, user_id, pw, phone, service_center, service_address,
                 referrer, sexStr, birth, qq, email, address, bank_account, bank_name, bank, bank_address, uplevelStr};
         String param = AddMember.packagingParam(this, kvs);
-
-        final Member member = new Member(bank, bank_account, bank_name, userid, phone, "", user_id, username, sexStr);
+        final Member member = new Member(bank, bank_account, bank_name, user_id, phone, register_time,userid, username,   sexStr);
+        Log.e("tag", member.toString());
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {

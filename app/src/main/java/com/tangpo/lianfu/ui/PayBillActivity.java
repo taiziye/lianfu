@@ -1,12 +1,15 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +60,10 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
 
     private String user_id=null;
     private String store_id=null;
+
+    private FragmentTransaction transaction;
+    private FragmentManager fragmentManager;
+    private MemRecordFragment fragment;
 
     @Override
     public void onDetachedFromWindow() {
@@ -189,7 +196,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Log.e("tag", "s " + result.toString());
-                ToastUtils.showToast(PayBillActivity.this,"请求成功！", Toast.LENGTH_SHORT);
+                ToastUtils.showToast(PayBillActivity.this, "请求成功！", Toast.LENGTH_SHORT);
                 PayBillActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {

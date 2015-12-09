@@ -35,38 +35,39 @@
 
         <activity
             android:name=".ui.WelcomeActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.PersonalMsgActivity" />
-        <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.RegisterSuccessActivity" />
-        <activity android:name=".ui.AddConsumeActivity" />
-        <activity android:name=".ui.AddEmployeeActivity" />
-        <activity android:name=".ui.AddMemberActivity" />
-        <activity android:name=".ui.ConsumeRecordActivity" />
-        <activity android:name=".ui.DiscountActivity" />
-        <activity android:name=".ui.DiscountManageActivity" />
-        <activity android:name=".ui.EmploeeInfoActivity" />
-        <activity android:name=".ui.HomePageActivity" />
-        <activity android:name=".ui.MemberInfoActivity" />
-        <activity android:name=".ui.MemberUpdateTypeActivity" />
-        <activity android:name=".ui.OfflineProfitPayActivity" />
-        <activity android:name=".ui.OnlinePayActivity" />
-        <activity android:name=".ui.PayBillActivity" />
-        <activity android:name=".ui.PersonalInfoActivity" />
-        <activity android:name=".ui.SelectUserActivity" />
-        <activity android:name=".ui.ShopActivity" />
-        <activity android:name=".ui.ShopInfoActivity" />
-        <activity android:name=".ui.StoreLocationActivity" />
-        <activity android:name=".ui.UpdatePasswordActivity" />
+        <activity android:name=".ui.MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PersonalMsgActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RegisterSuccessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AddConsumeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AddEmployeeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AddMemberActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ConsumeRecordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DiscountActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DiscountManageActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.EmploeeInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.HomePageActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MemberInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MemberUpdateTypeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.OfflineProfitPayActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.OnlinePayActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PayBillActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PersonalInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.SelectUserActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ShopActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ShopInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StoreLocationActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.UpdatePasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".wxapi.WXEntryActivity"
-            android:exported="true"/>
+            android:exported="true" android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.SelectPicActivity"
@@ -75,19 +76,20 @@
         <activity
             android:name=".ui.AddDiscountActivity"
             android:label="@string/title_activity_add_discount"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.SelectPayMethod"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogStyleBottom">
+            android:theme="@style/DialogStyleBottom" >
         </activity>
         <activity
             android:name=".ui.PayByAliPay"
             android:label="@string/title_activity_pay_by_ali_pay"
+            android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name=".ui.MipcaActivityCapture"/>
-        <activity android:name=".ui.RepayActivity" />
+        <activity android:name=".ui.MipcaActivityCapture" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RepayActivity" android:screenOrientation="portrait"/>
 
         <!-- 必须注册在微博授权，分享微博时候用到 -->
         <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
@@ -105,6 +107,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
