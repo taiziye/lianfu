@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -176,7 +175,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     list = (ArrayList<Discount>) msg.obj;
-                    Log.e("tag", "list" + list.size());
                     adapter = new DiscountAdapter(DiscountActivity.this, list);
                     listView.setAdapter(adapter);
                     break;
@@ -197,7 +195,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private void deleteDiscount() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
@@ -232,7 +229,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private void getDiscount() {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
