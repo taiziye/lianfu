@@ -256,4 +256,9 @@
     <string name="phone_format_error">电话号码格式错误</string>
     <string name="operate_fail">操作失败</string>
     <string name="has_been_collected">已收藏</string>
+    <string name="relate">关联账户</string>
+    <string name="relate_account">请输入联富账号</string>
+    <string name="passwd">请输入密码</string>
+    <string name="account">请填写联富账号</string>
+    <string name="pwd">请填写密码</string>
 </resources>
