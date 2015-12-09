@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -281,7 +280,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mTencent=Tencent.createInstance(mAppid,this);
         if (!mTencent.isSessionValid()) {
             mTencent.login(this, "all", loginListener);
-            Log.d("SDKQQAgentPref", "FirstLaunch_SDK:" + SystemClock.elapsedRealtime());
         }
         mTencent.logout(this);
     }
@@ -411,7 +409,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     IUiListener loginListener = new BaseUiListener() {
         @Override
         protected void doComplete(JSONObject values) {
-            Log.d("SDKQQAgentPref", "AuthorSwitch_SDK:" + SystemClock.elapsedRealtime());
             //这里的value缓存了openid的信息
             initOpenidAndToken(values);
         }

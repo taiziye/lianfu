@@ -230,7 +230,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    memList = (ArrayList<Employee>) msg.obj;
+                    memList.addAll((ArrayList<Employee>) msg.obj);
                     adapter = new EmployeeAdapter(getActivity(), memList);
                     listView.setAdapter(adapter);
                     break;
@@ -255,13 +255,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                ArrayList<Employee> tmp = new ArrayList<>();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Employee employee = gson.fromJson(object.toString(), Employee.class);
 
-                        memList.add(employee);
+                        tmp.add(employee);
                         set.add(object.toString());
                     }
                 } catch (JSONException e) {
@@ -270,7 +271,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
                 Message msg = new Message();
                 msg.what = 1;
-                msg.obj = memList;
+                msg.obj = tmp;
                 mHandler.sendMessage(msg);
 
                 Configs.cacheEmployee(getActivity(), set);

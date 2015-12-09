@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,7 +179,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             switch (msg.what) {
                 case 1:
                     man = (Manager) msg.obj;
-                    Log.e("tag", man.toString());
                     if(man.getStore_name() == null || man.getStore_name().length() == 0) {
                         shop_name.setText("");
                     } else {

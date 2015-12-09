@@ -120,6 +120,12 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.RelateActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.RelationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleBottom" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
