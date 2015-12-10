@@ -5,21 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.tangpo.lianfu.BuildConfig;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
-import com.tangpo.lianfu.entity.UserConsumRecord;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.DeleteConsumeRecord;
 import com.tangpo.lianfu.ui.MainActivity;
@@ -139,7 +135,6 @@ public class ConsumRecordAdapter extends BaseAdapter {
 
     private void deleteRecord(String pay_record_id, final int position) {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(context, "网络未连接，请联网后重试");
             return;
         }
