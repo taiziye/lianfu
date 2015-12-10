@@ -171,7 +171,7 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserEntity{" +
+        return "{" +
                 "user_type='" + user_type + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", store_id='" + store_id + '\'' +
@@ -191,5 +191,25 @@ public class UserEntity implements Serializable {
                 ", rank='" + rank + '\'' +
                 ", photo='" + photo + '\'' +
                 '}';
+    }
+
+    public UserEntity(String user_type, String user_id, String store_id, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo) {
+        this.user_type = user_type;
+        this.user_id = user_id;
+        this.store_id = store_id;
+        this.name = name;
+        this.phone = phone;
+        this.id_number = id_number;
+        this.sex = sex;
+        this.birth = birth;
+        this.qq = qq;
+        this.email = email;
+        this.address = address;
+        this.bank_account = bank_account;
+        this.bank_name = bank_name;
+        this.bank = bank;
+        this.bank_address = bank_address;
+        this.rank = rank;
+        this.photo = photo;
     }
 }

@@ -2,7 +2,9 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
@@ -132,6 +135,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.back:
                 finish();
@@ -145,7 +149,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.locate:
-                Intent intent=new Intent(ShopActivity.this,StoreLocationActivity.class);
+                intent=new Intent(ShopActivity.this,StoreLocationActivity.class);
                 intent.putExtra("lng",store.getLng());
                 intent.putExtra("lat",store.getLat());
                 startActivity(intent);
@@ -154,6 +158,13 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 ToastUtils.showToast(ShopActivity.this,getString(R.string.new_function_has_not_online),Toast.LENGTH_SHORT);
                 break;
             case R.id.pay:
+                SharedPreferences preferences=getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+                String logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
+                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                    intent=new Intent(this, BoundOrRegister.class);
+                    startActivity(intent);
+                    return;
+                }
                 Intent payIntent=new Intent(ShopActivity.this,PayBillActivity.class);
                 payIntent.putExtra("userid",user_id);
                 payIntent.putExtra("store_id",store_id);

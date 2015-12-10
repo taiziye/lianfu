@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CollectStore;
+import com.tangpo.lianfu.ui.BoundOrRegister;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -152,6 +154,13 @@ public class PositionAdapter extends BaseAdapter {
         holder.collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences preferences=context.getSharedPreferences(Configs.APP_ID,Context.MODE_PRIVATE);
+                String logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
+                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                    Intent intent=new Intent(context, BoundOrRegister.class);
+                    context.startActivity(intent);
+                    return;
+                }
                 cur = position;
 
                 if(!Tools.checkLAN()) {

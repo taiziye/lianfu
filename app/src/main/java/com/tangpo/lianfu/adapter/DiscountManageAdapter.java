@@ -2,7 +2,6 @@ package com.tangpo.lianfu.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.DeleteDiscount;
 import com.tangpo.lianfu.utils.Tools;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -99,7 +99,6 @@ public class DiscountManageAdapter extends BaseAdapter {
 
     private void deleteDiscount(final int position) {
         if(!Tools.checkLAN()) {
-            Log.e("tag", "check");
             Tools.showToast(context, "网络未连接，请联网后重试");
             return;
         }
@@ -120,6 +119,15 @@ public class DiscountManageAdapter extends BaseAdapter {
             @Override
             public void onFail(JSONObject result) {
                 dialog.dismiss();
+                try {
+                    if("404".equals(result.getString("status"))) {
+                        Tools.showToast(context, "删除失败！该折扣已审核不能删除！");
+                    } else {
+                        Tools.handleResult(context, result.getString("status"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, param);
     }

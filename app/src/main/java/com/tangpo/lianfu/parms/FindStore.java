@@ -31,7 +31,6 @@ public class FindStore {
             if(sessid!=null){
                 jsonObject.put("sessid", Escape.escape(sessid));
             }
-
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("lng", kvs[0]);
             paramJsonObject.put("lat", kvs[1]);
@@ -42,7 +41,6 @@ public class FindStore {
             paramJsonObject.put("store", Escape.escape(kvs[6]));
             paramJsonObject.put("contact", Escape.escape(kvs[7]));
             paramJsonObject.put("tel", Escape.escape(kvs[8]));
-
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

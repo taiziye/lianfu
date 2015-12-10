@@ -33,6 +33,7 @@ import com.tangpo.lianfu.config.WeiBo.Constants;
 import com.tangpo.lianfu.config.WeiBo.ErrorInfo;
 import com.tangpo.lianfu.config.WeiBo.User;
 import com.tangpo.lianfu.config.WeiBo.UsersAPI;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
 import com.tangpo.lianfu.parms.OAuth;
@@ -163,6 +164,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
+                    Log.e("tag",jsonObject.toString());
                     //System.out.println(Escape.unescape(result.toString()));
                     intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
@@ -465,6 +467,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String status=result.getString("status");
                     if(status.equals("3")){
                         Configs.cacheOpenIdAndLoginType(getApplicationContext(), openid, logintype);
+
                         Intent intent=new Intent(MainActivity.this,RelationActivity.class);
                         startActivity(intent);
                         //finish();

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/dialog_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/relate"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dip"
+            android:gravity="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:background="@android:color/white"
+            android:text="关联联富账户"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/registe"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:background="@android:color/white"
+            android:text="注册新账户"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+</RelativeLayout>

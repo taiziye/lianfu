@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -67,6 +68,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
+        Log.e("tag",user);
         gson=new Gson();
         userEntity=gson.fromJson(user, UserEntity.class);
         userType=userEntity.getUser_type();
@@ -228,14 +230,21 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     fragment = new RecordFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
-                    one_i.setImageResource(R.drawable.map_locate);
-                    two_i.setImageResource(R.drawable.s_collect_r);
-                    three_i.setImageResource(R.drawable.record);
+                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                        Intent intent=new Intent(HomePageActivity.this,BoundOrRegister.class);
+                        startActivity(intent);
+                    }else{
+                        one_i.setImageResource(R.drawable.map_locate);
+                        two_i.setImageResource(R.drawable.s_collect_r);
+                        three_i.setImageResource(R.drawable.record);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    fragment = new MemCollectFragment();
-                    fragment.setArguments(bundle);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userid", userid);
+                        fragment = new MemCollectFragment();
+                        fragment.setArguments(bundle);
+                    }
                 }
                 break;
             case R.id.three:
@@ -259,14 +268,21 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     fragment = new MemManageFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
-                    one_i.setImageResource(R.drawable.map_locate);
-                    two_i.setImageResource(R.drawable.s_collect);
-                    three_i.setImageResource(R.drawable.record_r);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    bundle.putString("storeid", store_id);
-                    fragment = new MemRecordFragment();
-                    fragment.setArguments(bundle);
+                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                        Intent intent=new Intent(HomePageActivity.this,BoundOrRegister.class);
+                        startActivity(intent);
+                    }else {
+                        one_i.setImageResource(R.drawable.map_locate);
+                        two_i.setImageResource(R.drawable.s_collect);
+                        three_i.setImageResource(R.drawable.record_r);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userid", userid);
+                        bundle.putString("storeid", store_id);
+                        fragment = new MemRecordFragment();
+                        fragment.setArguments(bundle);
+                    }
                 }
                 break;
             case R.id.four:

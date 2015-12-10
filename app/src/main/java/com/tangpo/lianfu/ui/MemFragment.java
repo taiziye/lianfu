@@ -1,9 +1,11 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,9 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private TextView remainder;
     private UserEntity userEntity;
 
+    private SharedPreferences preferences=null;
+    private String logintype=null;
+
 //    @Override
 //    public void onDestroyOptionsMenu() {
 //        super.onDestroyOptionsMenu();
@@ -54,8 +59,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View view) {
-
+        preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
         userEntity= (UserEntity) getArguments().getSerializable("user");
+
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         chat = (Button) view.findViewById(R.id.chat);
@@ -76,7 +83,11 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
         Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
         name.setText(userEntity.getName());
-        power.setText("会员");
+        if (logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+            power.setText("游客");
+        }else {
+            power.setText("会员");
+        }
         user_name.setText("");
     }
 
@@ -91,21 +102,26 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.next:
                 break;
             case R.id.personal_info:
-                intent = new Intent(getActivity(), PersonalInfoActivity.class);
-                intent.putExtra("user", userEntity);
-                /*startActivity(intent);*/
-                Tools.showToast(getActivity(), "请期待下一个版本");
+                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                    intent=new Intent(getActivity(),BoundOrRegister.class);
+                }else{
+                    intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                    intent.putExtra("user", userEntity);
+                }
+                startActivity(intent);
+                //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;
             case R.id.modify_pass:
-                intent = new Intent(getActivity(), UpdatePasswordActivity.class);
-                intent.putExtra("user", userEntity);
+                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                    intent=new Intent(getActivity(),BoundOrRegister.class);
+                }else{
+                    intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                    intent.putExtra("user", userEntity);
+                }
                 startActivity(intent);
                 break;
             case R.id.login_out:
-                SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.remove(Configs.KEY_TOKEN);
-                editor.commit();
+                Configs.cleanData(getActivity());
                 intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 getActivity().finish();

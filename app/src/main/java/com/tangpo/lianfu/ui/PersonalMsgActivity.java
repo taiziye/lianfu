@@ -123,6 +123,7 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Configs.cleanData(PersonalMsgActivity.this);
                 System.out.println(result.toString());
                 ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT);
 

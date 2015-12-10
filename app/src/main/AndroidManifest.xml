@@ -121,9 +121,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.RelateActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Boundlianfu" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.RelationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".ui.BoundOrRegister"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleBottom" />
         <service

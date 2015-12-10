@@ -74,4 +74,16 @@ public class Discount implements Serializable {
 
     public Discount() {
     }
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "desc='" + desc + '\'' +
+                ", id='" + id + '\'' +
+                ", discount='" + discount + '\'' +
+                ", display_id='" + display_id + '\'' +
+                ", status='" + status + '\'' +
+                ", examiner='" + examiner + '\'' +
+                '}';
+    }
 }

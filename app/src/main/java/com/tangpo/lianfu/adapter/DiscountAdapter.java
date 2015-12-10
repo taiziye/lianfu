@@ -1,7 +1,6 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ public class DiscountAdapter extends BaseAdapter {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
-        Log.e("tag", "size " + list.size());
         checked = new boolean[list.size()];
 
         selected = new HashMap<Integer, Boolean>();

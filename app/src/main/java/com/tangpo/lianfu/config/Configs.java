@@ -112,4 +112,18 @@ public class Configs {
         editor.commit();
     }
 
+    public static void cleanData(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
+        editor.remove(Configs.KEY_TOKEN);
+        editor.remove(Configs.KEY_LOGINTYPE);
+        editor.remove(Configs.KEY_USER);
+        editor.remove(Configs.KEY_THIRDUSER);
+        editor.remove(Configs.KEY_OPENID);
+        editor.remove(Configs.KEY_PHONE_NUM);
+        editor.remove(Configs.KEY_MANAGER);
+        editor.remove(Configs.KEY_EMPLOYEES);
+        editor.remove(Configs.KEY_MEMBERS);
+        editor.remove(Configs.KEY_STORE);
+        editor.commit();
+    }
 }

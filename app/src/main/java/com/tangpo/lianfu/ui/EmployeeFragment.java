@@ -96,8 +96,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", user);
-                /*startActivity(intent);*/
-                Tools.showToast(getActivity(), "请期待下一个版本");
+                startActivity(intent);
+                //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;
             case R.id.modify_pass:
                 intent = new Intent(getActivity(), UpdatePasswordActivity.class);
@@ -105,10 +105,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.login_out:
-                SharedPreferences preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.remove(Configs.KEY_TOKEN);
-                editor.commit();
+                Configs.cleanData(getActivity());
                 intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 getActivity().finish();

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private String lng = "0.000000";
     private String lat = "0.000000";
     private SharedPreferences preferences=null;
+    private String hereabout = "0";
+    private int page = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,6 +109,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             case R.id.double_code:
                 break;
             case R.id.locate:
+                if("0".equals(hereabout)) {
+                    hereabout=1 + "";
+                } else {
+                    hereabout=0 + "";
+                }
                 break;
             case R.id.map:
                 /*Intent intent = new Intent(getActivity(), MapActivity.class);
@@ -156,15 +164,14 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{lng, lat, userid,"1","10","0","","",""};
 
+        String kvs[] = new String[]{lng, lat, userid, page + "", "10", hereabout, "", "", ""};
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

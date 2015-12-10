@@ -1,14 +1,10 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
