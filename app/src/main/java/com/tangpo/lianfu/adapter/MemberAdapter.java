@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Member;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

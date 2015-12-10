@@ -1,7 +1,6 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.entity.Profit;
 import com.tangpo.lianfu.entity.ProfitPay;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 果冻 on 2015/11/17.
