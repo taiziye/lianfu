@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.wxapi;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +13,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.QQ.Util;
 import com.tangpo.lianfu.config.WeiXin.Constants;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.OAuth;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
+import com.tangpo.lianfu.ui.RelationActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
@@ -32,6 +38,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
+    private ProgressDialog pd=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 // TODO Auto-generated method stub
@@ -49,8 +56,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 // TODO Auto-generated method stub
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                System.out.println("errcode_success");
-                Log.e("tag", "errcode_success");
                 String code = ((SendAuth.Resp) resp).token;
                 getOpenidAndToken(code);
                 break;
@@ -70,7 +75,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             try {
                 String access_token=((JSONObject)msg.obj).getString("access_token");
                 String openid=((JSONObject)msg.obj).getString("openid");
-                getUserInfo(access_token,openid);
+                Configs.cacheOpenIdAndLoginType(WXEntryActivity.this,openid,"0");
+                getUserInfo(access_token, openid);
+                OAuthLogin(openid,"0");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -103,7 +110,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         });
     }
 
-    public void getUserInfo(String access_token,String openid){
+    public void getUserInfo(String access_token, final String openid){
         AsyncHttpClient httpClient=new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("access_token",access_token);
@@ -113,14 +120,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.e("tag", response.toString());
-                Intent intent=new Intent(WXEntryActivity.this,MainActivity.class);
-                intent.putExtra("user",response.toString());
-                setResult(RESULT_OK,intent);
-                startActivity(intent);
-                finish();
-                //ToastUtils.showToast(getApplicationContext(),response.toString(),Toast.LENGTH_LONG);
-                //Util.showResultDialog(getApplicationContext(), response.toString(), getString(R.string.login_success));
+                Configs.cacheThirdUser(WXEntryActivity.this,response.toString());
             }
 
             @Override
@@ -129,5 +129,47 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 ToastUtils.showToast(getApplicationContext(), getString(R.string.invalid_openid), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    private void OAuthLogin(final String openid, final String logintype){
+        pd = ProgressDialog.show(WXEntryActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[]=new String[]{openid,logintype};
+        String params= OAuth.packagingParam(kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                pd.dismiss();
+                try {
+                    JSONObject jsonObject = result.getJSONObject("param");
+                    String sessid = jsonObject.getString("session_id");
+                    Configs.cacheToken(getApplicationContext(), sessid);
+                    Configs.cacheUser(getApplicationContext(), jsonObject.toString());
+                    Intent intent = new Intent(WXEntryActivity.this, HomePageActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                pd.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("3")){
+                        Configs.cacheOpenIdAndLoginType(getApplicationContext(), openid, logintype);
+                        Intent intent=new Intent(WXEntryActivity.this,RelationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    if(status.equals("10")){
+                        ToastUtils.showToast(WXEntryActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
     }
 }

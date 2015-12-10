@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.tangpo.lianfu.config.Configs;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.UiError;
 
@@ -23,13 +24,14 @@ public class BaseUIListener implements IUiListener {
             switch (msg.what) {
             case ON_COMPLETE:
                 JSONObject response = (JSONObject)msg.obj;
-                Util.showResultDialog(mContext, response.toString(), "onComplete");
+                //Util.showResultDialog(mContext, response.toString(), "onComplete");
+				Configs.cacheThirdUser(mContext,response.toString());
                 Util.dismissDialog();
                 break;
             case ON_ERROR:
                 UiError e = (UiError)msg.obj;
-                Util.showResultDialog(mContext, "errorMsg:" + e.errorMessage
-                        + "errorDetail:" + e.errorDetail, "onError");
+//                Util.showResultDialog(mContext, "errorMsg:" + e.errorMessage
+//                        + "errorDetail:" + e.errorDetail, "onError");
                 Util.dismissDialog();
                 break;
             case ON_CANCEL:

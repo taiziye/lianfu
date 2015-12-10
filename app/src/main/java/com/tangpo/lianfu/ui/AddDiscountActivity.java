@@ -59,15 +59,15 @@ public class AddDiscountActivity extends Activity implements View.OnClickListene
 
     private void addDiscount() {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
         }
         if(type.getText().toString().length() == 0) {
-            Tools.showToast(getApplicationContext(), "请输入正确的折扣类型");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_discount_type));
             return;
         }
         if (discount.getText().toString().length() == 0) {
-            Tools.showToast(getApplicationContext(), "请输入正确的折扣");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_choose_correct_discount));
             return;
         }
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));

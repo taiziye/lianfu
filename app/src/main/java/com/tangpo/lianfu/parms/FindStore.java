@@ -28,12 +28,21 @@ public class FindStore {
             jsonObject.put("time", Escape.escape(time));
             jsonObject.put("rannum", Escape.escape(rannum));
             jsonObject.put("md5ver", Escape.escape(md5vec));
-            jsonObject.put("sessid", Escape.escape(sessid));
+            if(sessid!=null){
+                jsonObject.put("sessid", Escape.escape(sessid));
+            }
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("lng", kvs[0]);
             paramJsonObject.put("lat", kvs[1]);
             paramJsonObject.put("user_id", Escape.escape(kvs[2]));
+            paramJsonObject.put("page_index", Escape.escape(kvs[3]));
+            paramJsonObject.put("page_size", Escape.escape(kvs[4]));
+            paramJsonObject.put("hereabout", Escape.escape(kvs[5]));
+            paramJsonObject.put("store", Escape.escape(kvs[6]));
+            paramJsonObject.put("contact", Escape.escape(kvs[7]));
+            paramJsonObject.put("tel", Escape.escape(kvs[8]));
+
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

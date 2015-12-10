@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,18 +92,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     //这里是微信授权的实例的对象
     public static IWXAPI api;
-    private String openid;
-    private String logintype;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        Intent intent=getIntent();
-        if(intent!=null){
-            Util.showResultDialog(MainActivity.this, intent.getStringExtra("user"), "登录成功");
-        }
         String token = Configs.getCatchedToken(this);
         //判断用户是否登录，如果已登录，则跳过该页面
         if (token != null) {  //如果已登录
@@ -168,7 +163,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    System.out.println(Escape.unescape(result.toString()));
+                    //System.out.println(Escape.unescape(result.toString()));
                     intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
                     MainActivity.this.finish();
@@ -183,7 +178,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 System.out.println(Escape.unescape(result.toString()));
                 try {
                     if("2".equals(result.getString("status"))) {
-                        Tools.showToast(MainActivity.this, "用户名或密码错误");
+                        Tools.showToast(MainActivity.this, getString(R.string.username_or_pwd_error));
                     }else{
                         Tools.showToast(MainActivity.this, getString(R.string.fail_to_login));
                     }
@@ -297,8 +292,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void onComplete(Bundle values) {
             // 从 Bundle 中解析 Token
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-            //从这里获取用户输入的 电话号码信息
-            String  uid =  mAccessToken.getUid();
+//            //从这里获取用户输入的 电话号码信息
+//            String  uid =  mAccessToken.getUid();
+            String openid=mAccessToken.getToken();
+            Configs.cacheOpenIdAndLoginType(MainActivity.this,openid,"1");
+            OAuthLogin(openid,"1");
             if (mAccessToken.isSessionValid()) {
                 // 显示 Token
                 //updateTokenView(false);
@@ -345,7 +343,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 调用 User#parse 将JSON串解析成User对象
                 User user = User.parse(response);
                 if (user != null) {
-                    Util.showResultDialog(MainActivity.this, response.toString(), getString(R.string.login_success));
+                    //Util.showResultDialog(MainActivity.this, response.toString(), getString(R.string.login_success));
+                    Configs.cacheThirdUser(MainActivity.this,response.toString());
+                    //第三方登录
                 } else {
                     Util.showResultDialog(MainActivity.this, getString(R.string.return_is_null), getString(R.string.login_fail));
                 }
@@ -388,31 +388,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
             mInfo=new UserInfo(this,MainActivity.mTencent.getQQToken());
             mInfo.getUserInfo(new BaseUIListener(this, "get_simple_userinfo"));
-            //Util.showProgressDialog(this, null, null);
         }
     }
-
-    public static void initOpenidAndToken(JSONObject jsonObject) {
-        try {
-            String token = jsonObject.getString(com.tencent.connect.common.Constants.PARAM_ACCESS_TOKEN);
-            String expires = jsonObject.getString(com.tencent.connect.common.Constants.PARAM_EXPIRES_IN);
-            String openId = jsonObject.getString(com.tencent.connect.common.Constants.PARAM_OPEN_ID);
-            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
-                    && !TextUtils.isEmpty(openId)) {
-                mTencent.setAccessToken(token, expires);
-                mTencent.setOpenId(openId);
-            }
-        } catch(Exception e) {
-        }
-    }
-
-    IUiListener loginListener = new BaseUiListener() {
-        @Override
-        protected void doComplete(JSONObject values) {
-            //这里的value缓存了openid的信息
-            initOpenidAndToken(values);
-        }
-    };
+    BaseUiListener loginListener=new BaseUiListener();
 
     private class BaseUiListener implements IUiListener {
 
@@ -427,12 +405,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Util.showResultDialog(MainActivity.this, getString(R.string.return_is_null), getString(R.string.login_fail));
                 return;
             }
-            //Util.showResultDialog(MainActivity.this, response.toString(), "登录成功");
-            doComplete((JSONObject)response);
-        }
-
-        protected void doComplete(JSONObject values) {
-
+            //这里的value缓存了openid的信息
+            try {
+                String token = jsonResponse.getString(com.tencent.connect.common.Constants.PARAM_ACCESS_TOKEN);
+                String expires = jsonResponse.getString(com.tencent.connect.common.Constants.PARAM_EXPIRES_IN);
+                String openId = jsonResponse.getString(com.tencent.connect.common.Constants.PARAM_OPEN_ID);
+                if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires) && !TextUtils.isEmpty(openId)){
+                    //将openid和token保存起来
+                    mTencent.setAccessToken(token, expires);
+                    mTencent.setOpenId(openId);
+                    Configs.cacheOpenIdAndLoginType(MainActivity.this,openId,"2");
+                    //第三方登录
+                    OAuthLogin(openId,"2");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -449,7 +437,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
 
-    private void OAuthLogin(){
+    private void OAuthLogin(final String openid, final String logintype){
         pd = ProgressDialog.show(MainActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[]=new String[]{openid,logintype};
         String params= OAuth.packagingParam(kvs);
@@ -462,7 +450,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    System.out.println(Escape.unescape(result.toString()));
                     intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
                     finish();
@@ -474,6 +461,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFail(JSONObject result) {
                 pd.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("3")){
+                        Configs.cacheOpenIdAndLoginType(getApplicationContext(), openid, logintype);
+                        Intent intent=new Intent(MainActivity.this,RelationActivity.class);
+                        startActivity(intent);
+                        //finish();
+                    }
+                    if(status.equals("10")){
+                        ToastUtils.showToast(MainActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         },params);
     }

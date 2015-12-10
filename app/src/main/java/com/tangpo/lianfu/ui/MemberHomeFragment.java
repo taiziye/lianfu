@@ -63,7 +63,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         if (bundle != null) {
             userid = bundle.getString("userid");
-            getCollectedStore();
+            //getCollectedStore();
             getStores();
         }
 
@@ -153,9 +153,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
         lat=preferences.getFloat(Configs.KEY_LATITUDE,0.000000f)+"";
         lng=preferences.getFloat(Configs.KEY_LONGITUDE,0.000000f)+"";
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{lng, lat, userid};
+        String kvs[] = new String[]{lng, lat, userid,"1","10","0","","",""};
 
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
@@ -194,45 +195,45 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }, params);
     }
 
-    private void getCollectedStore(){
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
-            return;
-        }
-
-        String kvs[] = new String[]{userid};
-        String params = com.tangpo.lianfu.parms.CheckCollectedStore.packagingParam(getActivity(), kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                //
-                try {
-                    JSONArray jsonArray = result.getJSONArray("param");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        Store store = gson.fromJson(object.toString(), Store.class);
-                        v.add(store.getId());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Message msg = new Message();
-                msg.what = 2;
-                msg.obj = v;
-                mHandler.sendMessage(msg);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, params);
-    }
+//    private void getCollectedStore(){
+//        if(!Tools.checkLAN()) {
+//            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+//            return;
+//        }
+//
+//        String kvs[] = new String[]{userid};
+//        String params = com.tangpo.lianfu.parms.CheckCollectedStore.packagingParam(getActivity(), kvs);
+//
+//        new NetConnection(new NetConnection.SuccessCallback() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                //
+//                try {
+//                    JSONArray jsonArray = result.getJSONArray("param");
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject object = jsonArray.getJSONObject(i);
+//                        Store store = gson.fromJson(object.toString(), Store.class);
+//                        v.add(store.getId());
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                Message msg = new Message();
+//                msg.what = 2;
+//                msg.obj = v;
+//                mHandler.sendMessage(msg);
+//            }
+//        }, new NetConnection.FailCallback() {
+//            @Override
+//            public void onFail(JSONObject result) {
+//                //
+//                try {
+//                    Tools.handleResult(getActivity(), result.getString("status"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, params);
+//    }
 }

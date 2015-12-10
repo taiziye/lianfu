@@ -30,7 +30,7 @@ public class OAuthBind {
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("username", Escape.escape(kvs[0]));
-            paramJsonObject.put("password", Escape.escape(kvs[1]));
+            paramJsonObject.put("password", kvs[1]);
             paramJsonObject.put("openid",Escape.escape(kvs[2]));
             paramJsonObject.put("logintype",Escape.escape(kvs[3]));
 

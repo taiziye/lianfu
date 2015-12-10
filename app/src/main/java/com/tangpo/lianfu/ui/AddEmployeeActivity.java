@@ -85,14 +85,14 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
         manage_level = (Spinner) findViewById(R.id.manage_level);
         list = new ArrayList<>();
-        list.add("管理员");
-        list.add("员工");
+        list.add(getString(R.string.manager));
+        list.add(getString(R.string.employee));
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         manage_level.setAdapter(adapter);
         manage_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).equals("管理员")){
+                if (adapter.getItem(position).equals(getString(R.string.manager))){
                     rank="1";
                 }else{
                     rank="0";
@@ -122,14 +122,14 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
         spinner = (Spinner) findViewById(R.id.spinner);
         list = new ArrayList<>();
-        list.add("男");
-        list.add("女");
+        list.add(getString(R.string.male));
+        list.add(getString(R.string.female));
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).equals("男")) {
+                if (adapter.getItem(position).equals(getString(R.string.male))) {
                     sex = "0";
                 } else {
                     sex = "1";
@@ -167,7 +167,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private void addEmployee() {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
         }
 
@@ -183,27 +183,27 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         bank_nameStr = bank_name.getText().toString();
 
         if(username.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写用户名");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_username));
             return;
         }
         if(!Tools.isMobileNum(phone)) {
-            Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_phonenumber));
             return;
         }
         if(name.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写姓名");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_name));
             return;
         }
         if(id_num.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写身份证号码");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_idnumber));
             return;
         }
         if(bank_account.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写银行账户");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_account));
             return;
         }
         if(bank_nameStr.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写银行名称");
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_name));
             return;
         }
 
@@ -228,7 +228,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 dialog.dismiss();
                 try {
                     if("300".equals(result.getString("status"))) {
-                        Tools.showToast(AddEmployeeActivity.this, "请输入正确的手机号");
+                        Tools.showToast(AddEmployeeActivity.this, getString(R.string.please_input_correct_phonenumber));
                     } else {
                         Tools.handleResult(AddEmployeeActivity.this, result.getString("status"));
                     }

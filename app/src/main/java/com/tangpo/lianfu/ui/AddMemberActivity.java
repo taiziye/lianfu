@@ -144,7 +144,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
     }
     private void addMember() {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
         }
         String user_id = user_name.getText().toString();

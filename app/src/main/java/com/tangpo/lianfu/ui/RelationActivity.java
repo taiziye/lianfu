@@ -44,6 +44,8 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.con:
+                intent=new Intent(RelationActivity.this,HomePageActivity.class);
+                startActivity(intent);
                 break;
         }
     }

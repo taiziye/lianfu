@@ -143,22 +143,22 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
     private void commitConsume() {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
         }
 
         if(mem == null) {
-            Tools.showToast(this, "请选择消费用户");
+            Tools.showToast(this, getString(R.string.please_choose_consume_user));
             return;
         }
 
         if(dis == null) {
-            Tools.showToast(this, "请选择折扣");
+            Tools.showToast(this, getString(R.string.please_choose_discount));
             return;
         }
 
         if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
-            Tools.showToast(this, "请填写正确的消费金额");
+            Tools.showToast(this, getString(R.string.please_input_correct_amount));
             return;
         }
 
