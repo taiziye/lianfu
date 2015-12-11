@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +84,9 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
                 intent.putExtra("store",list.get(position-1));
                 intent.putExtra("userid", userid);
+                //Log.e("tag",list.get(position-1).getFavorite());
                 intent.putExtra("favorite", "1");
-                startActivity(intent);
+                getActivity().startActivity(intent);
             }
         });
     }

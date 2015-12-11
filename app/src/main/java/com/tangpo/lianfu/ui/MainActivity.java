@@ -447,6 +447,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
+                Configs.cleanData(MainActivity.this);
                 try {
                     JSONObject jsonObject = result.getJSONObject("param");
                     String sessid = jsonObject.getString("session_id");

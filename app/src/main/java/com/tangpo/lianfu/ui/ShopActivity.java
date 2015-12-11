@@ -59,7 +59,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private String store_id=null;
     private String user_id=null;
-    private String favorite = "";
+    private String favorite ="";
     private Store store=null;
     private FindStore findStore=null;
     private ProgressDialog dialog=null;
@@ -82,8 +82,11 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         if(getIntent() != null) {
             findStore=getIntent().getParcelableExtra("store");
             store_id=findStore.getId();
+            favorite=findStore.getFavorite();
+            if(favorite==null){
+                favorite=getIntent().getStringExtra("favorite");
+            }
             user_id=getIntent().getExtras().getString("userid");
-            favorite = getIntent().getStringExtra("favorite");
         }
         init();
     }
