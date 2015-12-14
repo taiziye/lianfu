@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/he"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout android:id="@+id/one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="100dp"
+            >
+
+            <TextView
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="66dp" />
+
+            <TextView
+                android:id="@+id/he_text"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:background="@drawable/he"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:text="dfsdfsdfss"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@null"
+                android:src="@drawable/me_head_bg" />
+
+            <com.tangpo.lianfu.utils.CircularImage
+                android:id="@+id/heimg"
+                android:layout_width="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_height="50dp"
+                android:scaleType="centerInside" />
+
+        </RelativeLayout>
+
+        <TextView android:id="@+id/time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="50dp"
+            android:text="18:54"/>
+
+    </LinearLayout>
+
+    <RelativeLayout android:id="@+id/me"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout android:id="@+id/two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="100dp"
+            >
+
+            <TextView
+                android:background="@android:color/transparent"
+                android:layout_width="160dp"
+                android:layout_height="66dp" />
+
+            <TextView
+                android:id="@+id/me_text"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:background="@drawable/me"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="30dp"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:text="dfsdfsdfss"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:src="@drawable/me_head_bg" />
+
+            <com.tangpo.lianfu.utils.CircularImage
+                android:id="@+id/meimg"
+                android:layout_width="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_height="50dp"
+                android:scaleType="centerInside" />
+
+        </RelativeLayout>
+
+        <TextView android:id="@+id/time2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/two"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="18:55"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
