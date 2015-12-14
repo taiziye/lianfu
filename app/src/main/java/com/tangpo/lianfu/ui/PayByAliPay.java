@@ -381,7 +381,7 @@ public class PayByAliPay extends FragmentActivity {
         String receipt_no=bundle.getString("receipt_no");
         String receipt_photo=bundle.getString("receipt_photo");
 
-        String online="false";
+        String online="true";
 
         String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
         if (fee.equals("")){

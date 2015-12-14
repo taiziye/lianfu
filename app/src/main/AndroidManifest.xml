@@ -71,6 +71,11 @@
         <activity android:name=".ui.UpdatePasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.SelectPicActivity"
