@@ -181,6 +181,15 @@
         <View style="@style/view_line_style" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="30dp"
+        android:textSize="15sp"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/holo_green_light"
+        android:text="当前版本-1.0.02"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

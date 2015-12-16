@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
@@ -23,6 +24,7 @@ import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.DeleteDiscount;
 import com.tangpo.lianfu.parms.ManageDiscount;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -127,10 +129,14 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.confirm:
-                intent = new Intent();
-                intent.putExtra("discount", list.get(index));
-                setResult(RESULT_OK, intent);
-                finish();
+                if(index==-1){
+                    ToastUtils.showToast(this,getString(R.string.please_choose_discount), Toast.LENGTH_SHORT);
+                }else{
+                    intent = new Intent();
+                    intent.putExtra("discount", list.get(index));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 break;
             case R.id.delete:
                 deleteDiscount();
