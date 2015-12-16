@@ -455,14 +455,19 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/map_locate" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/map_locate"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/icon_gcoding"
                     />
             </LinearLayout>
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -489,6 +494,7 @@
                     android:layout_marginBottom="10dp" />
 
             </LinearLayout>
+            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"

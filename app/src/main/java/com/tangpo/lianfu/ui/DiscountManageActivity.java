@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -112,6 +113,12 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
                 getDiscount();
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
     }
