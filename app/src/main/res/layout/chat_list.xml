@@ -44,11 +44,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
                 android:layout_gravity="bottom"
-                android:textColor="@android:color/black"
+                android:background="@drawable/he"
+                android:textColor="@android:color/white"
                 android:textSize="15sp"
-                android:text="dfsdfsdfssdfsdfsd"/>
+                android:text="我妈过生日"/>
         </LinearLayout>
         <TextView android:id="@+id/time1"
             android:layout_width="wrap_content"
@@ -66,27 +66,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right"
             android:paddingLeft="100dp">
-            <TextView
-                android:id="@+id/me_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="bottom"
-                android:textColor="@android:color/black"
-                android:text="sfsdfsdfsd"/>
-
-            <RelativeLayout
+            <RelativeLayout android:id="@+id/right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="right"
+                android:layout_alignParentRight="true"
                 >
                 <ImageView
                     android:layout_width="50dp"
@@ -100,7 +88,27 @@
                     android:layout_height="50dp"
                     android:scaleType="centerInside" />
             </RelativeLayout>
-        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/right"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"/>
+                <TextView
+                    android:id="@+id/me_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/me"
+                    android:layout_gravity="bottom"
+                    android:textColor="@android:color/white"
+                    android:text="dsfadsfdsfsadfaff"/>
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView android:id="@+id/time2"
             android:layout_width="wrap_content"

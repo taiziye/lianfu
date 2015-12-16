@@ -41,6 +41,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private Button double_code;
     private ImageView locate;
+    private ImageView start;
     private Button map;
     private EditText search;
     private PullToRefreshListView listView;
@@ -78,12 +79,14 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         double_code.setOnClickListener(this);
         locate = (ImageView) view.findViewById(R.id.locate);
         locate.setOnClickListener(this);
+        start = (ImageView) view.findViewById(R.id.start);
+        start.setOnClickListener(this);
         map = (Button) view.findViewById(R.id.map);
         map.setOnClickListener(this);
 
-        double_code.setOnClickListener(this);
+        /*double_code.setOnClickListener(this);
         locate.setOnClickListener(this);
-        map.setOnClickListener(this);
+        map.setOnClickListener(this);*/
 
         search = (EditText) view.findViewById(R.id.search);
 
@@ -131,7 +134,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.search:
+            case R.id.start:
+                String str = search.getText().toString().trim();
+                findStore(str);
                 break;
         }
     }
@@ -140,18 +145,70 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            ArrayList<FindStore> list = null;
             switch (msg.what) {
                 case 1:
-                    ArrayList<FindStore> list = (ArrayList<FindStore>) msg.obj;
+                    list = (ArrayList<FindStore>) msg.obj;
                     adapter = new PositionAdapter(getActivity(), list, v);
                     listView.setAdapter(adapter);
                     break;
                 case 2:
                     v = (ArrayList<String>) msg.obj;
                     break;
+                case 3:
+                    list = (ArrayList<FindStore>) msg.obj;
+                    adapter = new PositionAdapter(getActivity(), list, v);
+                    listView.setAdapter(adapter);
+                    break;
             }
         }
     };
+
+    private void findStore(String str) {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+
+
+        String kvs[] = new String[]{"", "", "", "", "10", "", str, "", ""};
+        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    JSONArray jsonArray = result.getJSONArray("param");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        FindStore store = gson.fromJson(object.toString(), FindStore.class);
+                        storeList.add(store);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 3;
+                msg.obj = storeList;
+                mHandler.sendMessage(msg);
+
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, params);
+    }
 
     private void getStores() {
         if(!Tools.checkLAN()) {

@@ -4,18 +4,21 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.StoreDetail;
+import com.tangpo.lianfu.parms.EditStore;
+import com.tangpo.lianfu.parms.StoreInfo;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -53,7 +56,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private ProgressDialog dialog = null;
     private Gson gson = null;
 
-    private Store store = null;
+    private com.tangpo.lianfu.entity.StoreInfo store = null;
     private String userid = null;
     private String storeid = null;
 
@@ -116,6 +119,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.edit:
+                editShopInfo();
                 break;
 
             case R.id.map_locate:
@@ -135,20 +139,24 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
-        String param = StoreDetail.packagingParam(this, kvs);
+        String param = StoreInfo.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
+                    Log.e("tag",result.toString());
+                    store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
                     shop_name.setText(store.getStore());
                     shop_host.setText(store.getContact());
-                    contact_name.setText(store.getContact());
+                    contact_name.setText(store.getLinkman());
+                    contact_tel.setText(store.getPhone());
                     const_tel.setText(store.getTel());
-                    //occupation.setText(store.getBusiness());
-                    //address.setText();
+                    contact_intel.setText(store.getQq());
+                    contact_email.setText(store.getEmail());
+                    occupation.setText(store.getTrade());
+                    address.setText(store.getSheng()+store.getShi()+store.getXian());
                     detail_address.setText(store.getAddress());
                     commodity.setText(store.getBusiness());
                     /**
@@ -156,22 +164,20 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                      */
                     Tools.setPhoto(ShopInfoActivity.this, store.getBanner(), top_ad);
                     String tmp[] = store.getPhoto().split("\\,");
-                    if(tmp.length<1){
-                        Tools.setPhoto(ShopInfoActivity.this, "", img1);
-                        Tools.setPhoto(ShopInfoActivity.this, "", img2);
-                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
-                    } else if(tmp.length<2){
+                    img1.setVisibility(View.INVISIBLE);
+                    img2.setVisibility(View.INVISIBLE);
+                    img3.setVisibility(View.INVISIBLE);
+                    if(tmp.length>0){
+                        img1.setVisibility(View.VISIBLE);
                         Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopInfoActivity.this, "", img2);
-                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
-                    } else if(tmp.length<3){
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
+                    }
+                    if(tmp.length>1){
+                        img2.setVisibility(View.VISIBLE);
                         Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopInfoActivity.this, "", img3);
-                    } else if(tmp.length<4){
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[2], img3);
+                    }
+                    if(tmp.length>2){
+                        img3.setVisibility(View.VISIBLE);
+                        Tools.setPhoto(ShopInfoActivity.this,tmp[2],img3);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -188,5 +194,43 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 }
             }
         }, param);
+    }
+
+    private void editShopInfo(){
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[]=new String[]{store.getStore_id(),shop_name.getText().toString(),shop_host.getText().toString(),
+                contact_name.getText().toString(),contact_tel.getText().toString(),const_tel.getText().toString(),
+                store.getLng(),store.getLat(),contact_intel.getText().toString(),contact_email.getText().toString(),detail_address.getText().toString(),
+                store.getSinguser(),occupation.getText().toString(), store.getSheng(),store.getShi(), store.getXian(),commodity.getText().toString()};
+        String params= EditStore.packagingParam(this,kvs);
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                ToastUtils.showToast(ShopInfoActivity.this, getString(R.string.edit_success), Toast.LENGTH_SHORT);
+                finish();
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(ShopInfoActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("10")){
+                        ToastUtils.showToast(ShopInfoActivity.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }else{
+                        ToastUtils.showToast(ShopInfoActivity.this,getString(R.string.input_error),Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
     }
 }
