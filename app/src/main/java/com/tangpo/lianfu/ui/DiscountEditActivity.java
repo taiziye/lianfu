@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -77,35 +80,46 @@ public class DiscountEditActivity extends Activity implements View.OnClickListen
 
     private void updateDiscount(final String name, final String discount) {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{user_id, store_id, dis.getId(), name, discount};
         String params = com.tangpo.lianfu.parms.EditDiscount.packagingParam(getApplicationContext(), kvs);
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 //
-                Tools.showToast(getApplicationContext(), "修改成功");
+                Tools.showToast(getApplicationContext(), getString(R.string.edit_success));
                 Intent intent = new Intent();
                 dis.setDesc(name);
                 dis.setDiscount(discount);
                 intent.putExtra("discount", dis);
                 setResult(RESULT_OK, intent);
+                DiscountEditActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                //
+                dialog.dismiss();
                 try {
-                    if ("1".equals(result.getString("status"))) {
-                        Tools.showToast(getApplicationContext(), "修改失败");
-                    } else {
-                        Tools.handleResult(getApplicationContext(), result.getString("status"));
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(DiscountEditActivity.this,result.getString("info"), Toast.LENGTH_SHORT);
+                    }else if(status.equals("2")){
+                        ToastUtils.showToast(DiscountEditActivity.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("9")){
+                        ToastUtils.showToast(DiscountEditActivity.this, getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                        Configs.cleanData(DiscountEditActivity.this);
+                        Intent intent = new Intent(DiscountEditActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        DiscountEditActivity.this.finish();
+                    }else{
+                        ToastUtils.showToast(DiscountEditActivity.this,result.getString("info"),Toast.LENGTH_SHORT);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

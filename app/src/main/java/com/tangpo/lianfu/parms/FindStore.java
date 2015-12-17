@@ -22,15 +22,16 @@ public class FindStore {
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;
         String sessid = Configs.getCatchedToken(context);
+        if(sessid==null){
+            sessid="";
+        }
         String md5vec = GetMD5Vec.getMD5Vec(action, rannum, time, key, sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
             jsonObject.put("time", Escape.escape(time));
             jsonObject.put("rannum", Escape.escape(rannum));
             jsonObject.put("md5ver", Escape.escape(md5vec));
-            if(sessid!=null){
-                jsonObject.put("sessid", Escape.escape(sessid));
-            }
+            jsonObject.put("sessid", Escape.escape(sessid));
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("lng", kvs[0]);
             paramJsonObject.put("lat", kvs[1]);

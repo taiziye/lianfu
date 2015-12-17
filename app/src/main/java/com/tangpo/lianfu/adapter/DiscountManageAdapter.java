@@ -86,13 +86,13 @@ public class DiscountManageAdapter extends BaseAdapter {
         });
 
         holder.name.setText(list.get(position).getDesc());
-        holder.discount.setText(list.get(position).getDesc());
+        holder.discount.setText(Float.valueOf(list.get(position).getDiscount())/10+"折");
         if (list.get(position).getStatus().equals("0")) {
             holder.check.setText("未确认");
         } else if (list.get(position).getStatus().equals("1")) {
-            holder.check.setText("已确认");
-        } else {
             holder.check.setText("已拒绝");
+        } else {
+            holder.check.setText("已确认");
         }
         return convertView;
     }

@@ -68,7 +68,13 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         if (bundle != null) {
             userid = bundle.getString("userid");
             //getCollectedStore();
-            getStores();
+            SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+            String logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
+            if (logintype!=null){
+                findStore("");
+            }else{
+                getStores();
+            }
         }
 
         return view;
@@ -166,6 +172,8 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 } else {
                     hereabout=0 + "";
                 }
+                storeList.clear();
+                getStores();
                 break;
             case R.id.map:
                 /*Intent intent = new Intent(getActivity(), MapActivity.class);
@@ -226,7 +234,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{"", "", "", "", "10", "", str, "", ""};
+        String kvs[] = new String[]{"", "", "", "1", "10", hereabout, str, "", ""};
         String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -313,46 +321,4 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             }
         }, params);
     }
-
-//    private void getCollectedStore(){
-//        if(!Tools.checkLAN()) {
-//            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
-//            return;
-//        }
-//
-//        String kvs[] = new String[]{userid};
-//        String params = com.tangpo.lianfu.parms.CheckCollectedStore.packagingParam(getActivity(), kvs);
-//
-//        new NetConnection(new NetConnection.SuccessCallback() {
-//            @Override
-//            public void onSuccess(JSONObject result) {
-//                //
-//                try {
-//                    JSONArray jsonArray = result.getJSONArray("param");
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject object = jsonArray.getJSONObject(i);
-//                        Store store = gson.fromJson(object.toString(), Store.class);
-//                        v.add(store.getId());
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                Message msg = new Message();
-//                msg.what = 2;
-//                msg.obj = v;
-//                mHandler.sendMessage(msg);
-//            }
-//        }, new NetConnection.FailCallback() {
-//            @Override
-//            public void onFail(JSONObject result) {
-//                //
-//                try {
-//                    Tools.handleResult(getActivity(), result.getString("status"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, params);
-//    }
 }

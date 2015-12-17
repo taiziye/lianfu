@@ -21,7 +21,7 @@ public class StoreDetail {
         String time = GetTime.getTime();
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;
-        String sessid = Configs.getCatchedToken(context);
+        String sessid = Configs.getCatchedToken(context)+"";
         String md5vec = GetMD5Vec.getMD5Vec(action, rannum, time, key, sessid);
         try {
             jsonObject.put("action", Escape.escape(action));

@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -106,6 +107,13 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 }
                 break;
             case R.id.confirm:
+                SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+                String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                if(logintype!=null){
+                    Intent intent = new Intent(PersonalInfoActivity.this,BoundOrRegister.class);
+                    startActivity(intent);
+                    return;
+                }
                 updatePersonalInfo();
                 break;
         }
@@ -117,7 +125,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             return;
         }
 
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String user_id = user_name.getText().toString().length() == 0 ? user.getName() : user_name.getText().toString();
         String phone = contact_tel.getText().toString().length() == 0 ? user.getPhone() : contact_tel.getText().toString();
         String name = rel_name.getText().toString().length() == 0 ? user.getBank_name() : rel_name.getText().toString();
@@ -130,7 +137,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
             return;
         }
-
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user_id, name, id_number, phone, "", "", "", user.getSex(),
                 user.getBirth(), user.getQq(), user.getEmail(), user.getAddress(), bank_account,
                 bank_nameStr, bankStr, user.getBank_address()};

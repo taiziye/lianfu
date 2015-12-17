@@ -102,12 +102,14 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.next:
                 break;
             case R.id.personal_info:
-                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
-                    intent=new Intent(getActivity(),BoundOrRegister.class);
-                }else{
-                    intent = new Intent(getActivity(), PersonalInfoActivity.class);
-                    intent.putExtra("user", userEntity);
-                }
+                intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                intent.putExtra("user", userEntity);
+//                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+//                    intent=new Intent(getActivity(),BoundOrRegister.class);
+//                }else{
+//                    intent = new Intent(getActivity(), PersonalInfoActivity.class);
+//                    intent.putExtra("user", userEntity);
+//                }
                 startActivity(intent);
                 //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -121,8 +122,9 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("tag","check");
                 Intent intent = new Intent(getApplicationContext(), DiscountEditActivity.class);
-                index = position;
+                index = position-1;
                 intent.putExtra("userid", user.getUser_id());
                 intent.putExtra("storeid", user.getStore_id());
                 intent.putExtra("discount", list.get(position - 1));
