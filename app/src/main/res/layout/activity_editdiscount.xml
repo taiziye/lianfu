@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="编辑折扣" />
+
+        <Button
+            android:id="@+id/commit"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
+            android:background="@null"
+            android:textSize="15sp"
+            android:text="@string/submit"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:text="酒店折扣的描述"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="16dp">
+        <EditText android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:text="输入折扣额度"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="16dp">
+        <EditText android:id="@+id/discount"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"/>
+    </LinearLayout>
+
+</LinearLayout>

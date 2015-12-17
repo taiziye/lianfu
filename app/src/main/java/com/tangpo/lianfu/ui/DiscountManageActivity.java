@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +36,7 @@ import java.util.List;
  */
 public class DiscountManageActivity extends Activity implements View.OnClickListener {
 
+    private static final int EDIT_COUDE = 1;
     private Button back;
     private Button edit;
     private PullToRefreshListView listView;
@@ -45,6 +47,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
     private int page = 1;
     private Gson gson = null;
     private ProgressDialog dialog = null;
+    private int index = 0;
 
     @Override
     protected void onDestroy() {
@@ -118,9 +121,25 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(getApplicationContext(), DiscountEditActivity.class);
+                index = position;
+                intent.putExtra("userid", user.getUser_id());
+                intent.putExtra("storeid", user.getStore_id());
+                intent.putExtra("discount", list.get(position - 1));
+                startActivityForResult(intent, EDIT_COUDE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null) {
+            Discount discount = (Discount) data.getSerializableExtra("discount");
+            list.remove(index);
+            list.add(index, discount);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private boolean isEdit = false;

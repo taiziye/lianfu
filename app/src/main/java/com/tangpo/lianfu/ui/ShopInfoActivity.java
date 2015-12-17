@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -131,23 +133,13 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void getStoreInfo() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
-        String param = StoreInfo.packagingParam(this, kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                dialog.dismiss();
-                try {
-                    Log.e("tag",result.toString());
-                    store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch ( msg.what ) {
+                case 1:
+                    store = (com.tangpo.lianfu.entity.StoreInfo) msg.obj;
                     shop_name.setText(store.getStore());
                     shop_host.setText(store.getContact());
                     contact_name.setText(store.getLinkman());
@@ -179,9 +171,36 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                         img3.setVisibility(View.VISIBLE);
                         Tools.setPhoto(ShopInfoActivity.this,tmp[2],img3);
                     }
+                    break;
+            }
+        }
+    };
+
+    private void getStoreInfo() {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
+        String param = StoreInfo.packagingParam(this, kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    Log.e("tag",result.toString());
+                    store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = store;
+                handler.sendMessage(msg);
             }
         }, new NetConnection.FailCallback() {
             @Override

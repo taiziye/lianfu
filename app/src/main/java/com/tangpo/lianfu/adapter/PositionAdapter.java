@@ -42,14 +42,12 @@ public class PositionAdapter extends BaseAdapter {
     private ViewHolder holder = null;
     private List<String> collectedStore = new ArrayList<>();
     private SharedPreferences preferences = null;
-    private ArrayList<String> v = new ArrayList<>();
 
     private String userid = null;
 
-    public PositionAdapter(Context context, List<FindStore> list, ArrayList<String> v) {
+    public PositionAdapter(Context context, List<FindStore> list) {
         this.context = context;
         this.list = list;
-        this.v = v;
         inflater = LayoutInflater.from(context);
         preferences = context.getSharedPreferences(Configs.APP_ID, Context.MODE_APPEND);
         String user = preferences.getString(Configs.KEY_USER, "0");
