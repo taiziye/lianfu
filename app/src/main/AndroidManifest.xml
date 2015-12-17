@@ -135,6 +135,12 @@
             android:name=".ui.BoundOrRegister"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".ui.DiscountEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ChatActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

@@ -60,6 +60,11 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         //根据数据设置holder
+        if (true) {  //根据情形是否需要显示
+            holder.he.setVisibility(View.GONE);
+        } else if (true) {
+            holder.me.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
