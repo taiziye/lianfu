@@ -108,7 +108,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.confirm:
                 SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-                String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                String logintype=preferences.getString(Configs.KEY_LOGINTYPE,null);
                 if(logintype!=null){
                     Intent intent = new Intent(PersonalInfoActivity.this,BoundOrRegister.class);
                     startActivity(intent);

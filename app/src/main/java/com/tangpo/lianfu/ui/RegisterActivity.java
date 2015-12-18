@@ -61,7 +61,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        if(timer!=null){
+            timer.cancel();
+        }
         finish();
     }
 

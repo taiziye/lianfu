@@ -69,7 +69,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             userid = bundle.getString("userid");
             //getCollectedStore();
             SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
-            String logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
+            String logintype=preferences.getString(Configs.KEY_LOGINTYPE, null);
             if (logintype!=null){
                 findStore("");
             }else{
