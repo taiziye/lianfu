@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -294,7 +295,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 //新增
                 EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
                 recordList.add(0, record);
-                adapter.notifyDataSetChanged();
+                if(adapter != null) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.e("tag", "null");
+                }
             } else {
                 //编辑
                 //getConsumeRecord();
@@ -336,7 +341,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String[]{userid, store_id, "", "", "0", page+"","10"};
+        String kvs[] = new String[]{store_id, "", "", "0", page+"","10"};
         String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

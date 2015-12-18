@@ -57,8 +57,8 @@ public class PositionAdapter extends BaseAdapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        collect = new ImageView[list.size()];
-        text = new TextView[list.size()];
+        collect = new ImageView[list.size() + 10];
+        text = new TextView[list.size() + 10];
 
         Set<String> store = preferences.getStringSet(Configs.KEY_STORE, null);
         if (store != null) {

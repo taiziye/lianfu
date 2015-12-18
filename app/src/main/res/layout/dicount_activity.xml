@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#efeef4"
     android:orientation="vertical">
 
     <LinearLayout
@@ -73,21 +72,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                android:textColor="#333333"
+                android:textColor="@android:color/holo_red_dark"
                 android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
-                android:text="1,800" />
+                android:text="¥1,800" />
 
         </RelativeLayout>
 
-        <View style="@style/view_line_style" />
-
         <RadioGroup
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/list"
+                android:background="@android:color/white"
+                android:divider="@android:color/transparent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:dividerHeight="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -95,7 +99,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
@@ -136,6 +140,6 @@
                 android:textColor="@android:color/white"
                 android:text="@string/add"/>
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
 </LinearLayout>

@@ -80,7 +80,7 @@ public class DiscountAdapter extends BaseAdapter {
         holder.check.setChecked(selected.get(position));
 
         holder.type.setText(list.get(position).getDesc());
-        holder.discount.setText(list.get(position).getDiscount());
+        holder.discount.setText(Float.valueOf(list.get(position).getDiscount()) / 10 + "折");
         //holder.money.setText(list.get(position).getMoney() + "");
         return convertView;
     }

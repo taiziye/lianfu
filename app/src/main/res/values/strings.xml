@@ -123,7 +123,7 @@
     <string name="detail_bank_card">开户银行卡号</string>
     <string name="detail_bank_name">开户银行姓名</string>
     <string name="detail_sum">消费金额</string>
-    <string name="detail_discount_type">折扣类型</string>
+    <string name="detail_discount_type">折扣类型-</string>
     <string name="detail_son_money">子金额</string>
 
     <!-- 会员信息 -->

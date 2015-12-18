@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
@@ -64,7 +65,6 @@ public class DiscountManageAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
             holder.check = (TextView) convertView.findViewById(R.id.check);
-
             holder.delete = (Button) convertView.findViewById(R.id.delete);
 
             convertView.setTag(holder);
@@ -120,7 +120,7 @@ public class DiscountManageAdapter extends BaseAdapter {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    if("404".equals(result.getString("status"))) {
+                    if("404".equals(result.getString("status")) || "300".equals(result.getString("status"))) {
                         Tools.showToast(context, "删除失败！该折扣已审核不能删除！");
                     } else {
                         Tools.handleResult(context, result.getString("status"));
@@ -140,7 +140,6 @@ public class DiscountManageAdapter extends BaseAdapter {
         public TextView name;
         public TextView discount;
         public TextView check;
-
         public Button delete;
     }
 }
