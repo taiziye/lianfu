@@ -3,6 +3,7 @@ package com.tangpo.lianfu.wxapi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -139,6 +140,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             @Override
             public void onSuccess(JSONObject result) {
                 pd.dismiss();
+                Configs.cleanData(getApplicationContext());
                 try {
                     JSONObject jsonObject = result.getJSONObject("param");
                     String sessid = jsonObject.getString("session_id");

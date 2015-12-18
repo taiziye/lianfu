@@ -124,6 +124,7 @@ public class Configs {
         editor.remove(Configs.KEY_EMPLOYEES);
         editor.remove(Configs.KEY_MEMBERS);
         editor.remove(Configs.KEY_STORE);
+        editor.clear();
         editor.commit();
     }
 }
