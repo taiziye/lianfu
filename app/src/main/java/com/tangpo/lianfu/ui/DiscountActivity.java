@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -41,8 +42,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private Button back;
     private Button confirm;
-    private LinearLayout delete;
-    private LinearLayout add;
+    //private LinearLayout delete;
+    //private LinearLayout add;
 
     private TextView sum;
 
@@ -100,10 +101,10 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(this);
-        delete = (LinearLayout) findViewById(R.id.delete);
+        /*delete = (LinearLayout) findViewById(R.id.delete);
         delete.setOnClickListener(this);
         add = (LinearLayout) findViewById(R.id.add);
-        add.setOnClickListener(this);
+        add.setOnClickListener(this);*/
 
         sum = (TextView) findViewById(R.id.sum);
 

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.adapter.UserAdapter;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.entity.UserEntity;
@@ -46,8 +47,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
     private PullToRefreshListView listView;
 
-    private ArrayAdapter<String> adapter = null;
-    private List<String> list = null;
+    private UserAdapter adapter = null;
     private List<Member> listMem = null;
     private ProgressDialog dialog = null;
     private UserEntity user = null;
@@ -81,7 +81,6 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     }
 
     private void init() {
-        list = new ArrayList<>();
         listMem = new ArrayList<>();
 
         cancel = (Button) findViewById(R.id.cancel);
@@ -117,7 +116,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
-                list.clear();
+                listMem.clear();
                 // 下拉的时候刷新数据
                 int flags = DateUtils.FORMAT_SHOW_TIME
                         | DateUtils.FORMAT_SHOW_DATE
@@ -159,9 +158,8 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    list = (List<String>) msg.obj;
-                    adapter = new ArrayAdapter<String>(SelectUserActivity.this, android.R.layout.simple_list_item_1, list);
-
+                    listMem = (List<Member>) msg.obj;
+                    adapter = new UserAdapter(getApplicationContext(), listMem);
                     listView.setAdapter(adapter);
                     break;
             }
@@ -190,7 +188,6 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Member member = gson.fromJson(object.toString(), Member.class);
-                        list.add(member.getUsername());
                         listMem.add(member);
                         set.add(object.toString());
                     }
@@ -199,7 +196,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
                 }
                 Message msg = new Message();
                 msg.what = 1;
-                msg.obj = list;
+                msg.obj = listMem;
                 mHandler.sendMessage(msg);
                 Configs.cacheMember(SelectUserActivity.this, set);
             }

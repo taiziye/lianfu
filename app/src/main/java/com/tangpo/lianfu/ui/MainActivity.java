@@ -137,13 +137,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         String name = user_name.getText().toString();
         if (name.equals("")) {
-            pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.username_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
         String pass = user_pass.getText().toString();
         if (pass.equals("")) {
-            pd.dismiss();
             ToastUtils.showToast(this, getString(R.string.password_cannot_be_null), Toast.LENGTH_SHORT);
             return;
         }
