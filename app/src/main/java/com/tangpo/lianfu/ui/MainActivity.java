@@ -160,8 +160,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    Log.e("tag",jsonObject.toString());
-                    //System.out.println(Escape.unescape(result.toString()));
                     intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
                     MainActivity.this.finish();

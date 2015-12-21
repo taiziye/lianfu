@@ -388,7 +388,7 @@
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/detail_discount_type" />
+                    android:text="@string/discount_type" />
 
                 <EditText
                     android:id="@+id/discount_type"
@@ -445,40 +445,6 @@
             </LinearLayout>
 
             <View style="@style/view_line_style" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/detail_son_money" />
-
-                <EditText
-                    android:id="@+id/son_money"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>

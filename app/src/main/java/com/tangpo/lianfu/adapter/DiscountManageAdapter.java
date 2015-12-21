@@ -90,9 +90,9 @@ public class DiscountManageAdapter extends BaseAdapter {
         if (list.get(position).getStatus().equals("0")) {
             holder.check.setText("未确认");
         } else if (list.get(position).getStatus().equals("1")) {
-            holder.check.setText("已拒绝");
-        } else {
             holder.check.setText("已确认");
+        } else {
+            holder.check.setText("已拒绝");
         }
         return convertView;
     }

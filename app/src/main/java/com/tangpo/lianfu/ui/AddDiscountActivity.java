@@ -79,7 +79,7 @@ public class AddDiscountActivity extends Activity implements View.OnClickListene
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Intent intent = new Intent();
-                Discount dis = new Discount(type.getText().toString(), discount.getText().toString(), "", "", "", "");
+                Discount dis = new Discount(type.getText().toString(), discount.getText().toString(), "", "", "", "0");
                 intent.putExtra("discount", dis);
                 setResult(RESULT_OK, intent);
                 Tools.showToast(AddDiscountActivity.this, getString(R.string.add_success));

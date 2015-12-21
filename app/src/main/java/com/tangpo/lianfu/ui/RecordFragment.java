@@ -166,9 +166,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 index = position - 1;
                 intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
-                intent.putExtra("username", recordList.get(index).getUsername());
                 intent.putExtra("user_id",userid);
-                intent.putExtra("consume_id",recordList.get(index).getId());
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);
             }
         });
@@ -181,12 +179,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.edit:
                 if(!isEdit){
-                    edit.setText(getString(R.string.cancel));
+                    //edit.setText(getString(R.string.cancel));
                     adapter.setEdit(true);
                     adapter.notifyDataSetChanged();
                     isEdit = true;
                 } else {
-                    edit.setText(getString(R.string.edit));
+                   // edit.setText(getString(R.string.edit));
                     adapter.setEdit(false);
                     adapter.notifyDataSetChanged();
                     isEdit = false;
@@ -298,7 +296,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 if(adapter != null) {
                     adapter.notifyDataSetChanged();
                 } else {
-                    Log.e("tag", "null");
                 }
             } else {
                 //编辑
@@ -353,6 +350,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
+                        Log.e("tag",object.toString());
                         EmployeeConsumeRecord record = gson.fromJson(object.toString(), EmployeeConsumeRecord.class);
                         recordList.add(record);
                     }

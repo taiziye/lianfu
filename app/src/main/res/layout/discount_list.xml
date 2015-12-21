@@ -49,22 +49,14 @@
             android:textColor="@android:color/black"
             android:text="8折" />
 
-        <TextView
+        <TextView android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:textSize="15sp"
-            android:textColor="@android:color/black"
-            android:text="子金额 "/>
-        <TextView android:id="@+id/money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
-            android:textSize="15sp"
-            android:textColor="@android:color/black"
-            android:text="1,000"/>
+            android:textColor="@android:color/holo_green_dark"
+            android:text="已确认"/>
     </LinearLayout>
 
     <!--<RelativeLayout

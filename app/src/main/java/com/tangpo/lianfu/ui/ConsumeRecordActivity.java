@@ -46,15 +46,16 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private EditText consume_money;
     private EditText discount_type;
     private EditText discount_text;
-    private EditText son_money;
     private EmployeeConsumeRecord record = null;
     private SharedPreferences preferences;
     private Set<String> members = null;
     private Intent intent = null;
     private String user_id= "";
-    private String username = "";
     private String consume_id= "";
     private ProgressDialog dialog=null;
+
+    private String mfee;
+    private String mdiscount;
 
     @Override
     protected void onDestroy() {
@@ -92,16 +93,19 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         consume_money = (EditText) findViewById(R.id.consume_money);
         discount_type = (EditText) findViewById(R.id.discount_type);
         discount_text = (EditText) findViewById(R.id.discount_text);
-        son_money = (EditText) findViewById(R.id.son_money);
 
         intent = getIntent();
         if (intent != null) {
             record = (EmployeeConsumeRecord) intent.getSerializableExtra("record");
             user_id=intent.getStringExtra("user_id");
-            consume_id=intent.getStringExtra("consume_id");
-            username = intent.getStringExtra("username");
-            user_name.setText(username);
-            name.setText("");
+            consume_id=record.getId();
+            user_name.setText(record.getUsername());
+            name.setText(record.getName());
+//            username=record.getUsername();
+//            consume_id=intent.getStringExtra("consume_id");
+//            username = intent.getStringExtra("username");
+//            user_name.setText(username);
+//            name.setText(intent.getStringExtra("name"));
             if (members != null) {
                 Iterator<String> it = members.iterator();
                 while (it.hasNext()) {
@@ -109,8 +113,8 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                         JSONObject object = new JSONObject(it.next());
                         if (object.getString("user_id").equals(record.getId())) {
                             contact_tel.setText(object.getString("phone"));
-                            //update_type.setText("1");
-                            //id_card.setText("11111");
+                            update_type.setText(object.getString("update_type"));
+                            id_card.setText(object.getString("id_card"));
                             bank.setText(object.getString("bank"));
                             bank_card.setText(object.getString("bank_card"));
                             bank_name.setText(object.getString("bank_name"));
@@ -120,7 +124,8 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                     }
                 }
             }
-            consume_money.setText(record.getFee());
+            consume_money.setText("￥"+Float.valueOf(record.getFee()));
+            mfee=record.getFee();
         }
     }
 
@@ -145,7 +150,8 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         if (data != null) {
             Discount dis = (Discount) data.getExtras().getSerializable("discount");
             discount_type.setText(dis.getDesc());
-            discount_text.setText(dis.getDiscount());
+            discount_text.setText(Float.valueOf(dis.getDiscount())/10+"折");
+            mdiscount=dis.getDiscount();
         }
     }
 
@@ -155,20 +161,18 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             return;
         }
 
-        String fee=consume_money.getText().toString();
-        String discount=discount_text.getText().toString();
-        if (discount == null || discount.length() == 0) {
+        if (mdiscount == null || mdiscount.length() == 0) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_choose_discount));
             return;
         }
-        if(fee==null || fee.length() == 0 || Float.valueOf(fee) <= 0) {
+        if(mfee==null || mfee.length() == 0 || Float.valueOf(mfee) <= 0) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_amount));
             return;
         }
-        String kvs[]=new String[]{user_id,consume_id,fee,discount};
+        String kvs[]=new String[]{user_id,consume_id,mfee,mdiscount};
         String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
-        record.setFee(fee);
-        record.setDiscount(discount);
+        record.setFee(mfee);
+        record.setDiscount(mdiscount);
         record.setDesc(discount_type.getText().toString());
 
         dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));

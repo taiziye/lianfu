@@ -68,7 +68,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
-        Log.e("tag",user);
         gson=new Gson();
         userEntity=gson.fromJson(user, UserEntity.class);
         userType=userEntity.getUser_type();

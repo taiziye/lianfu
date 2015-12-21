@@ -42,10 +42,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private Button back;
     private Button confirm;
-    //private LinearLayout delete;
-    //private LinearLayout add;
 
-    private TextView sum;
 
     private ListView listView;
 
@@ -106,7 +103,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
         add = (LinearLayout) findViewById(R.id.add);
         add.setOnClickListener(this);*/
 
-        sum = (TextView) findViewById(R.id.sum);
+       // sum = (TextView) findViewById(R.id.sum);
 
         listView = (ListView) findViewById(R.id.list);
 
@@ -133,10 +130,14 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 if(index==-1){
                     ToastUtils.showToast(this,getString(R.string.please_choose_discount), Toast.LENGTH_SHORT);
                 }else{
-                    intent = new Intent();
-                    intent.putExtra("discount", list.get(index));
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    if(!list.get(index).getStatus().equals("1")){
+                        ToastUtils.showToast(this,getString(R.string.only_can_choose_confirmed_discount),Toast.LENGTH_SHORT);
+                    }else{
+                        intent = new Intent();
+                        intent.putExtra("discount", list.get(index));
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 }
                 break;
             case R.id.delete:

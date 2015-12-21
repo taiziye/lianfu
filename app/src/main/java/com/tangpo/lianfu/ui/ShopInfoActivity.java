@@ -191,7 +191,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Log.e("tag",result.toString());
                     store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
                 } catch (JSONException e) {
                     e.printStackTrace();

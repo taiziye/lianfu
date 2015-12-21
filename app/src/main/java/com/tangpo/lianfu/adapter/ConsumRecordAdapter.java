@@ -107,10 +107,10 @@ public class ConsumRecordAdapter extends BaseAdapter {
             }
         });
 
-        holder.shop_name.setText(store_name);
+        holder.shop_name.setText(list.get(position).getStore());
         holder.user_name.setText(list.get(position).getUsername());
-        holder.money.setText("消费" + list.get(position).getFee() + "元");
-        holder.profit.setText("(利润" + list.get(position).getDiscount() + "元)");
+        holder.money.setText("消费￥" + Float.valueOf(list.get(position).getFee()));
+        holder.profit.setText("(利润￥" + Float.valueOf(list.get(position).getGains())+")");
         if (list.get(position).getPay_status().equals("1")) {
             holder.compute.setText("已结算");
             holder.compute.setTextColor(Color.RED);

@@ -105,7 +105,6 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 photo=jsonObject.getString("profile_image_url");
                 UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
                 Configs.cacheUser(this, userEntity.toString());
-                return;
             }
             if(login_type.equals("2")){
                 user_id=jsonObject.getString("nickname");
@@ -120,7 +119,6 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 photo=jsonObject.getString("figureurl_qq_1");
                 UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
                 Configs.cacheUser(this, userEntity.toString());
-                return;
             }
             if(login_type.equals("0")){
                 user_id=jsonObject.getString("nickname");
@@ -130,7 +128,6 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 photo=jsonObject.getString("headimgurl");
                 UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
                 Configs.cacheUser(this, userEntity.toString());
-                return;
             }
         } catch (JSONException e) {
             e.printStackTrace();

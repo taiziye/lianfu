@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class DiscountAdapter extends BaseAdapter {
             holder.check = (RadioButton) convertView.findViewById(R.id.check);
             holder.type = (TextView) convertView.findViewById(R.id.type);
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
-            //holder.money = (TextView) convertView.findViewById(R.id.money);
+            holder.status = (TextView) convertView.findViewById(R.id.status);
 
             convertView.setTag(holder);
         } else {
@@ -81,7 +82,16 @@ public class DiscountAdapter extends BaseAdapter {
 
         holder.type.setText(list.get(position).getDesc());
         holder.discount.setText(Float.valueOf(list.get(position).getDiscount()) / 10 + "折");
-        //holder.money.setText(list.get(position).getMoney() + "");
+        if(list.get(position).getStatus().equals("0")){
+            holder.status.setText("未确认");
+            holder.status.setTextColor(Color.BLUE);
+        }else if(list.get(position).getStatus().equals("1")){
+            holder.status.setText("已确认");
+            holder.status.setTextColor(Color.GREEN);
+        }else{
+            holder.status.setText("已拒绝");
+            holder.status.setTextColor(Color.RED);
+        }
         return convertView;
     }
 
@@ -115,5 +125,6 @@ public class DiscountAdapter extends BaseAdapter {
         public RadioButton check;
         public TextView type;
         public TextView discount;
+        public TextView status;
     }
 }

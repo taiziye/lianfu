@@ -84,7 +84,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 Intent intent=new Intent(getActivity(),ShopActivity.class);
                 intent.putExtra("store",list.get(position-1));
                 intent.putExtra("userid", userid);
-                //Log.e("tag",list.get(position-1).getFavorite());
                 intent.putExtra("favorite", "1");
                 getActivity().startActivity(intent);
             }

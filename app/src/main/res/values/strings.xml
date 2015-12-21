@@ -286,4 +286,5 @@
     <string name="send">发送</string>
     <string name="input_error">输入错误</string>
     <string name="edit_fail">修改失败</string>
+    <string name="only_can_choose_confirmed_discount">只能选择已经确认的折扣！</string>
 </resources>

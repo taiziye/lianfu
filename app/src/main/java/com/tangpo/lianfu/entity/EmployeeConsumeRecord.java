@@ -10,16 +10,78 @@ import java.util.Date;
 public class EmployeeConsumeRecord implements Serializable {
 
     private String id;
+    private String user_id;
+    private String store_id;
     private String username;
+    private String name;
+    private String store;
     private String consume_date;
+    private String gains;
     private String fee;
-    private String isPass;
+    private String IsPass;
     private String discount;
     private String pay_status;
     private String pay_way;
     private String pay_date;
-    private String onLines;
+    private String onlines;
+
     private String desc;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(String store_id) {
+        this.store_id = store_id;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public String getGains() {
+        return gains;
+    }
+
+    public void setGains(String gains) {
+        this.gains = gains;
+    }
+
+    public String getIsPass() {
+        return IsPass;
+    }
+
+    public void setIsPass(String isPass) {
+        IsPass = isPass;
+    }
+
+    public String getOnlines() {
+        return onlines;
+    }
+
+    public void setOnlines(String onlines) {
+        this.onlines = onlines;
+    }
 
     public String getConsume_date() {
         return consume_date;
@@ -41,13 +103,6 @@ public class EmployeeConsumeRecord implements Serializable {
         return fee;
     }
 
-    public String getIsPass() {
-        return isPass;
-    }
-
-    public void setIsPass(String isPass) {
-        this.isPass = isPass;
-    }
 
     public String getDiscount() {
         return discount;
@@ -57,13 +112,6 @@ public class EmployeeConsumeRecord implements Serializable {
         this.discount = discount;
     }
 
-    public String getOnLines() {
-        return onLines;
-    }
-
-    public void setOnLines(String onLines) {
-        this.onLines = onLines;
-    }
 
     public void setFee(String fee) {
         this.fee = fee;
@@ -123,27 +171,32 @@ public class EmployeeConsumeRecord implements Serializable {
                 ", username='" + username + '\'' +
                 ", consume_date='" + consume_date + '\'' +
                 ", fee='" + fee + '\'' +
-                ", isPass='" + isPass + '\'' +
+                ", IsPass='" + IsPass + '\'' +
                 ", discount='" + discount + '\'' +
                 ", pay_status='" + pay_status + '\'' +
                 ", pay_way='" + pay_way + '\'' +
                 ", pay_date='" + pay_date + '\'' +
-                ", onLines='" + onLines + '\'' +
+                ", onlines='" + onlines + '\'' +
                 ", desc='" + desc + '\'' +
                 '}';
     }
 
-    public EmployeeConsumeRecord(String id, String username, String consume_date, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onLines, String desc) {
+    public EmployeeConsumeRecord(String id, String user_id, String store_id, String username, String name, String store, String consume_date, String gains, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onlines, String desc) {
         this.id = id;
+        this.user_id = user_id;
+        this.store_id = store_id;
         this.username = username;
+        this.name = name;
+        this.store = store;
         this.consume_date = consume_date;
+        this.gains = gains;
         this.fee = fee;
-        this.isPass = isPass;
+        IsPass = isPass;
         this.discount = discount;
         this.pay_status = pay_status;
         this.pay_way = pay_way;
         this.pay_date = pay_date;
-        this.onLines = onLines;
+        this.onlines = onlines;
         this.desc = desc;
     }
 }
