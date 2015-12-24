@@ -3,11 +3,9 @@ package com.tangpo.lianfu.wxapi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -15,7 +13,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.config.QQ.Util;
 import com.tangpo.lianfu.config.WeiXin.Constants;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.OAuth;
@@ -23,10 +20,10 @@ import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.RelationActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
-import com.tencent.mm.sdk.openapi.BaseReq;
-import com.tencent.mm.sdk.openapi.BaseResp;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.SendAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +54,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 // TODO Auto-generated method stub
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                String code = ((SendAuth.Resp) resp).token;
+                String code = ((SendAuth.Resp) resp).code;
                 getOpenidAndToken(code);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:

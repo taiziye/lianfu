@@ -40,8 +40,8 @@ import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 import com.tencent.connect.UserInfo;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -252,7 +252,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // 注册微信
         api= WXAPIFactory.createWXAPI(this, com.tangpo.lianfu.config.WeiXin.Constants.APP_ID, true);
         api.registerApp(com.tangpo.lianfu.config.WeiXin.Constants.APP_ID);
-        final SendAuth.Req req=new SendAuth.Req();
+        SendAuth.Req req=new SendAuth.Req();
         req.scope= com.tangpo.lianfu.config.WeiXin.Constants.SCOPE;
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);

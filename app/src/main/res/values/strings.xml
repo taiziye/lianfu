@@ -287,4 +287,10 @@
     <string name="input_error">输入错误</string>
     <string name="edit_fail">修改失败</string>
     <string name="only_can_choose_confirmed_discount">只能选择已经确认的折扣！</string>
+    <string name="title_activity_pay_by_wechat">PayByWechat</string>
+    <string name="auth_denied">拒绝验证</string>
+    <string name="user_cacel">用户取消</string>
+    <string name="sent_failed">发送数据失败</string>
+    <string name="comm_err">一般错误</string>
+    <string name="unsupport">不支持错误</string>
 </resources>
