@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,8 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
     private ImageView logo;
 
     private TextView money;
+
+    private TextView profit;
 
     @Override
     public void onDetachedFromWindow() {
@@ -45,8 +48,12 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
         back_home.setOnClickListener(this);
 
         logo = (ImageView) findViewById(R.id.logo);
-
+        profit= (TextView) findViewById(R.id.profit);
         money = (TextView) findViewById(R.id.money);
+
+        String totle_fee=getIntent().getStringExtra("total_fee");
+        profit.setText(totle_fee);
+        money.setText(totle_fee);
     }
 
     @Override
@@ -57,5 +64,11 @@ public class OnlinePayActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 }

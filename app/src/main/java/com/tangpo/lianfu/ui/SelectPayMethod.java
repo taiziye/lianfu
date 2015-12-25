@@ -79,10 +79,6 @@ public class SelectPayMethod extends FragmentActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.pay_by_wechat:
-                //此功能即将开发
-                // 通过WXAPIFactory工厂，获取IWXAPI的实例
-                //api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
-                //ToastUtils.showToast(SelectPayMethod.this,getString(R.string.wechat_pay_has_not_online), Toast.LENGTH_SHORT);
                 intent=new Intent(SelectPayMethod.this,PayByWechat.class);
                 bundle.putString("pay_way", "2");
                 intent.putExtras(bundle);
@@ -91,7 +87,6 @@ public class SelectPayMethod extends FragmentActivity implements View.OnClickLis
                 break;
             case R.id.pay_by_bankcard:
                 ToastUtils.showToast(SelectPayMethod.this,getString(R.string.bankcard_pay_has_not_online),Toast.LENGTH_SHORT);
-                //finish();
                 break;
             default:
                 finish();

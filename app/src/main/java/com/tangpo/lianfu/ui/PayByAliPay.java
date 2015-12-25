@@ -3,13 +3,12 @@ package com.tangpo.lianfu.ui;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.GetAlipayOrder;
 import com.tangpo.lianfu.parms.PayBill;
 import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.utils.Key;
@@ -30,10 +30,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
 
 
 public class PayByAliPay extends FragmentActivity {
@@ -42,17 +38,37 @@ public class PayByAliPay extends FragmentActivity {
 
     private static final int SDK_CHECK_FLAG = 2;
 
-    private String subject;
-    private String body;
-    private String price;
+    private static final int COST_ID = 3;
+
+    private static final int ORDER_INFO = 4;
+
+    //商户的PID
+    public  String partner = null;
+    // 商户收款账号
+    public  String seller_id = null;
+    //回调地址
+    public  String notify_url=null;
+    //商品标题
+    private String subject=null;
+    //商品详情
+    private String body=null;
+    // 支付宝公钥
+    public  String RSA_PUBLIC_KEY =null;
+    // 商户私钥，pkcs8格式
+    public  String RSA_PRIVATE_KEY =null;
+    //订单号
+    public  String out_trade_no=null;
+    //交易金额
+    private String total_fee=null;
 
     private TextView tvSubject;
     private TextView tvBody;
     private TextView tvPrice;
 
     private Bundle bundle=null;
-    private String trad_no=null;
-    private String pay_account=null;
+    private String cost_id=null;
+
+    private ProgressDialog dialog=null;
 
     private boolean isExistAccount=false;
     private Handler mHandler = new Handler() {
@@ -69,10 +85,10 @@ public class PayByAliPay extends FragmentActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         ToastUtils.showToast(PayByAliPay.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-                        if(bundle.getString("online")!=null){
-                            payBill();
-                        }else{
+                        if(bundle.getString("online")==null){
                             ProfitAccount();
+                        }else{
+                            finish();
                         }
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
@@ -96,10 +112,33 @@ public class PayByAliPay extends FragmentActivity {
                     }
                     break;
                 }
+                case COST_ID:{
+                    if(msg.obj!=null){
+                        cost_id= (String) msg.obj;
+                    }
+                }
+                case ORDER_INFO:{
+                    if(msg.obj!=null){
+                        JSONObject object= (JSONObject) msg.obj;
+                        try {
+                            partner=object.getString("partner");
+                            seller_id=object.getString("seller_id");
+                            notify_url=object.getString("notify_url");
+                            subject=object.getString("subject");
+                            body=object.getString("body");
+                            RSA_PUBLIC_KEY=object.getString("RSA_PUBLIC_KEY");
+                            RSA_PRIVATE_KEY=object.getString("RSA_PRIVATE_KEY");
+                            out_trade_no=object.getString("out_trade_no");
+                            total_fee=object.getString("total_fee");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 default:
                     break;
             }
-        };
+        }
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,52 +149,32 @@ public class PayByAliPay extends FragmentActivity {
         tvBody= (TextView) findViewById(R.id.product_body);
         tvPrice= (TextView) findViewById(R.id.product_price);
 
+
         bundle=getIntent().getExtras();
-        trad_no=getOutTradeNo();
-        //这里的支付账户就是卖家的账户
-        pay_account=Key.SELLER;
-        subject=getString(R.string.pay_profit);
-        body=getString(R.string.store_consume_profit);
+
+        payBill();
+        getIndent();
+
         /**
          * 这里测试的时候先注释这一行，转一分钱到平台支付宝账号
          */
 //        price=bundle.getString("total_fee");
         //price=bundle.getString("0.01");
-        price="0.01";
+        total_fee="0.01";
+
         tvSubject.setText(subject);
         tvBody.setText(body);
-        tvPrice.setText(price+"元");
+        tvPrice.setText(total_fee + "元");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_pay_by_ali_pay, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     /**
      * call alipay sdk pay. 调用SDK支付
      *
      */
     private void pay() {
         if(isExistAccount==false)return;
-        if (TextUtils.isEmpty(Key.PARTNER) || TextUtils.isEmpty(Key.RSA_PRIVATE)
-                || TextUtils.isEmpty(Key.SELLER)) {
+        if (TextUtils.isEmpty(partner) || TextUtils.isEmpty(RSA_PRIVATE_KEY)
+                || TextUtils.isEmpty(seller_id)) {
             new AlertDialog.Builder(this)
                     .setTitle("警告")
                     .setMessage("需要配置PARTNER | RSA_PRIVATE| SELLER")
@@ -163,14 +182,13 @@ public class PayByAliPay extends FragmentActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(
                                         DialogInterface dialoginterface, int i) {
-                                    //
                                     finish();
                                 }
                             }).show();
             return;
         }
         // 订单
-        String orderInfo = getOrderInfo(subject, body, price);
+        String orderInfo = getOrderInfo(subject, body, total_fee);
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
@@ -230,18 +248,8 @@ public class PayByAliPay extends FragmentActivity {
 
         Thread checkThread = new Thread(checkRunnable);
         checkThread.start();
-
     }
 
-    /**
-     * get the sdk version. 获取SDK版本号
-     *
-     */
-    public void getSDKVersion() {
-        PayTask payTask = new PayTask(this);
-        String version = payTask.getVersion();
-        Toast.makeText(this, version, Toast.LENGTH_SHORT).show();
-    }
     /**
      * create the order info. 创建订单信息
      *
@@ -249,13 +257,13 @@ public class PayByAliPay extends FragmentActivity {
     public String getOrderInfo(String subject, String body, String price) {
 
         // 签约合作者身份ID
-        String orderInfo = "partner=" + "\"" + Key.PARTNER + "\"";
+        String orderInfo = "partner=" + "\"" + partner + "\"";
 
         // 签约卖家支付宝账号
-        orderInfo += "&seller_id=" + "\"" + Key.SELLER + "\"";
+        orderInfo += "&seller_id=" + "\"" + seller_id + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + trad_no + "\"";
+        orderInfo += "&out_trade_no=" + "\"" + out_trade_no + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -267,7 +275,7 @@ public class PayByAliPay extends FragmentActivity {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm"
+        orderInfo += "&notify_url=" + "\"" + notify_url
                 + "\"";
 
         // 服务接口名称， 固定值
@@ -299,22 +307,6 @@ public class PayByAliPay extends FragmentActivity {
     }
 
     /**
-     * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
-     *
-     */
-    public String getOutTradeNo() {
-        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
-                Locale.getDefault());
-        Date date = new Date();
-        String key = format.format(date);
-
-        Random r = new Random();
-        key = key + r.nextInt();
-        key = key.substring(0, 15);
-        return key;
-    }
-
-    /**
      * sign the order info. 对订单信息进行签名
      *
      * @param content
@@ -337,21 +329,24 @@ public class PayByAliPay extends FragmentActivity {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-        final ProgressDialog dialog=ProgressDialog.show(PayByAliPay.this,getString(R.string.connecting),getString(R.string.please_wait));
+        dialog=ProgressDialog.show(PayByAliPay.this,getString(R.string.connecting),getString(R.string.please_wait));
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
-        String total_fee=bundle.getString("total_fee");
+        final String total_fee=bundle.getString("total_fee");
         String consume_id=bundle.getString("consume_id");
 
-        String kvs[] = new String[]{user_id, store_id, trad_no, pay_way, pay_account,total_fee, consume_id};
+        String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, seller_id,total_fee, consume_id};
         String param = ProfitAccount.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                ToastUtils.showToast(PayByAliPay.this,getString(R.string.request_success),Toast.LENGTH_SHORT);
+                ToastUtils.showToast(PayByAliPay.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
+                Intent intent=new Intent(PayByAliPay.this,OnlinePayActivity.class);
+                intent.putExtra("total_fee",total_fee);
+                startActivity(intent);
                 PayByAliPay.this.finish();
             }
         }, new NetConnection.FailCallback() {
@@ -368,7 +363,6 @@ public class PayByAliPay extends FragmentActivity {
     }
 
     private void payBill(){
-
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
@@ -380,22 +374,30 @@ public class PayByAliPay extends FragmentActivity {
         String phone=bundle.getString("phone");
         String receipt_no=bundle.getString("receipt_no");
         String receipt_photo=bundle.getString("receipt_photo");
-
-        String online="true";
+        String online=bundle.getString("online");
 
         String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
         if (fee.equals("")){
             ToastUtils.showToast(this,getString(R.string.fee_can_not_be_null),Toast.LENGTH_SHORT);
             return;
         }
-        final ProgressDialog dialog= ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        dialog= ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String params= PayBill.packagingParam(this, kvs);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                ToastUtils.showToast(PayByAliPay.this,getString(R.string.request_success),Toast.LENGTH_SHORT);
-                PayByAliPay.this.finish();
+                try {
+                    JSONObject jsonObject=result.getJSONObject("param");
+                    cost_id=jsonObject.getString("cost_id");
+                    Message msg=new Message();
+                    msg.what=COST_ID;
+                    msg.obj=cost_id;
+                    mHandler.sendMessage(msg);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -403,6 +405,53 @@ public class PayByAliPay extends FragmentActivity {
                 dialog.dismiss();
                 try {
                     Tools.handleResult(PayByAliPay.this, result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },params);
+    }
+
+    private void getIndent(){
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        String store_id=bundle.getString("store_id");
+        String user_id=bundle.getString("user_id");
+        String idlist=cost_id;
+        String paymode=bundle.getString("paymode");
+        String fee=bundle.getString("fee");
+        String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
+        String params= GetAlipayOrder.packagingParam(this, kvs);
+        dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    JSONObject jsonObject=result.getJSONObject("param");
+                    Message msg=new Message();
+                    msg.what=ORDER_INFO;
+                    msg.obj=jsonObject;
+                    mHandler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    String status=result.getString("status");
+                    if(status.equals("1")){
+                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.format_error),Toast.LENGTH_SHORT);
+                    }else if(status.equals("10")){
+                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.server_exception),Toast.LENGTH_SHORT);
+                    }else if(status.equals("300")){
+                        ToastUtils.showToast(PayByAliPay.this,getString(R.string.input_error),Toast.LENGTH_SHORT);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

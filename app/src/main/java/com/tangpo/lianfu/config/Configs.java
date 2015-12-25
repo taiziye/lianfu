@@ -3,6 +3,8 @@ package com.tangpo.lianfu.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONObject;
+
 import java.util.Set;
 
 /**
@@ -26,6 +28,7 @@ public class Configs {
     public static final String KEY_PHONE_NUM = "phone";
     public static final String KEY_OPENID = "openid";
     public static final String KEY_LOGINTYPE = "logintype";
+    public static final String KEY_PARAM = "param";
 
     public static final String SERVER_URL = "http://182.92.191.236:10000/clientserver/fshopserver.aspx";
 
@@ -125,6 +128,12 @@ public class Configs {
         editor.remove(Configs.KEY_MEMBERS);
         editor.remove(Configs.KEY_STORE);
         editor.clear();
+        editor.commit();
+    }
+
+    public static void cachePayParam(Context context,String param){
+        SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
+        editor.putString(KEY_PARAM,param);
         editor.commit();
     }
 }

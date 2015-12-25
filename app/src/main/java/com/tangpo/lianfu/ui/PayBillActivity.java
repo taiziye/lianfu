@@ -139,6 +139,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 bundle.putString("receipt_no","");
                 bundle.putString("receipt_photo","");
                 bundle.putString("online","true");
+                bundle.putString("paymode","0");
                 if(money.getText().toString().equals("")){
                     ToastUtils.showToast(PayBillActivity.this,getString(R.string.pay_amount_cannot_be_null),Toast.LENGTH_SHORT);
                     return;

@@ -216,6 +216,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 bundle.putString("store_id",store_id);
                 bundle.putString("total_fee",tmp+"");
                 bundle.putString("consume_id",getConsumeId());
+                bundle.putString("paymode","1");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

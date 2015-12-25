@@ -293,4 +293,5 @@
     <string name="sent_failed">发送数据失败</string>
     <string name="comm_err">一般错误</string>
     <string name="unsupport">不支持错误</string>
+    <string name="upgrade_level">升级类型</string>
 </resources>
