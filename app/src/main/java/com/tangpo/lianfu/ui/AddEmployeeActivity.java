@@ -1,14 +1,19 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
+import com.tangpo.lianfu.parms.GetTypeList;
 import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -46,6 +52,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private Spinner spinner = null;
     private List<String> list = null;
     private ArrayAdapter<String> adapter = null;
+    private LinearLayout select;
 
     private String userid = null;
     private ProgressDialog dialog = null;
@@ -59,6 +66,9 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private String bank_account = null;
     private String bank_nameStr = null;
     private String sex = null;
+    private TextView select_type = null;
+    private String[] typelist = null;
+    private String[] banklist = null;
 
     @Override
     protected void onDestroy() {
@@ -82,6 +92,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         back.setOnClickListener(this);
         commit = (Button) findViewById(R.id.commit);
         commit.setOnClickListener(this);
+        select = (LinearLayout) findViewById(R.id.select);
+        select.setOnClickListener(this);
 
         manage_level = (Spinner) findViewById(R.id.manage_level);
         list = new ArrayList<>();
@@ -106,10 +118,11 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         });
 
         bank = (TextView) findViewById(R.id.bank);
-        /*select_level = (TextView)findViewById(R.id.select_level);
-        select_level.setOnClickListener(this);*/
-        //select_type = (TextView)findViewById(R.id.select_type);
-        //select_type.setOnClickListener(this);
+        bank.setOnClickListener(this);
+        select_level = (TextView)findViewById(R.id.update_type);
+        select_level.setOnClickListener(this);
+        select_type = (TextView)findViewById(R.id.select_type);
+        select_type.setOnClickListener(this);
         select_bank = (TextView) findViewById(R.id.select_bank);
         select_bank.setOnClickListener(this);
 
@@ -155,14 +168,150 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 break;
             /*case R.id.select_level:
                 break;*/
-            /*case R.id.select_type:
-                break;*/
+            case R.id.select:
+            case R.id.update_type:
+            case R.id.select_type:
+                if (typelist == null) {
+                    getUpdateType();
+                } else {
+                    setType();
+                }
+                break;
             case R.id.select_bank:
-                /**
-                 * 未实现，没有接口
-                 */
+            case R.id.bank:
+                if(banklist == null) {
+                    getBankList();
+                } else {
+                    setBank();
+                }
                 break;
         }
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            JSONObject object = null;
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    object = (JSONObject) msg.obj;
+                    try {
+                        typelist = object.getString("listtxts").split(",");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    setType();
+                    break;
+                case 2:
+                    object = (JSONObject) msg.obj;
+                    try {
+                        banklist = object.getString("listtxts").split(",");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    setBank();
+                    break;
+            }
+        }
+    };
+
+    private void setType() {
+        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(typelist, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                select_level.setText(typelist[which]);
+            }
+        }).show();
+    }
+    private void setBank() {
+        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(banklist, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bank.setText(banklist[which]);
+            }
+        }).show();
+    }
+
+    private void getUpdateType() {
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String[] kvs = new String[]{"ygtype", ""};
+        String param = GetTypeList.packagingParam(getApplicationContext(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONObject object = null;
+                try {
+                    object = result.getJSONObject("param");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = object;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else if("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "列表不存在");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
+    }
+
+    private void getBankList() {
+        //
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String [] kvs = new String[]{"bank", ""};
+        String param = GetTypeList.packagingParam(getApplicationContext(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONObject object = null;
+                try {
+                    object = result.getJSONObject("param");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 2;
+                msg.obj = object;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else if("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "列表不存在");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
     }
 
     private void addEmployee() {

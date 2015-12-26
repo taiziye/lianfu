@@ -1,14 +1,19 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
@@ -16,6 +21,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditMaterial;
+import com.tangpo.lianfu.parms.GetTypeList;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -30,6 +36,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private Button back;
     private Button edit;
 
+    private LinearLayout type;
+    private LinearLayout select;
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
@@ -40,6 +48,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private EditText bank_name;
 
     private UserEntity user = null;
+    private String[] idlist = null;
+    private String[] banklist = null;
 
     private ProgressDialog dialog = null;
 
@@ -66,6 +76,9 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         back.setOnClickListener(this);
         edit = (Button) findViewById(R.id.confirm);
         edit.setOnClickListener(this);
+        type = (LinearLayout) findViewById(R.id.type);
+        select = (LinearLayout) findViewById(R.id.select);
+        select.setOnClickListener(this);
 
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -73,12 +86,18 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         update_type = (EditText) findViewById(R.id.update_type);
         id_card = (EditText) findViewById(R.id.id_card);
         bank = (EditText) findViewById(R.id.bank);
+        bank.setOnClickListener(this);
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
 
         if(getIntent().getExtras() != null) {
             user = (UserEntity) getIntent().getExtras().getSerializable("user");
 
+            if("0".equals(user.getUser_type()) || "1".equals(user.getUser_type())) {
+                type.setVisibility(View.VISIBLE);
+            } else {
+                type.setVisibility(View.GONE);
+            }
             user_name.setText(user.getName());
             contact_tel.setText(user.getPhone());
             rel_name.setText(user.getBank_name());
@@ -115,6 +134,19 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                     return;
                 }
                 updatePersonalInfo();
+                break;
+            case R.id.select:
+            case R.id.bank:
+                if(banklist == null){
+                    getBankList();
+                } else {
+                    new AlertDialog.Builder(PersonalInfoActivity.this).setTitle("请选择开户银行").setItems(banklist, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            bank.setText(banklist[which]);
+                        }
+                    }).show();
+                }
                 break;
         }
     }
@@ -163,4 +195,70 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             }
         }, param);
     }
+
+    private void getBankList() {
+        //
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+        String [] kvs = new String[]{"bank", ""};
+        String param = GetTypeList.packagingParam(getApplicationContext(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONObject object = null;
+                try {
+                    object = result.getJSONObject("param");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = object;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else if("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "列表不存在");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    JSONObject object = (JSONObject) msg.obj;
+                    try {
+                        idlist = object.getString("listids").split(",");
+                        banklist = object.getString("listtxts").split(",");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    new AlertDialog.Builder(PersonalInfoActivity.this).setTitle("请选择开户银行").setItems(banklist, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            bank.setText(banklist[which]);
+                        }
+                    }).show();
+                    break;
+            }
+        }
+    };
 }

@@ -75,6 +75,7 @@
                     android:id="@+id/shop_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:editable="false"
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
@@ -249,7 +250,7 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/select"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -267,6 +268,7 @@
                     android:id="@+id/shop_employee"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:editable="false"
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
@@ -313,7 +315,7 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/vocation"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -331,6 +333,7 @@
                     android:id="@+id/occupation"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:editable="false"
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
@@ -345,7 +348,7 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -363,6 +366,8 @@
                     android:id="@+id/address"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:editable="false"
+                    android:singleLine="true"
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"

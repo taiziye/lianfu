@@ -53,7 +53,7 @@
             <View
                 style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/recordpage"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
@@ -107,7 +107,7 @@
             <View
                 style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/memberpage"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"
@@ -257,7 +257,7 @@
             <View
                 style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/employeepage"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingLeft="10dp"

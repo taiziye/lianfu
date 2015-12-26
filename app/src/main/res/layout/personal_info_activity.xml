@@ -74,6 +74,7 @@
                 <EditText
                     android:id="@+id/user_name"
                     android:layout_width="0dp"
+                    android:editable="false"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center|right"
@@ -153,7 +154,7 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -171,6 +172,7 @@
                     android:id="@+id/update_type"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:editable="false"
                     android:layout_height="40dp"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
@@ -217,7 +219,7 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/select"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -234,6 +236,7 @@
                 <EditText
                     android:id="@+id/bank"
                     android:layout_width="0dp"
+                    android:editable="false"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center|right"
