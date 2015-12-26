@@ -70,8 +70,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				if(key_param!=""){
 					JSONObject param=new JSONObject(key_param);
 					ProfitAccount(param);
-				}else{
-					finish();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -87,7 +85,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		}else{
 			ToastUtils.showToast(WXPayEntryActivity.this,getString(R.string.unsupport),Toast.LENGTH_SHORT);
 		}
-
+		finish();
 	}
 
 	@Override

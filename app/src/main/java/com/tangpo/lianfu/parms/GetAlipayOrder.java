@@ -31,8 +31,8 @@ public class GetAlipayOrder {
             jsonObject.put("sessid", Escape.escape(sessid));
 
             JSONObject paramJsonObject = new JSONObject();
-            paramJsonObject.put("store_id", kvs[0]);
-            paramJsonObject.put("user_id", kvs[1]);
+            paramJsonObject.put("store_id", Escape.escape(kvs[0]));
+            paramJsonObject.put("user_id", Escape.escape(kvs[1]));
             paramJsonObject.put("idlist", Escape.escape(kvs[2]));
             paramJsonObject.put("paymode", Escape.escape(kvs[3]));
             paramJsonObject.put("fee", Escape.escape(kvs[4]));
