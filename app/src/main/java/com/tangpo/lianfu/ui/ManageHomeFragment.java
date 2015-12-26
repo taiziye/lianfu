@@ -1,6 +1,8 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Manager;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
 import com.tangpo.lianfu.utils.ToastUtils;
@@ -48,7 +53,9 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private TextView add_employee;
     private TextView rebate;
     private TextView rebate_pay;
-
+    private LinearLayout recordpage;
+    private LinearLayout memberpage;
+    private LinearLayout employeepage;
     private Intent intent;
 
     private Bundle bundle = null;
@@ -61,6 +68,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private String store_id = null;
     private SharedPreferences preferences = null;
     private String userid = null;
+    private UserEntity userEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,6 +96,12 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         scan.setOnClickListener(this);
         chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
+        recordpage = (LinearLayout) view.findViewById(R.id.recordpage);
+        recordpage.setOnClickListener(this);
+        memberpage = (LinearLayout) view.findViewById(R.id.memberpage);
+        memberpage.setOnClickListener(this);
+        employeepage = (LinearLayout) view.findViewById(R.id.employeepage);
+        employeepage.setOnClickListener(this);
 
         shop_name = (TextView) view.findViewById(R.id.shop_name);
         record = (TextView) view.findViewById(R.id.record);
@@ -118,6 +132,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
             userid = bundle.getString("userid");
             store_id = bundle.getString("storeid");
+            userEntity = (UserEntity) bundle.getSerializable("user");
             String[] kvs = new String[]{userid};
             String params = HomePage.packagingParam(getActivity(), kvs);
 
@@ -248,6 +263,10 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment;
+        Bundle bundle;
         switch (v.getId()) {
             case R.id.scan:
                 break;
@@ -278,6 +297,41 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                 intent = new Intent(getActivity(), RepayActivity.class);
                 intent.putExtra("userid", userid);
                 getActivity().startActivity(intent);
+                break;
+            case R.id.recordpage:
+                fragment = new RecordFragment();
+                bundle = new Bundle();
+                bundle.putString("userid", userid);
+                bundle.putString("employeename", userEntity.getName());
+                bundle.putString("username", userEntity.getName());
+                bundle.putString("storename", userEntity.getStorename());
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+                ((HomePageActivity)getActivity()).change(1);
+                break;
+            case R.id.memberpage:
+                fragment = new MemManageFragment();
+                bundle = new Bundle();
+                bundle.putString("userid", userid);
+                bundle.putString("storeid", store_id);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+                ((HomePageActivity)getActivity()).change(2);
+                break;
+            case R.id.employeepage:
+                fragment = new EmployeeManageFragment();
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+                //activity.change(3);
+                ((HomePageActivity)getActivity()).change(3);
                 break;
         }
     }

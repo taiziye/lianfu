@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -84,12 +86,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
             bundle.putString("storeid", store_id);
+            bundle.putSerializable("user", userEntity);
             fragment = new ManageHomeFragment();
             fragment.setArguments(bundle);
         } else if (userType.equals("2")) {  //员工
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
             bundle.putString("storeid", store_id);
+            bundle.putSerializable("user", userEntity);
             fragment = new EmployeeHomeFragment();
             fragment.setArguments(bundle);
         } else {  //会员
@@ -189,12 +193,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
+                    bundle.putSerializable("user", userEntity);
                     fragment = new ManageHomeFragment();
                     fragment.setArguments(bundle);
                 } else if (userType.equals("2")) {  //员工
                     Bundle bundle = new Bundle();
                     bundle.putString("userid", userid);
                     bundle.putString("storeid", store_id);
+                    bundle.putSerializable("user", userEntity);
                     fragment = new EmployeeHomeFragment();
                     fragment.setArguments(bundle);
                 } else {  //会员
@@ -359,6 +365,29 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     break;
             }
             transaction.commit();
+        }
+    }
+
+    public void change(int n) {
+        switch (n) {
+            case 1:
+                one_i.setImageResource(R.drawable.home_page);
+                one_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record_r);
+                two_t.setTextColor(Color.RED);
+                break;
+            case 2:
+                one_i.setImageResource(R.drawable.home_page);
+                one_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage_r);
+                three_t.setTextColor(Color.RED);
+                break;
+            case 3:
+                one_i.setImageResource(R.drawable.home_page);
+                one_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage_r);
+                four_t.setTextColor(Color.RED);
+                break;
         }
     }
 
