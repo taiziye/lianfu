@@ -128,6 +128,7 @@ public class PayByWechat extends FragmentActivity {
         }
         dialog= ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String params= PayBill.packagingParam(this, kvs);
+        Log.e("tag",params);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -136,7 +137,7 @@ public class PayByWechat extends FragmentActivity {
                     JSONObject jsonObject=result.getJSONObject("param");
                     cost_id=jsonObject.getString("cost_id");
                     Message msg=new Message();
-                    msg.obj=COST_ID;
+                    msg.obj=cost_id;
                     msg.what=1;
                     mHandler.sendMessage(msg);
                 } catch (JSONException e) {
@@ -168,19 +169,14 @@ public class PayByWechat extends FragmentActivity {
         String fee=bundle.getString("fee");
         String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
         String params = GetWeichatOrder.packagingParam(this, kvs);
-        dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
+        Log.e("tag",params);
+        dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
                     JSONObject jsonObject=result.getJSONObject("param");
-                    Log.e("tag", jsonObject.toString());
-                    if(result.getString("out_trad_no")!=null&&result.getString("pay_account")!=null){
-                        param.put("out_trad_no", result.getString("out_trad_no"));
-                        param.put("pay_account",result.getString("pay_account"));
-                        Configs.cachePayParam(PayByWechat.this,param.toString());
-                    }
                     PayReq req=new PayReq();
                     req.appId=jsonObject.getString("appid");
                     req.partnerId=jsonObject.getString("partnerid");
@@ -190,7 +186,12 @@ public class PayByWechat extends FragmentActivity {
                     req.timeStamp=jsonObject.getString("timestamp");
                     req.sign=jsonObject.getString("sign");
                     api.sendReq(req);
-
+                    Log.e("tag", jsonObject.toString());
+                    if(result.getString("out_trad_no")!=null&&result.getString("pay_account")!=null){
+                        param.put("out_trad_no", result.getString("out_trad_no"));
+                        param.put("pay_account",result.getString("pay_account"));
+                        Configs.cachePayParam(PayByWechat.this,param.toString());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

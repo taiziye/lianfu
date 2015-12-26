@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,10 +113,10 @@ public class PayByAliPay extends FragmentActivity {
                     }
                     break;
                 }
-                case COST_ID:{
-                    if(msg.obj!=null){
-                        cost_id= (String) msg.obj;
-                    }
+                case COST_ID: {
+                    cost_id= (String) msg.obj;
+                    getIndent();
+                    break;
                 }
                 case ORDER_INFO:{
                     if(msg.obj!=null){
@@ -134,6 +135,7 @@ public class PayByAliPay extends FragmentActivity {
                             e.printStackTrace();
                         }
                     }
+                    break;
                 }
                 default:
                     break;
@@ -153,8 +155,6 @@ public class PayByAliPay extends FragmentActivity {
         bundle=getIntent().getExtras();
 
         payBill();
-        getIndent();
-
         /**
          * 这里测试的时候先注释这一行，转一分钱到平台支付宝账号
          */
@@ -394,7 +394,6 @@ public class PayByAliPay extends FragmentActivity {
                     msg.what=COST_ID;
                     msg.obj=cost_id;
                     mHandler.sendMessage(msg);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -420,6 +419,7 @@ public class PayByAliPay extends FragmentActivity {
         String store_id=bundle.getString("store_id");
         String user_id=bundle.getString("user_id");
         String idlist=cost_id;
+        Log.e("idlist",cost_id);
         String paymode=bundle.getString("paymode");
         String fee=bundle.getString("fee");
         String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
@@ -431,6 +431,9 @@ public class PayByAliPay extends FragmentActivity {
                 dialog.dismiss();
                 try {
                     JSONObject jsonObject=result.getJSONObject("param");
+                    tvSubject.setText(jsonObject.getString("subject"));
+                    tvBody.setText(jsonObject.getString("body"));
+                    tvPrice.setText(jsonObject.getString("total_fee"));
                     Message msg=new Message();
                     msg.what=ORDER_INFO;
                     msg.obj=jsonObject;
