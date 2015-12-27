@@ -86,11 +86,13 @@ public class PayByAliPay extends FragmentActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         ToastUtils.showToast(PayByAliPay.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-                        if(bundle.getString("online")==null){
+                        if(bundle.getString("paymode").equals("1")){
                             ProfitAccount();
-                        }else{
-                            finish();
                         }
+                        Intent intent=new Intent(PayByAliPay.this,OnlinePayActivity.class);
+                        intent.putExtra("total_fee",total_fee);
+                        startActivity(intent);
+                        finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -114,8 +116,17 @@ public class PayByAliPay extends FragmentActivity {
                     break;
                 }
                 case COST_ID: {
-                    cost_id= (String) msg.obj;
-                    getIndent();
+                    if(msg.obj!=null){
+                        cost_id= (String) msg.obj;
+                        String store_id=bundle.getString("store_id");
+                        String user_id=bundle.getString("user_id");
+                        String idlist=cost_id;
+                        String paymode=bundle.getString("paymode");
+                        //这里是测试的费用，接口完善后需要调整为正常的值
+//                        String fee=bundle.getString("fee");
+                        String fee="0.01";
+                        getIndent(store_id,user_id,idlist,paymode,fee);
+                    }
                     break;
                 }
                 case ORDER_INFO:{
@@ -333,7 +344,7 @@ public class PayByAliPay extends FragmentActivity {
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
-        final String total_fee=bundle.getString("total_fee");
+        final String total_fee=bundle.getString("fee");
         String consume_id=bundle.getString("consume_id");
 
         String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, seller_id,total_fee, consume_id};
@@ -344,10 +355,6 @@ public class PayByAliPay extends FragmentActivity {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 ToastUtils.showToast(PayByAliPay.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
-                Intent intent=new Intent(PayByAliPay.this,OnlinePayActivity.class);
-                intent.putExtra("total_fee",total_fee);
-                startActivity(intent);
-                PayByAliPay.this.finish();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -370,10 +377,11 @@ public class PayByAliPay extends FragmentActivity {
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
-        String fee=bundle.getString("fee");
-        String phone=bundle.getString("phone");
-        String receipt_no=bundle.getString("receipt_no");
-        String receipt_photo=bundle.getString("receipt_photo");
+//        String fee=bundle.getString("fee");
+        String fee="0.01";
+        String phone=bundle.getString("phone")+"";
+        String receipt_no=bundle.getString("receipt_no")+"";
+        String receipt_photo=bundle.getString("receipt_photo")+"";
         String online=bundle.getString("online");
 
         String kvs[]=new String[]{user_id,store_id,fee,phone,receipt_no,receipt_photo,online,pay_way};
@@ -411,17 +419,11 @@ public class PayByAliPay extends FragmentActivity {
         },params);
     }
 
-    private void getIndent(){
+    private void getIndent(String store_id,String user_id,String idlist,String paymode,String fee){
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-        String store_id=bundle.getString("store_id");
-        String user_id=bundle.getString("user_id");
-        String idlist=cost_id;
-        Log.e("idlist",cost_id);
-        String paymode=bundle.getString("paymode");
-        String fee=bundle.getString("fee");
         String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
         String params= GetAlipayOrder.packagingParam(this, kvs);
         dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
