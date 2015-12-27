@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@android:color/white"
+    android:descendantFocusability="blocksDescendants"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
@@ -42,6 +43,23 @@
             android:textSize="15sp"
             android:textColor="@android:color/black"
             android:text="管" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ToggleButton android:id="@+id/change"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ios7_btn"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+        </LinearLayout>
 
     </LinearLayout>
 
