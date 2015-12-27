@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -47,6 +48,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private Button search;
     private Button add;
+    private TextView empty;
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
     private ArrayList<Employee> memList = new ArrayList<>();
@@ -88,7 +90,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         add.setOnClickListener(this);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.emlist);
-
+        empty = (TextView) view.findViewById(R.id.empty);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
         listView.getLoadingLayoutProxy(true, false).setPullLabel("");

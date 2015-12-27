@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private TextView select_type = null;
     private String[] typelist = null;
     private String[] banklist = null;
+    private boolean[] state = null;
+    private ListView lv = null;
 
     @Override
     protected void onDestroy() {
@@ -217,12 +220,36 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     };
 
     private void setType() {
-        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(typelist, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                select_level.setText(typelist[which]);
-            }
-        }).show();
+        state = new boolean[typelist.length];
+
+        AlertDialog dialog = new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型")
+                .setMultiChoiceItems(typelist, state, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        //
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //
+                        String s = "";
+                        for (int i = 0; i < typelist.length; i++) {
+                            if (lv.getCheckedItemPositions().get(i)) {
+                                s += lv.getAdapter().getItem(i) + " ";
+                            }
+                        }
+                        select_level.setText(s);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //
+                        dialog.dismiss();
+                    }
+                }).create();
+        lv = dialog.getListView();
+        dialog.show();
     }
     private void setBank() {
         new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(banklist, new DialogInterface.OnClickListener() {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Employee;
@@ -53,7 +54,7 @@ public class EmployeeAdapter extends BaseAdapter {
             holder.employee_id = (TextView) convertView.findViewById(R.id.employee_id);
             holder.employee_name = (TextView) convertView.findViewById(R.id.employee_name);
             holder.role = (TextView) convertView.findViewById(R.id.role);
-
+            holder.change = (ToggleButton) convertView.findViewById(R.id.change);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -76,7 +77,8 @@ public class EmployeeAdapter extends BaseAdapter {
         public TextView employee_id;
         public TextView employee_name;
         public TextView role;
-
+        //是否启用客服
+        public ToggleButton change;
         //public Switch isuse;
     }
 }
