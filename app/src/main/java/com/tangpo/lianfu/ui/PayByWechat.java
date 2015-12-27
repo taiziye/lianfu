@@ -107,6 +107,10 @@ public class PayByWechat extends FragmentActivity {
             }else{
                 ToastUtils.showToast(PayByWechat.this,getString(R.string.unsupport),Toast.LENGTH_SHORT);
             }
+            if(mBroadcastReceiver!=null){
+                unregisterReceiver(mBroadcastReceiver);
+                mBroadcastReceiver=null;
+            }
         }
     };
     @Override
@@ -143,8 +147,8 @@ public class PayByWechat extends FragmentActivity {
         String paymode=bundle.getString("paymode");
 //        String fee=bundle.getString("fee");
         String fee="0.01";
-        getIndent(store_id,user_id,idlist,paymode,fee);
-        registerReceiver(mBroadcastReceiver,new IntentFilter(WXPayEntryActivity.ACTION));
+        getIndent(store_id,user_id,idlist, paymode, fee);
+        registerReceiver(mBroadcastReceiver, new IntentFilter(WXPayEntryActivity.ACTION));
     }
 
     private void payBill(){
@@ -169,7 +173,6 @@ public class PayByWechat extends FragmentActivity {
         }
         dialog= ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String params= PayBill.packagingParam(this, kvs);
-        Log.e("tag",params);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -205,7 +208,6 @@ public class PayByWechat extends FragmentActivity {
         }
         String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
         String params = GetWeichatOrder.packagingParam(this, kvs);
-        Log.e("tag",params);
         dialog=ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -222,7 +224,6 @@ public class PayByWechat extends FragmentActivity {
                     req.timeStamp=jsonObject.getString("timestamp");
                     req.sign=jsonObject.getString("sign");
                     api.sendReq(req);
-//                    Log.e("tag", jsonObject.toString());
                     Message msg=new Message();
                     msg.obj=jsonObject;
                     msg.what=INDENT;
@@ -254,7 +255,6 @@ public class PayByWechat extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver);
         finish();
     }
 

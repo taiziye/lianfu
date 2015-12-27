@@ -130,10 +130,4 @@ public class Configs {
         editor.clear();
         editor.commit();
     }
-
-    public static void cachePayParam(Context context,String param){
-        SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
-        editor.putString(KEY_PARAM,param);
-        editor.commit();
-    }
 }

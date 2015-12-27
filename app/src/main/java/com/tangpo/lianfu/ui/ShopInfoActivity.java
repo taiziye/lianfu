@@ -50,14 +50,14 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
     private LinearLayout vocation;
     private LinearLayout location;
-    private LinearLayout select;
+//    private LinearLayout select;
     private EditText shop_name;
     private EditText shop_host;
     private EditText contact_name;
     private EditText contact_tel;
     private EditText const_tel;
     private EditText contact_intel;
-    private EditText shop_employee;
+//    private EditText shop_employee;
     private EditText contact_email;
     private EditText occupation;
     private EditText address;
@@ -120,8 +120,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         vocation.setOnClickListener(this);
         location = (LinearLayout) findViewById(R.id.location);
         location.setOnClickListener(this);
-        select = (LinearLayout) findViewById(R.id.select);
-        select.setOnClickListener(this);
+//        select = (LinearLayout) findViewById(R.id.select);
+//        select.setOnClickListener(this);
 
         shop_name = (EditText) findViewById(R.id.shop_name);
         shop_host = (EditText) findViewById(R.id.shop_host);
@@ -129,8 +129,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         contact_tel = (EditText) findViewById(R.id.contact_tel);
         const_tel = (EditText) findViewById(R.id.const_tel);
         contact_intel = (EditText) findViewById(R.id.contact_intel);
-        shop_employee = (EditText) findViewById(R.id.shop_employee);
-        shop_employee.setOnClickListener(this);
+//        shop_employee = (EditText) findViewById(R.id.shop_employee);
+//        shop_employee.setOnClickListener(this);
         contact_email = (EditText) findViewById(R.id.contact_email);
         occupation = (EditText) findViewById(R.id.occupation);
         occupation.setOnClickListener(this);
@@ -166,11 +166,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("lat",store.getLat());
                 startActivity(intent);
                 break;
-            case R.id.select:
-            case R.id.shop_employee:
-                //选择客服员工
-                getEmployeeList();
-                break;
+//            case R.id.select:
+//            case R.id.shop_employee:
+//                //选择客服员工
+//                getEmployeeList();
+//                break;
             case R.id.vocation:
             case R.id.occupation:
                 //选择行业
@@ -273,16 +273,16 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     }
                     setSuburb();
                     break;
-                case 6:
-                    employeelist = (ArrayList<Employee>) msg.obj;
-                    int index = (page - 1) * 10;
-                    for(int i=0; i<10; i++) {
-                        stafflist[i] = employeelist.get(index + i).getName();
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, stafflist);
-                    listView.setAdapter(adapter);
-                    setEmployee();
-                    break;
+//                case 6:
+//                    employeelist = (ArrayList<Employee>) msg.obj;
+//                    int index = (page - 1) * 10;
+//                    for(int i=0; i<10; i++) {
+//                        stafflist[i] = employeelist.get(index + i).getName();
+//                    }
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, stafflist);
+//                    listView.setAdapter(adapter);
+//                    setEmployee();
+//                    break;
             }
         }
     };
@@ -343,68 +343,68 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }).show();
     }
 
-    private void setEmployee() {
-        //
-        Log.e("tag", stafflist.length + "");
-        AlertDialog dialog = new AlertDialog.Builder(ShopInfoActivity.this).setTitle("请选择客服员工")
-                .setItems(stafflist, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //
-                        shop_employee.setText(stafflist[(page - 1) * 10 + which]);
-                    }
-                }).setPositiveButton("下一页", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //
-                        page++;
-                        if (employeelist.size() < page * 10) {
-                            getEmployeeList();
-                        } else {
-                            Message msg = new Message();
-                            msg.what = 6;
-                            handler.sendMessage(msg);
-                        }
-                        // 条件成立能关闭 AlertDialog 窗口
-                        try
-                        {
-                            Field field = dialog.getClass().getSuperclass().getDeclaredField( "mShowing" );
-                            field.setAccessible( true );
-                            field.set( dialog,
-                                    true ); // true - 使之可以关闭(此为机关所在，其它语句相同)
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                }).setNegativeButton("上一页", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //
-                        if (page > 1) {
-                            page--;
-                            Message msg = new Message();
-                            msg.what = 6;
-                            handler.sendMessage(msg);
-                        } else {
-                            //
-                            Tools.showToast(getApplicationContext(), "已是第一页");
-                            // 条件不成立不能关闭 AlertDialog 窗口
-                            try {
-                                Field field = dialog.getClass().getSuperclass().getDeclaredField( "mShowing" );
-                                field.setAccessible( true );
-                                field.set( dialog,false ); // false - 使之不能关闭(此为机关所在，其它语句相同)
-                            }
-                            catch ( Exception e )
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }).create();
-        dialog.show();
-    }
+//    private void setEmployee() {
+//        //
+//        Log.e("tag", stafflist.length + "");
+//        AlertDialog dialog = new AlertDialog.Builder(ShopInfoActivity.this).setTitle("请选择客服员工")
+//                .setItems(stafflist, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //
+//                        shop_employee.setText(stafflist[(page - 1) * 10 + which]);
+//                    }
+//                }).setPositiveButton("下一页", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //
+//                        page++;
+//                        if (employeelist.size() < page * 10) {
+//                            getEmployeeList();
+//                        } else {
+//                            Message msg = new Message();
+//                            msg.what = 6;
+//                            handler.sendMessage(msg);
+//                        }
+//                        // 条件成立能关闭 AlertDialog 窗口
+//                        try
+//                        {
+//                            Field field = dialog.getClass().getSuperclass().getDeclaredField( "mShowing" );
+//                            field.setAccessible( true );
+//                            field.set( dialog,
+//                                    true ); // true - 使之可以关闭(此为机关所在，其它语句相同)
+//                        }
+//                        catch (Exception e)
+//                        {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).setNegativeButton("上一页", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //
+//                        if (page > 1) {
+//                            page--;
+//                            Message msg = new Message();
+//                            msg.what = 6;
+//                            handler.sendMessage(msg);
+//                        } else {
+//                            //
+//                            Tools.showToast(getApplicationContext(), "已是第一页");
+//                            // 条件不成立不能关闭 AlertDialog 窗口
+//                            try {
+//                                Field field = dialog.getClass().getSuperclass().getDeclaredField( "mShowing" );
+//                                field.setAccessible( true );
+//                                field.set( dialog,false ); // false - 使之不能关闭(此为机关所在，其它语句相同)
+//                            }
+//                            catch ( Exception e )
+//                            {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                }).create();
+//        dialog.show();
+//    }
 
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {

@@ -104,7 +104,6 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", userEntity);
-                Log.e("user",userEntity.toString());
 //                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
 //                    intent=new Intent(getActivity(),BoundOrRegister.class);
 //                }else{

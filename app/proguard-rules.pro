@@ -20,12 +20,16 @@
 -dontpreverify           # 混淆时是否做预校验
 -verbose                # 混淆时是否记录日志
 
+-libraryjars libs
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
 -keep public class * extends android.app.Application   # 保持哪些类不被混淆
 -keep public class * extends android.app.Service       # 保持哪些类不被混淆
 -keep public class * extends android.content.BroadcastReceiver  # 保持哪些类不被混淆
 -keep public class * extends android.content.ContentProvider    # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
+-keep class com.baidu.mapapi.** {*;}
+-keep class vi.com.gdi.bgl.android.**{*;}
+
 
 -dontwarn com.baidu.**
 -dontwarn com.google.common.**
