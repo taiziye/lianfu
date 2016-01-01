@@ -112,13 +112,9 @@
                 android:inputType="number"
                 android:hint="请输入您的手机号"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
                 android:background="@null" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/next"/>
         </LinearLayout>
 
         <View style="@style/view_line_style" />
@@ -137,6 +133,7 @@
                 android:layout_marginLeft="10dp"
                 android:paddingLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:inputType="number"
                 android:hint="请输入验证码"
                 android:background="@null" />
 

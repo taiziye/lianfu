@@ -31,18 +31,21 @@
 
         <Button
             android:id="@+id/confirm"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            android:text="@string/confirm"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />
 
     </LinearLayout>
 
-    <View android:layout_marginTop="10dp"
+    <View
         style="@style/view_line_style" />
 
     <LinearLayout
@@ -53,7 +56,6 @@
         android:orientation="vertical">
 
         <RadioGroup
-            android:layout_marginTop="10dp"
             android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -34,6 +34,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private CircularImage img;
     private ImageView next;
+    private TextView remainder;
 
     private TextView power;
     private TextView name;
@@ -68,6 +69,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
+        remainder = (TextView) view.findViewById(R.id.remainder);
 
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
@@ -100,6 +102,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         user_name.setText("");
         power.setText("管");
         name.setText(user.getName());
+        remainder.setText(user.getMoney());
     }
 
     @Override
@@ -117,6 +120,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", user);
+                intent.putExtra("flag", "1");
                 startActivity(intent);
                 //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;

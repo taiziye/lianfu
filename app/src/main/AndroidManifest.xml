@@ -195,6 +195,10 @@
         <activity
             android:name=".ui.ChatActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PictureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleBottom" />
 
         <service
             android:name="com.baidu.location.f"

@@ -201,6 +201,7 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
                     list = (List<Discount>) msg.obj;
                     adapter = new DiscountManageAdapter(DiscountManageActivity.this, list, user.getUser_id());
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
             }
         }

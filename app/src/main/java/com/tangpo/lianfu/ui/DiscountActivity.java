@@ -43,7 +43,6 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     private Button back;
     private Button confirm;
 
-
     private ListView listView;
 
     private DiscountAdapter adapter = null;

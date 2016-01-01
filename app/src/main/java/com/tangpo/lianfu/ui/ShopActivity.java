@@ -64,6 +64,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private FindStore findStore=null;
     private ProgressDialog dialog=null;
     private Gson gson=null;
+    private String[] tmp = null;
 
     @Override
     protected void onDestroy() {
@@ -113,6 +114,14 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         img6 = (ImageView) findViewById(R.id.img6);
         img7 = (ImageView) findViewById(R.id.img7);
         img8 = (ImageView) findViewById(R.id.img8);
+        img1.setOnClickListener(this);
+        img2.setOnClickListener(this);
+        img3.setOnClickListener(this);
+        img4.setOnClickListener(this);
+        img5.setOnClickListener(this);
+        img6.setOnClickListener(this);
+        img7.setOnClickListener(this);
+        img8.setOnClickListener(this);
 
         img1.setVisibility(View.INVISIBLE);
         img2.setVisibility(View.INVISIBLE);
@@ -174,7 +183,37 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 payIntent.putExtra("storename",store.getStore());
                 startActivity(payIntent);
                 break;
+            case R.id.img1:
+                setBigPhoto(0);
+                break;
+            case R.id.img2:
+                setBigPhoto(1);
+                break;
+            case R.id.img3:
+                setBigPhoto(2);
+                break;
+            case R.id.img4:
+                setBigPhoto(3);
+                break;
+            case R.id.img5:
+                setBigPhoto(4);
+                break;
+            case R.id.img6:
+                setBigPhoto(5);
+                break;
+            case R.id.img7:
+                setBigPhoto(6);
+                break;
+            case R.id.img8:
+                setBigPhoto(7);
+                break;
         }
+    }
+
+    private void setBigPhoto(int n) {
+        Intent intent = new Intent(ShopActivity.this, PictureActivity.class);
+        intent.putExtra("url", tmp[n]);
+        startActivity(intent);
     }
 
     private void getStoreInfo() {
@@ -194,14 +233,14 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
-                    detail_address.setText(store.getAddress());
+                    /*detail_address.setText(store.getAddress());
                     tel.setText(store.getTel());
                     qq.setText("");
                     email.setText("");
                     commodity.setText(store.getBusiness());
-                    /**
+                    *//**
                      * 需要修改的：地图定位，加载图片
-                     */
+                     *//*
                     String tmp[] = store.getPhoto().split("\\,");
                     Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
 
@@ -236,7 +275,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     if(tmp.length>7){
                         img8.setVisibility(View.VISIBLE);
                         Tools.setPhoto(ShopActivity.this, tmp[7], img8);
-                    }
+                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -281,6 +320,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 collect.setBackgroundResource(R.drawable.s_collect);
             } else if (msg.what == 3) {
                 store = (Store) msg.obj;
+
                 detail_address.setText(store.getAddress());
                 tel.setText(store.getTel());
                 qq.setText("");
@@ -289,8 +329,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 /**
                  * 需要修改的：地图定位，加载图片
                  */
-                String tmp[] = store.getPhoto().split("\\,");
+                tmp = store.getPhoto().split("\\,");
                 Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
+
+                if("0".equals(store.getLat()) || "0".equals(store.getLng())) {
+                    locate.setVisibility(View.GONE);
+                }
 
                 if (tmp.length>0){
                     img1.setVisibility(View.VISIBLE);

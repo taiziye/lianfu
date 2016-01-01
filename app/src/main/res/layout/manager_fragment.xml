@@ -39,7 +39,7 @@
 
     </LinearLayout>
 
-    <View android:layout_marginTop="10dp"
+    <View
         style="@style/view_line_style" />
 
     <ScrollView
@@ -297,6 +297,44 @@
             </LinearLayout>
 
             <View style="@style/view_line_style" />
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:background="@android:color/white"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:text="@string/remainder" />
+
+                <TextView android:id="@+id/right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/black"
+                    android:text=" 元"/>
+
+                <TextView android:id="@+id/remainder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/right"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="15sp"
+                    android:text="50"/>
+
+            </RelativeLayout>
+
+            <View style="@style/view_line_style" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -294,4 +294,9 @@
     <string name="comm_err">一般错误</string>
     <string name="unsupport">不支持错误</string>
     <string name="upgrade_level">升级类型</string>
+    <string name="level">等级</string>
+    <string name="birth">出生日期</string>
+    <string name="qq">QQ</string>
+    <string name="email">Email</string>
+    <string name="addr">联系地址</string>
 </resources>

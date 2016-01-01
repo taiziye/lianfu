@@ -89,6 +89,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             power.setText("会员");
         }
         user_name.setText("");
+        remainder.setText(userEntity.getMoney());
     }
 
     @Override
@@ -104,6 +105,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", userEntity);
+                intent.putExtra("flag", "1");
 //                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
 //                    intent=new Intent(getActivity(),BoundOrRegister.class);
 //                }else{

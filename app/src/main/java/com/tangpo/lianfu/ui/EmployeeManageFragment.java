@@ -235,6 +235,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                     memList.addAll((ArrayList<Employee>) msg.obj);
                     adapter = new EmployeeAdapter(getActivity(), memList);
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
             }
         }

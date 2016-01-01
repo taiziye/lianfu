@@ -38,7 +38,7 @@
 
     </LinearLayout>
 
-    <View android:layout_marginTop="10dp"
+    <View
         style="@style/view_line_style" />
 
     <LinearLayout

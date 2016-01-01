@@ -103,7 +103,7 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 }
                 address=jsonObject.getString("location");
                 photo=jsonObject.getString("profile_image_url");
-                UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
+                UserEntity userEntity=new UserEntity("1",user_id,"","",name,"","",sex,"","","",address,"","","","","",photo, "","","","");
                 Configs.cacheUser(this, userEntity.toString());
             }
             if(login_type.equals("2")){
@@ -117,7 +117,7 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 }
                 address=jsonObject.getString("city");
                 photo=jsonObject.getString("figureurl_qq_1");
-                UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
+                UserEntity userEntity=new UserEntity("1",user_id,"","",name,"","",sex,"","","",address,"","","","","",photo, "","","","");
                 Configs.cacheUser(this, userEntity.toString());
             }
             if(login_type.equals("0")){
@@ -126,7 +126,7 @@ public class RelationActivity extends Activity implements View.OnClickListener {
                 sex=jsonObject.getString("sex");
                 address=jsonObject.getString("city");
                 photo=jsonObject.getString("headimgurl");
-                UserEntity userEntity=new UserEntity("1",user_id,"",name,"","",sex,"","","",address,"","","","","",photo);
+                UserEntity userEntity=new UserEntity("1",user_id,"","",name,"","",sex,"","","",address,"","","","","",photo, "","","","");
                 Configs.cacheUser(this, userEntity.toString());
             }
         } catch (JSONException e) {

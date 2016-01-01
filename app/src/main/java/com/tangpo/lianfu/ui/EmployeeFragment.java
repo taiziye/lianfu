@@ -40,6 +40,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
     private TextView user_name;
     private LinearLayout personal_info;
     private LinearLayout modify_pass;
+    private TextView remainder;
 
     private SharedPreferences preferences = null;
     private Gson gson = null;
@@ -66,6 +67,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         img = (CircularImage) view.findViewById(R.id.img);
         power = (TextView) view.findViewById(R.id.power);
         name = (TextView) view.findViewById(R.id.name);
+        remainder = (TextView) view.findViewById(R.id.remainder);
         user_name = (TextView) view.findViewById(R.id.user_name);
         personal_info = (LinearLayout) view.findViewById(R.id.personal_info);
         personal_info.setOnClickListener(this);
@@ -84,6 +86,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         user_name.setText("");
         power.setText("员工");
         name.setText(user.getName());
+        remainder.setText(user.getMoney());
     }
 
     @Override
@@ -96,6 +99,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", user);
+                intent.putExtra("flag", "1");
                 startActivity(intent);
                 //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;

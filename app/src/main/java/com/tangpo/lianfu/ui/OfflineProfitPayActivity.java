@@ -324,6 +324,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     list = (List<ProfitPay>) msg.obj;
                     adapter = new ComputeProfitAdapter(OfflineProfitPayActivity.this, list);
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
             }
         }

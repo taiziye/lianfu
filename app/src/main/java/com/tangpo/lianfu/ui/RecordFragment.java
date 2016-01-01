@@ -317,6 +317,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     recordList = (List<EmployeeConsumeRecord>) msg.obj;
                     adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
                     list.setAdapter(adapter);
+                    list.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
             }
         }
