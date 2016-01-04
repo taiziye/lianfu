@@ -1,18 +1,25 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,31 +54,37 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 //    private Button offline;
 //    private Button online;
     private Button compute;
-
     private PullToRefreshListView listView;
-
     private LinearLayout name;
     private boolean f1 = false;
     private LinearLayout time;
     private boolean f2 = false;
     private LinearLayout repay;
     private boolean f3 = false;
+    private LinearLayout status;
+    private boolean f4 = false;
+    private String flag = "0";
+
+    private LinearLayout frame;
+    private RelativeLayout frame2;
+    private EditText txt;
+    private Button btn;
+    private ImageView search;
+    private ImageView cancel;
 
     private CheckBox select_all;
-
     private TextView money;
-
     private ComputeProfitAdapter adapter = null;
     private List<ProfitPay> list = new ArrayList<>();
     private int checkNum;
-
     private Gson gson = new Gson();
+    private TextView statustxt;
 
     private String userid = null;
     private String store_id = null;
     private int page = 1;
     private Map<Integer, String> set = new HashMap<Integer, String>();
-
+    private ProgressDialog dialog = null;
     private double tmp = 0;
 
     @Override
@@ -102,8 +115,21 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         compute = (Button) findViewById(R.id.compute);
         compute.setOnClickListener(this);
         listView= (PullToRefreshListView) findViewById(R.id.list);
+        statustxt = (TextView) findViewById(R.id.statustxt);
 
-        getProfitPay();
+        search = (ImageView) findViewById(R.id.search);
+        search.setOnClickListener(this);
+        frame = (LinearLayout) findViewById(R.id.frame);
+        txt = (EditText) findViewById(R.id.txt);
+        btn = (Button) findViewById(R.id.btn);
+        btn.setOnClickListener(this);
+        cancel = (ImageView) findViewById(R.id.cancel);
+        cancel.setOnClickListener(this);
+        frame2 = (RelativeLayout) findViewById(R.id.frame1);
+        frame2.setVisibility(View.VISIBLE);
+        frame.setVisibility(View.GONE);
+
+        getProfitPay(flag, "");
 
         select_all = (CheckBox) findViewById(R.id.select_all);
         select_all.setOnClickListener(this);
@@ -113,9 +139,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         time.setOnClickListener(this);
         repay = (LinearLayout) findViewById(R.id.repay);
         repay.setOnClickListener(this);
+        status = (LinearLayout) findViewById(R.id.status);
+        status.setOnClickListener(this);
 
         money = (TextView) findViewById(R.id.money);
         money.setText("0.00");
+        statustxt.setText("未支付");
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -149,14 +178,14 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
-                getProfitPay();
+                getProfitPay( flag, "" );
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
                 select_all.setChecked(false);
-                getProfitPay();
+                getProfitPay( flag, "" );
             }
         });
 
@@ -186,7 +215,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     if(checkNum == 0) tmp = 0.00;
                     select_all.setChecked(false);
                 }
-                money.setText(tmp + "");
+                money.setText(String.format("%.2f", tmp));
             }
         });
     }
@@ -231,7 +260,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         if(list.get(i).getProfit() != null) tmp += Double.parseDouble(list.get(i).getProfit());
                     }
                     checkNum = list.size();
-                    money.setText(tmp + "");
+                    money.setText(String.format("%.2f", tmp));
                     dataChanged();
                 }else{
                     for(int i=0;i<list.size();i++){
@@ -242,7 +271,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     tmp=0;
                     set.clear();
                     checkNum=0;
-                    money.setText(tmp+"");
+                    money.setText(String.format("%.2f", tmp));
                     dataChanged();
                 }
                 break;
@@ -275,7 +304,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return Tools.CompareDate(lhs.getPay_date(), rhs.getPay_date());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if (f1 > f2) {
+                                    return 1;
+                                } else
+                                return -1;
                             }
                         });
                     } else {
@@ -283,7 +317,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return Tools.CompareDate(rhs.getPay_date(), lhs.getPay_date());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if (f1 > f2) {
+                                    return -1;
+                                } else
+                                    return 1;
                             }
                         });
                     }
@@ -297,7 +336,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return lhs.getProfit().compareTo(rhs.getProfit());
+                                float f1 = Float.parseFloat(lhs.getProfit());
+                                float f2 = Float.parseFloat(rhs.getProfit());
+                                if (f1 > f2) {
+                                    return 1;
+                                } else
+                                    return -1;
                             }
                         });
                     } else {
@@ -305,14 +349,82 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return rhs.getProfit().compareTo(lhs.getProfit());
+                                float f1 = Float.parseFloat(lhs.getProfit());
+                                float f2 = Float.parseFloat(rhs.getProfit());
+                                if (f1 > f2) {
+                                    return -1;
+                                } else
+                                    return 1;
                             }
                         });
                     }
                     adapter.notifyDataSetChanged();
                 }
                 break;
+            case R.id.status:
+                /*if (list.size() > 0) {
+                    if (f4) {
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return lhs.getPay_status().compareTo(rhs.getPay_status());
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(list, new Comparator<ProfitPay>() {
+                            @Override
+                            public int compare(ProfitPay lhs, ProfitPay rhs) {
+                                return rhs.getPay_status().compareTo(lhs.getPay_status());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetInvalidated();
+                }*/
+                list.clear();
+                setList();
+                break;
+            case R.id.search:
+                frame.setVisibility(View.VISIBLE);
+                frame2.setVisibility(View.GONE);
+                txt.setText("");
+                break;
+            case R.id.btn:
+                String name = txt.getText().toString().trim();
+                list.clear();
+                getProfitPay(flag, name);
+                break;
+            case R.id.cancel:
+                frame.setVisibility(View.GONE);
+                frame2.setVisibility(View.VISIBLE);
+                getProfitPay(flag, "");
+                break;
         }
+    }
+
+    private void setList() {
+        new AlertDialog.Builder(this).setItems(new String[]{"全部", "未支付", "已支付"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //
+                switch (which) {
+                    case 0:
+                        statustxt.setText("全部");
+                        flag = "";
+                        break;
+                    case 1:
+                        statustxt.setText("未已支付");
+                        flag = "0";
+                        break;
+                    case 2:
+                        statustxt.setText("已支付");
+                        flag = "1";
+                        break;
+                }
+                getProfitPay(flag, "");
+            }
+        }).show();
     }
 
     Handler mHandler = new Handler() {
@@ -330,18 +442,19 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         }
     };
 
-    private void getProfitPay() {
+    private void getProfitPay(String status, String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
 
-        String kvs[] = new String[]{userid, store_id, " ", " ","0",page + "", "10"};
+        String kvs[] = new String[]{userid, store_id, " ", status, name,"",page + "", "10"};
         String param = ProfitPayRecord.packagingParam(this, kvs);
-
+        dialog = ProgressDialog.show(OfflineProfitPayActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                dialog.dismiss();
                 listView.onRefreshComplete();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
@@ -364,6 +477,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                dialog.dismiss();
                 listView.onRefreshComplete();
                 try {
                     Tools.handleResult(OfflineProfitPayActivity.this, result.getString("status"));

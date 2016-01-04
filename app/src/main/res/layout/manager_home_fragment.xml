@@ -376,7 +376,7 @@
                     android:gravity="center|left"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
-                    android:text="平台返利共计"/>
+                    android:text="收益记录总计"/>
 
                 <TextView
                     android:id="@+id/rebate"
@@ -396,7 +396,7 @@
                     android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
-                    android:text="记录"
+                    android:text="查看"
                     android:background="@drawable/cancel_collect"
                     android:textSize="15sp"
                     android:textColor="@android:color/holo_red_light"

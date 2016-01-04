@@ -107,7 +107,7 @@
     <string name="ae_user_name">用户名</string>
     <string name="ae_contact_tel">联系电话/手机</string>
     <string name="ae_rel_name">真实姓名</string>
-    <string name="ae_update_type">升级列表</string>
+    <string name="ae_update_type">升级类型</string>
     <string name="ae_id">身份证号</string>
     <string name="ae_bank">开户银行(选填)</string>
     <string name="ae_bank_card">开户银行卡号(选填)</string>
