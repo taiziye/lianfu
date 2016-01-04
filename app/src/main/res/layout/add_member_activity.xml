@@ -65,14 +65,8 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -99,14 +93,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center|right"
-                    android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -133,14 +121,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center|right"
-                    android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -168,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
                     android:entries="@array/sex" />
             </LinearLayout>
 
@@ -194,14 +177,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center|right"
-                    android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -229,15 +206,9 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
+                    android:layout_marginRight="20dp"
                     android:gravity="center|right"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -308,14 +279,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center|right"
-                    android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -341,15 +306,9 @@
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
                     android:gravity="center|right"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/next"/>
 
             </LinearLayout>
 

@@ -30,12 +30,22 @@
             android:background="@anim/fragment_style"
             android:orientation="horizontal">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/locate"
                 android:layout_width="25dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/locate"
+                />-->
+            <TextView
+                android:id="@+id/locate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:textColor="#999999"
+                android:text="附近"
                 />
 
             <View
@@ -71,12 +81,8 @@
 
     </LinearLayout>
 
-    <View android:layout_marginTop="20dp"
-        style="@style/view_line_style" />
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
-
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

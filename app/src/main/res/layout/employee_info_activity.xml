@@ -42,7 +42,7 @@
             />
     </LinearLayout>
 
-    <View android:layout_marginTop="5dp"
+    <View
         style="@style/view_line_style" />
 
     <ScrollView
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -74,14 +74,15 @@
                     android:text="@string/ae_manage_level" />
 
                 <Spinner
-                    android:layout_marginRight="10dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/manage_level"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
                     android:entries="@array/manage_level" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View style="@style/view_line_style" />
 
@@ -106,14 +107,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -139,14 +134,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -172,19 +161,13 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -201,15 +184,15 @@
                     android:text="@string/sex" />
 
                 <Spinner
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:id="@+id/sex"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:entries="@array/sex" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View style="@style/view_line_style" />
 
@@ -234,14 +217,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -267,14 +244,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -300,14 +271,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -333,14 +298,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
         </LinearLayout>

@@ -62,15 +62,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center|right"
+                    android:textColor="@android:color/darker_gray"
                     android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -100,7 +96,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="15sp"/>
 
                 <TextView
@@ -137,16 +133,12 @@
                     android:id="@+id/name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:textColor="@android:color/darker_gray"
                     android:gravity="center|right"
                     android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -172,15 +164,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center|right"
+                    android:textColor="@android:color/darker_gray"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
@@ -210,7 +198,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:gravity="center|right"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="18sp"
                     android:layout_marginRight="5dp"/>
 
@@ -252,15 +240,9 @@
                     android:layout_height="40dp"
                     android:inputType="numberDecimal"
                     android:selectAllOnFocus="true"
+                    android:layout_marginRight="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
 
             </LinearLayout>
 

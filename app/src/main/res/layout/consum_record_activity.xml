@@ -43,10 +43,6 @@
             />
     </LinearLayout>
 
-    <View
-        android:layout_marginTop="5dp"
-        style="@style/view_line_style" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -83,14 +79,8 @@
                     android:editable="false"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
+                    android:layout_marginRight="20dp"
+                    android:textColor="@android:color/darker_gray" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -119,14 +109,8 @@
                     android:editable="false"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
+                    android:layout_marginRight="20dp"
+                    android:textColor="@android:color/darker_gray" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -154,14 +138,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -189,14 +167,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -224,14 +196,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -259,14 +225,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -294,14 +254,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -329,14 +283,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -364,14 +312,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -399,14 +341,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -434,14 +370,8 @@
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"
-                    />
             </LinearLayout>
 
             <View style="@style/view_line_style" />

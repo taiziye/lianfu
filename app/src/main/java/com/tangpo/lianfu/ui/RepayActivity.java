@@ -130,6 +130,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                     list = (List<Repay>) msg.obj;
                     adapter = new RepayAdapter(RepayActivity.this, list);
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
             }
         }
     };

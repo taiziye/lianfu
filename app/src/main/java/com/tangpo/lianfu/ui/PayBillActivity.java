@@ -42,7 +42,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
     private ImageView imageView=null;
 
     private TextView shop;
-    private TextView select;
 
     private EditText money;
     private EditText contact_tel;
@@ -91,8 +90,6 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         pay_offline.setOnClickListener(this);
 
         shop = (TextView) findViewById(R.id.shop);
-        select = (TextView) findViewById(R.id.select);
-        select.setOnClickListener(this);
 
         money = (EditText) findViewById(R.id.money);
         contact_tel = (EditText) findViewById(R.id.contact_tel);

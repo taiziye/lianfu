@@ -90,8 +90,13 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         }
 
         final String username = user_name.getText().toString();
+        final String password = pass.getText().toString();
         if(username.length() == 0) {
             Tools.showToast(getApplicationContext(), "请填写用户名");
+            return;
+        }
+        if(password.length() == 0) {
+            Tools.showToast(getApplicationContext(), "请填写密码");
             return;
         }
         if (!TextUtils.equals(pass.getText().toString(), check_pass.getText().toString())) {
@@ -99,7 +104,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
             return;
         }
 
-        final String password = pass.getText().toString();
         final String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center = service.getText().toString();
         String store_id = storeid.getText().toString();

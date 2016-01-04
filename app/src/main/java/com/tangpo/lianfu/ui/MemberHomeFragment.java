@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 public class MemberHomeFragment extends Fragment implements View.OnClickListener {
 
     private Button double_code;
-    private ImageView locate;
+    private TextView locate;
     private ImageView start;
     private Button map;
     private EditText search;
@@ -57,6 +58,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private SharedPreferences preferences=null;
     private String hereabout = "0";
     private int page = 1;
+    private boolean flag = false;  //判断是刷新还是加载数据 false为刷新  true为加载
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private void init(View view) {
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
-        locate = (ImageView) view.findViewById(R.id.locate);
+        locate = (TextView) view.findViewById(R.id.locate);
         locate.setOnClickListener(this);
         start = (ImageView) view.findViewById(R.id.start);
         start.setOnClickListener(this);
@@ -114,6 +116,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 //
                 storeList.clear();
                 page = 1;
+                flag=false;
                 // 下拉的时候刷新数据
                 int flags = DateUtils.FORMAT_SHOW_TIME
                         | DateUtils.FORMAT_SHOW_DATE
@@ -132,6 +135,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 //
                 page = page + 1;
+                flag = true;
 
                 // 下拉的时候刷新数据
                 int flags = DateUtils.FORMAT_SHOW_TIME
@@ -213,7 +217,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 case 1:
                     storeList = (ArrayList<FindStore>) msg.obj;
                     adapter = new PositionAdapter(getActivity(), storeList);
+                    /*if (!flag) listView.setAdapter(adapter);
+                    else adapter.notifyDataSetInvalidated();*/
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
                 case 2:
                     break;

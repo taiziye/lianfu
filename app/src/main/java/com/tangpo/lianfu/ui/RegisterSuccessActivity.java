@@ -94,8 +94,11 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                 case 2:
                     intent = new Intent(RegisterSuccessActivity.this, PersonalInfoActivity.class);
                     intent.putExtra("user", user);
-                    /*startActivity(intent);*/
-                    Tools.showToast(getApplicationContext(), "请期待下一版");
+                    intent.putExtra("flag", "2");
+                    intent.putExtra("name", name);
+                    intent.putExtra("pass", pass);
+                    startActivity(intent);
+                    /*Tools.showToast(getApplicationContext(), "请期待下一版");*/
                     break;
             }
         }
@@ -119,7 +122,7 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    System.out.println(Escape.unescape(result.toString()));
+                    //System.out.println(Escape.unescape(result.toString()));
                     user = gson.fromJson(jsonObject.toString(), UserEntity.class);
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -267,6 +267,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                     list = (List<Member>) msg.obj;
                     adapter = new MemberAdapter(list, getActivity());
                     listView.setAdapter(adapter);
+                    listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
             }
         }

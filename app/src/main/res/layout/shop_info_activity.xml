@@ -42,7 +42,7 @@
             android:paddingRight="15dp"/>
     </LinearLayout>
 
-    <View android:layout_marginTop="5dp"
+    <View
         style="@style/view_line_style" />
 
     <ScrollView
@@ -79,13 +79,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -111,13 +107,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -143,13 +135,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -175,13 +163,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -207,13 +191,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -239,13 +219,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -304,13 +280,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -337,13 +309,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -371,13 +339,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -403,13 +367,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -435,13 +395,9 @@
                     android:gravity="center|right"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />

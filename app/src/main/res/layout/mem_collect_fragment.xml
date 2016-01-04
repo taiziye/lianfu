@@ -40,9 +40,6 @@
 
     </LinearLayout>
 
-    <View android:layout_marginTop="5dp"
-        style="@style/view_line_style" />
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list"
         android:layout_width="match_parent"

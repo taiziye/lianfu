@@ -32,17 +32,20 @@
 
         <Button
             android:id="@+id/confirm"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColor="@android:color/white"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp" />
+            android:paddingRight="15dp"
+            android:textSize="15sp"
+            android:text="@string/submit"/>
     </LinearLayout>
 
-    <View android:layout_marginTop="5dp"
+    <View
         style="@style/view_line_style" />
 
     <ScrollView
@@ -78,14 +81,11 @@
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center|right"
+                    android:paddingRight="30dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -109,15 +109,12 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
+                    android:paddingRight="30dp"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -142,19 +139,17 @@
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center|right"
+                    android:paddingRight="30dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
 
             <LinearLayout android:id="@+id/type"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -207,14 +202,189 @@
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center|right"
+                    android:paddingRight="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/level" />
+
+                <EditText
+                    android:id="@+id/level"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:paddingRight="30dp"
+                    android:editable="false"
+                    android:gravity="center|right"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/sex" />
+
+                <EditText
+                    android:id="@+id/sex"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:editable="false"
+                    android:gravity="center|right"
                     android:layout_marginLeft="5dp"
                     android:background="@null" />
 
-                <ImageView
-                    android:layout_width="15dp"
+                <ImageView android:id="@+id/sexi"
+                    android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
+
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/birth" />
+
+                <EditText
+                    android:id="@+id/birth"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:gravity="center|right"
+                    android:paddingRight="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/qq" />
+
+                <EditText
+                    android:id="@+id/qq"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:paddingRight="30dp"
+                    android:gravity="center|right"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/email" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:paddingRight="30dp"
+                    android:gravity="center|right"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/addr" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:paddingRight="30dp"
+                    android:gravity="center|right"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@null" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -241,10 +411,11 @@
                     android:layout_height="40dp"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
 
                 <ImageView
-                    android:layout_width="15dp"
+                    android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/next"/>
@@ -271,15 +442,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
+                    android:paddingRight="30dp"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -303,15 +470,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
+                    android:paddingRight="30dp"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="@null" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />

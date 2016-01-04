@@ -13,14 +13,17 @@
 
         <Button
             android:id="@+id/commit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:text="@string/confirm"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />
 
@@ -43,7 +46,6 @@
     </RelativeLayout>
 
     <View android:id="@+id/t2"
-        android:layout_marginTop="5dp"
         android:layout_below="@id/top"
         style="@style/view_line_style" />
 
@@ -69,13 +71,8 @@
             android:gravity="center|right"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
             android:background="@null" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/next"/>
     </LinearLayout>
 
     <View android:id="@+id/t1"
@@ -103,13 +100,8 @@
             android:gravity="center|right"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
             android:background="@null" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/next"/>
     </LinearLayout>
 
     <View

@@ -1,5 +1,8 @@
 package com.tangpo.lianfu.entity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /**
@@ -24,14 +27,10 @@ public class UserEntity implements Serializable {
     private String bank_address;
     private String rank;
     private String photo;
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
+    private String session_id;
+    private String username;
+    private String ulevel;
+    private String money;
 
     public String getUser_type() {
         return user_type;
@@ -55,6 +54,14 @@ public class UserEntity implements Serializable {
 
     public void setStore_id(String store_id) {
         this.store_id = store_id;
+    }
+
+    public String getStorename() {
+        return storename;
+    }
+
+    public void setStorename(String storename) {
+        this.storename = storename;
     }
 
     public String getName() {
@@ -161,17 +168,78 @@ public class UserEntity implements Serializable {
         this.rank = rank;
     }
 
-    public String getStorename() {
-        return storename;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setStorename(String storename) {
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUlevel() {
+        return ulevel;
+    }
+
+    public void setUlevel(String ulevel) {
+        this.ulevel = ulevel;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public UserEntity(String user_type, String user_id, String store_id, String storename, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo, String session_id, String username, String ulevel, String money) {
+        this.user_type = user_type;
+        this.user_id = user_id;
+        this.store_id = store_id;
         this.storename = storename;
+        this.name = name;
+        this.phone = phone;
+        this.id_number = id_number;
+        this.sex = sex;
+        this.birth = birth;
+        this.qq = qq;
+        this.email = email;
+        this.address = address;
+        this.bank_account = bank_account;
+        this.bank_name = bank_name;
+        this.bank = bank;
+        this.bank_address = bank_address;
+        this.rank = rank;
+        this.photo = photo;
+        this.session_id = session_id;
+        this.username = username;
+        this.ulevel = ulevel;
+        this.money = money;
+    }
+
+    public UserEntity() {
+
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "UserEntity{" +
                 "user_type='" + user_type + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", store_id='" + store_id + '\'' +
@@ -190,26 +258,41 @@ public class UserEntity implements Serializable {
                 ", bank_address='" + bank_address + '\'' +
                 ", rank='" + rank + '\'' +
                 ", photo='" + photo + '\'' +
+                ", session_id='" + session_id + '\'' +
+                ", username='" + username + '\'' +
+                ", ulevel='" + ulevel + '\'' +
+                ", money='" + money + '\'' +
                 '}';
     }
 
-    public UserEntity(String user_type, String user_id, String store_id, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo) {
-        this.user_type = user_type;
-        this.user_id = user_id;
-        this.store_id = store_id;
-        this.name = name;
-        this.phone = phone;
-        this.id_number = id_number;
-        this.sex = sex;
-        this.birth = birth;
-        this.qq = qq;
-        this.email = email;
-        this.address = address;
-        this.bank_account = bank_account;
-        this.bank_name = bank_name;
-        this.bank = bank;
-        this.bank_address = bank_address;
-        this.rank = rank;
-        this.photo = photo;
+    public String toJSONString(){
+        JSONObject json=new JSONObject();
+        try {
+            json.put("user_type",this.user_type);
+            json.put("user_id",this.user_id);
+            json.put("store_id", this.store_id);
+            json.put("name", this.name);
+            json.put("phone", this.phone);
+            json.put("id_number", this.id_number);
+            json.put("sex", this.sex);
+            json.put("birth", this.birth);
+            json.put("qq", this.qq);
+            json.put("email", this.email);
+            json.put("address", this.address);
+            json.put("bank_account", this.bank_account);
+            json.put("bank_name", this.bank_name);
+            json.put("bank", this.bank);
+            json.put("bank_address", this.bank_address);
+            json.put("rank", this.rank);
+            json.put("photo", this.photo);
+            json.put("session_id", this.session_id);
+            json.put("username", this.username);
+            json.put("ulevel", this.ulevel);
+            json.put("money", this.money);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json.toString();
     }
+
 }
