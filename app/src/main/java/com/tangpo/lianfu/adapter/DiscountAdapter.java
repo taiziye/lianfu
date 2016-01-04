@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.Dis;
 import com.tangpo.lianfu.entity.Discount;
 
 import java.util.HashMap;
@@ -22,14 +23,14 @@ import java.util.Map;
 public class DiscountAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Discount> list;
+    private List<Dis> list;
     private LayoutInflater inflater;
 
     private boolean checked[] = null;
 
     private static Map<Integer, Boolean> selected;
 
-    public DiscountAdapter(Context context, List<Discount> list) {
+    public DiscountAdapter(Context context, List<Dis> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -71,7 +72,7 @@ public class DiscountAdapter extends BaseAdapter {
             holder.check = (RadioButton) convertView.findViewById(R.id.check);
             holder.type = (TextView) convertView.findViewById(R.id.type);
             holder.discount = (TextView) convertView.findViewById(R.id.discount);
-            holder.status = (TextView) convertView.findViewById(R.id.status);
+            //holder.status = (TextView) convertView.findViewById(R.id.status);
 
             convertView.setTag(holder);
         } else {
@@ -80,9 +81,9 @@ public class DiscountAdapter extends BaseAdapter {
 
         holder.check.setChecked(selected.get(position));
 
-        holder.type.setText(list.get(position).getDesc());
-        holder.discount.setText(Float.valueOf(list.get(position).getDiscount()) / 10 + "折");
-        if(list.get(position).getStatus().equals("0")){
+        holder.type.setText(list.get(position).getTypename());
+        holder.discount.setText(Float.valueOf(list.get(position).getAgio()) / 10 + "折");
+        /*if(list.get(position).getStatus().equals("0")){
             holder.status.setText("未确认");
             holder.status.setTextColor(Color.BLUE);
         }else if(list.get(position).getStatus().equals("1")){
@@ -91,7 +92,7 @@ public class DiscountAdapter extends BaseAdapter {
         }else{
             holder.status.setText("已拒绝");
             holder.status.setTextColor(Color.RED);
-        }
+        }*/
         return convertView;
     }
 
@@ -125,6 +126,6 @@ public class DiscountAdapter extends BaseAdapter {
         public RadioButton check;
         public TextView type;
         public TextView discount;
-        public TextView status;
+        //public TextView status;
     }
 }

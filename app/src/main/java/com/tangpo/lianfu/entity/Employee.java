@@ -21,26 +21,50 @@ public class Employee implements Parcelable {
     private String register_time;
     private String id_number;
     private String upgrade;
+    private String isServer;
+    private String isstop;
+
+    protected Employee(Parcel in) {
+        user_id = in.readString();
+        rank = in.readString();
+        name = in.readString();
+        username=in.readString();
+        phone = in.readString();
+        bank = in.readString();
+        bank_account = in.readString();
+        bank_name = in.readString();
+        register_time = in.readString();
+        sex = in.readString();
+        id_number = in.readString();
+        upgrade = in.readString();
+        isServer = in.readString();
+        isstop = in.readString();
+    }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "bank='" + bank + '\'' +
-                ", id='" + user_id + '\'' +
+                "user_id='" + user_id + '\'' +
                 ", rank='" + rank + '\'' +
-                ", zsname='" + name + '\'' +
+                ", sex='" + sex + '\'' +
                 ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", bank='" + bank + '\'' +
                 ", bank_account='" + bank_account + '\'' +
                 ", bank_name='" + bank_name + '\'' +
                 ", register_time='" + register_time + '\'' +
-                ", sex='" + sex + '\'' +
                 ", id_number='" + id_number + '\'' +
                 ", upgrade='" + upgrade + '\'' +
+                ", isServer='" + isServer + '\'' +
+                ", isstop='" + isstop + '\'' +
                 '}';
     }
 
-    public Employee(String user_id, String rank, String sex, String username, String name, String phone, String bank, String bank_account, String bank_name, String register_time, String id_number, String upgrade) {
+    public Employee() {
+    }
+
+    public Employee(String user_id, String rank, String sex, String username, String name, String phone, String bank, String bank_account, String bank_name, String register_time, String id_number, String upgrade, String isServer, String isstop) {
         this.user_id = user_id;
         this.rank = rank;
         this.sex = sex;
@@ -53,10 +77,59 @@ public class Employee implements Parcelable {
         this.register_time = register_time;
         this.id_number = id_number;
         this.upgrade = upgrade;
+        this.isServer = isServer;
+        this.isstop = isstop;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getBank() {
-
         return bank;
     }
 
@@ -80,8 +153,12 @@ public class Employee implements Parcelable {
         this.bank_name = bank_name;
     }
 
-    public static Creator<Employee> getCREATOR() {
-        return CREATOR;
+    public String getRegister_time() {
+        return register_time;
+    }
+
+    public void setRegister_time(String register_time) {
+        this.register_time = register_time;
     }
 
     public String getId_number() {
@@ -92,38 +169,6 @@ public class Employee implements Parcelable {
         this.id_number = id_number;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public String getRegister_time() {
-        return register_time;
-    }
-
-    public void setRegister_time(String register_time) {
-        this.register_time = register_time;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public String getUpgrade() {
         return upgrade;
     }
@@ -132,47 +177,20 @@ public class Employee implements Parcelable {
         this.upgrade = upgrade;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getIsServer() {
+        return isServer;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setIsServer(String isServer) {
+        this.isServer = isServer;
     }
 
-    public String getUsername() {
-        return username;
+    public String getIsstop() {
+        return isstop;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Employee() {
-
-    }
-
-    protected Employee(Parcel in) {
-        user_id = in.readString();
-        rank = in.readString();
-        name = in.readString();
-        username=in.readString();
-        phone = in.readString();
-        bank = in.readString();
-        bank_account = in.readString();
-        bank_name = in.readString();
-        register_time = in.readString();
-        sex = in.readString();
-        id_number = in.readString();
-        upgrade = in.readString();
+    public void setIsstop(String isstop) {
+        this.isstop = isstop;
     }
 
     public static final Creator<Employee> CREATOR = new Creator<Employee>() {
@@ -206,5 +224,7 @@ public class Employee implements Parcelable {
         dest.writeString(sex);
         dest.writeString(id_number);
         dest.writeString(upgrade);
+        dest.writeString(isServer);
+        dest.writeString(isstop);
     }
 }

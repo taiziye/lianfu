@@ -213,7 +213,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     if (man.getProfit() == null || man.getProfit().length() == 0)
                         pay.setText("0元");
                     else{
-                        String tmp = man.getIncome();
+                        String tmp = man.getProfit();
                         int l = tmp.length();
                         if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
                         else pay.setText("" + 0 + "元");

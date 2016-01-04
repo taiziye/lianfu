@@ -253,7 +253,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                                return Tools.CompareDate(lhs.getConsume_date(), rhs.getConsume_date());
                             }
                         });
                     } else {
@@ -261,7 +261,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                                return Tools.CompareDate(rhs.getConsume_date(), lhs.getConsume_date());
                             }
                         });
                     }

@@ -56,33 +56,20 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean f3 = false;
     private LinearLayout profit;
     private boolean f4 = false;
-
     private PullToRefreshListView list;
-
     private ConsumRecordAdapter adapter = null;
-
     private List<EmployeeConsumeRecord> recordList = null;
-
     private String userid = "";
     private String username = "";
-
     private int page = 1;
-
     private Gson gson = new Gson();
-
     private int index = 0;
-
     private SharedPreferences preferences = null;
-
     private String store_id = null;
     private String store_name = "";
-
     private String employeename = null;
-
     private ProgressDialog dialog = null;
-
     private Intent intent = null;
-
     private boolean isEdit = false;
 
     @Override
@@ -178,12 +165,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             case R.id.search:
                 break;
             case R.id.edit:
-                if(!isEdit){
+                if(!isEdit && recordList.size() > 0){
                     //edit.setText(getString(R.string.cancel));
                     adapter.setEdit(true);
                     adapter.notifyDataSetChanged();
                     isEdit = true;
-                } else {
+                } else if (recordList.size() > 0){
                    // edit.setText(getString(R.string.edit));
                     adapter.setEdit(false);
                     adapter.notifyDataSetChanged();
@@ -201,7 +188,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                                return lhs.getPay_status().compareTo(rhs.getPay_status());
                             }
                         });
                     } else {
@@ -209,11 +196,35 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                                return rhs.getPay_status().compareTo(lhs.getPay_status());
                             }
                         });
                     }
                     adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.store:
+                if (recordList.size() > 0) {
+                    if (f3) {
+                        f3 = !f3;
+                        Log.e("tag", "lhs");
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Log.e("tag", "rhs");
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return rhs.getName().compareTo(lhs.getName());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetInvalidated();
                 }
                 break;
             case R.id.money:
@@ -247,8 +258,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     }
                     adapter.notifyDataSetChanged();
                 }
-                break;
-            case R.id.store:
                 break;
             case R.id.profit:
                 if(recordList.size() > 0) {

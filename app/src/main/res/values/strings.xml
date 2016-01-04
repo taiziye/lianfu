@@ -22,7 +22,7 @@
 
     <string name="record">消费记录</string>
     <string name="member">会员管理</string>
-    <string name="employee">员工管理</string>
+    <string name="employee">员工</string>
     <string name="personal">个人</string>
 
     <string name="shop">地面店铺</string>
@@ -107,7 +107,7 @@
     <string name="ae_user_name">用户名</string>
     <string name="ae_contact_tel">联系电话/手机</string>
     <string name="ae_rel_name">真实姓名</string>
-    <string name="ae_update_type">升级类型</string>
+    <string name="ae_update_type">升级列表</string>
     <string name="ae_id">身份证号</string>
     <string name="ae_bank">开户银行(选填)</string>
     <string name="ae_bank_card">开户银行卡号(选填)</string>
@@ -299,4 +299,5 @@
     <string name="qq">QQ</string>
     <string name="email">Email</string>
     <string name="addr">联系地址</string>
+    <string name="status">状态</string>
 </resources>

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -40,7 +41,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private Button back;
     private Button commit;
-    private Spinner manage_level;
+    private TextView manage_level;
+    private ImageView level;
     private TextView bank;
     private TextView select_level;
     private TextView select_bank;
@@ -70,6 +72,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
     private TextView select_type = null;
     private String[] typelist = null;
     private String[] banklist = null;
+    private String[] entries = null;
     private boolean[] state = null;
     private ListView lv = null;
 
@@ -98,27 +101,10 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         select = (LinearLayout) findViewById(R.id.select);
         select.setOnClickListener(this);
 
-        manage_level = (Spinner) findViewById(R.id.manage_level);
-        list = new ArrayList<>();
-        list.add(getString(R.string.manager));
-        list.add(getString(R.string.employee));
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        manage_level.setAdapter(adapter);
-        manage_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).equals(getString(R.string.manager))){
-                    rank="1";
-                }else{
-                    rank="0";
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        manage_level = (TextView) findViewById(R.id.manage_level);
+        manage_level.setOnClickListener(this);
+        level = (ImageView) findViewById(R.id.level);
+        level.setOnClickListener(this);
 
         bank = (TextView) findViewById(R.id.bank);
         bank.setOnClickListener(this);
@@ -183,9 +169,17 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             case R.id.select_bank:
             case R.id.bank:
                 if(banklist == null) {
-                    getBankList();
+                    getList("bank");
                 } else {
-                    setBank();
+                    setBank(banklist, "bank");
+                }
+                break;
+            case R.id.manage_level:
+            case R.id.level:
+                if (entries == null) {
+                    getList("ygtype");
+                } else {
+                    setBank(entries, "ygtype");
                 }
                 break;
         }
@@ -209,12 +203,20 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 case 2:
                     object = (JSONObject) msg.obj;
                     try {
-                        banklist = object.getString("listtxts").split(",");
+                        banklist = object.getString("listtxts").split("\\,");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    setBank();
+                    setBank(banklist, "bank");
                     break;
+                case 3:
+                    object = (JSONObject) msg.obj;
+                    try {
+                        entries = object.getString("listtxts").split("\\,");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    setBank(entries, "ygtype");
             }
         }
     };
@@ -251,18 +253,19 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         lv = dialog.getListView();
         dialog.show();
     }
-    private void setBank() {
-        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(banklist, new DialogInterface.OnClickListener() {
+    private void setBank(String[] list, final String param) {
+        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(list, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bank.setText(banklist[which]);
+                if ("bank".equals(param)) bank.setText(banklist[which]);
+                else manage_level.setText(entries[which]);
             }
         }).show();
     }
 
     private void getUpdateType() {
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String[] kvs = new String[]{"ygtype", ""};
+        String[] kvs = new String[]{"uptype", ""};
         String param = GetTypeList.packagingParam(getApplicationContext(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -300,10 +303,10 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         }, param);
     }
 
-    private void getBankList() {
+    private void getList(final String list) {
         //
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String [] kvs = new String[]{"bank", ""};
+        String [] kvs = new String[]{list, ""};
         String param = GetTypeList.packagingParam(getApplicationContext(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -319,7 +322,8 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 }
 
                 Message msg = new Message();
-                msg.what = 2;
+                if ("bank".equals(list)) msg.what = 2;
+                else msg.what = 3;
                 msg.obj = object;
                 handler.sendMessage(msg);
             }
@@ -347,8 +351,12 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             return;
         }
 
-        //rank = manage_level.getText().toString();
-        rank = "0";
+        if ("管理员".equals(manage_level.getText())) {
+            rank = "0";
+        } else {
+            rank = "1";
+        }
+
         username = user_name.getText().toString();
         phone = contact_tel.getText().toString();
         pw = MD5Tool.md5(phone.substring(phone.length() - 6));

@@ -161,7 +161,22 @@ public class EmployeeConsumeRecord implements Serializable {
 
 
     public EmployeeConsumeRecord() {
-
+        this.id = "";
+        this.user_id = "";
+        this.store_id = "";
+        this.username = "";
+        this.name = "";
+        this.store = "";
+        this.consume_date = "";
+        this.gains = "";
+        this.fee = "";
+        this.IsPass = "";
+        this.discount = "";
+        this.pay_status = "";
+        this.pay_way = "";
+        this.pay_date = "";
+        this.onlines = "";
+        this.desc = "";
     }
 
     @Override

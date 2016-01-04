@@ -7,24 +7,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.DiscountAdapter;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.Discount;
+import com.tangpo.lianfu.entity.Dis;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.DeleteDiscount;
-import com.tangpo.lianfu.parms.ManageDiscount;
+import com.tangpo.lianfu.parms.GetAlternativeDiscount;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -47,7 +43,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private DiscountAdapter adapter = null;
 
-    private List<Discount> list = new ArrayList<>();
+    private List<Dis> list = new ArrayList<>();
 
     private int index = -1;
 
@@ -57,9 +53,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
     private String userid = null;
     private String store_id = null;
-
     private int page = 1;
-
     private Gson gson = null;
 
     @Override
@@ -129,18 +123,15 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 if(index==-1){
                     ToastUtils.showToast(this,getString(R.string.please_choose_discount), Toast.LENGTH_SHORT);
                 }else{
-                    if(!list.get(index).getStatus().equals("1")){
-                        ToastUtils.showToast(this,getString(R.string.only_can_choose_confirmed_discount),Toast.LENGTH_SHORT);
-                    }else{
+
                         intent = new Intent();
                         intent.putExtra("discount", list.get(index));
                         setResult(RESULT_OK, intent);
                         finish();
-                    }
                 }
                 break;
             case R.id.delete:
-                deleteDiscount();
+                //deleteDiscount();
                 break;
             case R.id.add:
                 intent = new Intent(this, AddDiscountActivity.class);
@@ -157,7 +148,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    list = (ArrayList<Discount>) msg.obj;
+                    list = (ArrayList<Dis>) msg.obj;
                     adapter = new DiscountAdapter(DiscountActivity.this, list);
                     listView.setAdapter(adapter);
                     break;
@@ -169,14 +160,14 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(data != null) {
-            Discount dis = (Discount) data.getSerializableExtra("discount");
+            Dis dis = (Dis) data.getSerializableExtra("discount");
             list.add(dis);
             adapter = new DiscountAdapter(DiscountActivity.this, list);
             listView.setAdapter(adapter);
         }
     }
 
-    private void deleteDiscount() {
+    /*private void deleteDiscount() {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), getString(R.string.network_has_not_connect));
             return;
@@ -213,7 +204,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                 }
             }
         }, param);
-    }
+    }*/
 
     private void getDiscount() {
         if(!Tools.checkLAN()) {
@@ -223,8 +214,8 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{userid, store_id, page + "", "10"};
-        String param = ManageDiscount.packagingParam(this, kvs);
+        String kvs[] = new String[]{userid, store_id};
+        String param = GetAlternativeDiscount.packagingParam(this, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -234,7 +225,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Discount discount = gson.fromJson(object.toString(), Discount.class);
+                        Dis discount = gson.fromJson(object.toString(), Dis.class);
                         list.add(discount);
                     }
                 } catch (JSONException e) {

@@ -74,7 +74,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/shop_name" />
+                    android:text="@string/name" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -113,7 +113,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/compute_date" />
+                    android:text="@string/status" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

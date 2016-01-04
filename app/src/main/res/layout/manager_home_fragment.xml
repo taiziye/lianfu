@@ -75,7 +75,7 @@
                     android:gravity="center|left"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
-                    android:text="会员消费记录共计"/>
+                    android:text="消费记录共计"/>
 
                 <TextView
                     android:id="@+id/record"
@@ -84,7 +84,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:gravity="center"
+                    android:gravity="center|left"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="3,000.00"/>
@@ -139,7 +139,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:gravity="center"
+                    android:gravity="center|left"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="3人"/>
@@ -204,7 +204,7 @@
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
                             android:text="3,000.00"/>
@@ -231,7 +231,7 @@
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
                             android:text="3,000.00"/>
@@ -245,7 +245,7 @@
                     android:layout_weight="2"
                     android:layout_height="36dp"
                     android:gravity="center"
-                    android:text="结算"
+                    android:text="支付"
                     android:background="@drawable/cancel_collect"
                     android:textSize="15sp"
                     android:textColor="@android:color/holo_red_light"
@@ -291,7 +291,7 @@
                             android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
-                            android:text="管理员人数总计"/>
+                            android:text="管理人数总计"/>
 
                         <TextView
                             android:id="@+id/manager"
@@ -299,7 +299,7 @@
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
                             android:text="1人"/>
@@ -319,7 +319,7 @@
                             android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
-                            android:text="员工总计"/>
+                            android:text="员工人数总计"/>
 
                         <TextView
                             android:id="@+id/employee"
@@ -327,7 +327,7 @@
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:textSize="15sp"
                             android:textColor="@android:color/black"
                             android:text="5人"/>
@@ -385,7 +385,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:gravity="center"
+                    android:gravity="center|left"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:text="3,000.00"/>

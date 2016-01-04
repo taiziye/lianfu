@@ -414,7 +414,7 @@ public class Tools {
     /**
      * 时间排序
      */
-    public static int Compare(String s1, String s2) {
+    public static int CompareDate(String s1, String s2) {
         boolean flag = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss",
                 Locale.CHINA);

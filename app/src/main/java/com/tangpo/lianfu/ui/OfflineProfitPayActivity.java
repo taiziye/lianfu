@@ -275,7 +275,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return Tools.Compare(lhs.getPay_date(), rhs.getPay_date());
+                                return Tools.CompareDate(lhs.getPay_date(), rhs.getPay_date());
                             }
                         });
                     } else {
@@ -283,7 +283,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         Collections.sort(list, new Comparator<ProfitPay>() {
                             @Override
                             public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return Tools.Compare(rhs.getPay_date(), lhs.getPay_date());
+                                return Tools.CompareDate(rhs.getPay_date(), lhs.getPay_date());
                             }
                         });
                     }

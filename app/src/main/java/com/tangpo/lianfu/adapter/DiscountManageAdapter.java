@@ -31,7 +31,6 @@ public class DiscountManageAdapter extends BaseAdapter {
 
     private boolean isEdit = false;
     private String userid;
-    private ProgressDialog dialog;
 
     public DiscountManageAdapter(Context context, List<Discount> list, String userid) {
         this.context = context;
@@ -103,14 +102,12 @@ public class DiscountManageAdapter extends BaseAdapter {
             return;
         }
 
-        dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
         String kvs[] = new String[]{userid, list.get(position).getId()};
         String param = DeleteDiscount.packagingParam(context, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                dialog.dismiss();
                 list.remove(list.get(position));
                 DiscountManageAdapter.this.notifyDataSetInvalidated();
                 Tools.showToast(context, context.getString(R.string.delete_success));
@@ -118,7 +115,6 @@ public class DiscountManageAdapter extends BaseAdapter {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                dialog.dismiss();
                 try {
                     if("404".equals(result.getString("status")) || "300".equals(result.getString("status"))) {
                         Tools.showToast(context, "删除失败！该折扣已审核不能删除！");

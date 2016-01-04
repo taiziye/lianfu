@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,9 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,14 +81,11 @@ public class ConsumRecordAdapter extends BaseAdapter {
             convertView = container.inflate(R.layout.consum_record_list, null);
             holder = new ViewHolder();
 
-            holder.shop_name = (TextView) convertView.findViewById(R.id.shop_name);
-            holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
-            holder.profit = (TextView) convertView.findViewById(R.id.profit);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.money = (TextView) convertView.findViewById(R.id.money);
-            holder.compute = (TextView) convertView.findViewById(R.id.compute);
+            holder.profit = (TextView) convertView.findViewById(R.id.profit);
+            holder.status = (TextView) convertView.findViewById(R.id.status);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.name = (TextView) convertView.findViewById(R.id.employee_name);
-            holder.level = (TextView) convertView.findViewById(R.id.level);
 
             holder.frame = (RelativeLayout) convertView.findViewById(R.id.frame);
             holder.delete = (Button) convertView.findViewById(R.id.delete);
@@ -107,24 +108,38 @@ public class ConsumRecordAdapter extends BaseAdapter {
             }
         });
 
-        holder.shop_name.setText(list.get(position).getStore());
-        holder.user_name.setText(list.get(position).getUsername());
+        holder.name.setText(list.get(position).getName());
         holder.money.setText("消费￥" + Float.valueOf(list.get(position).getFee()));
-        holder.profit.setText("(利润￥" + Float.valueOf(list.get(position).getGains())+")");
+        if(list.get(position).getGains().length() >= 1) holder.profit.setText( Float.valueOf(list.get(position).getGains()) + "" );
+        else holder.profit.setText( 0 );
         if (list.get(position).getPay_status().equals("1")) {
-            holder.compute.setText("已结算");
-            holder.compute.setTextColor(Color.RED);
+            holder.status.setText("已确认");
         } else {
-            holder.compute.setText("未结算");
-            holder.compute.setTextColor(Color.GRAY);
+            holder.status.setText("未确认");
         }
 
-        holder.time.setText(list.get(position).getConsume_date());
-        if(employeename == null) {
+        holder.time.setText(parseDate(list.get(position).getConsume_date()));
+        /*if(employeename == null) {
             holder.name.setText("");
         }else
-            holder.name.setText(employeename);
+            holder.name.setText(employeename);*/
         return convertView;
+    }
+
+    private String parseDate(String str) {
+        String[] tmp1 = new String[2];
+        String[] tmp2 = new String[3];
+        /*try {
+            Date date = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss").parse(str);
+            dateStr = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(date);
+            Log.e("tag", dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+        tmp1 = str.split(" ");
+        tmp2 = tmp1[0].split("\\/");
+        String date = tmp2[0] + "年" + tmp2[1] + "月" + tmp2[2] + "日 " + tmp1[1];
+        return date;
     }
 
     public void setEdit(boolean flag){
@@ -138,9 +153,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             Tools.showToast(context, "网络未连接，请联网后重试");
             return;
         }
-
         dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
-
         String kvs[] = new String[]{userid, pay_record_id, store_id};
         String param = DeleteConsumeRecord.packagingParam(context, kvs);
 
@@ -179,14 +192,11 @@ public class ConsumRecordAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        public TextView shop_name;
-        public TextView user_name;
-        public TextView profit;
-        public TextView money;
-        public TextView compute;
-        public TextView time;
         public TextView name;
-        public TextView level;
+        public TextView money;
+        public TextView profit;
+        public TextView status;
+        public TextView time;
 
         public RelativeLayout frame;
         public Button delete;

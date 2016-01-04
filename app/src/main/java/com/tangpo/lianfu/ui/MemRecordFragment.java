@@ -121,7 +121,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<MemRecord>() {
                             @Override
                             public int compare(MemRecord lhs, MemRecord rhs) {
-                                return Tools.Compare(lhs.getDatetime(), rhs.getDatetime());
+                                return Tools.CompareDate(lhs.getDatetime(), rhs.getDatetime());
                             }
                         });
                     } else {
@@ -129,7 +129,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<MemRecord>() {
                             @Override
                             public int compare(MemRecord lhs, MemRecord rhs) {
-                                return Tools.Compare(rhs.getDatetime(), lhs.getDatetime());
+                                return Tools.CompareDate(rhs.getDatetime(), lhs.getDatetime());
                             }
                         });
                     }

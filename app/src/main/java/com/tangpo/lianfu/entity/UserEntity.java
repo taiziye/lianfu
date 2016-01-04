@@ -31,6 +31,41 @@ public class UserEntity implements Serializable {
     private String username;
     private String ulevel;
     private String money;
+    private String bindwx;
+    private String bindwb;
+    private String bindqq;
+
+    public UserEntity(String user_type, String user_id, String store_id, String storename, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo, String session_id, String username, String ulevel, String money) {
+        this.user_type = user_type;
+        this.user_id = user_id;
+        this.store_id = store_id;
+        this.storename = storename;
+        this.name = name;
+        this.phone = phone;
+        this.id_number = id_number;
+        this.sex = sex;
+        this.birth = birth;
+        this.qq = qq;
+        this.email = email;
+        this.address = address;
+        this.bank_account = bank_account;
+        this.bank_name = bank_name;
+        this.bank = bank;
+        this.bank_address = bank_address;
+        this.rank = rank;
+        this.photo = photo;
+        this.session_id = session_id;
+        this.username = username;
+        this.ulevel = ulevel;
+        this.money = money;
+        this.bindwx = "0";
+        this.bindwb = "0";
+        this.bindqq = "0";
+    }
+
+    public UserEntity() {
+
+    }
 
     public String getUser_type() {
         return user_type;
@@ -208,33 +243,28 @@ public class UserEntity implements Serializable {
         this.money = money;
     }
 
-    public UserEntity(String user_type, String user_id, String store_id, String storename, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo, String session_id, String username, String ulevel, String money) {
-        this.user_type = user_type;
-        this.user_id = user_id;
-        this.store_id = store_id;
-        this.storename = storename;
-        this.name = name;
-        this.phone = phone;
-        this.id_number = id_number;
-        this.sex = sex;
-        this.birth = birth;
-        this.qq = qq;
-        this.email = email;
-        this.address = address;
-        this.bank_account = bank_account;
-        this.bank_name = bank_name;
-        this.bank = bank;
-        this.bank_address = bank_address;
-        this.rank = rank;
-        this.photo = photo;
-        this.session_id = session_id;
-        this.username = username;
-        this.ulevel = ulevel;
-        this.money = money;
+    public String getBindwx() {
+        return bindwx;
     }
 
-    public UserEntity() {
+    public void setBindwx(String bindwx) {
+        this.bindwx = bindwx;
+    }
 
+    public String getBindwb() {
+        return bindwb;
+    }
+
+    public void setBindwb(String bindwb) {
+        this.bindwb = bindwb;
+    }
+
+    public String getBindqq() {
+        return bindqq;
+    }
+
+    public void setBindqq(String bindqq) {
+        this.bindqq = bindqq;
     }
 
     @Override
@@ -262,6 +292,9 @@ public class UserEntity implements Serializable {
                 ", username='" + username + '\'' +
                 ", ulevel='" + ulevel + '\'' +
                 ", money='" + money + '\'' +
+                ", bindwx='" + bindwx + '\'' +
+                ", bindwb='" + bindwb + '\'' +
+                ", bindqq='" + bindqq + '\'' +
                 '}';
     }
 
@@ -289,6 +322,9 @@ public class UserEntity implements Serializable {
             json.put("username", this.username);
             json.put("ulevel", this.ulevel);
             json.put("money", this.money);
+            json.put("bindwx", this.bindwx);
+            json.put("bindwb", this.bindwb);
+            json.put("bindqq", this.bindqq);
         } catch (JSONException e) {
             e.printStackTrace();
         }

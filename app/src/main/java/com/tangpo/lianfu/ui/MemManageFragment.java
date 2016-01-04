@@ -240,7 +240,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<Member>() {
                             @Override
                             public int compare(Member lhs, Member rhs) {
-                                return Tools.Compare(lhs.getRegister_time(), rhs.getRegister_time());
+                                return Tools.CompareDate(lhs.getRegister_time(), rhs.getRegister_time());
                             }
                         });
                     } else {
@@ -248,7 +248,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                         Collections.sort(list, new Comparator<Member>() {
                             @Override
                             public int compare(Member lhs, Member rhs) {
-                                return Tools.Compare(rhs.getRegister_time(), lhs.getRegister_time());
+                                return Tools.CompareDate(rhs.getRegister_time(), lhs.getRegister_time());
                             }
                         });
                     }

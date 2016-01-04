@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -48,16 +47,17 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
     private Button search;
     private Button add;
-    private TextView empty;
     private PullToRefreshListView listView = null;
     private EmployeeAdapter adapter = null;
     private ArrayList<Employee> memList = new ArrayList<>();
-    private LinearLayout date;
+    private LinearLayout status;
     private boolean f1 = false;
     private LinearLayout manager;
     private boolean f2 = false;
     private LinearLayout name;
     private boolean f3 = false;
+    private LinearLayout service;
+    private boolean f4 = false;
     private SharedPreferences preferences = null;
     private String userid = null;
     private String store_id = null;
@@ -90,7 +90,6 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         add.setOnClickListener(this);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.emlist);
-        empty = (TextView) view.findViewById(R.id.empty);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
         listView.getLoadingLayoutProxy(true, false).setPullLabel("");
@@ -102,12 +101,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
-        date = (LinearLayout) view.findViewById(R.id.time);
-        date.setOnClickListener(this);
+        status = (LinearLayout) view.findViewById(R.id.status);
+        status.setOnClickListener(this);
         manager = (LinearLayout) view.findViewById(R.id.manager);
         manager.setOnClickListener(this);
         name = (LinearLayout) view.findViewById(R.id.name);
         name.setOnClickListener(this);
+        service = (LinearLayout) view.findViewById(R.id.service);
+        service.setOnClickListener(this);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -156,14 +157,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, ADD_REQUEST_CODE);
                 break;
-            case R.id.time:
+            case R.id.status:
                 if(memList.size() > 0) {
                     if(f1) {
                         f1 = !f1;
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return Tools.Compare(lhs.getRegister_time(), rhs.getRegister_time());
+                                return Tools.CompareDate(lhs.getIsstop(), rhs.getIsstop());
                             }
                         });
                     } else {
@@ -171,7 +172,30 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return Tools.Compare(rhs.getRegister_time(), lhs.getRegister_time());
+                                return Tools.CompareDate(rhs.getIsstop(), lhs.getIsstop());
+                            }
+                        });
+
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.service:
+                if(memList.size() > 0) {
+                    if(f4) {
+                        f4 = !f4;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return Tools.CompareDate(lhs.getIsServer(), rhs.getIsServer());
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return Tools.CompareDate(rhs.getIsServer(), lhs.getIsServer());
                             }
                         });
 
