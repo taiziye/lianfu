@@ -300,4 +300,5 @@
     <string name="email">Email</string>
     <string name="addr">联系地址</string>
     <string name="status">状态</string>
+    <string name="title_activity_cost_repay">成本返还记录</string>
 </resources>

@@ -25,7 +25,7 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:text="收益记录" />
+            android:text="成本返还记录" />
 
         <TextView
             android:layout_width="15dp"
@@ -59,39 +59,39 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
 
-            <LinearLayout android:id="@+id/id"
+            <LinearLayout android:id="@+id/money"
                 style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="金额" />
+                    android:text="金返还金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/fee"
+            <LinearLayout android:id="@+id/state"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="发放状态" />
+                    android:text="返还状态" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/repay"
+            <LinearLayout android:id="@+id/time"
                 android:layout_weight="3"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="结算时间" />
+                    android:text="返还时间" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

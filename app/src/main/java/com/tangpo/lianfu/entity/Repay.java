@@ -6,11 +6,38 @@ package com.tangpo.lianfu.entity;
 public class Repay {
     private String id;
     private String username;
+    private String name;
     private String consume_date;
     private String fee;
     private String profit;
     private String pay_status;
     private String pay_date;
+    private String pay_account;
+    private String desc;
+    private String bank_account;
+    private String bank_name;
+    private String bank;
+    private String bank_address;
+
+    public Repay() {
+    }
+
+    public Repay(String id, String username, String name, String consume_date, String fee, String profit, String pay_status, String pay_date, String pay_account, String desc, String bank_account, String bank_name, String bank, String bank_address) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.consume_date = consume_date;
+        this.fee = fee;
+        this.profit = profit;
+        this.pay_status = pay_status;
+        this.pay_date = pay_date;
+        this.pay_account = pay_account;
+        this.desc = desc;
+        this.bank_account = bank_account;
+        this.bank_name = bank_name;
+        this.bank = bank;
+        this.bank_address = bank_address;
+    }
 
     public String getId() {
         return id;
@@ -26,6 +53,14 @@ public class Repay {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getConsume_date() {
@@ -84,23 +119,55 @@ public class Repay {
         this.desc = desc;
     }
 
-    public Repay(String id, String username, String consume_date, String fee, String profit, String pay_status, String pay_date, String pay_account, String desc) {
-
-        this.id = id;
-        this.username = username;
-        this.consume_date = consume_date;
-        this.fee = fee;
-        this.profit = profit;
-        this.pay_status = pay_status;
-        this.pay_date = pay_date;
-        this.pay_account = pay_account;
-        this.desc = desc;
+    public String getBank_account() {
+        return bank_account;
     }
 
-    public Repay() {
-
+    public void setBank_account(String bank_account) {
+        this.bank_account = bank_account;
     }
 
-    private String pay_account;
-    private String desc;
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public String getBank_address() {
+        return bank_address;
+    }
+
+    public void setBank_address(String bank_address) {
+        this.bank_address = bank_address;
+    }
+
+    @Override
+    public String toString() {
+        return "Repay{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", consume_date='" + consume_date + '\'' +
+                ", fee='" + fee + '\'' +
+                ", profit='" + profit + '\'' +
+                ", pay_status='" + pay_status + '\'' +
+                ", pay_date='" + pay_date + '\'' +
+                ", pay_account='" + pay_account + '\'' +
+                ", desc='" + desc + '\'' +
+                ", bank_account='" + bank_account + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", bank='" + bank + '\'' +
+                ", bank_address='" + bank_address + '\'' +
+                '}';
+    }
 }

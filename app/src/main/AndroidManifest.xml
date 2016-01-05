@@ -144,6 +144,16 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.CostRepayActivity"
+            android:label="@string/title_activity_cost_repay"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.CostRepayDetailActivity"
+            android:label="@string/title_activity_cost_repay"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.MipcaActivityCapture"
             android:screenOrientation="portrait" />
         <activity

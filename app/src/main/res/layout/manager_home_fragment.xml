@@ -407,6 +407,61 @@
             <View
                 style="@style/view_line_style" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="16dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/round_other"
+                    />
+
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:singleLine="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:text="成本返回记录"/>
+
+                <TextView
+                    android:id="@+id/cost"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:gravity="center|left"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:text="3,000.00"/>
+
+                <TextView
+                    android:id="@+id/cost_pay"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="查看"
+                    android:background="@drawable/cancel_collect"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/holo_red_light"
+                    />
+
+            </LinearLayout>
+
+            <View
+                style="@style/view_line_style" />
+
         </LinearLayout>
 
     </ScrollView>
