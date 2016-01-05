@@ -159,6 +159,12 @@
         <activity
             android:name=".ui.RepayActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ForgetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SetNewPassActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 必须注册在微博授权，分享微博时候用到 -->
         <activity

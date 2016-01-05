@@ -189,12 +189,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         intent = new Intent(MainActivity.this, RegisterActivity.class);
         Tools.gatherActivity(this);
         startActivity(intent);
+        finish();
     }
 
     public void forgetPassword() {
-//        intent=new Intent(MainActivity.this,ForgetPasswordActivity.class);
-//        startActivity(intent);
-//        finish();
+        intent=new Intent(MainActivity.this,ForgetPasswordActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
