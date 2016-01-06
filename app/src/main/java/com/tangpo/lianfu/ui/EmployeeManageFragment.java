@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +65,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private String store_id = null;
     private Gson gson = null;
     private int page = 1;
+    private int index = 0;
     private ProgressDialog dialog = null;
     private UserEntity userEntity=null;
 
@@ -140,6 +143,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EmploeeInfoActivity.class);
+                index = position-1;
                 intent.putExtra("employee", memList.get(position - 1));
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
@@ -323,11 +327,15 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         if (data != null) {
             if (requestCode == ADD_REQUEST_CODE) {
                 Employee employee = data.getExtras().getParcelable("employee");
-                memList.add(employee);
+                memList.add(0, employee);
                 adapter.notifyDataSetChanged();
-                getEmployeeList();
+                //getEmployeeList();
             } else {
                 //编辑
+                Employee employee = data.getExtras().getParcelable("employee");
+                memList.remove(index);
+                memList.add(index, employee);
+                adapter.notifyDataSetInvalidated();
             }
         }
     }

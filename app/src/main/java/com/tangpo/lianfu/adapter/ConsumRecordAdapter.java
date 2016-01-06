@@ -97,8 +97,10 @@ public class ConsumRecordAdapter extends BaseAdapter {
 
         if(!isEdit){
             holder.frame.setVisibility(View.GONE);
+            holder.status.setVisibility(View.VISIBLE);
         } else {
             holder.frame.setVisibility(View.VISIBLE);
+            holder.status.setVisibility(View.GONE);
         }
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +111,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         });
 
         holder.name.setText(list.get(position).getName());
-        holder.money.setText("消费￥" + Float.valueOf(list.get(position).getFee()));
+        holder.money.setText("￥" + Float.valueOf(list.get(position).getFee()));
         if(list.get(position).getGains().length() >= 1) holder.profit.setText( Float.valueOf(list.get(position).getGains()) + "" );
         else holder.profit.setText( 0 );
         if (list.get(position).getPay_status().equals("1")) {

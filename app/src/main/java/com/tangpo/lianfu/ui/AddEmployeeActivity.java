@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.AddEmployee;
 import com.tangpo.lianfu.parms.GetTypeList;
@@ -351,12 +353,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             return;
         }
 
-        if ("管理员".equals(manage_level.getText())) {
-            rank = "0";
-        } else {
-            rank = "1";
-        }
-
+        rank = manage_level.getText().toString().trim();
         username = user_name.getText().toString();
         phone = contact_tel.getText().toString();
         pw = MD5Tool.md5(phone.substring(phone.length() - 6));
@@ -391,19 +388,36 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             return;
         }
 
-//        final Employee employee=new Employee()
-        /**
-         * 需要修改   2015-11-14 shengshoubo已修改
-         */
+        final Employee employee=new Employee();
+
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String[]{userid, rank, username, pw, name, "BNZZ", phone, sex, id_num, bank_account, bank_nameStr};
+        String kvs[] = new String[]{userid, rank, username, pw, name, select_level.getText().toString().trim(),
+                phone, sex, id_num, bank_account, bank_nameStr};
         String params = AddEmployee.packagingParam(AddEmployeeActivity.this, kvs);
+
+        /**
+         * 返回值没有employee_id
+         */
+        employee.setUser_id("1111");
+        employee.setRank(rank);
+        employee.setUsername(username);
+        employee.setName(name);
+        employee.setUpgrade(select_level.getText().toString().trim());
+        employee.setPhone(phone);
+        employee.setSex(sex);
+        employee.setId_number(id_num);
+        employee.setBank_account(bank_account);
+        employee.setBank_name(bank_nameStr);
+
+
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 ToastUtils.showToast(AddEmployeeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT);
-                AddEmployeeActivity.this.setResult(EmployeeManageFragment.ADD_REQUEST_CODE);
+                Intent intent = new Intent();
+                intent.putExtra("employee", employee);
+                setResult(RESULT_OK, intent);
                 AddEmployeeActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {

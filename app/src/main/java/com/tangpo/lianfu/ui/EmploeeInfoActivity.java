@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Employee;
@@ -61,6 +63,9 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
     private String userid = null;
     private ProgressDialog dialog = null;
     private boolean[] flag = null;
+
+    private ToggleButton setuse;
+    private ToggleButton setemployee;
 
     @Override
     protected void onDestroy() {
@@ -108,6 +113,10 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         upgrade.setOnClickListener(this);
         up = (ImageView) findViewById(R.id.up);
         up.setOnClickListener(this);
+        setuse = (ToggleButton) findViewById(R.id.setuse);
+        setuse.setOnClickListener(this);
+        setemployee = (ToggleButton) findViewById(R.id.setemployee);
+        setemployee.setOnClickListener(this);
 
         user_name.setText(employee.getUsername());
         contact_tel.setText(employee.getPhone());
@@ -123,6 +132,16 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         bank_name.setText(employee.getBank_name());
         registe_date.setText(employee.getRegister_time());
         upgrade.setText(employee.getUpgrade());
+        if ("0".equals(employee.getIsServer())) {
+            setuse.setChecked(false);
+        } else {
+            setuse.setChecked(true);
+        }
+        if ("1".equals(employee.getIsstop())) {
+            setemployee.setChecked(false);
+        } else {
+            setemployee.setChecked(true);
+        }
     }
 
     @Override
@@ -158,6 +177,10 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
                     //
                     setGradeList();
                 }
+                break;
+            case R.id.setuse:
+                break;
+            case R.id.setemployee:
                 break;
         }
     }
@@ -290,12 +313,7 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         }
 
         String employee_id = employee.getUser_id();
-        String rank = "";
-        if ("管理员".equals(manage_level.getText().toString().trim())) {
-            rank = "0";
-        } else {
-            rank = "1";
-        }
+        String rank = manage_level.getText().toString().trim();
         String username = user_name.getText().toString();
         String name = rel_name.getText().toString();
         String id_number = id_card.getText().toString();
@@ -304,6 +322,19 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
         String bank_account = bank_card.getText().toString();
         String bankStr = bank.getText().toString();
         String sexStr =null;
+        String bankname = bank_name.getText().toString().trim();
+        String use = "0";
+        String em = "0";
+        if (setuse.isChecked()) {
+            use = "1";
+        } else {
+            use = "0";
+        }
+        if (setemployee.isChecked()) {
+            em = "0";
+        } else {
+            em = "1";
+        }
         if (sex.getSelectedItemId()==0) {
             sexStr = "0";
         } else {
@@ -337,14 +368,31 @@ public class EmploeeInfoActivity extends Activity implements View.OnClickListene
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{userid, employee_id, rank, username, name, id_number,
-                upgrade,phone,bank_account, bankStr, sexStr};
+                upgrade,phone,bank_account, bankStr,bankname, sexStr, use, em};
         String param = EditStaff.packagingParam(this, kvs);
+
+        employee.setUser_id(employee_id);
+        employee.setRank(rank);
+        employee.setUsername(username);
+        employee.setName(name);
+        employee.setId_number(id_number);
+        employee.setUpgrade(upgrade);
+        employee.setPhone(phone);
+        employee.setBank_account(bank_account);
+        employee.setBank(bankStr);
+        employee.setBank_name(bankname);
+        employee.setSex(sexStr);
+        employee.setIsServer(use);
+        employee.setIsstop(em);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 ToastUtils.showToast(EmploeeInfoActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT);
+                Intent intent = new Intent();
+                intent.putExtra("employee", employee);
+                setResult(RESULT_OK, intent);
                 EmploeeInfoActivity.this.finish();
             }
         }, new NetConnection.FailCallback() {
