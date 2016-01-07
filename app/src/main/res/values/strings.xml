@@ -22,7 +22,7 @@
 
     <string name="record">消费记录</string>
     <string name="member">会员管理</string>
-    <string name="employee">员工管理</string>
+    <string name="employee">员工</string>
     <string name="personal">个人</string>
 
     <string name="shop">地面店铺</string>
@@ -299,4 +299,11 @@
     <string name="qq">QQ</string>
     <string name="email">Email</string>
     <string name="addr">联系地址</string>
+    <string name="status">状态</string>
+    <string name="title_activity_cost_repay">成本返还记录</string>
+    <string name="session">会话记录</string>
+    <string name="address_book">联系人列表</string>
+    <string name="user_level">用户等级</string>
+    <string name="setuse">启用客服</string>
+    <string name="setemployee">启用员工</string>
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -47,7 +48,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
     private boolean f2 = false;
     private LinearLayout repay;
     private boolean f3 = false;
-    private LinearLayout time;
+    //private LinearLayout time;
     private boolean f4 = false;
     private Gson gson = new Gson();
     private int page = 1;
@@ -77,8 +78,8 @@ public class RepayActivity extends Activity implements View.OnClickListener {
         fee.setOnClickListener(this);
         repay = (LinearLayout) findViewById(R.id.repay);
         repay.setOnClickListener(this);
-        time = (LinearLayout) findViewById(R.id.time);
-        time.setOnClickListener(this);
+        //time = (LinearLayout) findViewById(R.id.time);
+        //time.setOnClickListener(this);
 
         getRepayList();
 
@@ -152,6 +153,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for(int i=0; i<jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
+                        Log.e("tag", object.toString());
                         Repay repay = gson.fromJson(object.toString(), Repay.class);
                         list.add(repay);
                     }
@@ -187,7 +189,13 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return lhs.getUsername().compareTo(rhs.getUsername());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if (f1 > f2) {
+                                    return 1;
+                                } else {
+                                    return -1;
+                                }
                             }
                         });
                     } else {
@@ -195,7 +203,13 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return rhs.getUsername().compareTo(lhs.getUsername());
+                                float f1 = Float.parseFloat(lhs.getFee());
+                                float f2 = Float.parseFloat(rhs.getFee());
+                                if (f1 > f2) {
+                                    return -1;
+                                } else {
+                                    return 1;
+                                }
                             }
                         });
                     }
@@ -209,7 +223,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return lhs.getFee().compareTo(rhs.getFee());
+                                return lhs.getPay_status().compareTo(rhs.getPay_status());
                             }
                         });
                     } else {
@@ -217,7 +231,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return rhs.getFee().compareTo(lhs.getFee());
+                                return rhs.getPay_status().compareTo(lhs.getPay_status());
                             }
                         });
                     }
@@ -231,7 +245,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return lhs.getProfit().compareTo(rhs.getProfit());
+                                return Tools.CompareDate(lhs.getPay_date(), rhs.getPay_date());
                             }
                         });
                     } else {
@@ -239,7 +253,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return rhs.getProfit().compareTo(lhs.getProfit());
+                                return Tools.CompareDate(rhs.getPay_date(), lhs.getPay_date());
                             }
                         });
                     }
@@ -253,7 +267,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                                return Tools.CompareDate(lhs.getConsume_date(), rhs.getConsume_date());
                             }
                         });
                     } else {
@@ -261,7 +275,7 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                         Collections.sort(list, new Comparator<Repay>() {
                             @Override
                             public int compare(Repay lhs, Repay rhs) {
-                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                                return Tools.CompareDate(rhs.getConsume_date(), lhs.getConsume_date());
                             }
                         });
                     }

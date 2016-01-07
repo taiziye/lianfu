@@ -11,8 +11,8 @@
     <ImageView
         android:scaleType="fitXY"
         android:id="@+id/img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@android:color/black" />
@@ -36,8 +36,8 @@
                 android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="16sp"
+                android:layout_marginBottom="11dp"
+                android:textSize="15sp"
                 android:textColor="@android:color/black"
                 android:singleLine="true"
                 android:text="地面店名称" />
@@ -46,8 +46,8 @@
                 android:id="@+id/commodity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:textSize="13sp"
+                android:layout_marginBottom="4dp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:singleLine="true"
                 android:text="服装、女装、男装" />
@@ -56,9 +56,9 @@
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:singleLine="true"
-                android:textColor="@android:color/black"
+                android:textColor="#999999"
                 android:text="上海市徐汇区人民路1003" />
         </LinearLayout>
 

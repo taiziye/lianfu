@@ -54,4 +54,7 @@ dependencies {
     compile files('libs/open_sdk_r5509.jar')
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile files('libs/libammsdk.jar')
+    //    环信
+    compile files('libs/IMSDK_1.3.9.jar')
+    compile files('libs/easemobchat_2.2.5.jar')
 }

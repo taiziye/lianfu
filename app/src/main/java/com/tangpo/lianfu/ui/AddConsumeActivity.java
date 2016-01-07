@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.Dis;
 import com.tangpo.lianfu.entity.Discount;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.entity.Member;
@@ -123,7 +124,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     }
 
     private Member mem = null;
-    private Discount dis = null;
+    private Dis dis = null;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,8 +136,8 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
                 name.setText(mem.getName());
                 contact_tel.setText(mem.getPhone());
             } else if (requestCode == SELECT_DIS) {
-                dis = (Discount) data.getExtras().getSerializable("discount");
-                discount.setText(Float.valueOf(dis.getDiscount()) / 10 + "折");
+                dis = (Dis) data.getExtras().getSerializable("discount");
+                discount.setText(Float.valueOf(dis.getAgio()) / 10 + "折");
             }
         }
     }
@@ -162,16 +163,17 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getDiscount(),
+        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), dis.getAgio(),
                 consume_money.getText().toString(), mem.getUser_id()};
 
         final EmployeeConsumeRecord record = new EmployeeConsumeRecord();
         record.setId(user.getUser_id());
         record.setUsername(user.getName());
-        record.setDiscount(dis.getDiscount());
+        record.setDiscount(dis.getAgio());
         record.setFee(consume_money.getText().toString());
         record.setPay_status("1");
         record.setPay_date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date()));
+        record.setGains(consume_money.getText().toString());
 
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 

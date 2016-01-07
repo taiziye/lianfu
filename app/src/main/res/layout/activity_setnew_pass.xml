@@ -1,0 +1,151 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <View android:id="@+id/t1"
+        android:layout_below="@id/top"
+        style="@style/view_line_style" />
+
+    <LinearLayout android:id="@+id/one"
+        android:layout_below="@id/t1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:text="请输入验证码:" />
+
+        <EditText
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:gravity="right|center"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View style="@style/view_line_style"
+        android:layout_below="@id/one"
+        android:id="@+id/t2"/>
+
+    <LinearLayout android:id="@+id/two"
+        android:layout_below="@id/t2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:text="@string/please_input_new_password" />
+
+        <EditText
+            android:id="@+id/pass"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:inputType="textPassword"
+            android:gravity="right|center"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:textSize="15sp"
+            android:hint="密码不少于6位"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View style="@style/view_line_style"
+        android:layout_below="@id/two"
+        android:id="@+id/t3"/>
+
+    <LinearLayout android:id="@+id/three"
+        android:layout_below="@id/t3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:text="@string/please_input_newpassword_again" />
+
+        <EditText
+            android:id="@+id/newpass"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="textPassword"
+            android:gravity="right|center"
+            android:background="@null"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"
+            android:hint="请再次输入密码"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View style="@style/view_line_style"
+        android:layout_below="@id/three"/>
+
+    <RelativeLayout android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/confirm"
+            android:text="@string/confirm"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
+            android:background="@null"
+            android:textSize="16sp"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="设置新密码"/>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+    </RelativeLayout>
+
+</RelativeLayout>

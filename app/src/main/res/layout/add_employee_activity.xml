@@ -60,13 +60,20 @@
                     android:text="@string/ae_manage_level"
                     android:layout_alignParentLeft="true" />
 
-                <Spinner
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:id="@+id/manage_level"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1" />
+                <TextView android:id="@+id/manage_level"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textSize="15sp"
+                    android:gravity="center|right"
+                    android:textColor="@android:color/black"
+                    android:layout_height="match_parent" />
+
+                <ImageView  android:id="@+id/level"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -113,13 +120,21 @@
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_height="match_parent" />
+
                 <Spinner
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:id="@+id/spinner"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1" />
+                    android:layout_marginLeft="10dp"
+                    android:entries="@array/sex" />
 
                 <!--<EditText android:id="@+id/user_name"-->
                 <!--android:layout_width="match_parent"-->

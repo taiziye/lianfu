@@ -10,7 +10,12 @@ public class ProfitPay implements Parcelable{
     private String id;
     private String store_id;
     private String store_name;
+    private String user_id;
+    private String username;
+    private String name;
+    private String phone;
     private String fee;
+    private String agio;
     private String profit;
     private String omode;
     private String pay_status;
@@ -18,11 +23,16 @@ public class ProfitPay implements Parcelable{
     private String pay_account;
     private String desc;
 
-    public ProfitPay(String id, String store_id, String store_name, String fee, String profit, String omode, String pay_status, String pay_date, String pay_account, String desc) {
+    public ProfitPay(String id, String store_id, String store_name, String user_id, String username, String name, String phone, String fee, String agio, String profit, String omode, String pay_status, String pay_date, String pay_account, String desc) {
         this.id = id;
         this.store_id = store_id;
         this.store_name = store_name;
+        this.user_id = user_id;
+        this.username = username;
+        this.name = name;
+        this.phone = phone;
         this.fee = fee;
+        this.agio = agio;
         this.profit = profit;
         this.omode = omode;
         this.pay_status = pay_status;
@@ -31,30 +41,9 @@ public class ProfitPay implements Parcelable{
         this.desc = desc;
     }
 
-    protected ProfitPay(Parcel in) {
-        id = in.readString();
-        store_id = in.readString();
-        store_name = in.readString();
-        fee = in.readString();
-        profit = in.readString();
-        omode = in.readString();
-        pay_status = in.readString();
-        pay_date = in.readString();
-        pay_account = in.readString();
-        desc = in.readString();
+    public ProfitPay() {
+
     }
-
-    public static final Parcelable.Creator<ProfitPay> CREATOR = new Parcelable.Creator<ProfitPay>() {
-        @Override
-        public ProfitPay createFromParcel(Parcel in) {
-            return new ProfitPay(in);
-        }
-
-        @Override
-        public ProfitPay[] newArray(int size) {
-            return new ProfitPay[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -80,12 +69,52 @@ public class ProfitPay implements Parcelable{
         this.store_name = store_name;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getFee() {
         return fee;
     }
 
     public void setFee(String fee) {
         this.fee = fee;
+    }
+
+    public String getAgio() {
+        return agio;
+    }
+
+    public void setAgio(String agio) {
+        this.agio = agio;
     }
 
     public String getProfit() {
@@ -136,9 +165,36 @@ public class ProfitPay implements Parcelable{
         this.desc = desc;
     }
 
-    public ProfitPay() {
+    protected ProfitPay(Parcel in) {
 
+        id = in.readString();
+        store_id = in.readString();
+        store_name = in.readString();
+        user_id = in.readString();
+        username = in.readString();
+        name = in.readString();
+        phone = in.readString();
+        fee = in.readString();
+        agio = in.readString();
+        profit = in.readString();
+        omode = in.readString();
+        pay_status = in.readString();
+        pay_date = in.readString();
+        pay_account = in.readString();
+        desc = in.readString();
     }
+
+    public static final Parcelable.Creator<ProfitPay> CREATOR = new Parcelable.Creator<ProfitPay>() {
+        @Override
+        public ProfitPay createFromParcel(Parcel in) {
+            return new ProfitPay(in);
+        }
+
+        @Override
+        public ProfitPay[] newArray(int size) {
+            return new ProfitPay[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -150,7 +206,15 @@ public class ProfitPay implements Parcelable{
         dest.writeString(id);
         dest.writeString(store_id);
         dest.writeString(store_name);
+        dest.writeString(id);
+        dest.writeString(store_id);
+        dest.writeString(store_name);
+        dest.writeString(user_id);
+        dest.writeString(username);
+        dest.writeString(name);
+        dest.writeString(phone);
         dest.writeString(fee);
+        dest.writeString(agio);
         dest.writeString(profit);
         dest.writeString(omode);
         dest.writeString(pay_status);
@@ -161,11 +225,16 @@ public class ProfitPay implements Parcelable{
 
     @Override
     public String toString() {
-        return "Profit{" +
+        return "ProfitPay{" +
                 "id='" + id + '\'' +
                 ", store_id='" + store_id + '\'' +
                 ", store_name='" + store_name + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
                 ", fee='" + fee + '\'' +
+                ", agio='" + agio + '\'' +
                 ", profit='" + profit + '\'' +
                 ", omode='" + omode + '\'' +
                 ", pay_status='" + pay_status + '\'' +

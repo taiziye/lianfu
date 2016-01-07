@@ -25,7 +25,13 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:text="返利列表" />
+            android:text="收益记录" />
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@null"/>
 
         <!--<Button
             android:id="@+id/add"
@@ -58,7 +64,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="用户ID" />
+                    android:text="金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -71,7 +77,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="消费金额" />
+                    android:text="发放状态" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -79,19 +85,20 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/repay"
+                android:layout_weight="3"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="返利" />
+                    android:text="结算时间" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/time"
+            <!--<LinearLayout android:id="@+id/time"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
@@ -102,7 +109,7 @@
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
-            </LinearLayout>
+            </LinearLayout>-->
 
         </LinearLayout>
 

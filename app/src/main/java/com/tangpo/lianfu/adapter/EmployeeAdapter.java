@@ -54,7 +54,9 @@ public class EmployeeAdapter extends BaseAdapter {
             holder.employee_id = (TextView) convertView.findViewById(R.id.employee_id);
             holder.employee_name = (TextView) convertView.findViewById(R.id.employee_name);
             holder.role = (TextView) convertView.findViewById(R.id.role);
-            holder.change = (ToggleButton) convertView.findViewById(R.id.change);
+            holder.status = (TextView) convertView.findViewById(R.id.status);
+            holder.service = (TextView) convertView.findViewById(R.id.service);
+            //holder.change = (ToggleButton) convertView.findViewById(R.id.change);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -62,14 +64,20 @@ public class EmployeeAdapter extends BaseAdapter {
 
         holder.employee_id.setText(list.get(position).getRegister_time());
         holder.employee_name.setText(list.get(position).getRank());
-
-        /*if(list.get(position).getRank().equals("1")){
-            holder.role.setText("管");
-        }else {
-            holder.role.setText("员");
-        }*/
         holder.role.setText(list.get(position).getName());
+        if("0".equals(list.get(position).getIsstop())) {
+            holder.status.setText("正常");
+        } else {
+            holder.status.setText("停用");
+        }
 
+        if ("0".equals(list.get(position).getIsServer())) {
+            //holder.change.setChecked(false);
+            holder.service.setText("非客服");
+        } else {
+            //holder.change.setChecked(true);
+            holder.service.setText("客服");
+        }
         return convertView;
     }
 
@@ -78,7 +86,9 @@ public class EmployeeAdapter extends BaseAdapter {
         public TextView employee_name;
         public TextView role;
         //是否启用客服
-        public ToggleButton change;
+        //public ToggleButton change;
+        public TextView status;
+        public TextView service;
         //public Switch isuse;
     }
 }

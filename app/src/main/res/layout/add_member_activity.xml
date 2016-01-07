@@ -144,10 +144,16 @@
                     android:text="@string/select_sex"
                     android:layout_alignParentLeft="true" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:layout_height="wrap_content" />
+
                 <Spinner
                     android:layout_marginStart="10dp"
                     android:id="@+id/sex"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="20dp"
@@ -206,9 +212,14 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
-                    android:layout_marginRight="20dp"
                     android:gravity="center|right"
                     android:background="@null" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 

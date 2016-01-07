@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:gravity="center_vertical"
     android:background="@android:color/white"
     >
 
-    <LinearLayout android:id="@+id/one"
+    <!--<LinearLayout android:id="@+id/one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -131,6 +134,80 @@
     <RelativeLayout android:id="@+id/frame"
         android:layout_width="100dp"
         android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        >
+        <Button android:id="@+id/delete"
+            android:layout_centerInParent="true"
+            android:layout_width="66dp"
+            android:layout_height="36dp"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:background="@anim/btn_style"
+            android:text="@string/delete"/>
+    </RelativeLayout>-->
+
+    <LinearLayout android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <TextView android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="老佛爷"/>
+
+        <TextView android:id="@+id/money"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="1000"/>
+
+        <TextView android:id="@+id/profit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="20"/>
+
+        <TextView android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="已确认"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:textSize="15sp"
+        android:textColor="#999999"
+        android:text="2015年12月31日14:46:44"/>
+
+    <RelativeLayout android:id="@+id/frame"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_alignParentRight="true"
         >
         <Button android:id="@+id/delete"

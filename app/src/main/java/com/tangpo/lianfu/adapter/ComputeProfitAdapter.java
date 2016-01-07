@@ -78,27 +78,41 @@ public class ComputeProfitAdapter extends BaseAdapter {
 
             holder.check = (CheckBox) convertView.findViewById(R.id.check);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.bank = (TextView) convertView.findViewById(R.id.bank);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.money = (TextView) convertView.findViewById(R.id.money);
             holder.profit = (TextView) convertView.findViewById(R.id.profit);
             holder.status = (TextView) convertView.findViewById(R.id.status);
-            holder.account = (TextView) convertView.findViewById(R.id.account);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(list.get(position).getId());
-        holder.bank.setText(list.get(position).getPay_account());
-        holder.date.setText(list.get(position).getPay_date());
-        holder.profit.setText(list.get(position).getProfit());
-        holder.status.setText(list.get(position).getPay_status());
+        holder.name.setText(list.get(position).getName());
+        holder.money.setText(String.format("%.2f", Float.parseFloat(list.get(position).getFee())));
+        holder.profit.setText(String.format("%.2f", Float.parseFloat(list.get(position).getProfit())));
+        if ("0".equals(list.get(position).getPay_status())) {
+            holder.status.setText("未支付");
+        } else {
+            holder.status.setText("已支付");
+        }
+        holder.time.setText(parseDate(list.get(position).getPay_date()));
         holder.check.setChecked(getIsSelected().get(position));
 
         return convertView;
     }
 
+    private String parseDate(String str) {
+        String[] tmp1 = null;
+        String[] tmp2 = null;
+        String date = "";
+        if (str.length() > 0) {
+            tmp1 = str.split(" ");
+            tmp2 = tmp1[0].split("\\/");
+            date = tmp2[0] + "年" + tmp2[1] + "月" + tmp2[2] + "日 " + tmp1[1];
+        }
+        return date;
+    }
 
 //    public boolean getSelected(int position) {
 //        if(boxList.get(position).isChecked())
@@ -148,10 +162,10 @@ public class ComputeProfitAdapter extends BaseAdapter {
     public class ViewHolder {
         public CheckBox check;
         private TextView name;
-        private TextView bank;
-        private TextView date;
+        //private TextView bank;
+        private TextView money;
         private TextView profit;
         private TextView status;
-        private TextView account;
+        private TextView time;
     }
 }

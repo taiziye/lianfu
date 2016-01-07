@@ -36,10 +36,16 @@ public class EditStaff {
             paramJsonObject.put("rank", Escape.escape(kvs[2]));
             paramJsonObject.put("username", Escape.escape(kvs[3]));
             paramJsonObject.put("name", Escape.escape(kvs[4]));
-            paramJsonObject.put("upgrade", Escape.escape(kvs[5]));
-            paramJsonObject.put("id_number", Escape.escape(kvs[6]));
-            paramJsonObject.put("bank_account", Escape.escape(kvs[7]));
-            paramJsonObject.put("bank", Escape.escape(kvs[8]));
+            paramJsonObject.put("id_number", Escape.escape(kvs[5]));
+            paramJsonObject.put("upgrade", Escape.escape(kvs[6]));
+            paramJsonObject.put("phone", Escape.escape(kvs[7]));
+            paramJsonObject.put("bank_account", Escape.escape(kvs[8]));
+            paramJsonObject.put("bank", Escape.escape(kvs[9]));
+            paramJsonObject.put("bank_name", Escape.escape(kvs[10]));
+            paramJsonObject.put("sex", Escape.escape(kvs[11]));
+            paramJsonObject.put("isServer", Escape.escape(kvs[12]));
+            paramJsonObject.put("isstop", Escape.escape(kvs[13]));
+
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

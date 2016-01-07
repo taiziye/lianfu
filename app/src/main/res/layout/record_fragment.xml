@@ -10,44 +10,81 @@
         android:layout_height="50dp"
         android:background="#535456">
 
-        <Button
-            android:id="@+id/search"
-            android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/search" />
+        <RelativeLayout android:id="@+id/frame1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:id="@+id/search"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/search" />
 
-        <TextView
-            android:id="@+id/shop_name"
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:text="@string/record" />
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/add" />
+
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/setting"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@id/add"/>
+        </RelativeLayout>
+
+        <LinearLayout android:id="@+id/frame2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"
-            android:textColor="@android:color/white"
-            android:text="@string/record" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/add"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/add" />
+            <ImageView android:id="@+id/cancel"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/back"
+                android:layout_marginRight="10dp"
+                />
 
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/setting"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_centerInParent="true"
-            android:layout_toLeftOf="@id/add"/>
+            <EditText android:id="@+id/txt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                />
+
+            <Button android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="15sp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:text="搜索"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -74,7 +111,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/shop_name" />
+                    android:text="@string/name" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -113,7 +150,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/compute_date" />
+                    android:text="@string/status" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

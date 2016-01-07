@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ public class RepayAdapter extends BaseAdapter {
     }
 
     @Override
-
     public int getCount() {
         return list.size();
     }
@@ -52,17 +52,24 @@ public class RepayAdapter extends BaseAdapter {
             holder.user_id = (TextView) convertView.findViewById(R.id.user_id);
             holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
             holder.money = (TextView) convertView.findViewById(R.id.money);
-            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.msg = (TextView) convertView.findViewById(R.id.msg);
+            holder.desc = (TextView) convertView.findViewById(R.id.desc);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.user_id.setText(list.get(position).getUsername());
-        holder.user_name.setText(list.get(position).getFee());
-        holder.money.setText(list.get(position).getProfit());
-        holder.time.setText(list.get(position).getConsume_date());
+        holder.user_id.setText(list.get(position).getFee());
+        holder.user_name.setText(list.get(position).getPay_status());
+        holder.money.setText(list.get(position).getPay_date());
+        holder.msg.setText(list.get(position).getBank_account() + "/" + list.get(position).getBank_name());
+        holder.desc.setText(list.get(position).getDesc());
+        if ("发放失败".equals(list.get(position).getPay_status())) {
+            holder.desc.setVisibility(View.VISIBLE);
+        } else {
+            holder.desc.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
@@ -71,6 +78,8 @@ public class RepayAdapter extends BaseAdapter {
         private TextView user_id;
         private TextView user_name;
         private TextView money;
-        private TextView time;
+        //private TextView time;
+        private TextView msg;
+        private TextView desc;
     }
 }

@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.utils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +29,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMGroupManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -36,6 +40,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.MainActivity;
 
 import java.io.BufferedOutputStream;
@@ -414,7 +419,7 @@ public class Tools {
     /**
      * 时间排序
      */
-    public static int Compare(String s1, String s2) {
+    public static int CompareDate(String s1, String s2) {
         boolean flag = false;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss",
                 Locale.CHINA);
@@ -432,5 +437,32 @@ public class Tools {
         } else {
             return -1;
         }
+    }
+
+    public static void login(final Context context, ChatAccount account) {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(context, "网络未连接，请联网后重试");
+            return;
+        }
+
+        final ProgressDialog dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
+        final long start = System.currentTimeMillis();
+        // 调用sdk登陆方法登陆聊天服务器
+        EMChatManager.getInstance().login(account.getEasemod_id(), account.getPwd(), new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                //
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                //
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+                //
+            }
+        });
     }
 }

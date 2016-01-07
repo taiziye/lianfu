@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
-import com.tangpo.lianfu.entity.Discount;
+import com.tangpo.lianfu.entity.Dis;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditConsumeRecord;
@@ -148,10 +148,10 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            Discount dis = (Discount) data.getExtras().getSerializable("discount");
-            discount_type.setText(dis.getDesc());
-            discount_text.setText(Float.valueOf(dis.getDiscount())/10+"折");
-            mdiscount=dis.getDiscount();
+            Dis dis = (Dis) data.getExtras().getSerializable("discount");
+            discount_type.setText(dis.getTypename());
+            discount_text.setText(Float.valueOf(dis.getAgio())/10+"折");
+            mdiscount=dis.getAgio();
         }
     }
 

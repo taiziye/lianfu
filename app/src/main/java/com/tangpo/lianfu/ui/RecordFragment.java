@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -47,6 +50,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private Button search;
     private Button edit;
     private Button add;
+    private RelativeLayout frame1;
+    private LinearLayout frame2;
+    private ImageView cancel;
+    private EditText txt;
+    private Button btn;
 
     private LinearLayout time;
     private boolean f1 = false;
@@ -56,33 +64,20 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean f3 = false;
     private LinearLayout profit;
     private boolean f4 = false;
-
     private PullToRefreshListView list;
-
     private ConsumRecordAdapter adapter = null;
-
     private List<EmployeeConsumeRecord> recordList = null;
-
     private String userid = "";
     private String username = "";
-
     private int page = 1;
-
     private Gson gson = new Gson();
-
     private int index = 0;
-
     private SharedPreferences preferences = null;
-
     private String store_id = null;
     private String store_name = "";
-
     private String employeename = null;
-
     private ProgressDialog dialog = null;
-
     private Intent intent = null;
-
     private boolean isEdit = false;
 
     @Override
@@ -116,11 +111,18 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         store.setOnClickListener(this);
         profit = (LinearLayout) view.findViewById(R.id.profit);
         profit.setOnClickListener(this);
+        frame1 = (RelativeLayout) view.findViewById(R.id.frame1);
+        frame2 = (LinearLayout) view.findViewById(R.id.frame2);
+        cancel = (ImageView) view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(this);
+        txt = (EditText) view.findViewById(R.id.txt);
+        btn = (Button) view.findViewById(R.id.btn);
+        btn.setOnClickListener(this);
 
         list = (PullToRefreshListView) view.findViewById(R.id.list);
 
         recordList = new ArrayList<>();
-        getConsumeRecord();
+        getConsumeRecord("");
 
         list.setMode(PullToRefreshBase.Mode.BOTH);
         list.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -149,13 +151,13 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getConsumeRecord();
+                getConsumeRecord("");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getConsumeRecord();
+                getConsumeRecord("");
             }
         });
 
@@ -176,14 +178,28 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
+                frame1.setVisibility(View.GONE);
+                frame2.setVisibility(View.VISIBLE);
+                txt.setText("");
+                break;
+            case R.id.cancel:
+                frame1.setVisibility(View.VISIBLE);
+                frame2.setVisibility(View.GONE);
+                recordList.clear();
+                getConsumeRecord("");
+                break;
+            case R.id.btn:
+                String name = txt.getText().toString().trim();
+                recordList.clear();
+                getConsumeRecord(name);
                 break;
             case R.id.edit:
-                if(!isEdit){
+                if(!isEdit && recordList.size() > 0){
                     //edit.setText(getString(R.string.cancel));
                     adapter.setEdit(true);
                     adapter.notifyDataSetChanged();
                     isEdit = true;
-                } else {
+                } else if (recordList.size() > 0){
                    // edit.setText(getString(R.string.edit));
                     adapter.setEdit(false);
                     adapter.notifyDataSetChanged();
@@ -201,7 +217,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return Tools.Compare(lhs.getConsume_date(), rhs.getConsume_date());
+                                return lhs.getPay_status().compareTo(rhs.getPay_status());
                             }
                         });
                     } else {
@@ -209,11 +225,35 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
-                                return Tools.Compare(rhs.getConsume_date(), lhs.getConsume_date());
+                                return rhs.getPay_status().compareTo(lhs.getPay_status());
                             }
                         });
                     }
                     adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.store:
+                if (recordList.size() > 0) {
+                    if (f3) {
+                        f3 = !f3;
+                        Log.e("tag", "lhs");
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            }
+                        });
+                    } else {
+                        f3 = !f3;
+                        Log.e("tag", "rhs");
+                        Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
+                            @Override
+                            public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
+                                return rhs.getName().compareTo(lhs.getName());
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetInvalidated();
                 }
                 break;
             case R.id.money:
@@ -247,8 +287,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     }
                     adapter.notifyDataSetChanged();
                 }
-                break;
-            case R.id.store:
                 break;
             case R.id.profit:
                 if(recordList.size() > 0) {
@@ -323,7 +361,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         }
     };
 
-    private void getConsumeRecord() {
+    private void getConsumeRecord(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
@@ -339,7 +377,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String[]{store_id, "", "", "0", page+"","10"};
+        String kvs[] = new String[]{"",store_id, name,"","", "", "0", page+"","10"};
         String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {

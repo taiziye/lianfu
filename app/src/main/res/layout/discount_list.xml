@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/type"
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:singleLine="true"
@@ -49,14 +49,14 @@
             android:textColor="@android:color/black"
             android:text="8折" />
 
-        <TextView android:id="@+id/status"
+        <!--<TextView android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:textSize="15sp"
             android:textColor="@android:color/holo_green_dark"
-            android:text="已确认"/>
+            android:text="已确认"/>-->
     </LinearLayout>
 
     <!--<RelativeLayout

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -42,6 +43,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
     private LinearLayout type;
     private LinearLayout select;
+    private LinearLayout userlayout;
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
@@ -55,6 +57,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private EditText qq;
     private EditText email;
     private EditText address;
+    private TextView user_level;
     private ImageView sexi;
 
     private UserEntity user = null;
@@ -92,6 +95,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         type = (LinearLayout) findViewById(R.id.type);
         select = (LinearLayout) findViewById(R.id.select);
         select.setOnClickListener(this);
+        userlayout = (LinearLayout) findViewById(R.id.user);
+        user_level = (TextView) findViewById(R.id.user_level);
 
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -125,9 +130,11 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             flag = getIntent().getStringExtra("flag");
 
             if("0".equals(user.getUser_type()) || "1".equals(user.getUser_type())) {
-                type.setVisibility(View.VISIBLE);
+                type.setVisibility(View.GONE);
+                userlayout.setVisibility(View.VISIBLE);
             } else {
                 type.setVisibility(View.GONE);
+                userlayout.setVisibility(View.GONE);
             }
             user_name.setText(user.getUsername());
             contact_tel.setText(user.getPhone());
@@ -137,6 +144,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
             bank.setText(user.getBank());
             bank_card.setText(user.getBank_account());
             bank_name.setText(user.getBank_name());
+            user_level.setText(user.getUlevel());
             if("0".equals(user.getSex())) {
                 sex.setText("男");
             }else {

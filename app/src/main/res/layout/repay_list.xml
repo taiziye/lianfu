@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -21,7 +23,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@android:color/black"
-            android:text="aa39213" />
+            android:text="金额" />
 
         <TextView
             android:id="@+id/user_name"
@@ -31,26 +33,46 @@
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@android:color/black"
-            android:text="王世凯" />
+            android:text="发放状态" />
 
         <TextView
             android:id="@+id/money"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@android:color/black"
-            android:text="2000元" />
+            android:text="结算时间" />
 
-        <TextView android:id="@+id/time"
+        <!--<TextView android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#333333"
-            android:text="11/12 12:20" />
+            android:text="11/12 12:20" />-->
     </LinearLayout>
+
+    <TextView android:id="@+id/msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:background="@android:color/white"
+        android:textColor="#999999"
+        android:textSize="15sp"
+        android:text="灰色小字银行卡号/对应姓名"/>
+
+    <TextView android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@android:color/white"
+        android:textSize="15sp"
+        android:textColor="@android:color/holo_red_light"/>
 
 </LinearLayout>

@@ -53,6 +53,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private TextView add_employee;
     private TextView rebate;
     private TextView rebate_pay;
+    private TextView cost;
+    private TextView cost_pay;
     private LinearLayout recordpage;
     private LinearLayout memberpage;
     private LinearLayout employeepage;
@@ -121,6 +123,9 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         rebate = (TextView) view.findViewById(R.id.rebate);
         rebate_pay = (TextView) view.findViewById(R.id.rebate_pay);
         rebate_pay.setOnClickListener(this);
+        cost = (TextView) view.findViewById(R.id.cost);
+        cost_pay = (TextView) view.findViewById(R.id.cost_pay);
+        cost_pay.setOnClickListener(this);
 
         //初始化控件，填充数据
         if (bundle != null) {
@@ -183,6 +188,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             employee.setText("0人");
             manager.setText("0人");
             rebate.setText("0");
+            cost.setText("0元");
         }
 
     }
@@ -213,7 +219,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     if (man.getProfit() == null || man.getProfit().length() == 0)
                         pay.setText("0元");
                     else{
-                        String tmp = man.getIncome();
+                        String tmp = man.getProfit();
                         int l = tmp.length();
                         if(l>2) pay.setText("" + tmp.substring(0, l-2) + "元");
                         else pay.setText("" + 0 + "元");
@@ -245,6 +251,15 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                         int l = tmp.length();
                         if (l>2) rebate.setText(tmp.substring(0, l - 2) + "元");
                         else rebate.setText(0 + "元");
+                    }
+
+                    if (man.getCostback() == null || man.getCostback().length() == 0) {
+                        cost.setText("0.00元");
+                    } else {
+                        String tmp = man.getCostback();
+                        int l = tmp.length();
+                        if (l>2) cost.setText(tmp.substring(0, l-2) + "元");
+                        else cost.setText(0 + "元");
                     }
                     break;
                 case 2:
@@ -296,6 +311,12 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             case R.id.rebate_pay:
                 intent = new Intent(getActivity(), RepayActivity.class);
                 intent.putExtra("userid", userid);
+                getActivity().startActivity(intent);
+                break;
+            case R.id.cost_pay:
+                intent = new Intent(getActivity(), CostRepayActivity.class);
+                intent.putExtra("userid", userid);
+                intent.putExtra("storeid", userEntity.getStore_id());
                 getActivity().startActivity(intent);
                 break;
             case R.id.recordpage:

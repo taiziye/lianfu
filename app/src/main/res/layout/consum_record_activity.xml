@@ -146,148 +146,154 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/ae_update_type" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/ae_update_type" />
 
-                <EditText
-                    android:id="@+id/update_type"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
+                    <EditText
+                        android:id="@+id/update_type"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/ae_id" />
+
+                    <EditText
+                        android:id="@+id/id_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/detail_bank" />
+
+                    <EditText
+                        android:id="@+id/bank"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/detail_bank_card" />
+
+                    <EditText
+                        android:id="@+id/bank_card"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/detail_bank_name" />
+
+                    <EditText
+                        android:id="@+id/bank_name"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
             </LinearLayout>
-
-            <View style="@style/view_line_style" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/ae_id" />
-
-                <EditText
-                    android:id="@+id/id_card"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
-            </LinearLayout>
-
-            <View style="@style/view_line_style" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank" />
-
-                <EditText
-                    android:id="@+id/bank"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
-            </LinearLayout>
-
-            <View style="@style/view_line_style" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank_card" />
-
-                <EditText
-                    android:id="@+id/bank_card"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
-            </LinearLayout>
-
-            <View style="@style/view_line_style" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/detail_bank_name" />
-
-                <EditText
-                    android:id="@+id/bank_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
-            </LinearLayout>
-
-            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -320,32 +326,38 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/discount_type" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/discount_type" />
 
-                <EditText
-                    android:id="@+id/discount_type"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
+                    <EditText
+                        android:id="@+id/discount_type"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:background="@null"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:textColorHint="@android:color/black" />
+                </LinearLayout>
+
+                <View style="@style/view_line_style" />
             </LinearLayout>
-
-            <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"

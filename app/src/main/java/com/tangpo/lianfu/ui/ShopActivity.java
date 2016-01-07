@@ -20,15 +20,20 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
+import com.tangpo.lianfu.entity.StoreServer;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CancelCollectedStore;
 import com.tangpo.lianfu.parms.CollectStore;
+import com.tangpo.lianfu.parms.GetSpecifyServer;
 import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -65,6 +70,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private ProgressDialog dialog=null;
     private Gson gson=null;
     private String[] tmp = null;
+//    private ArrayList<StoreServer> servers = new ArrayList<>();
 
     @Override
     protected void onDestroy() {
@@ -167,7 +173,8 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.contact:
-                ToastUtils.showToast(ShopActivity.this,getString(R.string.new_function_has_not_online),Toast.LENGTH_SHORT);
+                //ToastUtils.showToast(ShopActivity.this,getString(R.string.new_function_has_not_online),Toast.LENGTH_SHORT);
+                getServer();
                 break;
             case R.id.pay:
                 SharedPreferences preferences=getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
@@ -214,6 +221,56 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(ShopActivity.this, PictureActivity.class);
         intent.putExtra("url", tmp[n]);
         startActivity(intent);
+    }
+
+    private void getServer() {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        String[] kvs = new String[]{store_id};
+        String param = GetSpecifyServer.packagingParam(getApplicationContext(), kvs);
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONArray array = null;
+                try {
+                    array = result.getJSONArray("param");
+                    /*for (int i=0; i<array.length(); i++) {
+                        object = array.getJSONObject(i);
+                        StoreServer server = gson.fromJson(object.toString(), StoreServer.class);
+                        servers.add(server);
+                    }*/
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 4;
+                msg.obj = array;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "店铺不存在客服");
+                    } else if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), result.getString("info"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
     }
 
     private void getStoreInfo() {
@@ -368,6 +425,12 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                     img8.setVisibility(View.VISIBLE);
                     Tools.setPhoto(ShopActivity.this, tmp[7], img8);
                 }
+            } else if (msg.what == 4) {
+                JSONArray array = (JSONArray) msg.obj;
+                Intent intent = new Intent(ShopActivity.this, ChatActivity.class);
+                intent.putExtra("servers", array.toString());
+                intent.putExtra("userid", user_id);
+                startActivity(intent);
             }
         }
     };
