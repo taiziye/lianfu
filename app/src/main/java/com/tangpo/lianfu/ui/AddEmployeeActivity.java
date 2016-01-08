@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.Employee;
@@ -43,35 +44,46 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
     private Button back;
     private Button commit;
+
     private TextView manage_level;
     private ImageView level;
+
     private TextView bank;
-    private TextView select_level;
-    private TextView select_bank;
+    private ImageView select_bank;
+
+    private TextView upgrade;
+    private ImageView select_type;
+
+    private TextView gender;
+    private ImageView sex;
+
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
     private EditText id_card;
     private EditText bank_card;
     private EditText bank_name;
-    private Spinner spinner = null;
+    private ToggleButton setuse;
+
     private List<String> list = null;
     private ArrayAdapter<String> adapter = null;
-    private LinearLayout select;
 
     private String userid = null;
     private ProgressDialog dialog = null;
+
     private String rank = null;
     private String username = null;
     private String phone = null;
     private String pw = null;
     private String name = null;
+    private String sexstr = null;
     private String id_num = null;
+    private String upgrades=null;
     private String bankStr = null;
     private String bank_account = null;
     private String bank_nameStr = null;
-    private String sex = null;
-    private TextView select_type = null;
+    private String is_server = null;
+
     private String[] typelist = null;
     private String[] banklist = null;
     private String[] entries = null;
@@ -100,8 +112,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         back.setOnClickListener(this);
         commit = (Button) findViewById(R.id.commit);
         commit.setOnClickListener(this);
-        select = (LinearLayout) findViewById(R.id.select);
-        select.setOnClickListener(this);
 
         manage_level = (TextView) findViewById(R.id.manage_level);
         manage_level.setOnClickListener(this);
@@ -110,12 +120,18 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
 
         bank = (TextView) findViewById(R.id.bank);
         bank.setOnClickListener(this);
-        select_level = (TextView)findViewById(R.id.update_type);
-        select_level.setOnClickListener(this);
-        select_type = (TextView)findViewById(R.id.select_type);
-        select_type.setOnClickListener(this);
-        select_bank = (TextView) findViewById(R.id.select_bank);
+        select_bank= (ImageView) findViewById(R.id.select_bank);
         select_bank.setOnClickListener(this);
+
+        upgrade = (TextView)findViewById(R.id.upgrade);
+        upgrade.setOnClickListener(this);
+        select_type= (ImageView) findViewById(R.id.select_type);
+        select_type.setOnClickListener(this);
+
+        gender= (TextView) findViewById(R.id.gender);
+        gender.setOnClickListener(this);
+        sex= (ImageView) findViewById(R.id.sex);
+        sex.setOnClickListener(this);
 
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -124,28 +140,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
 
-        spinner = (Spinner) findViewById(R.id.spinner);
-        list = new ArrayList<>();
-        list.add(getString(R.string.male));
-        list.add(getString(R.string.female));
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).equals(getString(R.string.male))) {
-                    sex = "0";
-                } else {
-                    sex = "1";
-                }
-                view.setVisibility(View.VISIBLE);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                parent.setVisibility(View.VISIBLE);
-            }
-        });
-
+        setuse= (ToggleButton) findViewById(R.id.setuse);
     }
 
     @Override
@@ -157,10 +152,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             case R.id.commit:
                 addEmployee();
                 break;
-            /*case R.id.select_level:
-                break;*/
-            case R.id.select:
-            case R.id.update_type:
+            case R.id.upgrade:
             case R.id.select_type:
                 if (typelist == null) {
                     getUpdateType();
@@ -181,10 +173,47 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                 if (entries == null) {
                     getList("ygtype");
                 } else {
-                    setBank(entries, "ygtype");
+                    setLevelList();
                 }
                 break;
+            case R.id.gender:
+            case R.id.sex:
+                setGender();
+                break;
+            case R.id.setuse:
+                break;
         }
+    }
+
+    private void setLevelList() {
+        new AlertDialog.Builder(this).setTitle("请选择员工管理级别").setItems(entries, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //
+                manage_level.setText(entries[which]);
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+    }
+
+    private void setGender() {
+        final String genders[]=new String[]{getString(R.string.male),getString(R.string.female)};
+        new AlertDialog.Builder(this).setTitle(getString(R.string.please_choose_gender)).setItems(genders, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                gender.setText(genders[which]);
+                dialog.dismiss();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     Handler handler = new Handler(){
@@ -242,7 +271,7 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
                                 s += lv.getAdapter().getItem(i) + " ";
                             }
                         }
-                        select_level.setText(s);
+                        upgrade.setText(s);
                         dialog.dismiss();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -255,12 +284,18 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         lv = dialog.getListView();
         dialog.show();
     }
+
     private void setBank(String[] list, final String param) {
-        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选择员工升级类型").setItems(list, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(AddEmployeeActivity.this).setTitle("请选开户银行").setItems(list, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if ("bank".equals(param)) bank.setText(banklist[which]);
                 else manage_level.setText(entries[which]);
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         }).show();
     }
@@ -363,7 +398,30 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         bank_account = bank_card.getText().toString();
         bank_nameStr = bank_name.getText().toString();
 
-        if(username.length() == 0) {
+        is_server="0";
+        if(setuse.isChecked()){
+            is_server="1";
+        }else{
+            is_server="0";
+        }
+
+        if(upgrade.getText().toString().contains("BNZZ")){
+            upgrades+="BNZZ";
+            if(upgrade.getText().toString().contains("BN50")){
+                upgrades+=",BN50";
+            }
+        }else{
+            if(upgrade.getText().toString().contains("BN50")){
+                upgrades+="BN50";
+            }
+        }
+        if (gender.getText().toString().equals(getString(R.string.male))) {
+            sexstr = "0";
+        } else {
+            sexstr = "1";
+        }
+
+        if(username.length() == 0||username==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_username));
             return;
         }
@@ -371,28 +429,35 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_phonenumber));
             return;
         }
-        if(name.length() == 0) {
+        if(name.length() == 0||name==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_name));
             return;
         }
-        if(id_num.length() == 0) {
+        if(id_num.length() == 0||id_num==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_idnumber));
             return;
         }
-        if(bank_account.length() == 0) {
+        if(bank_account.length() == 0||bank_account==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_account));
             return;
         }
-        if(bank_nameStr.length() == 0) {
+        if(bank_nameStr.length() == 0||bank_nameStr==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_name));
             return;
         }
-
+        if(upgrades.length()==0||upgrades==null){
+            Tools.showToast(getApplicationContext(),"请选择升级类型");
+            return;
+        }
+        if(sexstr==null||sexstr.length()==0){
+            Tools.showToast(getApplicationContext(),"请选择性别");
+            return;
+        }
         final Employee employee=new Employee();
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String[]{userid, rank, username, pw, name, select_level.getText().toString().trim(),
-                phone, sex, id_num, bank_account, bank_nameStr};
+        String kvs[] = new String[]{userid, rank, username, pw, name, upgrades,
+                phone, sexstr, id_num, bankStr,bank_account, bank_nameStr,is_server};
         String params = AddEmployee.packagingParam(AddEmployeeActivity.this, kvs);
 
         /**
@@ -402,13 +467,14 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         employee.setRank(rank);
         employee.setUsername(username);
         employee.setName(name);
-        employee.setUpgrade(select_level.getText().toString().trim());
+        employee.setUpgrade(upgrades);
         employee.setPhone(phone);
-        employee.setSex(sex);
+        employee.setSex(sexstr);
         employee.setId_number(id_num);
+        employee.setBank(bankStr);
         employee.setBank_account(bank_account);
         employee.setBank_name(bank_nameStr);
-
+        employee.setIsServer(is_server);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

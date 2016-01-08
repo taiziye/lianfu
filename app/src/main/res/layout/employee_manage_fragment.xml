@@ -61,6 +61,18 @@
                 style="@style/consum_top_img_style"
                 android:background="@drawable/list_sort" />
         </LinearLayout>-->
+        <LinearLayout android:id="@+id/name"
+            style="@style/consum_top_style"
+            >
+
+            <TextView
+                style="@style/consum_top_text_style"
+                android:text="@string/name" />
+
+            <ImageView
+                style="@style/consum_top_img_style"
+                android:background="@drawable/list_sort" />
+        </LinearLayout>
 
         <LinearLayout android:id="@+id/manager"
             style="@style/consum_top_style"
@@ -75,13 +87,12 @@
                 android:background="@drawable/list_sort" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/name"
-            style="@style/consum_top_style"
-            >
+        <LinearLayout android:id="@+id/service"
+            style="@style/consum_top_style">
 
             <TextView
                 style="@style/consum_top_text_style"
-                android:text="@string/name" />
+                android:text="客服" />
 
             <ImageView
                 style="@style/consum_top_img_style"
@@ -100,17 +111,6 @@
                 android:background="@drawable/list_sort" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/service"
-            style="@style/consum_top_style">
-
-            <TextView
-                style="@style/consum_top_text_style"
-                android:text="客服" />
-
-            <ImageView
-                style="@style/consum_top_img_style"
-                android:background="@drawable/list_sort" />
-        </LinearLayout>
 
     </LinearLayout>
 

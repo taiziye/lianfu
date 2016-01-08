@@ -105,7 +105,7 @@
     <!-- 新增员工 -->
     <string name="ae_manage_level">管理级别</string>
     <string name="ae_user_name">用户名</string>
-    <string name="ae_contact_tel">联系电话/手机</string>
+    <string name="ae_contact_tel">联系电话(后六位为密码)</string>
     <string name="ae_rel_name">真实姓名</string>
     <string name="ae_update_type">升级类型</string>
     <string name="ae_id">身份证号</string>
@@ -306,4 +306,9 @@
     <string name="user_level">用户等级</string>
     <string name="setuse">启用客服</string>
     <string name="setemployee">启用员工</string>
+    <string name="start_use">启用</string>
+    <string name="stop_use">停用</string>
+    <string name="server">是</string>
+    <string name="not_server">否</string>
+    <string name="please_choose_gender">请选择性别</string>
 </resources>

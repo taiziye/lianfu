@@ -51,38 +51,34 @@ public class EmployeeAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.employee_list, null);
             holder = new ViewHolder();
 
-            holder.employee_id = (TextView) convertView.findViewById(R.id.employee_id);
             holder.employee_name = (TextView) convertView.findViewById(R.id.employee_name);
             holder.role = (TextView) convertView.findViewById(R.id.role);
-            holder.status = (TextView) convertView.findViewById(R.id.status);
             holder.service = (TextView) convertView.findViewById(R.id.service);
+            holder.status = (TextView) convertView.findViewById(R.id.status);
             //holder.change = (ToggleButton) convertView.findViewById(R.id.change);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.employee_id.setText(list.get(position).getRegister_time());
-        holder.employee_name.setText(list.get(position).getRank());
-        holder.role.setText(list.get(position).getName());
+        holder.employee_name.setText(list.get(position).getName());
+        holder.role.setText(list.get(position).getRank());
         if("0".equals(list.get(position).getIsstop())) {
-            holder.status.setText("正常");
+            holder.status.setText(context.getString(R.string.start_use));
         } else {
-            holder.status.setText("停用");
+            holder.status.setText(context.getString(R.string.stop_use));
         }
 
         if ("0".equals(list.get(position).getIsServer())) {
             //holder.change.setChecked(false);
-            holder.service.setText("非客服");
+            holder.service.setText(context.getString(R.string.not_server));
         } else {
             //holder.change.setChecked(true);
-            holder.service.setText("客服");
+            holder.service.setText(context.getString(R.string.server));
         }
         return convertView;
     }
 
     private class ViewHolder {
-        public TextView employee_id;
         public TextView employee_name;
         public TextView role;
         //是否启用客服
