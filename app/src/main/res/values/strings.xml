@@ -311,4 +311,12 @@
     <string name="server">是</string>
     <string name="not_server">否</string>
     <string name="please_choose_gender">请选择性别</string>
+    <string name="location_recv">位置消息</string>
+    <string name="picture">图片消息</string>
+    <string name="voice_prefix">语音消息</string>
+    <string name="video">视频消息</string>
+    <string name="file">普通文件消息</string>
+    <string name="voice_call">语音信息</string>
+    <string name="dynamic_expression">表情</string>
+    <string name="location_prefix">位置</string>
 </resources>

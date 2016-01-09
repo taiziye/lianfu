@@ -20,7 +20,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
-import com.tangpo.lianfu.entity.StoreServer;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CancelCollectedStore;
 import com.tangpo.lianfu.parms.CollectStore;
@@ -32,8 +31,6 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -427,7 +424,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 }
             } else if (msg.what == 4) {
                 JSONArray array = (JSONArray) msg.obj;
-                Intent intent = new Intent(ShopActivity.this, ChatActivity.class);
+                Intent intent = new Intent(ShopActivity.this, ConversationActivity.class);
                 intent.putExtra("servers", array.toString());
                 intent.putExtra("userid", user_id);
                 startActivity(intent);

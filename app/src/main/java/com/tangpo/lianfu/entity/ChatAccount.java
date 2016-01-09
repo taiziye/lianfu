@@ -9,16 +9,20 @@ public class ChatAccount {
     private String uuid;
     private String pwd;
     private String photo;
+    private String msg;  //最后的聊天内容
+    private String time;  //最后的聊天时间
 
     public ChatAccount() {
     }
 
-    public ChatAccount(String user_id, String easemod_id, String uuid, String pwd, String photo) {
+    public ChatAccount(String user_id, String easemod_id, String uuid, String pwd, String photo, String msg, String time) {
         this.user_id = user_id;
         this.easemod_id = easemod_id;
         this.uuid = uuid;
         this.pwd = pwd;
         this.photo = photo;
+        this.msg = msg;
+        this.time = time;
     }
 
     public String getUser_id() {
@@ -61,6 +65,22 @@ public class ChatAccount {
         this.photo = photo;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "ChatAccount{" +
@@ -69,6 +89,8 @@ public class ChatAccount {
                 ", uuid='" + uuid + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", photo='" + photo + '\'' +
+                ", msg='" + msg + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

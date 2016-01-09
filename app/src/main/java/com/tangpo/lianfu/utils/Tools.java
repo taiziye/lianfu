@@ -439,30 +439,4 @@ public class Tools {
         }
     }
 
-    public static void login(final Context context, ChatAccount account) {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(context, "网络未连接，请联网后重试");
-            return;
-        }
-
-        final ProgressDialog dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
-        final long start = System.currentTimeMillis();
-        // 调用sdk登陆方法登陆聊天服务器
-        EMChatManager.getInstance().login(account.getEasemod_id(), account.getPwd(), new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                //
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                //
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-                //
-            }
-        });
-    }
 }

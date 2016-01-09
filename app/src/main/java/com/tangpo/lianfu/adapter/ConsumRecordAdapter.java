@@ -100,7 +100,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             holder.status.setVisibility(View.VISIBLE);
         } else {
             holder.frame.setVisibility(View.VISIBLE);
-            holder.status.setVisibility(View.GONE);
+            holder.status.setVisibility(View.INVISIBLE);
         }
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +139,8 @@ public class ConsumRecordAdapter extends BaseAdapter {
             e.printStackTrace();
         }*/
         tmp1 = str.split(" ");
-        tmp2 = tmp1[0].split("\\/");
+        tmp2 = tmp1[0].split("/");
+        Log.e("tag", "length " + tmp1.length + " " + tmp1 + " " + str);
         String date = tmp2[0] + "年" + tmp2[1] + "月" + tmp2[2] + "日 " + tmp1[1];
         return date;
     }
