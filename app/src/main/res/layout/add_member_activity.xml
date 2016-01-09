@@ -145,19 +145,22 @@
                     android:layout_alignParentLeft="true" />
 
                 <TextView
+                    android:id="@+id/gender"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:layout_height="wrap_content" />
-
-                <Spinner
-                    android:layout_marginStart="10dp"
-                    android:id="@+id/sex"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="20dp"
-                    android:entries="@array/sex" />
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center|right"
+                    android:background="@null" />
+
+                <ImageView
+                    android:id="@+id/sex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -190,7 +193,8 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout android:id="@+id/select_level"
+            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -216,6 +220,7 @@
                     android:background="@null" />
 
                 <ImageView
+                    android:id="@+id/up"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
@@ -244,27 +249,20 @@
                 <TextView
                     android:id="@+id/bank"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:textColor="@android:color/black"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="15sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:singleLine="true" />
+                    android:textColor="@android:color/black"
+                    android:gravity="center|right"
+                    android:background="@null" />
 
-                <TextView
-                    android:id="@+id/select_bank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="10dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/ac_select" />
+                <ImageView
+                    android:id="@id/select_bank"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -339,8 +337,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/add_mem"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:textSize="15sp"
                 android:textColor="@android:color/white"
                 android:layout_marginBottom="30dp"

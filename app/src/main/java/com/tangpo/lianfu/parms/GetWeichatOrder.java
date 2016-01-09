@@ -37,7 +37,6 @@ public class GetWeichatOrder {
             paramJsonObject.put("paymode", Escape.escape(kvs[3]));
             paramJsonObject.put("fee", Escape.escape(kvs[4]));
 
-
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

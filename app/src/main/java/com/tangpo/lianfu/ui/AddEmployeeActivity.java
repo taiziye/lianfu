@@ -389,10 +389,27 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
         }
 
         rank = manage_level.getText().toString().trim();
+
         username = user_name.getText().toString();
+        if(username.length() == 0||username==null) {
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_username));
+            return;
+        }
+
         phone = contact_tel.getText().toString();
+        if(!Tools.isMobileNum(phone)) {
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_phonenumber));
+            return;
+        }
+
         pw = MD5Tool.md5(phone.substring(phone.length() - 6));
+
         name = rel_name.getText().toString();
+        if(name.length() == 0||name==null) {
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_name));
+            return;
+        }
+
         id_num = id_card.getText().toString();
         bankStr = bank.getText().toString();
         bank_account = bank_card.getText().toString();
@@ -421,18 +438,6 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             sexstr = "1";
         }
 
-        if(username.length() == 0||username==null) {
-            Tools.showToast(getApplicationContext(), getString(R.string.please_input_username));
-            return;
-        }
-        if(!Tools.isMobileNum(phone)) {
-            Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_phonenumber));
-            return;
-        }
-        if(name.length() == 0||name==null) {
-            Tools.showToast(getApplicationContext(), getString(R.string.please_input_name));
-            return;
-        }
         if(id_num.length() == 0||id_num==null) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_idnumber));
             return;
