@@ -104,14 +104,17 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
-        status = (LinearLayout) view.findViewById(R.id.status);
-        status.setOnClickListener(this);
-        manager = (LinearLayout) view.findViewById(R.id.manager);
-        manager.setOnClickListener(this);
         name = (LinearLayout) view.findViewById(R.id.name);
         name.setOnClickListener(this);
+
+        manager = (LinearLayout) view.findViewById(R.id.manager);
+        manager.setOnClickListener(this);
+
         service = (LinearLayout) view.findViewById(R.id.service);
         service.setOnClickListener(this);
+
+        status = (LinearLayout) view.findViewById(R.id.status);
+        status.setOnClickListener(this);
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -161,14 +164,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, ADD_REQUEST_CODE);
                 break;
-            case R.id.status:
+            case R.id.name:
                 if(memList.size() > 0) {
                     if(f1) {
                         f1 = !f1;
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return Tools.CompareDate(lhs.getIsstop(), rhs.getIsstop());
+                                return lhs.getName().compareTo(rhs.getName());
                             }
                         });
                     } else {
@@ -176,33 +179,9 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return Tools.CompareDate(rhs.getIsstop(), lhs.getIsstop());
+                                return rhs.getName().compareTo(lhs.getName());
                             }
                         });
-
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-                break;
-            case R.id.service:
-                if(memList.size() > 0) {
-                    if(f4) {
-                        f4 = !f4;
-                        Collections.sort(memList, new Comparator<Employee>() {
-                            @Override
-                            public int compare(Employee lhs, Employee rhs) {
-                                return Tools.CompareDate(lhs.getIsServer(), rhs.getIsServer());
-                            }
-                        });
-                    } else {
-                        f4 = !f4;
-                        Collections.sort(memList, new Comparator<Employee>() {
-                            @Override
-                            public int compare(Employee lhs, Employee rhs) {
-                                return Tools.CompareDate(rhs.getIsServer(), lhs.getIsServer());
-                            }
-                        });
-
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -229,14 +208,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                     adapter.notifyDataSetChanged();
                 }
                 break;
-            case R.id.name:
+            case R.id.service:
                 if(memList.size() > 0) {
                     if(f3) {
                         f3 = !f3;
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return lhs.getName().compareTo(rhs.getName());
+                                return lhs.getIsServer().compareTo(rhs.getIsServer());
                             }
                         });
                     } else {
@@ -244,9 +223,33 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
                         Collections.sort(memList, new Comparator<Employee>() {
                             @Override
                             public int compare(Employee lhs, Employee rhs) {
-                                return rhs.getName().compareTo(lhs.getName());
+                                return rhs.getIsServer().compareTo(lhs.getIsServer());
                             }
                         });
+
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.status:
+                if(memList.size() > 0) {
+                    if(f4) {
+                        f4 = !f4;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return lhs.getIsstop().compareTo(rhs.getIsstop());
+                            }
+                        });
+                    } else {
+                        f4 = !f4;
+                        Collections.sort(memList, new Comparator<Employee>() {
+                            @Override
+                            public int compare(Employee lhs, Employee rhs) {
+                                return rhs.getIsstop().compareTo(lhs.getIsstop());
+                            }
+                        });
+
                     }
                     adapter.notifyDataSetChanged();
                 }
