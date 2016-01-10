@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,17 +42,35 @@ public class ConversationFragment extends Fragment {
     private Button clear = null;
     private InputMethodManager inputMethodManager = null;
     private ConversationAdapter adapter = null;
-    private List<ChatAccount> list = null;
-    private List<EMConversation> conversations = null;
+    private List<ChatAccount> list = new ArrayList<>();
     private DataHelper helper = null;
+    private View view;
+    private String hx_id = "";
+    private String photo = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_conversation, container, false);
+        view = inflater.inflate(R.layout.fragment_conversation, container, false);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        helper = new DataHelper(getActivity());
-        init(view);
+        /*helper = new DataHelper(getActivity());
+        init(view);*/
+        hx_id = getArguments().getString("hxid");
+        photo = getArguments().getString("photo");
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        helper = new DataHelper(getActivity());
+        list.clear();
+        init(view);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        helper.close();
     }
 
     private void init(View view){
@@ -92,26 +111,32 @@ public class ConversationFragment extends Fragment {
             }
         });
 
-        list = helper.getChatAccountList();
-        conversations = loadCoversationList();
+        list.addAll(helper.getChatAccountList());
+        //conversations = loadCoversationList();
         Collections.sort(list, new Comparator<ChatAccount>() {
             @Override
             public int compare(ChatAccount lhs, ChatAccount rhs) {
                 return Tools.CompareDate(lhs.getTime(), rhs.getTime());
             }
         });
-        for (int i=0; i< list.size(); i++) {
-            list.get(i).setUnread(conversations.get(i).getUnreadMsgCount());
-        }
         adapter = new ConversationAdapter(getActivity(), list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                String username = list.get(position).getUsername();
+                //String userid = list.get(position).getUser_id();
+                String hxid = list.get(position).getEasemod_id();
+                intent.putExtra("account", list.get(position));
+                //intent.putExtra("userid", userid);
+                intent.putExtra("username", username);
+                intent.putExtra("hxid", hxid);
+                intent.putExtra("myid", hx_id);
+                intent.putExtra("photo", photo);
+                startActivity(intent);
             }
         });
-        Log.e("tag", "list " + list.size() + " conversations " + conversations.size());
     }
 
     private void hideSoftKeyBoard() {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,16 +31,17 @@ public class ContactFragment extends Fragment {
     private EditText query = null;
     private Button clear = null;
     private InputMethodManager inputMethodManager = null;
-    private ArrayList<ChatAccount> accounts = null;
+    private ArrayList<ChatAccount> accounts = new ArrayList<>();
 
     private ContactAdapter adapter = null;
+    private String hx_id = "";
+    private String photo = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         init(view);
-        Log.e("tag", " ContactFragment ");
         return view;
     }
 
@@ -50,14 +50,26 @@ public class ContactFragment extends Fragment {
         query = (EditText) view.findViewById(R.id.query);
         clear = (Button) view.findViewById(R.id.clear);
 
-        accounts = (ArrayList<ChatAccount>) getArguments().getSerializable("acstr");
+        accounts.addAll((ArrayList<ChatAccount>) getArguments().getSerializable("acstr"));
+        hx_id = getArguments().getString("hxid");
+        photo = getArguments().getString("photo");
         adapter = new ContactAdapter(getActivity(), accounts);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userid", adapter.getItem(position).getUsername()));
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                String username = accounts.get(position).getUsername();
+                //String userid = accounts.get(position).getUser_id();
+                String hxid = accounts.get(position).getEasemod_id();
+                intent.putExtra("account", accounts.get(position));
+                //intent.putExtra("userid", userid);
+                intent.putExtra("username", username);
+                intent.putExtra("hxid", hxid);
+                intent.putExtra("myid", hx_id);
+                intent.putExtra("photo", photo);
+                startActivity(intent);
             }
         });
 

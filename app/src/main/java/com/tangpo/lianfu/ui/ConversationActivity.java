@@ -44,6 +44,7 @@ public class ConversationActivity extends Activity implements View.OnClickListen
     private ArrayList<StoreServer> servers = new ArrayList<>();
     private String userids = "";
     private String userid = "";
+    private String hxid = "";
     private ChatAccount account = null;
     private Bundle bundle = new Bundle();
 
@@ -104,12 +105,17 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.btn_conversation:  //会话记录
+                bundle.putString("photo", account.getPhoto());
+                bundle.putString("hxid", hxid);
                 fragment = new ConversationFragment();
                 name.setText("会话记录");
+                fragment.setArguments(bundle);
                 conversation.setSelected(true);
                 address_list.setSelected(false);
                 break;
             case R.id.address_list:  //客户列表
+                bundle.putString("photo", account.getPhoto());
+                bundle.putString("hxid", hxid);
                 bundle.putSerializable("acstr", accounts);
                 fragment = new ContactFragment();
                 fragment.setArguments(bundle);
@@ -133,7 +139,9 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                     Log.e("tag", "handler 1");
                     transaction = getFragmentManager().beginTransaction();
                     fragment = new ContactFragment();
+                    bundle.putString("hxid", hxid);
                     bundle.putSerializable("acstr", accounts);
+                    bundle.putString("photo", account.getPhoto());
                     fragment.setArguments(bundle);
                     name.setText("客服列表");
                     conversation.setSelected(false);
@@ -145,6 +153,7 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                     break;
                 case 2:
                     account = ((ArrayList<ChatAccount>) msg.obj).get(0);
+                    hxid = account.getEasemod_id();
                     accounts.clear();
                     if (!EMChat.getInstance().isLoggedIn()) {
                         //未登录

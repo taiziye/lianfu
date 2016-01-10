@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.tangpo.lianfu.entity.ChatAccount;
 
-import org.jivesoftware.smack.Chat;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +37,11 @@ public class DataHelper {
      */
     public List<ChatAccount> getChatAccountList() {
         List<ChatAccount> list = new ArrayList<>();
-        Cursor cursor = db.query(SqliteHelper.TABLE_NAME, null, null, null, null, null, ChatAccount.ID + " DESC");
+        //Cursor cursor = db.query(SqliteHelper.TABLE_NAME, null, null, null, null, null, ChatAccount.ID + " DESC");
+        Cursor cursor = db.rawQuery("select * from " + SqliteHelper.TABLE_NAME + " desc", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast() && (cursor.getString(1) != null)) {
+        //while (cursor.moveToNext()) {
             ChatAccount account = new ChatAccount();
             account.setUsername(cursor.getString(cursor.getColumnIndex(ChatAccount.USERNAME)));
             account.setName(cursor.getString(cursor.getColumnIndex(ChatAccount.NAME)));
@@ -62,6 +62,11 @@ public class DataHelper {
      * @return
      */
     public Long saveChatAccount(ChatAccount account) {
+        //如果该条记录存在，则更新他
+        if (isExist(account.getEasemod_id())) {
+            updateLatestMsg(account);
+            return 0l;
+        }
         ContentValues values = new ContentValues();
         values.put(ChatAccount.USERNAME, account.getUsername());
         values.put(ChatAccount.NAME, account.getName());
@@ -79,7 +84,36 @@ public class DataHelper {
      * @return
      */
     public int delChatAccount(String easemod_id) {
+        if (!isExist(easemod_id)) {
+            return 0;
+        }
         int id = db.delete(SqliteHelper.TABLE_NAME, ChatAccount.EASEMOD_ID + "=?", new String[]{easemod_id});
         return id;
+    }
+
+    /**
+     * 更新最后一条消息内容以及时间
+     * @param account
+     * @return
+     */
+    private int updateLatestMsg(ChatAccount account) {
+        ContentValues values = new ContentValues();
+        values.put(ChatAccount.MSG, account.getMsg());
+        values.put(ChatAccount.TIME, account.getTime());
+        int id = db.update(SqliteHelper.TABLE_NAME, values, ChatAccount.EASEMOD_ID + " =?", new String[]{account.getEasemod_id()});
+        return id;
+    }
+
+    /**
+     * 判断记录是否存在 select * from table where easemod_id = ?
+     * @param str
+     * @return  "select * from " + SqliteHelper.TABLE_NAME + " desc"
+     */
+    private boolean isExist(String str) {
+        Cursor cursor = db.rawQuery("select * from " + SqliteHelper.TABLE_NAME + " where " + ChatAccount.EASEMOD_ID + " = ?", new String[]{str});
+        //Cursor cursor = db.query(SqliteHelper.TABLE_NAME, null, ChatAccount.EASEMOD_ID, new String[]{str}, null, null, null);
+        int num = cursor.getCount();
+        if (num > 0) return true;
+        return false;
     }
 }

@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -436,6 +437,13 @@ public class Tools {
         } else {
             return -1;
         }
+    }
+
+    public static String long2DateString(Long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        String str = new SimpleDateFormat("dd号 HH:mm").format(calendar.getTime());
+        return str;
     }
 
     /**

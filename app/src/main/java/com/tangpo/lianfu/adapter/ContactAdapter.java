@@ -57,14 +57,18 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.latest = (TextView) convertView.findViewById(R.id.latest);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.unread = (TextView) convertView.findViewById(R.id.unread);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.unread.setVisibility(View.GONE);
         holder.latest.setVisibility(View.GONE);
-        Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
+        if (list.get(position).getPhoto() != null) {
+            Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
+        }
         holder.name.setText(list.get(position).getName());
         holder.time.setText(list.get(position).getTime());
         return convertView;
@@ -113,5 +117,6 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
         public TextView name;
         public TextView latest;
         public TextView time;
+        public TextView unread;
     }
 }

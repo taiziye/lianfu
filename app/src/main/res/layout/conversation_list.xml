@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
+    android:paddingLeft="10dp"
     android:paddingRight="16dp"
     android:gravity="center_vertical"
     android:background="@android:color/white"
@@ -16,7 +16,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/add_mem"
+            android:background="@drawable/camera"
             android:scaleType="fitXY"
             />
         <TextView android:id="@+id/unread"
@@ -35,19 +35,21 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="5dp"
         android:orientation="vertical"
         android:layout_height="wrap_content">
         <TextView android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
             android:textColor="#333333"
             android:text="easeuitest10"
             android:textSize="15sp"/>
 
         <TextView android:id="@+id/latest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
             android:textColor="#333333"
             android:layout_marginTop="10dp"
             android:text="enen"
@@ -56,6 +58,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:gravity="center"
         android:layout_height="40dp">
         <TextView android:id="@+id/time"
             android:layout_width="wrap_content"

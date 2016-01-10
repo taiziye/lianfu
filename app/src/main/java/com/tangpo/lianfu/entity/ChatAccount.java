@@ -1,9 +1,12 @@
 package com.tangpo.lianfu.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by 果冻 on 2016/1/5.
  */
-public class ChatAccount {
+public class ChatAccount implements Parcelable {
     public static final String ID = "_id";
     public static final String USERNAME = "username";
     public static final String NAME = "name";
@@ -143,4 +146,46 @@ public class ChatAccount {
                 ", time='" + time + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(user_id);
+        dest.writeString(username);
+        dest.writeString(name);
+        dest.writeString(phone);
+        dest.writeString(easemod_id);
+        dest.writeString(uuid);
+        dest.writeString(pwd);
+        dest.writeString(photo);
+        dest.writeString(msg);
+        dest.writeString(time);
+    }
+
+    public static final Parcelable.Creator<ChatAccount> CREATOR = new Creator<ChatAccount>() {
+        @Override
+        public ChatAccount createFromParcel(Parcel source) {
+            ChatAccount account = new ChatAccount();
+            account.setUser_id(source.readString());
+            account.setUsername(source.readString());
+            account.setName(source.readString());
+            account.setPhone(source.readString());
+            account.setEasemod_id(source.readString());
+            account.setUuid(source.readString());
+            account.setPwd(source.readString());
+            account.setPhoto(source.readString());
+            account.setMsg(source.readString());
+            account.setTime(source.readString());
+            return account;
+        }
+
+        @Override
+        public ChatAccount[] newArray(int size) {
+            return new ChatAccount[size];
+        }
+    };
 }

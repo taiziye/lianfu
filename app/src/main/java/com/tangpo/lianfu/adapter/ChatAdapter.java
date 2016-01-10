@@ -9,7 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.utils.CircularImage;
+import com.tangpo.lianfu.utils.Tools;
+
+import java.util.List;
 
 /**
  * Created by 果冻 on 2015/12/15.
@@ -17,25 +21,29 @@ import com.tangpo.lianfu.utils.CircularImage;
 public class ChatAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
+    private List<Chat> list;
+    private String hxid;
 
-    public ChatAdapter(Context context) {
+    public ChatAdapter(Context context, List<Chat> list, String hxid) {
         this.context = context;
+        this.list = list;
+        this.hxid = hxid;
         this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -59,10 +67,18 @@ public class ChatAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.me.setVisibility(View.VISIBLE);
+        holder.he.setVisibility(View.VISIBLE);
         //根据数据设置holder
-        if (true) {  //根据情形是否需要显示
+        if (! list.get(position).getHxid().equals(hxid) ) {  //根据情形是否需要显示
+            holder.me_text.setText(list.get(position).getMsg());
+            holder.time2.setText(list.get(position).getTime());
+            Tools.setPhoto(context, list.get(position).getImg(), holder.meimg);
             holder.he.setVisibility(View.GONE);
-        } else if (true) {
+        } else {
+            holder.he_text.setText(list.get(position).getMsg());
+            holder.time1.setText(list.get(position).getTime());
+            Tools.setPhoto(context, list.get(position).getImg(), holder.heimg);
             holder.me.setVisibility(View.GONE);
         }
         return convertView;
