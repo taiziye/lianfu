@@ -12,7 +12,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.WeiXin.Constants;
 import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.ui.OnlinePayActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;

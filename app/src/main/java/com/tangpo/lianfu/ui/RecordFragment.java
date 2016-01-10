@@ -1,7 +1,9 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -168,10 +170,32 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 index = position - 1;
                 intent = new Intent(getActivity(), ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
-                intent.putExtra("user_id",userid);
+                intent.putExtra("user_id", userid);
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);
             }
         });
+
+//        list.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(final View v) {
+////                return false;
+//                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.Are_you_shure_to_delete))
+//                        .setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).setPositiveButton(getActivity().getString(R.string.confirm), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        list.removeView(v);
+//                        //recordList.remove(v.get)
+//                        dialog.dismiss();
+//                    }
+//                }).show();
+//                return true;
+//            }
+//        });
     }
 
     @Override

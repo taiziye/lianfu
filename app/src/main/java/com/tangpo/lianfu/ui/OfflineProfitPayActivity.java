@@ -84,6 +84,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private String store_id = null;
     private int page = 1;
     private Map<Integer, String> set = new HashMap<Integer, String>();
+    //private List<Integer> idlist=new ArrayList<>();
     private ProgressDialog dialog = null;
     private double tmp = 0;
 
@@ -202,6 +203,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 if (holder.check.isChecked() == true) {
                     if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
                     set.put(position - 1, list.get(position - 1).getId());
+//                    Log.e("tag", list.get(position - 1).getId());
+//                    Log.e("tag",set.get(position-1));
                     checkNum++;
                 } else {
                     if(list.get(position - 1).getProfit() != null) tmp -= Double.parseDouble(list.get(position - 1).getProfit());
@@ -256,7 +259,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     set.clear();
                     for (int i = 0; i < list.size(); i++) {
                         adapter.getIsSelected().put(i, true);
-                        set.put(i,list.get(i).getId());
+                        set.put(i, list.get(i).getId());
                         if(list.get(i).getProfit() != null) tmp += Double.parseDouble(list.get(i).getProfit());
                     }
                     checkNum = list.size();
@@ -490,11 +493,18 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private String getConsumeId() {
         String str = "";
-        for (int i = 0; i < set.size(); i++) {
-            if (i != 0)
-                str += ",";
-            str += set.get(i);
+//        for (int i = 0; i < set.size(); i++) {
+//            if (i != 0)
+//                str += ",";
+//            str += set.get(i);
+//        }
+        int first=1;
+        for(Map.Entry<Integer,String> entry:set.entrySet()){
+            if(first==1)first=0;
+            else str+=",";
+            str+=entry.getValue();
         }
+        //Log.e("tag",str);
         return str;
     }
 }

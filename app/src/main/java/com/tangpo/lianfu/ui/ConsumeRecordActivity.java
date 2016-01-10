@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tangpo.lianfu.R;
@@ -34,7 +36,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
 
     private Button back;
     private Button edit;
-    private Button discount;
+    private ImageView discount;
     private EditText user_name;
     private EditText name;
     private EditText contact_tel;
@@ -45,7 +47,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private EditText bank_name;
     private EditText consume_money;
     private EditText discount_type;
-    private EditText discount_text;
+    private TextView discount_text;
     private EmployeeConsumeRecord record = null;
     private SharedPreferences preferences;
     private Set<String> members = null;
@@ -80,8 +82,12 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         back.setOnClickListener(this);
         edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
-        discount = (Button) findViewById(R.id.discount);
+
+        discount = (ImageView) findViewById(R.id.discount);
         discount.setOnClickListener(this);
+        discount_text = (TextView) findViewById(R.id.discount_text);
+        discount_text.setOnClickListener(this);
+
         user_name = (EditText) findViewById(R.id.user_name);
         name = (EditText) findViewById(R.id.name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -92,7 +98,6 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         bank_name = (EditText) findViewById(R.id.bank_name);
         consume_money = (EditText) findViewById(R.id.consume_money);
         discount_type = (EditText) findViewById(R.id.discount_type);
-        discount_text = (EditText) findViewById(R.id.discount_text);
 
         intent = getIntent();
         if (intent != null) {
@@ -138,6 +143,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             case R.id.edit:
                 editConsumeRecord();
                 break;
+            case R.id.discount_text:
             case R.id.discount:
                 intent = new Intent(this, DiscountActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);

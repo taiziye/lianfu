@@ -94,6 +94,7 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
         money = (EditText) findViewById(R.id.money);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
         bill_num = (EditText) findViewById(R.id.bill_num);
+
         imageView= (ImageView) findViewById(R.id.bill);
         imageView.setOnClickListener(this);
 
@@ -139,6 +140,10 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
                 bundle.putString("paymode","0");
                 if(money.getText().toString().equals("")){
                     ToastUtils.showToast(PayBillActivity.this,getString(R.string.pay_amount_cannot_be_null),Toast.LENGTH_SHORT);
+                    return;
+                }
+                if(contact_tel.getText().toString().equals("")||contact_tel.getText().toString().length()==0){
+                    ToastUtils.showToast(PayBillActivity.this,getString(R.string.phone_num_cannot_be_null),Toast.LENGTH_SHORT);
                     return;
                 }
                 intent1.putExtras(bundle);
