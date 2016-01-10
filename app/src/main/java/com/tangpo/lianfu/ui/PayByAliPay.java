@@ -19,7 +19,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetAlipayOrder;
 import com.tangpo.lianfu.parms.PayBill;
-import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.utils.Key;
 import com.tangpo.lianfu.utils.PayResult;
 import com.tangpo.lianfu.utils.SignUtils;
@@ -67,6 +66,7 @@ public class PayByAliPay extends FragmentActivity {
     private TextView tvPrice;
 
     private Bundle bundle=null;
+    private String consume_id=null;
     private String cost_id=null;
 
     private ProgressDialog dialog=null;
@@ -86,9 +86,6 @@ public class PayByAliPay extends FragmentActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         ToastUtils.showToast(PayByAliPay.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-                        if(bundle.getString("paymode").equals("1")){
-                            ProfitAccount();
-                        }
                         Intent intent=new Intent(PayByAliPay.this,OnlinePayActivity.class);
                         intent.putExtra("total_fee",total_fee);
                         startActivity(intent);
@@ -122,9 +119,7 @@ public class PayByAliPay extends FragmentActivity {
                         String user_id=bundle.getString("user_id");
                         String idlist=cost_id;
                         String paymode=bundle.getString("paymode");
-                        //这里是测试的费用，接口完善后需要调整为正常的值
-//                        String fee=bundle.getString("fee");
-                        String fee="0.01";
+                        String fee=bundle.getString("fee");
                         getIndent(store_id,user_id,idlist,paymode,fee);
                     }
                     break;
@@ -164,18 +159,28 @@ public class PayByAliPay extends FragmentActivity {
 
 
         bundle=getIntent().getExtras();
-
-        payBill();
+        String store_id=bundle.getString("store_id");
+        String user_id=bundle.getString("user_id");
+        String paymode=bundle.getString("paymode");
+        String fee=bundle.getString("fee");
+        String idlist=null;
+        consume_id=bundle.getString("consume_id");
+        if(consume_id==null||consume_id.length()==0){
+            payBill();
+        }else{
+            idlist=consume_id;
+            getIndent(store_id,user_id,idlist,paymode,fee);
+        }
         /**
          * 这里测试的时候先注释这一行，转一分钱到平台支付宝账号
          */
 //        price=bundle.getString("total_fee");
         //price=bundle.getString("0.01");
-        total_fee="0.01";
-
-        tvSubject.setText(subject);
-        tvBody.setText(body);
-        tvPrice.setText(total_fee + "元");
+//        total_fee="0.01";
+        total_fee=fee;
+//        tvSubject.setText(subject);
+//        tvBody.setText(body);
+//        tvPrice.setText(total_fee + "元");
     }
 
     /**
@@ -335,39 +340,39 @@ public class PayByAliPay extends FragmentActivity {
         return "sign_type=\"RSA\"";
     }
 
-    private void ProfitAccount() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-        dialog=ProgressDialog.show(PayByAliPay.this,getString(R.string.connecting),getString(R.string.please_wait));
-        String user_id=bundle.getString("user_id");
-        String store_id=bundle.getString("store_id");
-        String pay_way=bundle.getString("pay_way");
-        final String total_fee=bundle.getString("fee");
-        String consume_id=bundle.getString("consume_id");
-
-        String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, seller_id,total_fee, consume_id};
-        String param = ProfitAccount.packagingParam(this, kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                dialog.dismiss();
-                ToastUtils.showToast(PayByAliPay.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                dialog.dismiss();
-                try {
-                    Tools.handleResult(PayByAliPay.this, result.getString("status"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
-    }
+//    private void ProfitAccount() {
+//        if(!Tools.checkLAN()) {
+//            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+//            return;
+//        }
+//        dialog=ProgressDialog.show(PayByAliPay.this,getString(R.string.connecting),getString(R.string.please_wait));
+//        String user_id=bundle.getString("user_id");
+//        String store_id=bundle.getString("store_id");
+//        String pay_way=bundle.getString("pay_way");
+//        final String total_fee=bundle.getString("fee");
+//        String consume_id=bundle.getString("consume_id");
+//
+//        String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, seller_id,total_fee, consume_id};
+//        String param = ProfitAccount.packagingParam(this, kvs);
+//
+//        new NetConnection(new NetConnection.SuccessCallback() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                dialog.dismiss();
+//                ToastUtils.showToast(PayByAliPay.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
+//            }
+//        }, new NetConnection.FailCallback() {
+//            @Override
+//            public void onFail(JSONObject result) {
+//                dialog.dismiss();
+//                try {
+//                    Tools.handleResult(PayByAliPay.this, result.getString("status"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, param);
+//    }
 
     private void payBill(){
         if(!Tools.checkLAN()) {
@@ -377,8 +382,7 @@ public class PayByAliPay extends FragmentActivity {
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
-//        String fee=bundle.getString("fee");
-        String fee="0.01";
+        String fee=bundle.getString("fee");
         String phone=bundle.getString("phone")+"";
         String receipt_no=bundle.getString("receipt_no")+"";
         String receipt_photo=bundle.getString("receipt_photo")+"";

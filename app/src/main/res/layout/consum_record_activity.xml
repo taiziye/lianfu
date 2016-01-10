@@ -373,17 +373,21 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/discount" />
 
-                <EditText
+                <TextView
                     android:id="@+id/discount_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
+                    style="@style/manager_personal_style"
                     android:background="@null"
                     android:gravity="right|center"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
                     android:textColorHint="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/discount"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -391,21 +395,21 @@
 
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#efeef4"
-        >
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:background="#efeef4"-->
+        <!-->-->
 
-        <Button
-            android:id="@+id/discount"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:background="@anim/btn_style"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_centerInParent="true"
-            android:text="@string/discount" />
-    </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/discount"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@anim/btn_style"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:text="@string/discount" />-->
+    <!--</RelativeLayout>-->
 
 </LinearLayout>

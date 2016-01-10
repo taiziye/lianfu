@@ -24,7 +24,6 @@ import com.tangpo.lianfu.config.WeiXin.Constants;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetWeichatOrder;
 import com.tangpo.lianfu.parms.PayBill;
-import com.tangpo.lianfu.parms.ProfitAccount;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 import com.tangpo.lianfu.wxapi.WXPayEntryActivity;
@@ -51,6 +50,8 @@ public class PayByWechat extends FragmentActivity {
     private Bundle bundle=null;
 
     private String cost_id=null;
+    private String consume_id=null;
+
     private ProgressDialog dialog=null;
     private static IWXAPI api=null;
     private String out_trade_no=null;
@@ -89,9 +90,9 @@ public class PayByWechat extends FragmentActivity {
             int errorCode=intent.getIntExtra("errCode", 1);
             if(errorCode== BaseResp.ErrCode.ERR_OK){
                 ToastUtils.showToast(PayByWechat.this, getString(R.string.pay_success), Toast.LENGTH_SHORT);
-                if (bundle.getString("paymode").equals("1")){
-                    ProfitAccount();
-                }
+//                if (bundle.getString("paymode").equals("1")){
+//                    ProfitAccount();
+//                }
                 Intent intent1=new Intent(PayByWechat.this,OnlinePayActivity.class);
                 intent1.putExtra("total_fee",bundle.getString("fee"));
                 startActivity(intent1);
@@ -133,20 +134,30 @@ public class PayByWechat extends FragmentActivity {
          */
 //        price=bundle.getString("total_fee");
         //price=bundle.getString("0.01");
-        price="0.01";
+//        price="0.01";
+        price=bundle.getString("fee");
         tvSubject.setText(subject);
         tvBody.setText(body);
         tvPrice.setText(price + "元");
-        payBill();
+        consume_id=bundle.getString("consume_id");
+        if(consume_id==null||consume_id.length()==0){
+            payBill();
+        }
     }
 
     public void check(View v){
         String store_id=bundle.getString("store_id");
         String user_id=bundle.getString("user_id");
-        String idlist=cost_id;
+        String idlist=null;
+        if(consume_id!=null&&consume_id.length()!=0){
+            idlist=consume_id;
+        }else{
+            idlist=cost_id;
+        }
+//        String idlist=cost_id;
         String paymode=bundle.getString("paymode");
-//        String fee=bundle.getString("fee");
-        String fee="0.01";
+        String fee=bundle.getString("fee");
+//        String fee="0.01";
         getIndent(store_id,user_id,idlist, paymode, fee);
         registerReceiver(mBroadcastReceiver, new IntentFilter(WXPayEntryActivity.ACTION));
     }
@@ -159,8 +170,8 @@ public class PayByWechat extends FragmentActivity {
         String user_id=bundle.getString("user_id");
         String store_id=bundle.getString("store_id");
         String pay_way=bundle.getString("pay_way");
-//        String fee=bundle.getString("fee");
-        String fee="0.01";
+        String fee=bundle.getString("fee");
+//        String fee="0.01";
         String phone=bundle.getString("phone")+"";
         String receipt_no=bundle.getString("receipt_no")+"";
         String receipt_photo=bundle.getString("receipt_photo")+"";
@@ -258,44 +269,44 @@ public class PayByWechat extends FragmentActivity {
         finish();
     }
 
-    private void ProfitAccount() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-        dialog=ProgressDialog.show(PayByWechat.this,getString(R.string.connecting),getString(R.string.please_wait));
-        String user_id=bundle.getString("user_id");
-        String store_id=bundle.getString("store_id");
-        String pay_way=bundle.getString("pay_way");
-        final String total_fee=bundle.getString("fee");
-        String consume_id=bundle.getString("consume_id");
-        if(out_trade_no==null){
-            ToastUtils.showToast(this,"请服务器返回交易订单号！",Toast.LENGTH_SHORT);
-            return;
-        }
-        if(pay_account==null){
-            ToastUtils.showToast(this,"请服务器返回支付账户！",Toast.LENGTH_SHORT);
-            return;
-        }
-        String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, pay_account,total_fee, consume_id};
-        String param = ProfitAccount.packagingParam(this, kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                dialog.dismiss();
-                ToastUtils.showToast(PayByWechat.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                dialog.dismiss();
-                try {
-                    Tools.handleResult(PayByWechat.this, result.getString("status"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
-    }
+//    private void ProfitAccount() {
+//        if(!Tools.checkLAN()) {
+//            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+//            return;
+//        }
+//        dialog=ProgressDialog.show(PayByWechat.this,getString(R.string.connecting),getString(R.string.please_wait));
+//        String user_id=bundle.getString("user_id");
+//        String store_id=bundle.getString("store_id");
+//        String pay_way=bundle.getString("pay_way");
+//        final String total_fee=bundle.getString("fee");
+//        String consume_id=bundle.getString("consume_id");
+//        if(out_trade_no==null){
+//            ToastUtils.showToast(this,"请服务器返回交易订单号！",Toast.LENGTH_SHORT);
+//            return;
+//        }
+//        if(pay_account==null){
+//            ToastUtils.showToast(this,"请服务器返回支付账户！",Toast.LENGTH_SHORT);
+//            return;
+//        }
+//        String kvs[] = new String[]{user_id, store_id, out_trade_no, pay_way, pay_account,total_fee, consume_id};
+//        String param = ProfitAccount.packagingParam(this, kvs);
+//
+//        new NetConnection(new NetConnection.SuccessCallback() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                dialog.dismiss();
+//                ToastUtils.showToast(PayByWechat.this, getString(R.string.request_success), Toast.LENGTH_SHORT);
+//            }
+//        }, new NetConnection.FailCallback() {
+//            @Override
+//            public void onFail(JSONObject result) {
+//                dialog.dismiss();
+//                try {
+//                    Tools.handleResult(PayByWechat.this, result.getString("status"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, param);
+//    }
 }
