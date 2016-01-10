@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -168,12 +169,13 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
         final EmployeeConsumeRecord record = new EmployeeConsumeRecord();
         record.setId(user.getUser_id());
-        record.setUsername(user.getName());
+        record.setName(user.getName());
         record.setDiscount(dis.getAgio());
         record.setFee(consume_money.getText().toString());
         record.setPay_status("1");
-        record.setPay_date((new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date()));
+        record.setPay_date((new SimpleDateFormat("yyyy/MM/dd HH:mm")).format(new Date()));
         record.setGains(consume_money.getText().toString());
+        record.setConsume_date();
 
         String param = CommitConsumeRecord.packagingParam(this, kvs);
 

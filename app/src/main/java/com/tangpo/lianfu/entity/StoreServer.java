@@ -1,9 +1,11 @@
 package com.tangpo.lianfu.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by 果冻 on 2016/1/5.
  */
-public class StoreServer {
+public class StoreServer implements Serializable {
     private String user_id;
     private String username;
     private String name;

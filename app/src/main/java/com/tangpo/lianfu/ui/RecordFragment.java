@@ -358,6 +358,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 if(adapter != null) {
                     adapter.notifyDataSetChanged();
                 } else {
+                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
+                    list.setAdapter(adapter);
                 }
             } else {
                 //编辑

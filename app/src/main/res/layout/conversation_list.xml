@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="16dp"
+    android:gravity="center_vertical"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        >
+        <ImageView android:id="@+id/img"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/camera"
+            android:scaleType="fitXY"
+            />
+        <TextView android:id="@+id/unread"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:background="@drawable/ease_unread_count_bg"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:text="easeuitest10"
+            android:textSize="15sp"/>
+
+        <TextView android:id="@+id/latest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:layout_marginTop="10dp"
+            android:text="enen"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="40dp">
+        <TextView android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="1月5日 21:17"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+</LinearLayout>

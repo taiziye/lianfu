@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#efeef4"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back"
+            android:layout_marginLeft="10dp" />
+
+        <TextView android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="客服列表"
+            android:textSize="22sp"
+            android:textColor="@android:color/white" />
+
+        <!--<Button
+            android:id="@+id/add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/add"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />-->
+    </RelativeLayout>
+
+    <View
+        style="@style/view_line_style" />
+
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#2D2F31"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/conversation"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_conversation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/em_main_bottom_item_bg"
+                android:drawableTop="@drawable/em_tab_chat_bg"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="@string/session"
+                android:textColor="@color/em_main_botton_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/unread_msg_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/em_unread_count_bg"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_container_address_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/address_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/em_main_bottom_item_bg"
+                android:drawableTop="@drawable/em_tab_contact_list_bg"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="@string/address_book"
+                android:textColor="@color/em_main_botton_text_color"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <!--<RelativeLayout
+            android:id="@+id/btn_container_setting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/em_main_bottom_item_bg"
+                android:drawableTop="@drawable/em_tab_setting_bg"
+                android:onClick="onTabClicked"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="@string/setting"
+                android:textColor="@color/em_main_botton_text_color"
+                android:textSize="12sp" />
+        </RelativeLayout>-->
+    </LinearLayout>
+
+</LinearLayout>

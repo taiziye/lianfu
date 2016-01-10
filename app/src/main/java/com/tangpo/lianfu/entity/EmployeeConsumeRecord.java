@@ -87,8 +87,8 @@ public class EmployeeConsumeRecord implements Serializable {
         return consume_date;
     }
 
-    public void setConsume_date(String consume_date) {
-        this.consume_date = (new SimpleDateFormat("yyyy-MM-dd hh:mm")).format(new Date());
+    public void setConsume_date() {
+        this.consume_date = (new SimpleDateFormat("yyyy/MM/dd hh:mm")).format(new Date());
     }
 
     public String getDesc() {
