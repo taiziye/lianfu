@@ -100,7 +100,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             holder.status.setVisibility(View.VISIBLE);
         } else {
             holder.frame.setVisibility(View.VISIBLE);
-            holder.status.setVisibility(View.GONE);
+            holder.status.setVisibility(View.INVISIBLE);
         }
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
