@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,8 @@ import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.utils.EaseSmileUtils;
 import com.tangpo.lianfu.utils.Tools;
 
+import org.jivesoftware.smack.Chat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +33,7 @@ import java.util.regex.Pattern;
 /**
  * Created by 果冻 on 2016/1/8.
  */
-public class ConversationAdapter extends BaseAdapter {
+public class ConversationAdapter extends BaseAdapter implements Filterable {
     public static final String MESSAGE_ATTR_IS_VOICE_CALL = "is_voice_call";
     public static final String MESSAGE_ATTR_IS_VIDEO_CALL = "is_video_call";
 
@@ -37,18 +41,15 @@ public class ConversationAdapter extends BaseAdapter {
     public static final String MESSAGE_ATTR_EXPRESSION_ID = "em_expression_id";
 
     private Context context = null;
-    private ArrayList<ChatAccount> list = null;
+    private List<ChatAccount> list = null;
     private LayoutInflater inflater = null;
-    private List<EMConversation> conversationlist = null;
-    private String name = "";
-    private int unread = 0;
+    private List<ChatAccount> mOriginalValues = null;
+    public static int unread = 0;
 
-    public ConversationAdapter(Context context, ArrayList<ChatAccount> list, List<EMConversation> conversationlist, String name) {
+    public ConversationAdapter(Context context, List<ChatAccount> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
-        this.conversationlist = conversationlist;
-        this.name = name;
     }
 
     @Override
@@ -59,13 +60,6 @@ public class ConversationAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return list.get(position);
-    }
-
-    public EMConversation getConversation(int position) {
-        if (position < conversationlist.size()) {
-            return conversationlist.get(position);
-        }
-        return null;
     }
 
     @Override
@@ -84,6 +78,7 @@ public class ConversationAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.latest = (TextView) convertView.findViewById(R.id.latest);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.unread = (TextView) convertView.findViewById(R.id.unread);
 
             convertView.setTag(holder);
         } else {
@@ -91,25 +86,34 @@ public class ConversationAdapter extends BaseAdapter {
         }
 
         Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
-
         // 获取与此用户的会话
-        EMConversation conversation = getConversation(position);
-
-        holder.name.setText(name);
-        unread = conversation.getUnreadMsgCount();
+        holder.name.setText(list.get(position).getName());
+        holder.latest.setText(list.get(position).getMsg());
+        holder.time.setText(list.get(position).getTime());
+        if (list.get(position).getUnread() != 0) {
+            holder.unread.setText(list.get(position).getUnread());
+            holder.unread.setVisibility(View.VISIBLE);
+            unread++;
+        } else {
+            holder.unread.setVisibility(View.INVISIBLE);
+        }
+        /*if (conversation.getUnreadMsgCount() > 0) {
+            holder.unread.setText(String.valueOf(conversation.getUnreadMsgCount()));
+            holder.unread.setVisibility(View.VISIBLE);
+            unread += Integer.parseInt(String.valueOf(conversation.getUnreadMsgCount()));
+        } else {
+            holder.unread.setVisibility(View.INVISIBLE);
+        }
+        unread = conversation.getUnreadMsgCount();*/
 
         //设置最后的聊天内容以及时间
-        if (conversation.getMsgCount() != 0) {
+        /*if (conversation.getMsgCount() != 0) {
             EMMessage lastMessage = conversation.getLastMessage();
             holder.latest.setText(EaseSmileUtils.getSmiledText(context, getMessageDigest(lastMessage, (context))), TextView.BufferType.SPANNABLE);
             holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
-        }
+        }*/
 
         return convertView;
-    }
-
-    public int getUnread() {
-        return unread;
     }
 
     private String getMessageDigest(EMMessage message, Context context) {
@@ -167,10 +171,49 @@ public class ConversationAdapter extends BaseAdapter {
         return context.getResources().getString(resId);
     }
 
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                List<ChatAccount> filterlist = new ArrayList<>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<>(list);
+                }
+
+                if (constraint == null || constraint.length() == 0) {
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i=0; i<mOriginalValues.size(); i++) {
+                        ChatAccount data = mOriginalValues.get(i);
+                        if (data.getName().startsWith(constraint.toString())) {
+                            filterlist.add(data);
+                        }
+                    }
+                    results.count = filterlist.size();
+                    results.values = filterlist;
+                }
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                list = (ArrayList<ChatAccount>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+        return filter;
+    }
+
     class ViewHolder{
         public ImageView img;
         public TextView name;
         public TextView latest;
         public TextView time;
+        public TextView unread;
     }
 }

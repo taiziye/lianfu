@@ -220,56 +220,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    private void getServer() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-        String[] kvs = new String[]{store_id};
-        String param = GetSpecifyServer.packagingParam(getApplicationContext(), kvs);
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                //
-                dialog.dismiss();
-                JSONArray array = null;
-                try {
-                    array = result.getJSONArray("param");
-                    /*for (int i=0; i<array.length(); i++) {
-                        object = array.getJSONObject(i);
-                        StoreServer server = gson.fromJson(object.toString(), StoreServer.class);
-                        servers.add(server);
-                    }*/
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Message msg = new Message();
-                msg.what = 4;
-                msg.obj = array;
-                handler.sendMessage(msg);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                dialog.dismiss();
-                try {
-                    if ("3".equals(result.getString("status"))) {
-                        Tools.showToast(getApplicationContext(), "店铺不存在客服");
-                    } else if ("10".equals(result.getString("status"))) {
-                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
-                    } else {
-                        Tools.showToast(getApplicationContext(), result.getString("info"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
-    }
-
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
@@ -431,6 +381,51 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+
+    private void getServer() {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        String[] kvs = new String[]{store_id};
+        String param = GetSpecifyServer.packagingParam(getApplicationContext(), kvs);
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONArray array = null;
+                try {
+                    array = result.getJSONArray("param");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 4;
+                msg.obj = array;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "店铺不存在客服");
+                    } else if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), result.getString("info"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
+    }
 
     private void cancelCollect() {
         String kvs[]=new String[]{store_id,user_id};

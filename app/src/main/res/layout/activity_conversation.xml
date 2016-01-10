@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="通讯录"
+            android:text="客服列表"
             android:textSize="22sp"
             android:textColor="@android:color/white" />
 

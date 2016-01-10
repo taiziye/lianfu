@@ -11,7 +11,6 @@ import com.tangpo.lianfu.R;
  */
 public class ChatActivity extends Activity {
     public static ChatActivity activityInstance;
-    //private EaseChatFragment chatFragment;
     private String toChatUsername;
 
     @Override
@@ -20,6 +19,12 @@ public class ChatActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_chat);
 
-        toChatUsername = getIntent().getStringExtra("name");
+        toChatUsername = getIntent().getStringExtra("userid");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
