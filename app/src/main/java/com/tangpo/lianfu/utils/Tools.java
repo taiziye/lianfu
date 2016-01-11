@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -450,6 +451,18 @@ public class Tools {
         DataHelper helper = new DataHelper(MyApplication.context);
         helper.saveChatAccount(account);
         helper.close();
+    }
+
+    public static void setHeight(BaseAdapter adapter, ListView list) {
+        int height = 0;
+        for (int i = 0; i<adapter.getCount(); i++) {
+            View item = adapter.getView(i, null, list);
+            item.measure(0, 0);
+            height += item.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = list.getLayoutParams();
+        params.height = height + (list.getDividerHeight() * (adapter.getCount() - 1));
+        list.setLayoutParams(params);
     }
 
     /**

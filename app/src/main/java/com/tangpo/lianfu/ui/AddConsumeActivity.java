@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -41,12 +42,12 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
     private Button commit;
     private TextView shop_name;
     private TextView name;
-    private TextView contact_tel;
+    private EditText contact_tel;
     private EditText consume_money;
     private TextView user_name;
     private TextView discount;
-    private TextView select_user;
-    private TextView select_discount;
+    private ImageView select_user;
+    private ImageView select_discount;
     private SharedPreferences preferences = null;
     private UserEntity user = null;
     private ProgressDialog dialog = null;
@@ -83,16 +84,18 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
 
         shop_name = (TextView) findViewById(R.id.shop_name);
         name = (TextView) findViewById(R.id.name);
-        contact_tel = (TextView) findViewById(R.id.contact_tel);
+        contact_tel = (EditText) findViewById(R.id.contact_tel);
         consume_money = (EditText) findViewById(R.id.consum_money);
         consume_money.setOnClickListener(this);
         consume_money.setSelectAllOnFocus(true);
 
         user_name = (TextView) findViewById(R.id.user_name);
+        user_name.setOnClickListener(this);
         discount = (TextView) findViewById(R.id.discount);
-        select_user = (TextView) findViewById(R.id.select_user);
+        discount.setOnClickListener(this);
+        select_user = (ImageView) findViewById(R.id.select_user);
         select_user.setOnClickListener(this);
-        select_discount = (TextView) findViewById(R.id.select_discount);
+        select_discount = (ImageView) findViewById(R.id.select_discount);
         select_discount.setOnClickListener(this);
 
         shop_name.setText(user.getStorename());
@@ -108,11 +111,13 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             case R.id.commit:
                 commitConsume();
                 break;
+            case R.id.user_name:
             case R.id.select_user:
                 intent = new Intent(AddConsumeActivity.this, SelectUserActivity.class);
                 intent.putExtra("user", user);
                 startActivityForResult(intent, SELECT_MEM);
                 break;
+            case R.id.discount:
             case R.id.select_discount:
                 intent = new Intent(AddConsumeActivity.this, DiscountActivity.class);
                 startActivityForResult(intent, SELECT_DIS);
@@ -159,7 +164,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
+        if(consume_money.getText().toString().length() == 0||Float.valueOf(consume_money.getText().toString())==0) {
             Tools.showToast(this, getString(R.string.please_input_correct_amount));
             return;
         }

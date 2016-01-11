@@ -60,7 +60,7 @@
     <string name="perfect">完善资料</string>
 
     <string name="add_record">+新增</string>
-    <string name="add_mem">新增会员</string>
+    <string name="add_mem">注册会员</string>
     <string name="profit_pay">线下消费利润支付</string>
     <string name="add_employee">新增员工</string>
     <string name="profit_compute">利润结算</string>
@@ -320,4 +320,7 @@
     <string name="dynamic_expression">表情</string>
     <string name="location_prefix">位置</string>
     <string name="Are_you_shure_to_delete">确定要删除此消费记录吗？</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="please_confirm_password">请确认密码</string>
+    <string name="please_aggree_register_protocol">请选择同意注册协议</string>
 </resources>

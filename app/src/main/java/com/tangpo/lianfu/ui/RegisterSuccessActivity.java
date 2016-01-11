@@ -30,7 +30,7 @@ import org.json.JSONObject;
 public class RegisterSuccessActivity extends Activity implements OnClickListener {
 
     private Button back_home;
-    private Button perfect_info;
+    //private Button perfect_info;
 
     private ImageView logo;
     private UserEntity user;
@@ -55,8 +55,8 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
     private void init() {
         back_home = (Button) findViewById(R.id.back_home);
         back_home.setOnClickListener(this);
-        perfect_info = (Button) findViewById(R.id.perfect_info);
-        perfect_info.setOnClickListener(this);
+        //perfect_info = (Button) findViewById(R.id.perfect_info);
+        //perfect_info.setOnClickListener(this);
 
         logo = (ImageView) findViewById(R.id.logo);
 
@@ -69,13 +69,13 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_home:
-                flag = false;
-                login();
-                break;
-            case R.id.perfect_info:
                 flag = true;
                 login();
                 break;
+//            case R.id.perfect_info:
+//                flag = true;
+//                login();
+//                break;
         }
     }
 
@@ -91,15 +91,15 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                     Tools.closeActivity();
                     finish();
                     break;
-                case 2:
-                    intent = new Intent(RegisterSuccessActivity.this, PersonalInfoActivity.class);
-                    intent.putExtra("user", user);
-                    intent.putExtra("flag", "2");
-                    intent.putExtra("name", name);
-                    intent.putExtra("pass", pass);
-                    startActivity(intent);
-                    /*Tools.showToast(getApplicationContext(), "请期待下一版");*/
-                    break;
+//                case 2:
+//                    intent = new Intent(RegisterSuccessActivity.this, PersonalInfoActivity.class);
+//                    intent.putExtra("user", user);
+//                    intent.putExtra("flag", "2");
+//                    intent.putExtra("name", name);
+//                    intent.putExtra("pass", pass);
+//                    startActivity(intent);
+//                    /*Tools.showToast(getApplicationContext(), "请期待下一版");*/
+//                    break;
             }
         }
     };
@@ -128,8 +128,9 @@ public class RegisterSuccessActivity extends Activity implements OnClickListener
                     e.printStackTrace();
                 }
                 Message msg = new Message();
-                if(flag) msg.what = 2;
-                else msg.what = 1;
+//                if(flag) msg.what = 2;
+//                else msg.what = 1;
+                msg.what=1;
                 msg.obj = user;
                 handler.sendMessage(msg);
             }

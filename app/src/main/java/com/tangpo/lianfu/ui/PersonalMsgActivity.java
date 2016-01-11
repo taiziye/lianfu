@@ -61,7 +61,6 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
         double_code= (Button) findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
         next = (Button) findViewById(R.id.next);
-        next.setEnabled(false);
         next.setOnClickListener(this);
 
         text = (TextView) findViewById(R.id.text);
@@ -91,19 +90,27 @@ public class PersonalMsgActivity extends Activity implements View.OnClickListene
 
         final String username = user_name.getText().toString();
         final String password = pass.getText().toString();
-        if(username.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写用户名");
+        String confirm_pass=check_pass.getText().toString();
+        if(username.length() == 0||username=="") {
+            Tools.showToast(getApplicationContext(), getString(R.string.please_input_username));
             return;
         }
-        if(password.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请填写密码");
+        if(password.length() == 0||password=="") {
+            Tools.showToast(getApplicationContext(),getString(R.string.please_input_password));
             return;
         }
-        if (!TextUtils.equals(pass.getText().toString(), check_pass.getText().toString())) {
-            ToastUtils.showToast(PersonalMsgActivity.this, getString(R.string.password_not_matched), Toast.LENGTH_SHORT);
+        if(confirm_pass.length()==0||confirm_pass==""){
+            Tools.showToast(getApplicationContext(),getString(R.string.please_confirm_password));
             return;
         }
-
+        if (!TextUtils.equals(password, confirm_pass)) {
+            Tools.showToast(getApplicationContext(), getString(R.string.password_not_matched));
+            return;
+        }
+        if(!check.isChecked()){
+            Tools.showToast(getApplicationContext(),getString(R.string.please_aggree_register_protocol));
+            return;
+        }
         final String phone = Configs.getCatchedPhoneNum(PersonalMsgActivity.this);
         String service_center = service.getText().toString();
         String store_id = storeid.getText().toString();

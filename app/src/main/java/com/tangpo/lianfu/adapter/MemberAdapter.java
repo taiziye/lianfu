@@ -59,7 +59,7 @@ public class MemberAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.user_name.setText(list.get(position).getUser_id());
+        holder.user_name.setText(list.get(position).getUsername());
         holder.name.setText(list.get(position).getName());
         if (list.get(position).getSex().equals("0"))
             holder.sex.setText("男");

@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private EditText bank_card;
     private EditText bank_name;
     private EditText consume_money;
+    private EditText profit;
     private EditText discount_type;
     private TextView discount_text;
     private EmployeeConsumeRecord record = null;
@@ -55,6 +57,12 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private String user_id= "";
     private String consume_id= "";
     private ProgressDialog dialog=null;
+
+    private LinearLayout frame1;
+    private LinearLayout frame2;
+    private LinearLayout frame3;
+    private TextView ticket;
+    private ImageView ticketpic;
 
     private String mfee;
     private String mdiscount;
@@ -88,6 +96,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         discount_text = (TextView) findViewById(R.id.discount_text);
         discount_text.setOnClickListener(this);
 
+        profit = (EditText) findViewById(R.id.profit);
         user_name = (EditText) findViewById(R.id.user_name);
         name = (EditText) findViewById(R.id.name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -98,6 +107,14 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         bank_name = (EditText) findViewById(R.id.bank_name);
         consume_money = (EditText) findViewById(R.id.consume_money);
         discount_type = (EditText) findViewById(R.id.discount_type);
+
+        frame1 = (LinearLayout) findViewById(R.id.frame1);
+        frame1.setVisibility(View.GONE);
+        frame2 = (LinearLayout) findViewById(R.id.frame2);
+        frame2.setVisibility(View.GONE);
+        frame3 = (LinearLayout) findViewById(R.id.frame3);
+        ticket = (TextView) findViewById(R.id.ticket);
+        ticketpic = (ImageView) findViewById(R.id.ticketpic);
 
         intent = getIntent();
         if (intent != null) {
@@ -129,9 +146,30 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                     }
                 }
             }
+            profit.setText(record.getGains());
             consume_money.setText("￥"+Float.valueOf(record.getFee()));
             mfee=record.getFee();
+            if (record.getTicket().length() != 0) {
+                frame1.setVisibility(View.VISIBLE);
+                ticket.setText(record.getTicket());
+            }
+            if (record.getTicketpic().length() != 0) {
+                frame2.setVisibility(View.VISIBLE);
+                Tools.setPhoto(this, record.getTicketpic(), ticketpic);
+            }
+
+            if ("2".equals(record.getIsPass())) {
+                setUnable();
+            }
         }
+    }
+
+    private void setUnable() {
+        contact_tel.setEnabled(false);
+        consume_money.setEnabled(false);
+        discount_text.setClickable(false);
+        discount.setClickable(false);
+        frame3.setVisibility(View.GONE);
     }
 
     @Override

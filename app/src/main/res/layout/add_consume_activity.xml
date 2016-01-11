@@ -59,6 +59,7 @@
 
                 <TextView
                     android:id="@+id/shop_name"
+                    android:textSize="15sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center|right"
@@ -99,17 +100,23 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="15sp"/>
 
-                <TextView
+                <ImageView
                     android:id="@+id/select_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/ac_select" />
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/select_user"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:background="@null"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:text="@string/ac_select" />-->
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -131,6 +138,7 @@
 
                 <TextView
                     android:id="@+id/name"
+                    android:textSize="15sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/darker_gray"
@@ -159,12 +167,13 @@
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/contact_tel"
+                    android:textSize="15sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center|right"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
@@ -199,20 +208,26 @@
                     android:layout_marginLeft="5dp"
                     android:gravity="center|right"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:layout_marginRight="5dp"/>
 
-                <TextView
+                <ImageView
                     android:id="@+id/select_discount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:background="@null"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/ac_select" />
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/select_discount"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:background="@null"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:text="@string/ac_select" />-->
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -234,6 +249,7 @@
 
                 <EditText
                     android:id="@+id/consum_money"
+                    android:textSize="15sp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center|right"
@@ -242,6 +258,7 @@
                     android:selectAllOnFocus="true"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/black"
                     android:background="@null" />
 
             </LinearLayout>

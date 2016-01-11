@@ -59,7 +59,7 @@ public class CostRepayAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.money.setText(list.get(position).getCost());
+        holder.money.setText(list.get(position).getCost()+"元");
         holder.time.setText(list.get(position).getBackdate());
         holder.msg.setText(list.get(position).getBank_account() + "/" + list.get(position).getBank_name());
         holder.desc.setText(list.get(position).getBackinfo());

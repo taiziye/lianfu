@@ -59,7 +59,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="用户ID" />
+                    android:text="用户名" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

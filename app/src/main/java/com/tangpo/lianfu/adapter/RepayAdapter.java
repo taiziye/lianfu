@@ -60,16 +60,20 @@ public class RepayAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.user_id.setText(list.get(position).getFee());
+        holder.user_id.setText(list.get(position).getFee()+"元");
         holder.user_name.setText(list.get(position).getPay_status());
         holder.money.setText(list.get(position).getPay_date());
-        holder.msg.setText(list.get(position).getBank_account() + "/" + list.get(position).getBank_name());
-        holder.desc.setText(list.get(position).getDesc());
-        if ("发放失败".equals(list.get(position).getPay_status())) {
-            holder.desc.setVisibility(View.VISIBLE);
-        } else {
-            holder.desc.setVisibility(View.GONE);
+        if(list.get(position).getBank_account()==""||list.get(position).getBank_account().length()==0){
+            holder.msg.setVisibility(View.GONE);
+        }else{
+            holder.msg.setText(list.get(position).getBank_account() + "/" + list.get(position).getBank_name());
         }
+        holder.desc.setText(list.get(position).getDesc());
+//        if ("发放失败".equals(list.get(position).getPay_status())) {
+//            holder.desc.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.desc.setVisibility(View.GONE);
+//        }
 
         return convertView;
     }

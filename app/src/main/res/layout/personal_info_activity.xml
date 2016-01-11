@@ -322,16 +322,22 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/birth" />
 
-                <EditText
+                    <EditText
                     android:id="@+id/birth"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
+                    android:editable="false"
                     android:gravity="center|right"
-                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
                     android:background="@null" />
+
+                <ImageView
+                    android:id="@+id/ivbirth"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
 
