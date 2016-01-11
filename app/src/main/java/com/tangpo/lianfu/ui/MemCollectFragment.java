@@ -47,7 +47,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private ProgressDialog dialog = null;
     private SharedPreferences preferences = null;
-
+    private String centcount;
     private String userid;
 
     private Gson gson = null;
@@ -110,6 +110,10 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 list = (List<FindStore>) msg.obj;
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
+                if (centcount != null) {
+                    //
+                    Tools.showToast(getActivity(), "已全部加载完成");
+                }
             }
         }
     };

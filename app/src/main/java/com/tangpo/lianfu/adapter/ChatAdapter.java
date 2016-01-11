@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,6 +62,8 @@ public class ChatAdapter extends BaseAdapter {
             holder.me_text = (TextView) convertView.findViewById(R.id.me_text);
             holder.time1 = (TextView) convertView.findViewById(R.id.time1);
             holder.time2 = (TextView) convertView.findViewById(R.id.time2);
+            holder.img1 = (ImageView) convertView.findViewById(R.id.img1);
+            holder.img2 = (ImageView) convertView.findViewById(R.id.img2);
 
             convertView.setTag(holder);
         } else {
@@ -69,13 +72,18 @@ public class ChatAdapter extends BaseAdapter {
 
         holder.me.setVisibility(View.VISIBLE);
         holder.he.setVisibility(View.VISIBLE);
+
         //根据数据设置holder
-        if (! list.get(position).getHxid().equals(hxid) ) {  //根据情形是否需要显示
+        if ( list.get(position).getHxid().toLowerCase().equals(hxid.toLowerCase()) ) {  //根据情形是否需要显示
+            holder.me_text.setVisibility(View.VISIBLE);
+            holder.img2.setVisibility(View.GONE);
             holder.me_text.setText(list.get(position).getMsg());
             holder.time2.setText(list.get(position).getTime());
             Tools.setPhoto(context, list.get(position).getImg(), holder.meimg);
             holder.he.setVisibility(View.GONE);
         } else {
+            holder.he_text.setVisibility(View.VISIBLE);
+            holder.img1.setVisibility(View.GONE);
             holder.he_text.setText(list.get(position).getMsg());
             holder.time1.setText(list.get(position).getTime());
             Tools.setPhoto(context, list.get(position).getImg(), holder.heimg);
@@ -93,5 +101,7 @@ public class ChatAdapter extends BaseAdapter {
         TextView me_text;
         TextView time1;
         TextView time2;
+        ImageView img1;
+        ImageView img2;
     }
 }

@@ -11,8 +11,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +60,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private String lat = "0.000000";
     private SharedPreferences preferences=null;
     private String hereabout = "0";
+    private String centcount;
     private int page = 1;
     private boolean flag = false;  //判断是刷新还是加载数据 false为刷新  true为加载
 
@@ -110,6 +114,19 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
 
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (getActivity().getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                return false;
+            }
+        });
+
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -134,19 +151,24 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 //
-                page = page + 1;
-                flag = true;
+                if (centcount != null && Integer.parseInt(centcount) >= page) {
+                    //
+                    Tools.showToast(getActivity(), "已全部加载完成");
+                } else {
+                    page = page + 1;
+                    flag = true;
 
-                // 下拉的时候刷新数据
-                int flags = DateUtils.FORMAT_SHOW_TIME
-                        | DateUtils.FORMAT_SHOW_DATE
-                        | DateUtils.FORMAT_ABBREV_ALL;
-                String label = DateUtils.formatDateTime(
-                        getActivity(),
-                        System.currentTimeMillis(), flags);
-                // 更新最后刷新时间
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getStores();
+                    // 下拉的时候刷新数据
+                    int flags = DateUtils.FORMAT_SHOW_TIME
+                            | DateUtils.FORMAT_SHOW_DATE
+                            | DateUtils.FORMAT_ABBREV_ALL;
+                    String label = DateUtils.formatDateTime(
+                            getActivity(),
+                            System.currentTimeMillis(), flags);
+                    // 更新最后刷新时间
+                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                    getStores();
+                }
             }
         });
 
@@ -228,6 +250,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     storeList = (ArrayList<FindStore>) msg.obj;
                     adapter = new PositionAdapter(getActivity(), storeList);
                     listView.setAdapter(adapter);
+                    search.getText().clear();
+                    if (centcount != null && Integer.parseInt(centcount) >= page) {
+                        //
+                        Tools.showToast(getActivity(), "已全部加载完成");
+                    }
                     break;
             }
         }
@@ -250,6 +277,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
+                    centcount = result.getString("paramcentcount");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         FindStore store = gson.fromJson(object.toString(), FindStore.class);

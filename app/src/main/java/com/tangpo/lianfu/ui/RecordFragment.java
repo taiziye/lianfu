@@ -1,9 +1,8 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -260,7 +261,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 if (recordList.size() > 0) {
                     if (f3) {
                         f3 = !f3;
-                        Log.e("tag", "lhs");
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
@@ -269,7 +269,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         });
                     } else {
                         f3 = !f3;
-                        Log.e("tag", "rhs");
                         Collections.sort(recordList, new Comparator<EmployeeConsumeRecord>() {
                             @Override
                             public int compare(EmployeeConsumeRecord lhs, EmployeeConsumeRecord rhs) {
@@ -372,6 +371,15 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void hideSoftKeyBoard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getActivity().getCurrentFocus() != null) {
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -380,8 +388,14 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 case 1:
                     recordList = (List<EmployeeConsumeRecord>) msg.obj;
                     adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
+                    adapter.notifyDataSetChanged();
                     list.setAdapter(adapter);
                     list.getRefreshableView().setSelection((page - 1) * 10 + 1);
+                    hideSoftKeyBoard();
+                    break;
+                case 4:
+                    adapter.notifyDataSetChanged();
+                    hideSoftKeyBoard();
                     break;
             }
         }
@@ -403,8 +417,14 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String kvs[] = new String[]{"",store_id, name,"","", "", "0", page+"","10"};
-        String param = ConsumeRecord.packagingParam(getActivity(), kvs);
+        String param;
+        if (name.length() == 0) {
+            String kvs[] = new String[]{userid,store_id, "","","", "", "0", page+"","10"};
+            param = ConsumeRecord.packagingParam(getActivity(), kvs);
+        } else {
+            String kvs[] = new String[]{userid,store_id, "",name,"", "", "0", page+"","10"};
+            param = ConsumeRecord.packagingParam(getActivity(), kvs);
+        }
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -437,6 +457,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Message msg = new Message();
+                msg.what = 4;
+                mHandler.sendMessage(msg);
             }
         }, param);
     }
