@@ -159,13 +159,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private void checkCode() {
         final String phone = phone_Num.getText().toString();
         if (phone.equals("")) {
-            pd.dismiss();
+            //pd.dismiss();
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.phone_num_cannot_be_null), Toast.LENGTH_LONG);
             return;
         }
         String check_code = code.getText().toString();
         if (check_code.equals("")) {
-            pd.dismiss();
+            //pd.dismiss();
             ToastUtils.showToast(RegisterActivity.this, getString(R.string.check_code_cannot_be_null), Toast.LENGTH_LONG);
             return;
         }

@@ -163,7 +163,7 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
             return;
         }
 
-        if(consume_money.getText().toString().length() == 0||Integer.valueOf(consume_money.getText().toString())==0) {
+        if(consume_money.getText().toString().length() == 0||Float.valueOf(consume_money.getText().toString())==0) {
             Tools.showToast(this, getString(R.string.please_input_correct_amount));
             return;
         }

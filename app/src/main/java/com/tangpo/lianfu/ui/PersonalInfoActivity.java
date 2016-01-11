@@ -2,6 +2,7 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +10,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +37,9 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by 果冻 on 2015/11/8.
  */
@@ -53,7 +60,10 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private EditText bank_card;
     private EditText bank_name;
     private EditText sex;
+
     private EditText birth;
+    private ImageView ivbirth;
+
     private EditText qq;
     private EditText email;
     private EditText address;
@@ -103,13 +113,21 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         rel_name = (EditText) findViewById(R.id.rel_name);
         update_type = (EditText) findViewById(R.id.update_type);
         id_card = (EditText) findViewById(R.id.id_card);
+
         bank = (EditText) findViewById(R.id.bank);
         bank.setOnClickListener(this);
+
         bank_card = (EditText) findViewById(R.id.bank_card);
         bank_name = (EditText) findViewById(R.id.bank_name);
+
         sex = (EditText) findViewById(R.id.sex);
         sex.setOnClickListener(this);
+
         birth = (EditText) findViewById(R.id.birth);
+        birth.setOnClickListener(this);
+        ivbirth= (ImageView) findViewById(R.id.ivbirth);
+        ivbirth.setOnClickListener(this);
+
         qq = (EditText) findViewById(R.id.qq);
         email = (EditText) findViewById(R.id.email);
         address = (EditText) findViewById(R.id.address);
@@ -199,6 +217,11 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                         public void onClick(DialogInterface dialog, int which) {
                             bank.setText(banklist[which]);
                         }
+                    }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
                     }).show();
                 }
                 break;
@@ -214,8 +237,26 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                                     sex.setText("女");
                                 }
                             }
-                        }).show();
+                        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
+            case R.id.birth:
+            case R.id.ivbirth:
+                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+//                        String birthString=String.format("%d/%0d/%0d",year,monthOfYear+1,dayOfMonth);
+//                        birth.setText(birthString);
+                        Date date=new Date(year-1900,monthOfYear,dayOfMonth);
+                        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+                        birth.setText(format.format(date));
+                    }
+                },1989,11,20).show();
         }
     }
 

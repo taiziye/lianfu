@@ -60,11 +60,13 @@
             android:paddingRight="5dp">
 
             <LinearLayout android:id="@+id/money"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="金返还金额" />
+                    android:text="返还金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -72,6 +74,8 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/state"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 
@@ -85,7 +89,8 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/time"
-                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style"
                 android:layout_marginLeft="8dp">
 

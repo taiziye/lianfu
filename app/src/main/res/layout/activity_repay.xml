@@ -59,21 +59,26 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
 
-            <LinearLayout android:id="@+id/id"
+            <LinearLayout
+                android:id="@+id/id"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="金额" />
+                    android:text="收益金额" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/fee"
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
+            <LinearLayout
+                android:id="@+id/fee"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
@@ -84,10 +89,11 @@
                     android:background="@drawable/list_sort" />
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/repay"
-                android:layout_weight="3"
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
+            <LinearLayout
+                android:id="@+id/repay"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"

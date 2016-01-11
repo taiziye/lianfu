@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
@@ -38,7 +38,7 @@
         <TextView
             android:id="@+id/sex"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.2"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/time"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.1"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:textColor="#333333"

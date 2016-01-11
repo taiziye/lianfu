@@ -206,7 +206,7 @@ public class CostRepayActivity extends Activity implements View.OnClickListener 
                 Intent intent = new Intent(CostRepayActivity.this, CostRepayDetailActivity.class);
                 intent.putExtra("userid", userid);
                 intent.putExtra("storeid", storeid);
-                intent.putExtra("costid", list.get(position).getCost_id());
+                intent.putExtra("costid", list.get(position-1).getCost_id());
                 startActivity(intent);
             }
         });
