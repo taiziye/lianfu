@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,10 +23,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.HomePage;
+import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -37,6 +40,8 @@ import org.json.JSONObject;
  */
 public class ManageHomeFragment extends Fragment implements View.OnClickListener {
 
+    private final static int SCANNIN_STORE_INFO = 3;
+    private final static int GET_STORE_INFO = 4;
     private Button scan;
     private Button chat;
 
@@ -71,6 +76,9 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private SharedPreferences preferences = null;
     private String userid = null;
     private UserEntity userEntity;
+
+    private FindStore store=null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -272,6 +280,17 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                     manager.setText("0人");
                     rebate.setText("0");
                     break;
+
+                case GET_STORE_INFO:
+                    FindStore store= (FindStore) msg.obj;
+                    String favoriate="0";
+
+                    Intent intent=new Intent(getActivity(),ShopActivity.class);
+                    intent.putExtra("store", store);
+                    intent.putExtra("userid", userid);
+                    intent.putExtra("favorite", favoriate);
+                    startActivity(intent);
+                    break;
             }
         }
     };
@@ -284,6 +303,11 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         Bundle bundle;
         switch (v.getId()) {
             case R.id.scan:
+                intent=new Intent();
+                intent.setClass(getActivity(),MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent,SCANNIN_STORE_INFO);
+
                 break;
             case R.id.chat:
                 break;
@@ -355,5 +379,61 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
                 ((HomePageActivity)getActivity()).change(3);
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case SCANNIN_STORE_INFO:
+                if(resultCode==getActivity().RESULT_OK){
+                    Bundle bundle=data.getExtras();
+                    String result=bundle.getString("result");
+                    //在这里处理返回来的store_id、service_center、referrer
+                    String store_id= Uri.parse(result).getQueryParameter("store_id");
+                    String service_center=Uri.parse(result).getQueryParameter("service_center");
+                    String referrer=Uri.parse(result).getQueryParameter("referrer");
+
+                    if(store_id!=null&&service_center!=null&&referrer!=null){
+                        getStoreDetail(store_id,userid);
+                    }
+                }
+        }
+    }
+
+    private void getStoreDetail(String store_id,String userid){
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[] = new String[]{store_id, userid};
+        String param = StoreDetail.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    store = mGson.fromJson(result.getJSONObject("param").toString(),FindStore.class);
+                    Message msg=new Message();
+                    msg.what=GET_STORE_INFO;
+                    msg.obj=store;
+                    handler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },param);
     }
 }

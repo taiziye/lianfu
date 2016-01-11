@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * Created by shengshoubo on 2015/12/16.
  */
 public class StoreInfo {
-    public static final String packagingParam(Context context, String... kvs) {
+    public static final String packagingParam(Context context,String... kvs) {
         JSONObject jsonObject = new JSONObject();
         String action = "37";
         String time = GetTime.getTime();

@@ -20,6 +20,34 @@ public class StoreInfo {
     private String sheng;
     private String shi;
     private String xian;
+    private String shengcode;
+    private String shicode;
+
+    public String getShengcode() {
+        return shengcode;
+    }
+
+    public void setShengcode(String shengcode) {
+        this.shengcode = shengcode;
+    }
+
+    public String getShicode() {
+        return shicode;
+    }
+
+    public void setShicode(String shicode) {
+        this.shicode = shicode;
+    }
+
+    public String getXiancode() {
+        return xiancode;
+    }
+
+    public void setXiancode(String xiancode) {
+        this.xiancode = xiancode;
+    }
+
+    private String xiancode;
     private String business;
     private String dpsign;
     private String banner;
@@ -188,7 +216,7 @@ public class StoreInfo {
         this.photo = photo;
     }
 
-    public StoreInfo(String store_id, String store, String contact, String linkman, String phone, String tel, String lng, String lat, String qq, String email, String address, String singuser, String trade, String sheng, String shi, String xian, String business, String dpsign, String banner, String photo) {
+    public StoreInfo(String store_id, String store, String contact, String linkman, String phone, String tel, String lng, String lat, String qq, String email, String address, String singuser, String trade, String sheng, String shi, String xian,String shengcode,String shicode,String xiancode, String business, String dpsign, String banner, String photo) {
         this.store_id = store_id;
         this.store = store;
         this.contact = contact;
@@ -205,6 +233,9 @@ public class StoreInfo {
         this.sheng = sheng;
         this.shi = shi;
         this.xian = xian;
+        this.shengcode=shengcode;
+        this.shicode=shicode;
+        this.xiancode=xiancode;
         this.business = business;
         this.dpsign = dpsign;
         this.banner = banner;

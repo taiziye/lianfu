@@ -86,7 +86,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private Map<Integer, String> set = new HashMap<Integer, String>();
     //private List<Integer> idlist=new ArrayList<>();
     private ProgressDialog dialog = null;
-    private double tmp = 0;
+    private float tmp = 0;
 
     @Override
     public void onDetachedFromWindow() {
@@ -163,7 +163,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
-                tmp=0.00;
+                tmp=0.00f;
                 money.setText(tmp + "");
                 select_all.setChecked(false);
 
@@ -195,30 +195,31 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ComputeProfitAdapter.ViewHolder holder = (ComputeProfitAdapter.ViewHolder) view.getTag();
                 //改变CheckBox的状态
-                holder.check.toggle();
-
-                //将CheckBox的选中状态记录下来
-                adapter.getIsSelected().put(position - 1, holder.check.isChecked());
-                //调整选定的条目
-                if (holder.check.isChecked() == true) {
-                    if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
-                    set.put(position - 1, list.get(position - 1).getId());
+                if("0".equals(list.get(position-1).getPay_status())){
+                    holder.check.toggle();
+                    //将CheckBox的选中状态记录下来
+                    adapter.getIsSelected().put(position - 1, holder.check.isChecked());
+                    //调整选定的条目
+                    if (holder.check.isChecked() == true) {
+                        if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
+                        set.put(position - 1, list.get(position - 1).getId());
 //                    Log.e("tag", list.get(position - 1).getId());
 //                    Log.e("tag",set.get(position-1));
-                    checkNum++;
-                } else {
-                    if(list.get(position - 1).getProfit() != null) tmp -= Double.parseDouble(list.get(position - 1).getProfit());
-                    set.remove(position - 1);
-                    checkNum--;
-                }
+                        checkNum++;
+                    } else {
+                        if(list.get(position - 1).getProfit() != null) tmp -= Double.parseDouble(list.get(position - 1).getProfit());
+                        set.remove(position - 1);
+                        checkNum--;
+                    }
 
-                if(checkNum == list.size()) {
-                    select_all.setChecked(true);
-                } else {
-                    if(checkNum == 0) tmp = 0.00;
-                    select_all.setChecked(false);
+                    if(checkNum == list.size()) {
+                        select_all.setChecked(true);
+                    } else {
+                        if(checkNum == 0) tmp = 0.00f;
+                        select_all.setChecked(false);
+                    }
+                    money.setText(String.format("%.2f", tmp));
                 }
-                money.setText(String.format("%.2f", tmp));
             }
         });
     }
@@ -258,9 +259,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     tmp=0;
                     set.clear();
                     for (int i = 0; i < list.size(); i++) {
-                        adapter.getIsSelected().put(i, true);
-                        set.put(i, list.get(i).getId());
-                        if(list.get(i).getProfit() != null) tmp += Double.parseDouble(list.get(i).getProfit());
+                        if("0".equals(list.get(i).getPay_status())){
+                            adapter.getIsSelected().put(i, true);
+                            set.put(i, list.get(i).getId());
+                            if(list.get(i).getProfit() != null)
+                                tmp += Double.parseDouble(list.get(i).getProfit());
+                        }
                     }
                     checkNum = list.size();
                     money.setText(String.format("%.2f", tmp));
@@ -387,6 +391,9 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 }*/
                 list.clear();
                 setList();
+                set.clear();
+                select_all.setChecked(false);
+                money.setText("0.00");
                 break;
             case R.id.search:
                 frame.setVisibility(View.VISIBLE);
@@ -417,7 +424,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         flag = "";
                         break;
                     case 1:
-                        statustxt.setText("未已支付");
+                        statustxt.setText("未支付");
                         flag = "0";
                         break;
                     case 2:

@@ -112,10 +112,13 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
     private void init() {
         gson = new Gson();
+
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
+
         edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
+
         vocation = (LinearLayout) findViewById(R.id.vocation);
         vocation.setOnClickListener(this);
         location = (LinearLayout) findViewById(R.id.location);
@@ -414,18 +417,22 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
-        String param = StoreInfo.packagingParam(this, kvs);
-
+        String params = StoreInfo.packagingParam(this,kvs);
+        Log.e("tag",params);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 try {
+                    Log.e("tag", result.getJSONObject("param").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = store;
@@ -441,7 +448,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
-        }, param);
+        }, params);
     }
 
     private void editShopInfo(){
@@ -528,39 +535,38 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }, param);
     }
 
-    private void getEmployeeList() {
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
-        String[] kvs = new String []{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
-        String param = StaffManagement.packagingParam(getApplicationContext(), kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                //
-                dialog.dismiss();
-                JSONObject object = null;
-                try {
-                    JSONArray objects = result.getJSONArray("param");
-                    for (int i = 0; i<objects.length(); i++) {
-                        object = objects.getJSONObject(i);
-                        Employee employee = gson.fromJson(object.toString(), Employee.class);
-                        employeelist.add(employee);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Message msg = new Message();
-                msg.what = 6;
-                msg.obj = employeelist;
-                handler.sendMessage(msg);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                dialog.dismiss();
-            }
-        }, param);
-    }
+//    private void getEmployeeList() {
+//        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+//
+//        String[] kvs = new String []{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
+//        String param = StaffManagement.packagingParam(getApplicationContext(), kvs);
+//
+//        new NetConnection(new NetConnection.SuccessCallback() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                dialog.dismiss();
+//                JSONObject object = null;
+//                try {
+//                    JSONArray objects = result.getJSONArray("param");
+//                    for (int i = 0; i<objects.length(); i++) {
+//                        object = objects.getJSONObject(i);
+//                        Employee employee = gson.fromJson(object.toString(), Employee.class);
+//                        employeelist.add(employee);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                Message msg = new Message();
+//                msg.what = 6;
+//                msg.obj = employeelist;
+//                handler.sendMessage(msg);
+//            }
+//        }, new NetConnection.FailCallback() {
+//            @Override
+//            public void onFail(JSONObject result) {
+//                //
+//                dialog.dismiss();
+//            }
+//        }, param);
+//    }
 }
