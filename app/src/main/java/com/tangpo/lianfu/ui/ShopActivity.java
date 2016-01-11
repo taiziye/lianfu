@@ -20,7 +20,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
-import com.tangpo.lianfu.entity.StoreServer;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CancelCollectedStore;
 import com.tangpo.lianfu.parms.CollectStore;
@@ -32,8 +31,6 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -223,56 +220,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    private void getServer() {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
-            return;
-        }
-        String[] kvs = new String[]{store_id};
-        String param = GetSpecifyServer.packagingParam(getApplicationContext(), kvs);
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                //
-                dialog.dismiss();
-                JSONArray array = null;
-                try {
-                    array = result.getJSONArray("param");
-                    /*for (int i=0; i<array.length(); i++) {
-                        object = array.getJSONObject(i);
-                        StoreServer server = gson.fromJson(object.toString(), StoreServer.class);
-                        servers.add(server);
-                    }*/
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Message msg = new Message();
-                msg.what = 4;
-                msg.obj = array;
-                handler.sendMessage(msg);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                dialog.dismiss();
-                try {
-                    if ("3".equals(result.getString("status"))) {
-                        Tools.showToast(getApplicationContext(), "店铺不存在客服");
-                    } else if ("10".equals(result.getString("status"))) {
-                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
-                    } else {
-                        Tools.showToast(getApplicationContext(), result.getString("info"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, param);
-    }
-
     private void getStoreInfo() {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
@@ -427,13 +374,58 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 }
             } else if (msg.what == 4) {
                 JSONArray array = (JSONArray) msg.obj;
-                Intent intent = new Intent(ShopActivity.this, ChatActivity.class);
+                Intent intent = new Intent(ShopActivity.this, ConversationActivity.class);
                 intent.putExtra("servers", array.toString());
                 intent.putExtra("userid", user_id);
                 startActivity(intent);
             }
         }
     };
+
+    private void getServer() {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+        String[] kvs = new String[]{store_id};
+        String param = GetSpecifyServer.packagingParam(getApplicationContext(), kvs);
+        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //
+                dialog.dismiss();
+                JSONArray array = null;
+                try {
+                    array = result.getJSONArray("param");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 4;
+                msg.obj = array;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                dialog.dismiss();
+                try {
+                    if ("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "店铺不存在客服");
+                    } else if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), result.getString("info"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
+    }
 
     private void cancelCollect() {
         String kvs[]=new String[]{store_id,user_id};

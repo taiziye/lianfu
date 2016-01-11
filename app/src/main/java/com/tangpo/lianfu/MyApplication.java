@@ -37,13 +37,14 @@ public class MyApplication extends Application {
             // 则此application::onCreate 是被service 调用的，直接返回
             return;
         }
+        //初始化SDK
         EMChat.getInstance().init(context);
         /**
          * debugMode == true 时为打开，sdk 会在log里输入调试信息
          * @param debugMode
          * 在做代码混淆的时候需要设置成false
          */
-        EMChat.getInstance().setDebugMode(true);
+        //EMChat.getInstance().setDebugMode(true);
     }
 
     public boolean isDownload() {

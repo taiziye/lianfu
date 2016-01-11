@@ -24,14 +24,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="通讯录"
+            android:text="@string/waiter"
             android:textSize="22sp"
             android:textColor="@android:color/white" />
 
-        <!--<Button
+        <Button
             android:id="@+id/add"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:visibility="gone"
             android:background="@drawable/add"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
@@ -39,104 +40,83 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp" />-->
+            android:paddingRight="15dp" />
     </RelativeLayout>
 
     <View
         style="@style/view_line_style" />
 
-    <RelativeLayout
-        android:id="@+id/fragment_container"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
+        android:dividerHeight="10dp"
+        android:divider="#efeef4"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1"/>
 
     <LinearLayout
-        android:id="@+id/main_bottom"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#2D2F31"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:gravity="center">
 
-        <RelativeLayout
-            android:id="@+id/conversation"
+        <ImageView android:id="@+id/expression"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/biaoqing_btn_normal"/>
+
+        <EditText android:id="@+id/chat"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            />
 
-            <Button
-                android:id="@+id/btn_conversation"
+        <ImageView android:id="@+id/add_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/tab_select_bg"/>
+
+        <Button android:id="@+id/send"
+            android:layout_width="66dp"
+            android:layout_height="36dp"
+            android:visibility="gone"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/cancle_collect"
+            android:text="@string/send"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <!-- 表情图片 -->
+
+        <LinearLayout
+            android:id="@+id/ll_face_container"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/em_main_bottom_item_bg"
-                android:drawableTop="@drawable/em_tab_chat_bg"
-                android:onClick="onTabClicked"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="@string/session"
-                android:textColor="@color/em_main_botton_text_color"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/unread_msg_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/em_unread_count_bg"
-                android:gravity="center"
-                android:text="7"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:visibility="invisible" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/btn_container_address_list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/address_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/em_main_bottom_item_bg"
-                android:drawableTop="@drawable/em_tab_contact_list_bg"
-                android:onClick="onTabClicked"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="@string/address_book"
-                android:textColor="@color/em_main_botton_text_color"
-                android:textSize="12sp" />
-
-        </RelativeLayout>
-
-        <!--<RelativeLayout
-            android:id="@+id/btn_container_setting"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/btn_setting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/em_main_bottom_item_bg"
-                android:drawableTop="@drawable/em_tab_setting_bg"
-                android:onClick="onTabClicked"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="@string/setting"
-                android:textColor="@color/em_main_botton_text_color"
-                android:textSize="12sp" />
-        </RelativeLayout>-->
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

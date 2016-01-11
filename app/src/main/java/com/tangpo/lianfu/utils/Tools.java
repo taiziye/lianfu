@@ -1,27 +1,26 @@
 package com.tangpo.lianfu.utils;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -29,9 +28,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -50,6 +46,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,6 +60,8 @@ import java.util.regex.Pattern;
  * 该类包含一些功能函数：页面跳转
  */
 public class Tools {
+
+    public static final int DATABASE_VERSION = 1;
 
     public static final Context context = MyApplication.getContext();
 
@@ -439,30 +439,74 @@ public class Tools {
         }
     }
 
-    public static void login(final Context context, ChatAccount account) {
-        if(!Tools.checkLAN()) {
-            Tools.showToast(context, "网络未连接，请联网后重试");
-            return;
-        }
-
-        final ProgressDialog dialog = ProgressDialog.show(context, context.getString(R.string.connecting), context.getString(R.string.please_wait));
-        final long start = System.currentTimeMillis();
-        // 调用sdk登陆方法登陆聊天服务器
-        EMChatManager.getInstance().login(account.getEasemod_id(), account.getPwd(), new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                //
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                //
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-                //
-            }
-        });
+    public static String long2DateString(Long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        String str = new SimpleDateFormat("dd号 HH:mm").format(calendar.getTime());
+        return str;
     }
+
+    /**
+     * 保存最近会话人
+     * @param account
+     *//*
+    synchronized public static void saveContact(ChatAccount account){
+        SQLiteDatabase db = SqliteHelper.getInstance(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ChatAccount.COLUMN_USER_ID, account.getUser_id());
+        if (account.getUsername() != null) values.put(ChatAccount.COLUMN_USERNAME, account.getUsername());
+        if (account.getName() != null) values.put(ChatAccount.COLUMN_NAME, account.getName());
+        if (account.getPhone() != null) values.put(ChatAccount.COLUMN_PHONE, account.getPhone());
+        values.put(ChatAccount.COLUMN_EASEMOD_ID, account.getEasemod_id());
+        values.put(ChatAccount.COLUMN_UUID, account.getUuid());
+        values.put(ChatAccount.COLUMN_PWD, account.getPwd());
+        values.put(ChatAccount.COLUMN_MSG, account.getMsg());
+        values.put(ChatAccount.COLUMN_TIME, account.getTime());
+        if (account.getPhoto() != null) values.put(ChatAccount.COLUMN_PHOTO, account.getPhoto());
+
+    }
+
+    *//**
+     * 获取最近会话人列表
+     * @return
+     *//*
+    synchronized public static List<ChatAccount> getContactList() {
+        SQLiteDatabase db = SqliteHelper.getInstance(context).getReadableDatabase();
+        List<ChatAccount> users = new ArrayList<ChatAccount>();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + ChatAccount.TABLE_NAME *//* + " desc" *//*, null);
+            while (cursor.moveToNext()) {
+                String user_id = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_USER_ID));
+                String username = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_USERNAME));
+                String name = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_NAME));
+                String phone = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_PHONE));
+                String easemod_id = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_EASEMOD_ID));
+                String uuid = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_UUID));
+                String pwd = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_PWD));
+                String photo = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_PHOTO));
+                String msg = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_MSG));
+                String time = cursor.getString(cursor.getColumnIndex(ChatAccount.COLUMN_TIME));
+                ChatAccount account = new ChatAccount();
+                account.setUser_id(user_id);
+                account.setUsername(username);
+                account.setName(name);
+                account.setPhone(phone);
+                account.setEasemod_id(easemod_id);
+                account.setUuid(uuid);
+                account.setPwd(pwd);
+                account.setPhoto(photo);
+                account.setMsg(msg);
+                account.setTime(time);
+
+                users.add(account);
+            }
+            cursor.close();
+        }
+        return users;
+    }
+
+    public static void closeDB() {
+        SqliteHelper.getInstance(context).closeDB();
+    }*/
+
 }

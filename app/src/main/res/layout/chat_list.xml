@@ -34,6 +34,7 @@
                     android:id="@+id/heimg"
                     android:layout_width="50dp"
                     android:layout_alignParentLeft="true"
+                    android:background="@drawable/camera"
                     android:layout_height="50dp"
                     android:scaleType="centerInside" />
 
@@ -53,7 +54,7 @@
         <TextView android:id="@+id/time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="#999999"
             android:textSize="12sp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="50dp"
@@ -86,6 +87,7 @@
                     android:id="@+id/meimg"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:background="@drawable/camera"
                     android:scaleType="centerInside" />
             </RelativeLayout>
 
@@ -113,7 +115,7 @@
         <TextView android:id="@+id/time2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="#999999"
             android:textSize="12sp"
             android:layout_gravity="right"
             android:layout_marginTop="5dp"
