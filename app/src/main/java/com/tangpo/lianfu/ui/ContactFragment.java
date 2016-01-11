@@ -60,7 +60,7 @@ public class ContactFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                String username = accounts.get(position).getUsername();
+                String username = accounts.get(position).getName();
                 //String userid = accounts.get(position).getUser_id();
                 String hxid = accounts.get(position).getEasemod_id();
                 intent.putExtra("account", accounts.get(position));

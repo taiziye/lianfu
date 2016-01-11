@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="43dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#535456">
@@ -25,6 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:singleLine="true"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:text="@string/lianfu_shop" />
@@ -65,79 +66,62 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp">
-
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/detail_address"
-                    android:layout_width="210dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:layout_marginLeft="10dp"
+                    android:text="主营:"/>
+                <TextView
+                    android:id="@+id/commodity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="上海市徐汇区人民路1003弄1号" />
-
-                <Button
-                    android:id="@+id/locate"
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/locate_point"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp" />
-
+                    android:textColor="#6f6f6f"
+                    android:text="服装、女装、男装" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tel"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp"
-                android:textSize="15sp"
-                android:textColor="@android:color/black"
-                android:text="021-64433333" />
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:text="电话:"/>
+                <TextView
+                    android:id="@+id/tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="15sp"
+                    android:textColor="#6f6f6f"
+                    android:text="021-64433333" />
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="客服QQ：" />
-
-                <TextView
-                    android:id="@+id/qq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="254635846" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
                     android:text="Email：" />
 
                 <TextView
@@ -145,22 +129,68 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
                     android:text="254635846@qq.com" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/commodity"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@android:color/black"
-                android:text="服装、女装、男装" />
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:text="客服QQ:" />
+
+                <TextView
+                    android:id="@+id/qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:text="254635846" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp">
+
+                <Button
+                    android:id="@+id/locate"
+                    android:layout_width="10dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/locate_point"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:text="地址:"/>
+
+                <TextView
+                    android:id="@+id/detail_address"
+                    android:layout_width="210dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="28px"
+                    android:textColor="#6f6f6f"
+                    android:text="上海市徐汇区人民路1003弄1号" />
+
+            </LinearLayout>
 
             <View style="@style/view_line_style" />
 
@@ -255,7 +285,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <Button

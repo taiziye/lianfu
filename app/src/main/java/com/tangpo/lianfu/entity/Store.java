@@ -14,8 +14,26 @@ public class Store {
     private String business;
     private String banner;
     private String photo;
+    private String qq;
+    private String email;
 
     public Store() {
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {

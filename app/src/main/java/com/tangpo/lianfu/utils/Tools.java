@@ -446,6 +446,12 @@ public class Tools {
         return str;
     }
 
+    public static void saveAccount(ChatAccount account) {
+        DataHelper helper = new DataHelper(MyApplication.context);
+        helper.saveChatAccount(account);
+        helper.close();
+    }
+
     /**
      * 保存最近会话人
      * @param account

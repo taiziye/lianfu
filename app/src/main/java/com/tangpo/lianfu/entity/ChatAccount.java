@@ -188,4 +188,17 @@ public class ChatAccount implements Parcelable {
             return new ChatAccount[size];
         }
     };
+
+    public void copy(ChatAccount account) {
+        this.user_id = account.getUser_id();
+        this.username = account.getUsername();
+        this.name = account.getName();
+        this.phone = account.getPhone();
+        this.easemod_id = account.getEasemod_id();
+        this.uuid = account.getUuid();
+        this.pwd = account.getPwd();
+        this.photo = account.getPhoto();
+        this.msg = account.getMsg();
+        this.time = account.getTime();
+    }
 }

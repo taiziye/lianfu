@@ -11,8 +11,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,6 +112,19 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         listView.getLoadingLayoutProxy(false, true).setPullLabel("");
         listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
         listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (getActivity().getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                return false;
+            }
+        });
 
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -228,6 +244,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     storeList = (ArrayList<FindStore>) msg.obj;
                     adapter = new PositionAdapter(getActivity(), storeList);
                     listView.setAdapter(adapter);
+                    search.getText().clear();
                     break;
             }
         }

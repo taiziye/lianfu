@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -83,7 +84,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.personal_info_activity);
 
         Tools.gatherActivity(this);
-
         init();
     }
 
@@ -96,7 +96,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         select = (LinearLayout) findViewById(R.id.select);
         select.setOnClickListener(this);
         userlayout = (LinearLayout) findViewById(R.id.user);
-        user_level = (TextView) findViewById(R.id.user_level);
+        user_level = (TextView) findViewById(R.id.level);
 
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -136,6 +136,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 type.setVisibility(View.GONE);
                 userlayout.setVisibility(View.GONE);
             }
+            Log.e("tag", user.toString());
             user_name.setText(user.getUsername());
             contact_tel.setText(user.getPhone());
             rel_name.setText(user.getName());

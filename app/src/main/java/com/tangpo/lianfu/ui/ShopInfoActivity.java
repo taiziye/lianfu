@@ -103,9 +103,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_info_activity);
-
         Tools.gatherActivity(this);
-
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
         init();
     }
@@ -411,6 +409,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
+        Log.e("tag", "store");
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
@@ -419,6 +418,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                Log.e("tag", "succ");
                 dialog.dismiss();
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
@@ -434,6 +434,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                Log.e("tag", "fail");
                 dialog.dismiss();
                 try {
                     Tools.handleResult(ShopInfoActivity.this, result.getString("status"));
