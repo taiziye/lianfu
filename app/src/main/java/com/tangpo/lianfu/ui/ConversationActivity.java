@@ -1,20 +1,17 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.ui.EaseConversationListFragment;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
@@ -32,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by 果冻 on 2015/12/15.
  */
-public class ConversationActivity extends Activity implements View.OnClickListener {
+public class ConversationActivity extends FragmentActivity implements View.OnClickListener {
     private Button back;
     private TextView name;
     private Button conversation;
@@ -49,6 +46,8 @@ public class ConversationActivity extends Activity implements View.OnClickListen
 
     private Fragment fragment = null;
     private FragmentTransaction transaction = null;
+
+    private EaseConversationListFragment conversationListFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,7 @@ public class ConversationActivity extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        transaction = getFragmentManager().beginTransaction();
+        transaction = getSupportFragmentManager().beginTransaction();
         switch (v.getId()) {
             case R.id.back:
                 finish();
@@ -108,8 +107,13 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                     fragment = new ConversationFragment();
                     name.setText("会话记录");
                     fragment.setArguments(bundle);
+                    /*conversationListFragment = new EaseConversationListFragment();*/
                     conversation.setSelected(true);
                     address_list.setSelected(false);
+
+                    transaction.replace(R.id.fragment_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
@@ -125,16 +129,15 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                     name.setText("客服列表");
                     conversation.setSelected(false);
                     address_list.setSelected(true);
+
+                    transaction.replace(R.id.fragment_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
                 }
                 break;
-        }
-        if (account != null) {
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
         }
     }
 
@@ -146,7 +149,7 @@ public class ConversationActivity extends Activity implements View.OnClickListen
                 case 1:  //客户列表
                     accounts = (ArrayList<ChatAccount>) msg.obj;
                     if (account != null) {
-                        transaction = getFragmentManager().beginTransaction();
+                        transaction = getSupportFragmentManager().beginTransaction();
                         fragment = new ContactFragment();
                         bundle.putString("hxid", hxid);
                         bundle.putSerializable("acstr", accounts);

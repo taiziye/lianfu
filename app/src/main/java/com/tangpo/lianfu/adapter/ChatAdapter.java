@@ -1,6 +1,9 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Tools;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -73,23 +77,47 @@ public class ChatAdapter extends BaseAdapter {
         holder.me.setVisibility(View.VISIBLE);
         holder.he.setVisibility(View.VISIBLE);
 
+        String tmp = list.get(position).getMsg();
         //根据数据设置holder
         if ( list.get(position).getHxid().toLowerCase().equals(hxid.toLowerCase()) ) {  //根据情形是否需要显示
-            holder.me_text.setVisibility(View.VISIBLE);
-            holder.img2.setVisibility(View.GONE);
-            holder.me_text.setText(list.get(position).getMsg());
+            if (tmp.startsWith("http") || isExist(tmp)) { //图片
+                holder.me_text.setVisibility(View.GONE);
+                holder.img2.setVisibility(View.VISIBLE);
+                Bitmap bm = BitmapFactory.decodeFile(tmp);
+                holder.img2.setImageBitmap(bm);
+            } else {
+                holder.me_text.setVisibility(View.VISIBLE);
+                holder.img2.setVisibility(View.GONE);
+                holder.me_text.setText(tmp);
+            }
             holder.time2.setText(list.get(position).getTime());
             Tools.setPhoto(context, list.get(position).getImg(), holder.meimg);
             holder.he.setVisibility(View.GONE);
         } else {
-            holder.he_text.setVisibility(View.VISIBLE);
-            holder.img1.setVisibility(View.GONE);
-            holder.he_text.setText(list.get(position).getMsg());
+            if (tmp.startsWith("http") || isExist(tmp)) { //图片
+                holder.he_text.setVisibility(View.GONE);
+                holder.img1.setVisibility(View.VISIBLE);
+                Bitmap bm = BitmapFactory.decodeFile(tmp);
+                holder.img1.setImageBitmap(bm);
+            } else {
+                holder.he_text.setVisibility(View.VISIBLE);
+                holder.img1.setVisibility(View.GONE);
+                holder.he_text.setText(tmp);
+            }
             holder.time1.setText(list.get(position).getTime());
             Tools.setPhoto(context, list.get(position).getImg(), holder.heimg);
             holder.me.setVisibility(View.GONE);
         }
         return convertView;
+    }
+
+    private boolean isExist(String filepath) {
+        File file = new File(filepath);
+        Log.e("tag", "file");
+        if (!file.exists()) {
+            return true;
+        }
+        return false;
     }
 
     class ViewHolder{

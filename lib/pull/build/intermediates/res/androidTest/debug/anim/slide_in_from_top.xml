@@ -18,4 +18,4 @@
     android:duration="@android:integer/config_longAnimTime"
     android:fromYDelta="-100%p"
     android:toYDelta="0" />
-<!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/res/anim/slide_in_from_top.xml --><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/build/intermediates/bundles/debug/res/anim/slide_in_from_top.xml -->
+<!-- From: file:/F:/Android/lianfu/lib/pull/res/anim/slide_in_from_top.xml --><!-- From: file:/F:/Android/lianfu/lib/pull/build/intermediates/bundles/debug/res/anim/slide_in_from_top.xml -->

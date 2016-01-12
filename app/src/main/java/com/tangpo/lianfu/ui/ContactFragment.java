@@ -1,6 +1,6 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

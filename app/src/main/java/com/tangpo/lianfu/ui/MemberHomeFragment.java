@@ -78,7 +78,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         bundle = getArguments();
 
         init(view);
-
+        hide();
         if (bundle != null) {
             userid = bundle.getString("userid");
             //getCollectedStore();
@@ -92,6 +92,15 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }
 
         return view;
+    }
+
+    private void hide() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getActivity().getCurrentFocus() != null) {
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     private void init(View view) {

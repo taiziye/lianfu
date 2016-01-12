@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -453,7 +454,7 @@ public class Tools {
         helper.close();
     }
 
-    public static void setHeight(BaseAdapter adapter, ListView list) {
+    public static void setHeight(BaseAdapter adapter, PullToRefreshListView list) {
         int height = 0;
         for (int i = 0; i<adapter.getCount(); i++) {
             View item = adapter.getView(i, null, list);
@@ -461,7 +462,7 @@ public class Tools {
             height += item.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = list.getLayoutParams();
-        params.height = height + (list.getDividerHeight() * (adapter.getCount() - 1));
+        params.height = height + (list.getDividerPadding() * (adapter.getCount() - 1));
         list.setLayoutParams(params);
     }
 
