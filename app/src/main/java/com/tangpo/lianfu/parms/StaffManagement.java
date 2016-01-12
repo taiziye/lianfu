@@ -33,8 +33,11 @@ public class StaffManagement {
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
             paramJsonObject.put("store_id", Escape.escape(kvs[1]));
-            paramJsonObject.put("page_index", Escape.escape(kvs[2]));
-            paramJsonObject.put("page_size", Escape.escape(kvs[3]));
+            paramJsonObject.put("username", Escape.escape(kvs[2]));
+            paramJsonObject.put("name", Escape.escape(kvs[3]));
+            paramJsonObject.put("phone", Escape.escape(kvs[4]));
+            paramJsonObject.put("page_index", Escape.escape(kvs[5]));
+            paramJsonObject.put("page_size", Escape.escape(kvs[6]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

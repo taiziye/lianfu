@@ -191,9 +191,14 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
             SmallpicPath = save(picPath);
         }
-        // 返回头像图片的地址
-        lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
-        lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
+        // 返回图片的地址
+        if (requestCode == ChatActivity.CHAT) {
+            //
+            lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
+        } else {
+            lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
+            lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
+        }
         setResult(Activity.RESULT_OK, lastIntent);
         finish();
     }

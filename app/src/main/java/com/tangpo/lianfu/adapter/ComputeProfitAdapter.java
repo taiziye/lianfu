@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,6 @@ public class ComputeProfitAdapter extends BaseAdapter {
         if ("0".equals(list.get(position).getPay_status())) {
             holder.status.setText("未支付");
         } else {
-            holder.check.setVisibility(View.GONE);
             holder.status.setText("已支付");
         }
         holder.time.setText(parseDate(list.get(position).getPay_date()));

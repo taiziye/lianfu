@@ -63,14 +63,11 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private boolean f3 = false;
     private LinearLayout status;
     private boolean f4 = false;
-    private String flag = "0";
+    private String flag = "";
 
-    private LinearLayout frame;
     private RelativeLayout frame2;
-    private EditText txt;
-    private Button btn;
     private ImageView search;
-    private ImageView cancel;
+
 
     private CheckBox select_all;
     private TextView money;
@@ -78,15 +75,15 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private List<ProfitPay> list = new ArrayList<>();
     private int checkNum;
     private Gson gson = new Gson();
-    private TextView statustxt;
 
     private String userid = null;
     private String store_id = null;
     private int page = 1;
     private Map<Integer, String> set = new HashMap<Integer, String>();
-    //private List<Integer> idlist=new ArrayList<>();
     private ProgressDialog dialog = null;
-    private float tmp = 0;
+    private double tmp = 0;
+
+    private int paramcentcount;
 
     @Override
     public void onDetachedFromWindow() {
@@ -109,26 +106,14 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
     private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
-//        offline = (Button) findViewById(R.id.offline);
-//        offline.setOnClickListener(this);
-//        online = (Button) findViewById(R.id.online);
-//        online.setOnClickListener(this);
         compute = (Button) findViewById(R.id.compute);
         compute.setOnClickListener(this);
         listView= (PullToRefreshListView) findViewById(R.id.list);
-        statustxt = (TextView) findViewById(R.id.statustxt);
+
 
         search = (ImageView) findViewById(R.id.search);
         search.setOnClickListener(this);
-        frame = (LinearLayout) findViewById(R.id.frame);
-        txt = (EditText) findViewById(R.id.txt);
-        btn = (Button) findViewById(R.id.btn);
-        btn.setOnClickListener(this);
-        cancel = (ImageView) findViewById(R.id.cancel);
-        cancel.setOnClickListener(this);
         frame2 = (RelativeLayout) findViewById(R.id.frame1);
-        frame2.setVisibility(View.VISIBLE);
-        frame.setVisibility(View.GONE);
 
         getProfitPay(flag, "");
 
@@ -145,7 +130,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
         money = (TextView) findViewById(R.id.money);
         money.setText("0.00");
-        statustxt.setText("未支付");
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -164,7 +148,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 page = 1;
                 list.clear();
                 tmp=0.00f;
-                money.setText(tmp + "");
+                money.setText("0.00");
                 select_all.setChecked(false);
 
                 // 下拉的时候刷新数据
@@ -180,13 +164,29 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
                 getProfitPay( flag, "" );
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
+                tmp=0.00f;
+                money.setText("0.00");
                 select_all.setChecked(false);
-                getProfitPay( flag, "" );
+                if(page<=paramcentcount){
+                    getProfitPay(flag, "");
+                    //listView.onRefreshComplete();
+                }else{
+                    //listView.onRefreshComplete();
+                    Tools.showToast(OfflineProfitPayActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -219,6 +219,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                         select_all.setChecked(false);
                     }
                     money.setText(String.format("%.2f", tmp));
+                }else{
+                    Tools.showToast(OfflineProfitPayActivity.this,getString(R.string.please_choose_unpayed_order));
                 }
             }
         });
@@ -243,11 +245,15 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 //                    ToastUtils.showToast(this,getString(R.string.pay_amount_cannot_be_null), Toast.LENGTH_SHORT);
 //                    return;
 //                }
+                if(tmp==0){
+                    Tools.showToast(OfflineProfitPayActivity.this,getString(R.string.no_account_profit));
+                    break;
+                }
                 Intent intent=new Intent(OfflineProfitPayActivity.this,SelectPayMethod.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("user_id",userid);
                 bundle.putString("store_id",store_id);
-                bundle.putString("fee",tmp+"");
+                bundle.putString("fee",money.getText().toString());
                 bundle.putString("consume_id",getConsumeId());
                 bundle.putString("paymode","1");
                 bundle.putString("online","true");
@@ -369,26 +375,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 }
                 break;
             case R.id.status:
-                /*if (list.size() > 0) {
-                    if (f4) {
-                        f4 = !f4;
-                        Collections.sort(list, new Comparator<ProfitPay>() {
-                            @Override
-                            public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return lhs.getPay_status().compareTo(rhs.getPay_status());
-                            }
-                        });
-                    } else {
-                        f4 = !f4;
-                        Collections.sort(list, new Comparator<ProfitPay>() {
-                            @Override
-                            public int compare(ProfitPay lhs, ProfitPay rhs) {
-                                return rhs.getPay_status().compareTo(lhs.getPay_status());
-                            }
-                        });
-                    }
-                    adapter.notifyDataSetInvalidated();
-                }*/
                 list.clear();
                 setList();
                 set.clear();
@@ -396,20 +382,25 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 money.setText("0.00");
                 break;
             case R.id.search:
-                frame.setVisibility(View.VISIBLE);
-                frame2.setVisibility(View.GONE);
-                txt.setText("");
+                final EditText editText=new EditText(OfflineProfitPayActivity.this);
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(OfflineProfitPayActivity.this).setTitle(OfflineProfitPayActivity.this.getString(R.string.search_consume_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getProfitPay(flag,name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
-            case R.id.btn:
-                String name = txt.getText().toString().trim();
-                list.clear();
-                getProfitPay(flag, name);
-                break;
-            case R.id.cancel:
-                frame.setVisibility(View.GONE);
-                frame2.setVisibility(View.VISIBLE);
-                getProfitPay(flag, "");
-                break;
+
         }
     }
 
@@ -420,19 +411,27 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 //
                 switch (which) {
                     case 0:
-                        statustxt.setText("全部");
                         flag = "";
+                        list.clear();
+                        page=0;
                         break;
                     case 1:
-                        statustxt.setText("未支付");
                         flag = "0";
+                        list.clear();
+                        page=0;
                         break;
                     case 2:
-                        statustxt.setText("已支付");
                         flag = "1";
+                        list.clear();
+                        page=0;
                         break;
                 }
                 getProfitPay(flag, "");
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         }).show();
     }
@@ -466,6 +465,11 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

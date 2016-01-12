@@ -80,7 +80,7 @@
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="#6f6f6f" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -110,7 +110,7 @@
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="#6f6f6f" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -359,7 +359,7 @@
                 <View style="@style/view_line_style" />
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/frame3"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
@@ -391,6 +391,87 @@
             </LinearLayout>
 
             <View style="@style/view_line_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/profit" />
+
+                <EditText
+                    android:id="@+id/profit"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@android:color/black" />
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout android:id="@+id/frame1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:text="小票号" />
+
+                <TextView
+                    android:id="@+id/ticket"
+                    style="@style/manager_personal_style"
+                    android:background="@null"
+                    android:gravity="right|center"
+                    android:paddingRight="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="#6f6f6f" />
+            </LinearLayout>
+
+            <View style="@style/view_line_style" />
+
+            <LinearLayout android:id="@+id/frame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="小票号" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <ImageView android:id="@+id/ticketpic"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

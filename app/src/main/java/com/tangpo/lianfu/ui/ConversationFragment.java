@@ -125,7 +125,7 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                String username = list.get(position).getUsername();
+                String username = list.get(position).getName();
                 //String userid = list.get(position).getUser_id();
                 String hxid = list.get(position).getEasemod_id();
                 intent.putExtra("account", list.get(position));

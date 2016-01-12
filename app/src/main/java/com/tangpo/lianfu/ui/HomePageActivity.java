@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,16 +19,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.UserEntity;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.GetChatAccount;
 import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by 果冻 on 2015/11/8.
  */
 public class HomePageActivity extends Activity implements View.OnClickListener {
+    public static ChatAccount account = new ChatAccount();
 
     private LinearLayout frame;
     private LinearLayout one;
@@ -61,6 +75,8 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     private Gson gson=null;
     private UserEntity userEntity;
 
+    private NewMessageBroadcastReceiver receiver = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +94,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         store_id=userEntity.getStore_id();
         store_name = userEntity.getStorename();
         init();
+        //注册广播
+        receiver = new NewMessageBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(EMChatManager.getInstance().getNewMessageBroadcastAction());
+        registerReceiver(receiver, filter);
 
         fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -99,6 +120,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         } else {  //会员
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
+            getAccounts(userid);
             fragment = new MemberHomeFragment();
             fragment.setArguments(bundle);
         }
@@ -391,9 +413,109 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    ChatAccount ac = (ChatAccount) msg.obj;
+                    account.copy(ac);
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        //未登录
+                        login(ac);
+                    }
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 登陆
+     */
+    private void login(ChatAccount account) {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        final ProgressDialog dialog = ProgressDialog.show(HomePageActivity.this, getString(R.string.connecting), getString(R.string.please_wait));
+        final long start = System.currentTimeMillis();
+        // 调用sdk登陆方法登陆聊天服务器
+        EMChatManager.getInstance().login(account.getEasemod_id(), account.getPwd(), new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                //
+                //EMGroupManager.getInstance().loadAllGroups();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                //
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+                //
+            }
+        });
+    }
+
+    /**
+     * 获取环信账号
+     * @param id
+     */
+    private void getAccounts(String id) {
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
+            return;
+        }
+
+        String[] kvs = new String[]{id};
+        String param = GetChatAccount.packagingParam(getApplicationContext(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                ChatAccount account = null;
+                try {
+                    JSONArray array = result.getJSONArray("param");
+                    for (int i = 0; i<array.length(); i++) {
+                        account = gson.fromJson(array.getJSONObject(i).toString(), ChatAccount.class);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = account;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //
+                try {
+                    if ("3".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), "用户不存在");
+                    } else if ("10".equals(result.getString("status"))) {
+                        Tools.showToast(getApplicationContext(), getString(R.string.server_exception));
+                    } else {
+                        Tools.showToast(getApplicationContext(), result.getString("info"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, param);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiver);
         Tools.closeActivity();
         finish();
     }

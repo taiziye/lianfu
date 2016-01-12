@@ -1,7 +1,9 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -64,7 +67,10 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private String userid = null;
     private String store_id = null;
     private Gson gson = null;
+
     private int page = 1;
+    private int paramcentcount;
+
     private int index = 0;
     private ProgressDialog dialog = null;
     private UserEntity userEntity=null;
@@ -80,7 +86,7 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         UserEntity userEntity=gson.fromJson(user,UserEntity.class);
         userid=userEntity.getUser_id();
         store_id=userEntity.getStore_id();
-        getEmployeeList();
+        getEmployeeList("");
         return view;
     }
 
@@ -132,13 +138,23 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
 
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getEmployeeList();
+                getEmployeeList("");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getEmployeeList();
+                if(page<=paramcentcount){
+                    getEmployeeList("");
+                }else {
+                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
 
@@ -158,6 +174,23 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_employee))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        memList.clear();
+                        getEmployeeList(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.add:
                 Intent intent = new Intent(getActivity(), AddEmployeeActivity.class);
@@ -272,15 +305,14 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         }
     };
 
-    private void getEmployeeList() {
+    private void getEmployeeList(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-
-        String kvs[] = new String[]{userid, store_id, page + "", "10"};
+        String kvs[]=new String[]{userid, store_id,"",name,"", page + "", "10"};
         String param = StaffManagement.packagingParam(getActivity(), kvs);
 
         final Set<String> set = new HashSet<>();
@@ -289,6 +321,11 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount= Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 ArrayList<Employee> tmp = new ArrayList<>();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");

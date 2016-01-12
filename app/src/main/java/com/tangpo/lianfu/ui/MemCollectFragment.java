@@ -1,12 +1,17 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +19,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
@@ -27,6 +35,7 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +45,10 @@ import java.util.List;
  */
 public class MemCollectFragment extends Fragment implements View.OnClickListener {
 
-    private Button locate;
-    private Button map;
 
-    private EditText search;
+    private Button map;
+    private Button search;
+    private TextView tv_collect_store;
 
     private PullToRefreshListView listView;
     private MemberCollectAdapter adapter = null;
@@ -47,8 +56,11 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private ProgressDialog dialog = null;
     private SharedPreferences preferences = null;
-
+    private String centcount;
     private String userid;
+
+    private int page = 1;
+    private int paramcentcount;
 
     private Gson gson = null;
 
@@ -66,17 +78,63 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private void init(View view) {
         gson = new Gson();
-        getCollectStore();
+        getCollectStore("");
 
-        locate = (Button) view.findViewById(R.id.locate);
-        locate.setOnClickListener(this);
+        search= (Button) view.findViewById(R.id.search);
+        search.setOnClickListener(this);
+
         map = (Button) view.findViewById(R.id.map);
         map.setOnClickListener(this);
 
-        search = (EditText) view.findViewById(R.id.search);
-        search.setOnClickListener(this);
-
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
+
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //
+                list.clear();
+                page = 1;
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        getActivity(),
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                getCollectStore("");
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page = page + 1;
+                if (page <= paramcentcount) {
+                    getCollectStore("");
+                } else {
+                    Tools.showToast(getActivity(), getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    }, 500);
+                }
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,11 +151,36 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.locate:
+            case R.id.search:
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_storename));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_store))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getCollectStore(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.map:
-                break;
-            case R.id.search:
+                Fragment fragment = new MapActivity();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+                bundle.putString("userid", userid);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
                 break;
         }
     }
@@ -110,24 +193,33 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 list = (List<FindStore>) msg.obj;
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
+                if (centcount != null) {
+                    //
+                    Tools.showToast(getActivity(), "已全部加载完成");
+                }
             }
         }
     };
 
-    private void getCollectStore() {
+    private void getCollectStore(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String []{userid};
+        String kvs[] = new String []{userid,name,"10",page+""};
         String parm = CheckCollectedStore.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 dialog.dismiss();
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");

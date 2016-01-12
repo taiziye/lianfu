@@ -47,9 +47,15 @@
                 android:gravity="center_vertical"
                 android:layout_gravity="bottom"
                 android:background="@drawable/he"
+                android:visibility="gone"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:text="我妈过生日"/>
+
+            <ImageView android:id="@+id/img1"
+                android:layout_marginLeft="10dp"
+                android:layout_width="80dp"
+                android:layout_height="100dp" />
         </LinearLayout>
         <TextView android:id="@+id/time1"
             android:layout_width="wrap_content"
@@ -107,8 +113,14 @@
                     android:gravity="center_vertical"
                     android:background="@drawable/me"
                     android:layout_gravity="bottom"
+                    android:visibility="gone"
                     android:textColor="@android:color/white"
                     android:text="dsfadsfdsfsadfaff"/>
+
+                <ImageView android:id="@+id/img2"
+                    android:layout_width="80dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_height="100dp" />
             </LinearLayout>
         </RelativeLayout>
 

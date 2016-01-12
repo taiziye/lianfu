@@ -1,6 +1,8 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -53,7 +56,11 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
     private String storeid = null;
     private String costid = null;
     private int page = 1;
+    private int paramcentcount;
+
     private String nameStr = "";
+
+    private Button search;
 
     @Override
     public void onClick(View v) {
@@ -173,6 +180,25 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
                     adapter.notifyDataSetInvalidated();
                 }
                 break;
+            case R.id.search:
+                final EditText editText=new EditText(CostRepayDetailActivity.this);
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(CostRepayDetailActivity.this).setTitle(CostRepayDetailActivity.this.getString(R.string.search_cost_repay_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getCostDetailList(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+                break;
         }
     }
 
@@ -198,6 +224,9 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
         backmoney.setOnClickListener(this);
         time = (LinearLayout) findViewById(R.id.time);
         time.setOnClickListener(this);
+
+        search= (Button) findViewById(R.id.search);
+        search.setOnClickListener(this);
 
         getCostDetailList(nameStr);
 
@@ -235,7 +264,17 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getCostDetailList(nameStr);
+                if(page<=paramcentcount){
+                    getCostDetailList(nameStr);
+                }else{
+                    Tools.showToast(CostRepayDetailActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
     }
@@ -264,7 +303,7 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
             return;
         }
 
-        String[] kvs = new String[]{userid, storeid,costid, page + "", "10", nameStr};
+        String[] kvs = new String[]{userid, storeid,costid, page + "", "10", name};
         String param = CostBackDetail.packagingParam(getApplicationContext(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -272,7 +311,11 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
             public void onSuccess(JSONObject result) {
                 //
                 listView.onRefreshComplete();
-                Log.e("tag", result.toString());
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray array = result.getJSONArray("param");
                     JSONObject object = null;

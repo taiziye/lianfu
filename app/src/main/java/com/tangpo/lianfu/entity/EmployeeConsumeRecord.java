@@ -24,8 +24,29 @@ public class EmployeeConsumeRecord implements Serializable {
     private String pay_way;
     private String pay_date;
     private String onlines;
-
     private String desc;
+    private String ticket;
+    private String ticketpic;
+
+    public void setConsume_date(String consume_date) {
+        this.consume_date = consume_date;
+    }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
+
+    public String getTicketpic() {
+        return ticketpic;
+    }
+
+    public void setTicketpic(String ticketpic) {
+        this.ticketpic = ticketpic;
+    }
 
     public String getUser_id() {
         return user_id;

@@ -33,6 +33,9 @@ public class GetAlternativeDiscount {
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
             paramJsonObject.put("store_id", Escape.escape(kvs[1]));
+            paramJsonObject.put("page_index", Escape.escape(kvs[2]));
+            paramJsonObject.put("page_size", Escape.escape(kvs[3]));
+            paramJsonObject.put("desc", Escape.escape(kvs[4]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

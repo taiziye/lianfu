@@ -71,13 +71,13 @@ public class MemRecourdAdapter extends BaseAdapter {
             holder.confirm.setText("未确认");
             holder.confirm.setTextColor(Color.RED);
         }
-        holder.money.setText(list.get(position).getFee() + "");
+        holder.money.setText(list.get(position).getFee() + "元");
         holder.time.setText(list.get(position).getDatetime());
 
         /**
          * 隐藏联系客服按钮
          */
-        holder.contact.setVisibility(View.GONE);
+        holder.contact.setVisibility(View.VISIBLE);
 
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override

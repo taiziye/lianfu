@@ -328,19 +328,24 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
             return;
         }
 
+        String phone = contact_tel.getText().toString();
+        if(!Tools.isMobileNum(phone)){
+            ToastUtils.showToast(this,getString(R.string.please_input_correct_phonenumber),Toast.LENGTH_SHORT);
+            return;
+        }
+
         String name=rel_name.getText().toString();
         if(name.equals("")){
             ToastUtils.showToast(this,getString(R.string.realname_cannot_be_null),Toast.LENGTH_SHORT);
             return;
         }
 
-        String id_number=id_card.getText().toString();
-
-        String phone = contact_tel.getText().toString();
-        if(!Tools.isMobileNum(phone)){
-            ToastUtils.showToast(this,getString(R.string.phone_format_error),Toast.LENGTH_SHORT);
+        if (up_level.getText().toString().trim().length() == 0) {
+            ToastUtils.showToast(this,"请选择升级类型",Toast.LENGTH_SHORT);
             return;
         }
+
+        String id_number=id_card.getText().toString();
 
         String pw= phone.substring(phone.length() - 6);
         String service_center = "";

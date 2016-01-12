@@ -60,7 +60,7 @@
     <string name="perfect">完善资料</string>
 
     <string name="add_record">+新增</string>
-    <string name="add_mem">新增会员</string>
+    <string name="add_mem">注册会员</string>
     <string name="profit_pay">线下消费利润支付</string>
     <string name="add_employee">新增员工</string>
     <string name="profit_compute">利润结算</string>
@@ -323,4 +323,20 @@
     <string name="please_input_password">请输入密码</string>
     <string name="please_confirm_password">请确认密码</string>
     <string name="please_aggree_register_protocol">请选择同意注册协议</string>
+    <string name="alread_last_page">已经是最后一页</string>
+    <string name="please_choose_unpayed_order">请选择未支付的利润</string>
+    <string name="contact_server">联系客服</string>
+    <string name="search_consume_record">搜索消费记录</string>
+    <string name="please_input_username_or_tel">请输入用户姓名或手机号码</string>
+    <string name="search_member">搜索会员</string>
+    <string name="search_employee">搜索员工</string>
+    <string name="search_repay_record">查询收益记录</string>
+    <string name="search_cost_repay_record">搜索成本返还记录</string>
+    <string name="please_input_discount_name">请输入折扣类型名称</string>
+    <string name="search_discount">搜索折扣</string>
+    <string name="choose_consume_member">选择消费会员</string>
+    <string name="ordinary_member_has_not_permission">普通会员没有此权限</string>
+    <string name="please_input_storename">请输入店铺名</string>
+    <string name="store_collect">店铺收藏</string>
+    <string name="search_store">搜索收藏的店铺</string>
 </resources>

@@ -58,6 +58,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private TextView qq;
     private TextView email;
     private TextView commodity;
+    private TextView shop_name;
 
     private String store_id=null;
     private String user_id=null;
@@ -97,6 +98,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private void init() {
         gson=new Gson();
+        shop_name = (TextView) findViewById(R.id.shop_name);
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
         collect = (ImageView) findViewById(R.id.collect);
@@ -140,6 +142,10 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         qq = (TextView) findViewById(R.id.qq);
         email = (TextView) findViewById(R.id.email);
         commodity = (TextView) findViewById(R.id.commodity);
+
+        if(favorite==null){
+            favorite="1";
+        }
         if(favorite.equals("1")) {
             collect.setBackgroundResource(R.drawable.s_collect_r);
         } else {
@@ -237,56 +243,8 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
-                    /*detail_address.setText(store.getAddress());
-                    tel.setText(store.getTel());
-                    qq.setText("");
-                    email.setText("");
-                    commodity.setText(store.getBusiness());
-                    *//**
-                     * 需要修改的：地图定位，加载图片
-                     *//*
-                    String tmp[] = store.getPhoto().split("\\,");
-                    Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
-
-                    if (tmp.length>0){
-                        img1.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[0], img1);
-                    }
-                    if(tmp.length>1){
-                        img2.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[1], img2);
-                    }
-                    if(tmp.length>2){
-                        img3.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[2], img3);
-                    }
-                    if(tmp.length>3){
-                        img4.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[3], img4);
-                    }
-                    if(tmp.length>4){
-                        img5.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[4], img5);
-                    }
-                    if(tmp.length>5){
-                        img6.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[5], img6);
-                    }
-                    if(tmp.length>6){
-                        img7.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[6], img7);
-                    }
-                    if(tmp.length>7){
-                        img8.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopActivity.this, tmp[7], img8);
-                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-
-                if(store == null) {
-                    Tools.showToast(getApplicationContext(), "该店铺不存在");
-                    ShopActivity.this.finish();
                 }
 
                 Message msg = new Message();
@@ -322,17 +280,15 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             }else if (msg.what == 2) {
                 favorite = "0";
                 collect.setBackgroundResource(R.drawable.s_collect);
-            } else if (msg.what == 3) {
+            } else if (msg.what == 3 && store != null) {
                 store = (Store) msg.obj;
 
                 detail_address.setText(store.getAddress());
+                shop_name.setText(store.getStore());
                 tel.setText(store.getTel());
-                qq.setText("");
-                email.setText("");
+                qq.setText(store.getQq());
+                email.setText(store.getEmail());
                 commodity.setText(store.getBusiness());
-                /**
-                 * 需要修改的：地图定位，加载图片
-                 */
                 tmp = store.getPhoto().split("\\,");
                 Tools.setPhoto(ShopActivity.this, store.getBanner(), img_shop);
 

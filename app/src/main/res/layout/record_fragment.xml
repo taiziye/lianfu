@@ -53,38 +53,40 @@
                 android:layout_toLeftOf="@id/add"/>
         </RelativeLayout>
 
-        <LinearLayout android:id="@+id/frame2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:visibility="gone"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+        <!--<LinearLayout android:id="@+id/frame2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:visibility="gone"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
 
-            <ImageView android:id="@+id/cancel"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/back"
-                android:layout_marginRight="10dp"
-                />
+            <!--<ImageView android:id="@+id/cancel"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:src="@drawable/back"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--/>-->
 
-            <EditText android:id="@+id/txt"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                />
+            <!--<EditText android:id="@+id/txt"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:textSize="15dp"-->
+                <!--android:hint="请输入用户名称或者手机号码"-->
+                <!--/>-->
 
-            <Button android:id="@+id/btn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="15sp"
-                android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:text="搜索"
-                />
-        </LinearLayout>
+            <!--<Button android:id="@+id/btn"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:textSize="15sp"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:text="搜索"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
 
     </RelativeLayout>
 

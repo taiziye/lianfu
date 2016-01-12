@@ -8,28 +8,30 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="10dp"
-        android:gravity="center">
-
-        <EditText
-            android:id="@+id/search_text"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@anim/btn_style"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="16dp" />
+        android:gravity="center"
+        android:background="#535456">
 
         <Button
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+        <TextView
+            android:id="@+id/tv_choose_user"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@anim/btn_style"
-            android:text="@string/cancel" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="@string/choose_consume_member" />
+        <Button
+            android:id="@+id/search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/search" />
     </LinearLayout>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
