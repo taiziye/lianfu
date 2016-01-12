@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -241,6 +242,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Log.e("tag",result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                 } catch (JSONException e) {
@@ -295,8 +297,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 if("0".equals(store.getLat()) || "0".equals(store.getLng())) {
                     locate.setVisibility(View.GONE);
                 }
-
-                if (tmp.length>0){
+                if (tmp.length>0&&store.getPhoto()!=""){
                     img1.setVisibility(View.VISIBLE);
                     Tools.setPhoto(ShopActivity.this, tmp[0], img1);
                 }

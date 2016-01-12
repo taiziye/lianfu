@@ -266,6 +266,7 @@
                     android:layout_height="40dp"
                     android:paddingRight="10dp"
                     android:editable="false"
+                    android:textColor="#999999"
                     android:gravity="center|right"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
