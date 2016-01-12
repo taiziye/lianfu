@@ -229,6 +229,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     contact_email.setText(store.getEmail());
                     occupation.setText(store.getTrade());
                     address.setText(store.getSheng()+store.getShi()+store.getXian());
+
+                    indestry=store.getTrade();
                     sheng=store.getShengcode();
                     shi=store.getShicode();
                     xian=store.getXiancode();
