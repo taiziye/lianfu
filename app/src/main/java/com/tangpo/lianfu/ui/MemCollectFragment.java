@@ -1,15 +1,18 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -43,10 +47,10 @@ import java.util.List;
  */
 public class MemCollectFragment extends Fragment implements View.OnClickListener {
 
-    private Button locate;
-    private Button map;
 
-    private EditText search;
+    private Button map;
+    private Button search;
+    private TextView tv_collect_store;
 
     private PullToRefreshListView listView;
     private MemberCollectAdapter adapter = null;
@@ -54,9 +58,10 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private ProgressDialog dialog = null;
     private SharedPreferences preferences = null;
-    private String centcount;
     private String userid;
+
     private int page = 1;
+    private int paramcentcount;
 
     private Gson gson = null;
 
@@ -76,39 +81,13 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         gson = new Gson();
         getCollectStore("");
 
-        locate = (Button) view.findViewById(R.id.locate);
-        locate.setOnClickListener(this);
+        search= (Button) view.findViewById(R.id.search);
+        search.setOnClickListener(this);
+
         map = (Button) view.findViewById(R.id.map);
         map.setOnClickListener(this);
 
-        search = (EditText) view.findViewById(R.id.search);
-        search.setOnClickListener(this);
-
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(),ShopActivity.class);
-                intent.putExtra("store",list.get(position-1));
-                intent.putExtra("userid", userid);
-                intent.putExtra("favorite", "1");
-                getActivity().startActivity(intent);
-            }
-        });
-
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-                    if (getActivity().getCurrentFocus() != null) {
-                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    }
-                }
-                return false;
-            }
-        });
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -143,8 +122,80 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page = page + 1;
+                if (page <= paramcentcount) {
+                    getCollectStore("");
+                } else {
+                    Tools.showToast(getActivity(), getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    }, 500);
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                intent.putExtra("store", list.get(position - 1));
+                intent.putExtra("userid", userid);
+                intent.putExtra("favorite", "1");
+                getActivity().startActivity(intent);
+            }
+        });
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (getActivity().getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                return false;
+            }
+        });
+
+        /*listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 //
-                if (centcount != null && Integer.parseInt(centcount) >= page) {
+                list.clear();
+                page = 1;
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        getActivity(),
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                getCollectStore("");
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //
+                if (paramcentcount != null && Integer.parseInt(paramcentcount) >= page) {
                     //
                     Tools.showToast(getActivity(), "已全部加载完成");
                 } else {
@@ -162,17 +213,42 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                     getCollectStore("");
                 }
             }
-        });
+        });*/
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.locate:
+            case R.id.search:
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_storename));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_store))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getCollectStore(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.map:
-                break;
-            case R.id.search:
+                Fragment fragment = new MapActivity();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+                bundle.putString("userid", userid);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
                 break;
         }
     }
@@ -185,7 +261,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 list = (List<FindStore>) msg.obj;
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
-                if (Integer.parseInt(centcount) >= page ) {
+                if (paramcentcount >= page ) {
                     //
                     Tools.showToast(getActivity(), "已全部加载完成");
                 }
@@ -209,6 +285,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
@@ -218,6 +295,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = list;

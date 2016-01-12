@@ -32,9 +32,9 @@ public class CheckCollectedStore {
 
             JSONObject paramJsonObject = new JSONObject();
             paramJsonObject.put("user_id", Escape.escape(kvs[0]));
-            paramJsonObject.put("store", Escape.escape(kvs[0]));
-            paramJsonObject.put("page_size", Escape.escape(kvs[0]));
-            paramJsonObject.put("page_index", Escape.escape(kvs[0]));
+            paramJsonObject.put("store", Escape.escape(kvs[1]));
+            paramJsonObject.put("page_size", Escape.escape(kvs[2]));
+            paramJsonObject.put("page_index", Escape.escape(kvs[3]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

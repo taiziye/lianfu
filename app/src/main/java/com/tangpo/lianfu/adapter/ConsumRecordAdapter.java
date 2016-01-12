@@ -115,9 +115,9 @@ public class ConsumRecordAdapter extends BaseAdapter {
         if(list.get(position).getGains().length() >= 1) holder.profit.setText( Float.valueOf(list.get(position).getGains()) + "" );
         else holder.profit.setText( 0 );
         if (list.get(position).getPay_status().equals("1")) {
-            holder.status.setText("已确认");
+            holder.status.setText("已结算");
         } else {
-            holder.status.setText("未确认");
+            holder.status.setText("未结算");
         }
 
         holder.time.setText(parseDate(list.get(position).getConsume_date()));

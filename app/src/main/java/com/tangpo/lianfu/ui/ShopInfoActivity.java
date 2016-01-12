@@ -72,6 +72,9 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private ImageView img2;
     private ImageView img3;
 
+    private ImageView ivvocation=null;
+    private ImageView ivaddress=null;
+
     private ProgressDialog dialog = null;
     private Gson gson = null;
 
@@ -79,6 +82,8 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private UserEntity user = null;
 
     private String[] vocationlist = null;
+    private String[] vocationid=null;
+
     private String[] provincelist = null;
     private String[] provinceid = null;
     private String[] citylist = null;
@@ -90,6 +95,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private int page = 1;
     private String[] stafflist = new String [10];
     private ArrayList<Employee> employeelist = new ArrayList<Employee>();
+
+    private String sheng=null;
+    private String shi=null;
+    private String xian=null;
+    private String indestry=null;
 
     @Override
     protected void onDestroy() {
@@ -110,10 +120,13 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
     private void init() {
         gson = new Gson();
+
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
+
         edit = (Button) findViewById(R.id.edit);
         edit.setOnClickListener(this);
+
         vocation = (LinearLayout) findViewById(R.id.vocation);
         vocation.setOnClickListener(this);
         location = (LinearLayout) findViewById(R.id.location);
@@ -130,10 +143,17 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 //        shop_employee = (EditText) findViewById(R.id.shop_employee);
 //        shop_employee.setOnClickListener(this);
         contact_email = (EditText) findViewById(R.id.contact_email);
+
         occupation = (EditText) findViewById(R.id.occupation);
         occupation.setOnClickListener(this);
+        ivvocation= (ImageView) findViewById(R.id.ivoccupation);
+        ivvocation.setOnClickListener(this);
+
         address = (EditText) findViewById(R.id.address);
         address.setOnClickListener(this);
+        ivaddress= (ImageView) findViewById(R.id.ivaddress);
+        ivaddress.setOnClickListener(this);
+
         detail_address = (EditText) findViewById(R.id.detail_address);
         commodity = (EditText) findViewById(R.id.commodity);
         map_locate = (Button) findViewById(R.id.map_locate);
@@ -209,6 +229,9 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     contact_email.setText(store.getEmail());
                     occupation.setText(store.getTrade());
                     address.setText(store.getSheng()+store.getShi()+store.getXian());
+                    sheng=store.getShengcode();
+                    shi=store.getShicode();
+                    xian=store.getXiancode();
                     detail_address.setText(store.getAddress());
                     commodity.setText(store.getBusiness());
                     /**
@@ -236,6 +259,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     object = (JSONObject) msg.obj;
                     try {
                         vocationlist = object.getString("listtxts").split(",");
+                        vocationid=object.getString("listids").split(",");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -288,9 +312,18 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private void setVocation() {
         //
         new AlertDialog.Builder(ShopInfoActivity.this).setTitle("请选择所属行业").setItems(vocationlist, new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                indestry=vocationid[which];
                 occupation.setText(vocationlist[which]);
+                dialog.dismiss();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         }).show();
     }
@@ -300,7 +333,17 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 one = provincelist[which];
+
+                sheng=provinceid[which];
+
                 getList("shi", provinceid[which]);
+
+                dialog.dismiss();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         }).show();
     }
@@ -311,7 +354,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 two = citylist[which];
+
+                shi=cityid[which];
+
                 getList("xian", cityid[which]);
+                dialog.dismiss();
             }
         }).setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -319,6 +366,14 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 //
                 one = "";
                 setProvince();
+                dialog.dismiss();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                one = "";
+                setProvince();
+                dialog.dismiss();
             }
         }).show();
     }
@@ -328,8 +383,12 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         new AlertDialog.Builder(ShopInfoActivity.this).setTitle("请选择店铺所在的区域").setItems(suburblist, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                xian=suburbid[which];
                 address.setText(one + two + suburblist[which]);
                 one = two = "";
+
+                dialog.dismiss();
             }
         }).setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -337,6 +396,14 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 //
                 two = "";
                 setCity();
+                dialog.dismiss();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                two = "";
+                setCity();
+                dialog.dismiss();
             }
         }).show();
     }
@@ -413,19 +480,23 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user.getStore_id(), user.getUser_id()};
-        String param = StoreInfo.packagingParam(this, kvs);
-
+        String params = StoreInfo.packagingParam(this,kvs);
+        Log.e("tag",params);
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 Log.e("tag", "succ");
                 dialog.dismiss();
                 try {
+                    Log.e("tag", result.getJSONObject("param").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 Message msg = new Message();
                 msg.what = 1;
                 msg.obj = store;
@@ -442,7 +513,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
-        }, param);
+        }, params);
     }
 
     private void editShopInfo(){
@@ -450,12 +521,15 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
+        indestry = occupation.getText().toString();
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[]=new String[]{store.getStore_id(),shop_name.getText().toString(),shop_host.getText().toString(),
                 contact_name.getText().toString(),contact_tel.getText().toString(),const_tel.getText().toString(),
                 store.getLng(),store.getLat(),contact_intel.getText().toString(),contact_email.getText().toString(),detail_address.getText().toString(),
-                store.getSinguser(),occupation.getText().toString(), store.getSheng(),store.getShi(), store.getXian(),commodity.getText().toString()};
+                store.getSinguser(),indestry, sheng,shi, xian,commodity.getText().toString()};
         String params= EditStore.packagingParam(this,kvs);
+        Log.e("tag",params);
+
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -529,39 +603,38 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         }, param);
     }
 
-    private void getEmployeeList() {
-        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
-
-        String[] kvs = new String []{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
-        String param = StaffManagement.packagingParam(getApplicationContext(), kvs);
-
-        new NetConnection(new NetConnection.SuccessCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                //
-                dialog.dismiss();
-                JSONObject object = null;
-                try {
-                    JSONArray objects = result.getJSONArray("param");
-                    for (int i = 0; i<objects.length(); i++) {
-                        object = objects.getJSONObject(i);
-                        Employee employee = gson.fromJson(object.toString(), Employee.class);
-                        employeelist.add(employee);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Message msg = new Message();
-                msg.what = 6;
-                msg.obj = employeelist;
-                handler.sendMessage(msg);
-            }
-        }, new NetConnection.FailCallback() {
-            @Override
-            public void onFail(JSONObject result) {
-                //
-                dialog.dismiss();
-            }
-        }, param);
-    }
+//    private void getEmployeeList() {
+//        dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
+//
+//        String[] kvs = new String []{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
+//        String param = StaffManagement.packagingParam(getApplicationContext(), kvs);
+//
+//        new NetConnection(new NetConnection.SuccessCallback() {
+//            @Override
+//            public void onSuccess(JSONObject result) {
+//                dialog.dismiss();
+//                JSONObject object = null;
+//                try {
+//                    JSONArray objects = result.getJSONArray("param");
+//                    for (int i = 0; i<objects.length(); i++) {
+//                        object = objects.getJSONObject(i);
+//                        Employee employee = gson.fromJson(object.toString(), Employee.class);
+//                        employeelist.add(employee);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                Message msg = new Message();
+//                msg.what = 6;
+//                msg.obj = employeelist;
+//                handler.sendMessage(msg);
+//            }
+//        }, new NetConnection.FailCallback() {
+//            @Override
+//            public void onFail(JSONObject result) {
+//                //
+//                dialog.dismiss();
+//            }
+//        }, param);
+//    }
 }

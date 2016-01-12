@@ -1,7 +1,9 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.MemberManagement;
 import com.tangpo.lianfu.utils.Tools;
 
+import org.apache.commons.logging.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,9 +44,6 @@ import java.util.Set;
  */
 public class SelectUserActivity extends Activity implements View.OnClickListener {
 
-    private Button cancel;
-
-    private EditText search_text;
 
     private PullToRefreshListView listView;
 
@@ -52,7 +52,11 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     private ProgressDialog dialog = null;
     private UserEntity user = null;
     private int page = 1;
+    private int paramcentcount;
     private Gson gson = new Gson();
+
+    private Button back;
+    private Button search;
 
     @Override
     protected void onDestroy() {
@@ -72,24 +76,20 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         user = (UserEntity) getIntent().getExtras().getSerializable("user");
 
         init();
-        //如果search_text不为空则改变cancel为搜索
-        if (search_text.getText().toString().length() != 0) {
-            cancel.setText("搜索");
-        } else {
-            cancel.setText(getResources().getString(R.string.search));
-        }
     }
 
     private void init() {
         listMem = new ArrayList<>();
 
-        cancel = (Button) findViewById(R.id.cancel);
+        back= (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);
 
-        search_text = (EditText) findViewById(R.id.search_text);
+        search= (Button) findViewById(R.id.search);
+        search.setOnClickListener(this);
 
         listView = (PullToRefreshListView) findViewById(R.id.list);
 
-        getMemberList();
+        getMemberList("");
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -128,13 +128,23 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getMemberList();
+                getMemberList("");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getMemberList();
+                if(page<=paramcentcount){
+                    getMemberList("");
+                }else{
+                    Tools.showToast(SelectUserActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
     }
@@ -142,12 +152,27 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.cancel:
-                if (search_text.getText().toString().length() != 0) {
-                    //搜索
-                } else {
-                    finish();
-                }
+            case R.id.back:
+                this.finish();
+                break;
+            case R.id.search:
+                final EditText editText=new EditText(SelectUserActivity.this);
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(SelectUserActivity.this).setTitle(SelectUserActivity.this.getString(R.string.search_repay_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        listMem.clear();
+                        getMemberList(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
         }
     }
@@ -166,7 +191,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
         }
     };
 
-    private void getMemberList() {
+    private void getMemberList(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
@@ -174,7 +199,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
 
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
 
-        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", "", page + "", "10"};
+        String kvs[] = new String[]{user.getUser_id(), user.getStore_id(), "", "", name, page + "", "10"};
         String param = MemberManagement.packagingParam(this, kvs);
         final Set<String> set = new HashSet<>();
 
@@ -183,6 +208,11 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

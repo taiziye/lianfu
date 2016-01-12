@@ -48,6 +48,8 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
     private DiscountManageAdapter adapter = null;
     private List<Discount> list = null;
     private int page = 1;
+    private int paramcentcount;
+
     private Gson gson = null;
     private ProgressDialog dialog = null;
     private int index = 0;
@@ -123,7 +125,17 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getDiscount();
+                if(page<=paramcentcount){
+                    getDiscount();
+                }else{
+                    Tools.showToast(DiscountManageActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                           listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -222,6 +234,11 @@ public class DiscountManageActivity extends Activity implements View.OnClickList
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

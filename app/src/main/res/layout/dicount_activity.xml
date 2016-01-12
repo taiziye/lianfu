@@ -19,6 +19,14 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/back" />
 
+        <Button
+            android:layout_marginLeft="35dp"
+            android:id="@+id/search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/search" />
+
         <TextView
             android:id="@+id/shop_name"
             android:layout_width="0dp"
@@ -60,14 +68,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+            <!--<ListView-->
+                <!--android:id="@+id/list"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:divider="@android:color/transparent"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:dividerHeight="16dp"-->
+                <!--android:paddingTop="16dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
                 android:id="@+id/list"
-                android:background="@android:color/white"
                 android:divider="@android:color/transparent"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:dividerHeight="16dp"
                 android:paddingTop="16dp"
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

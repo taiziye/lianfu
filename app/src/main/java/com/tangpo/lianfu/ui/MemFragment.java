@@ -1,10 +1,14 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +18,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.UserEntity;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by 果冻 on 2015/11/8.
  */
 public class MemFragment extends Fragment implements View.OnClickListener {
 
+    private final static int SCANNIN_STORE_INFO = 1;
+    private final static int GET_STORE_INFO = 2;
     private Button double_code;
     private Button chat;
     private Button login_out;
@@ -44,6 +57,12 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences preferences=null;
     private String logintype=null;
 
+    private ProgressDialog dialog=null;
+    private FindStore store=null;
+
+    private String user_id=null;
+    private Gson gson=null;
+
 //    @Override
 //    public void onDestroyOptionsMenu() {
 //        super.onDestroyOptionsMenu();
@@ -59,9 +78,11 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View view) {
+        gson=new Gson();
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
-        logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+        logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
         userEntity= (UserEntity) getArguments().getSerializable("user");
+        user_id=userEntity.getUser_id();
 
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
@@ -97,6 +118,11 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.double_code:
+                //扫描二维码
+                intent=new Intent();
+                intent.setClass(getActivity(),MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent,SCANNIN_STORE_INFO);
                 break;
             case R.id.chat:
                 break;
@@ -131,5 +157,79 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 getActivity().finish();
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case SCANNIN_STORE_INFO:
+                if(resultCode==getActivity().RESULT_OK){
+                    Bundle bundle=data.getExtras();
+                    String result=bundle.getString("result");
+                    //在这里处理返回来的store_id、service_center、referrer
+                    String store_id= Uri.parse(result).getQueryParameter("store_id");
+                    String service_center=Uri.parse(result).getQueryParameter("service_center");
+                    String referrer=Uri.parse(result).getQueryParameter("referrer");
+
+                    if(store_id!=null&&service_center!=null&&referrer!=null){
+                        getStoreDetail(store_id,user_id);
+                    }
+                }
+        }
+    }
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case GET_STORE_INFO:
+                    FindStore store= (FindStore) msg.obj;
+                    String favoriate="0";
+
+                    Intent intent=new Intent(getActivity(),ShopActivity.class);
+                    intent.putExtra("store",store);
+                    intent.putExtra("userid",user_id);
+                    intent.putExtra("favorite",favoriate);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
+    private void getStoreDetail(String store_id,String user_id){
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
+        }
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        String kvs[] = new String[]{store_id, user_id};
+        String param = StoreDetail.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    store = gson.fromJson(result.getJSONObject("param").toString(),FindStore.class);
+                    Message msg=new Message();
+                    msg.what=GET_STORE_INFO;
+                    msg.obj=store;
+                    handler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    Tools.handleResult(getActivity(), result.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },param);
     }
 }

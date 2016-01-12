@@ -50,6 +50,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private LinearLayout type;
     private LinearLayout select;
     private LinearLayout userlayout;
+    private LinearLayout frame;
     private EditText user_name;
     private EditText contact_tel;
     private EditText rel_name;
@@ -66,7 +67,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
     private EditText qq;
     private EditText email;
     private EditText address;
-    private TextView user_level;
+    private EditText user_level;
     private ImageView sexi;
 
     private UserEntity user = null;
@@ -104,7 +105,8 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
         select = (LinearLayout) findViewById(R.id.select);
         select.setOnClickListener(this);
         userlayout = (LinearLayout) findViewById(R.id.user);
-        user_level = (TextView) findViewById(R.id.level);
+        user_level = (EditText) findViewById(R.id.level);
+        frame = (LinearLayout) findViewById(R.id.frame);
 
         user_name = (EditText) findViewById(R.id.user_name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -147,7 +149,7 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
 
             if("0".equals(user.getUser_type()) || "1".equals(user.getUser_type())) {
                 type.setVisibility(View.GONE);
-                userlayout.setVisibility(View.VISIBLE);
+                userlayout.setVisibility(View.GONE);
             } else {
                 type.setVisibility(View.GONE);
                 userlayout.setVisibility(View.GONE);

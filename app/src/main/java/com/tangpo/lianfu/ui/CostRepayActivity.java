@@ -51,6 +51,8 @@ public class CostRepayActivity extends Activity implements View.OnClickListener 
     private String userid = null;
     private String storeid = null;
     private int page = 1;
+    private int paramcentcount;
+
     private String backstate = "";
 
     @Override
@@ -196,7 +198,17 @@ public class CostRepayActivity extends Activity implements View.OnClickListener 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getCostList(backstate);
+                if(page<=paramcentcount){
+                    getCostList(backstate);
+                }else{
+                    Tools.showToast(CostRepayActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                           listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
 
@@ -241,6 +253,11 @@ public class CostRepayActivity extends Activity implements View.OnClickListener 
             public void onSuccess(JSONObject result) {
                 //
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray array = result.getJSONArray("param");
                     JSONObject object = null;

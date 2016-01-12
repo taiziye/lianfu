@@ -3,6 +3,7 @@ package com.tangpo.lianfu.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +113,7 @@ public class ChatAdapter extends BaseAdapter {
 
     private boolean isExist(String filepath) {
         File file = new File(filepath);
+        Log.e("tag", "file");
         if (!file.exists()) {
             return true;
         }

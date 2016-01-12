@@ -173,13 +173,13 @@ public class AddConsumeActivity extends Activity implements View.OnClickListener
                 consume_money.getText().toString(), mem.getUser_id()};
 
         final EmployeeConsumeRecord record = new EmployeeConsumeRecord();
-        record.setId(user.getUser_id());
-        record.setName(user.getName());
+        record.setUsername(user_name.getText().toString());
+        record.setName(name.getText().toString());
         record.setDiscount(dis.getAgio());
         record.setFee(consume_money.getText().toString());
-        record.setPay_status("1");
+        record.setPay_status("0");
         record.setPay_date((new SimpleDateFormat("yyyy/MM/dd HH:mm")).format(new Date()));
-        record.setGains(consume_money.getText().toString());
+        record.setGains("0.00");
         record.setConsume_date();
 
         String param = CommitConsumeRecord.packagingParam(this, kvs);

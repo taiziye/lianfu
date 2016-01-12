@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#535456">
@@ -57,7 +57,7 @@
             <ImageView
                 android:id="@+id/img_shop"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:background="@android:color/black" />
 
@@ -162,33 +162,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp">
+                android:gravity="center_vertical">
 
-                <Button
-                    android:id="@+id/locate"
-                    android:layout_width="10dp"
-                    android:layout_height="15dp"
-                    android:background="@drawable/locate_point"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="28px"
                     android:textColor="#6f6f6f"
-                    android:text="地址:"/>
-
+                    android:text="地址:" />
                 <TextView
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/detail_address"
-                    android:layout_width="210dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28px"
                     android:textColor="#6f6f6f"
                     android:text="上海市徐汇区人民路1003弄1号" />
+
+                <Button
+                    android:id="@+id/locate"
+                    android:layout_width="15dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/locate_point"
+
+                    />
 
             </LinearLayout>
 
@@ -285,7 +284,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="55dp"
         android:orientation="horizontal">
 
         <Button

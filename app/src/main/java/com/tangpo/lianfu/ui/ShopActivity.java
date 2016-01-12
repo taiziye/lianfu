@@ -142,6 +142,10 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         qq = (TextView) findViewById(R.id.qq);
         email = (TextView) findViewById(R.id.email);
         commodity = (TextView) findViewById(R.id.commodity);
+
+        if(favorite==null){
+            favorite="1";
+        }
         if(favorite.equals("1")) {
             collect.setBackgroundResource(R.drawable.s_collect_r);
         } else {

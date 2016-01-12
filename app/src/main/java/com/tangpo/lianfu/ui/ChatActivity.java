@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,7 +39,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
 import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
-import com.tangpo.lianfu.utils.DataHelper;
 import com.tangpo.lianfu.utils.Tools;
 
 import java.io.File;
@@ -233,7 +231,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             String picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
-            senImg(picPath);
+            sendImg(picPath);
         }
     }
 
@@ -394,7 +392,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
      * 发送图片
      * @param filePath  图片路径
      */
-    private void senImg(final String filePath) {
+    private void sendImg(final String filePath) {
         final EMConversation conversation = EMChatManager.getInstance().getConversation(hxid);
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
         //如果是群聊，设置chattype,默认是单聊

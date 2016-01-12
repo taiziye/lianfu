@@ -52,6 +52,7 @@ public class AddMember {
             paramJsonObject.put("uplevel", Escape.escape(kvs[18]));
             paramJsonObject.put("issms", Escape.escape(kvs[19]));
 
+
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

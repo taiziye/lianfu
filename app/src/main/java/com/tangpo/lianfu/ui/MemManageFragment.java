@@ -1,7 +1,9 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -68,6 +71,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private String store_id = null;
 
     private int page = 1;
+    private int paramcentcount;
 
     private ProgressDialog dialog=null;
 
@@ -105,7 +109,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         time = (LinearLayout) view.findViewById(R.id.time);
         time.setOnClickListener(this);
 
-        getMembers();
+        getMembers("");
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 
@@ -136,13 +140,23 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getMembers();
+                getMembers("");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getMembers();
+                if(page<=paramcentcount){
+                    getMembers("");
+                }else{
+                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
 
@@ -161,6 +175,23 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_member))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getMembers(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.add:
                 Intent intent = new Intent(getActivity(), AddMemberActivity.class);
@@ -273,12 +304,12 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         }
     };
 
-    private void getMembers() {
+    private void getMembers(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-        String kvs[] = new String[]{userid, store_id, "", "", "", page + "", "10"};
+        String kvs[]=new String[]{userid,store_id,"","",name,page+"","10"};
         String param = MemberManagement.packagingParam(getActivity(), kvs);
         final Set<String> set = new HashSet<>();
         dialog=ProgressDialog.show(getActivity(),getString(R.string.connecting),getString(R.string.please_wait));
@@ -287,6 +318,11 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 listView.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

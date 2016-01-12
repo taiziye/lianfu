@@ -3,6 +3,8 @@ package com.tangpo.lianfu.ui;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -39,6 +41,7 @@ import java.util.List;
 
 public class MapActivity extends Fragment implements ViewPager.OnPageChangeListener {
 
+    private static final int SCANNIN_STORE_INFO = 1;
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
     private ArrayList<LatLng> list = new ArrayList<LatLng>();
@@ -53,8 +56,7 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
 
     private Overlay myOverlay=null;
 
-    private Button scan;
-    private ImageView locate;
+    private Button btn_back;
     private Button back;
 
     private String userid;
@@ -141,8 +143,21 @@ public class MapActivity extends Fragment implements ViewPager.OnPageChangeListe
         vp.setPageMargin(dip2px(getActivity(), 50));
         vp.setOnPageChangeListener(this);
 
-        scan = (Button) view.findViewById(R.id.double_code);
-        locate = (ImageView) view.findViewById(R.id.locate);
+        btn_back= (Button) view.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new MemberHomeFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putString("userid", userid);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
         back = (Button) view.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

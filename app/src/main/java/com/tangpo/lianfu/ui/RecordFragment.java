@@ -1,8 +1,10 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -54,10 +56,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private Button edit;
     private Button add;
     private RelativeLayout frame1;
-    private LinearLayout frame2;
-    private ImageView cancel;
-    private EditText txt;
-    private Button btn;
 
     private LinearLayout time;
     private boolean f1 = false;
@@ -82,6 +80,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog dialog = null;
     private Intent intent = null;
     private boolean isEdit = false;
+    private int paramcentcount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,12 +114,6 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         profit = (LinearLayout) view.findViewById(R.id.profit);
         profit.setOnClickListener(this);
         frame1 = (RelativeLayout) view.findViewById(R.id.frame1);
-        frame2 = (LinearLayout) view.findViewById(R.id.frame2);
-        cancel = (ImageView) view.findViewById(R.id.cancel);
-        cancel.setOnClickListener(this);
-        txt = (EditText) view.findViewById(R.id.txt);
-        btn = (Button) view.findViewById(R.id.btn);
-        btn.setOnClickListener(this);
 
         list = (PullToRefreshListView) view.findViewById(R.id.list);
 
@@ -160,7 +153,17 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getConsumeRecord("");
+                if(page<=paramcentcount){
+                    getConsumeRecord("");
+                }else{
+                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    list.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            list.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
 
@@ -175,48 +178,34 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 getActivity().startActivityForResult(intent, REQUEST_EDIT);
             }
         });
-
-//        list.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(final View v) {
-////                return false;
-//                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.Are_you_shure_to_delete))
-//                        .setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).setPositiveButton(getActivity().getString(R.string.confirm), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        list.removeView(v);
-//                        //recordList.remove(v.get)
-//                        dialog.dismiss();
-//                    }
-//                }).show();
-//                return true;
-//            }
-//        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-                frame1.setVisibility(View.GONE);
-                frame2.setVisibility(View.VISIBLE);
-                txt.setText("");
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_consume_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        recordList.clear();
+                        getConsumeRecord(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.cancel:
                 frame1.setVisibility(View.VISIBLE);
-                frame2.setVisibility(View.GONE);
                 recordList.clear();
                 getConsumeRecord("");
-                break;
-            case R.id.btn:
-                String name = txt.getText().toString().trim();
-                recordList.clear();
-                getConsumeRecord(name);
                 break;
             case R.id.edit:
                 if(!isEdit && recordList.size() > 0){
@@ -417,20 +406,19 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        String param;
-        if (name.length() == 0) {
-            String kvs[] = new String[]{userid,store_id, "","","", "", "0", page+"","10"};
-            param = ConsumeRecord.packagingParam(getActivity(), kvs);
-        } else {
-            String kvs[] = new String[]{userid,store_id, "",name,"", "", "0", page+"","10"};
-            param = ConsumeRecord.packagingParam(getActivity(), kvs);
-        }
+        String kvs[] = new String[]{userid,store_id, "",name,"", "", "", page+"","10"};
+        String param = ConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 list.onRefreshComplete();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

@@ -1,14 +1,19 @@
 package com.tangpo.lianfu.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -46,10 +51,15 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private boolean f2 = false;
 
     private int page = 1;
+    private int paramcentcount;
+
     private Gson gson = new Gson();
     private String user_id = null;
 
     private ProgressDialog dialog = null;
+
+    private Button search;
+    private Button add;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,12 +74,18 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init(View view) {
-        getConsumeRecord();
+        getConsumeRecord("");
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
         time = (LinearLayout) view.findViewById(R.id.time);
         time.setOnClickListener(this);
         money = (LinearLayout) view.findViewById(R.id.money);
         money.setOnClickListener(this);
+
+        search= (Button) view.findViewById(R.id.search);
+        search.setOnClickListener(this);
+
+        add= (Button) view.findViewById(R.id.add);
+        add.setOnClickListener(this);
 
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -100,13 +116,23 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 // 更新最后刷新时间
                 refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
-                getConsumeRecord();
+                getConsumeRecord("");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getConsumeRecord();
+                if(page<=paramcentcount){
+                    getConsumeRecord("");
+                }else{
+                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
     }
@@ -170,6 +196,30 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                     adapter.notifyDataSetChanged();
                 }
                 break;
+
+            case R.id.search:
+                final EditText editText=new EditText(getActivity());
+                editText.setHint(getString(R.string.please_input_storename));
+                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_consume_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getConsumeRecord(name);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+                break;
+
+            case R.id.add:
+                Tools.showToast(getActivity(), getActivity().getString(R.string.ordinary_member_has_not_permission));
+                break;
         }
     }
 
@@ -186,14 +236,14 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }
     };
 
-    private void getConsumeRecord() {
+    private void getConsumeRecord(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String[]{user_id, "10", page + ""};
+        String kvs[] = new String[]{user_id, name,"10", page + ""};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -201,6 +251,11 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             public void onSuccess(JSONObject result) {
                 listView.onRefreshComplete();
                 dialog.dismiss();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {

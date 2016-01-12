@@ -1,6 +1,8 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -52,6 +55,11 @@ public class RepayActivity extends Activity implements View.OnClickListener {
     private boolean f4 = false;
     private Gson gson = new Gson();
     private int page = 1;
+    private int paramcentcount;
+
+    private Button search;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +86,9 @@ public class RepayActivity extends Activity implements View.OnClickListener {
         fee.setOnClickListener(this);
         repay = (LinearLayout) findViewById(R.id.repay);
         repay.setOnClickListener(this);
+
+        search= (Button) findViewById(R.id.search);
+        search.setOnClickListener(this);
         //time = (LinearLayout) findViewById(R.id.time);
         //time.setOnClickListener(this);
 
@@ -117,7 +128,17 @@ public class RepayActivity extends Activity implements View.OnClickListener {
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                getRepayList();
+                if(page<=paramcentcount){
+                    getRepayList();
+                }else{
+                    Tools.showToast(RepayActivity.this,getString(R.string.alread_last_page));
+                    listView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.onRefreshComplete();
+                        }
+                    },500);
+                }
             }
         });
     }
@@ -149,6 +170,12 @@ public class RepayActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 listView.onRefreshComplete();
+
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for(int i=0; i<jsonArray.length(); i++) {
@@ -281,6 +308,26 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                     }
                     adapter.notifyDataSetChanged();
                 }
+                break;
+
+            case R.id.search:
+                final EditText editText=new EditText(RepayActivity.this);
+                editText.setHint(getString(R.string.please_input_username_or_tel));
+                new AlertDialog.Builder(RepayActivity.this).setTitle(RepayActivity.this.getString(R.string.search_repay_record))
+                        .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = editText.getText().toString().trim();
+                        list.clear();
+                        getRepayList();
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
         }
     }

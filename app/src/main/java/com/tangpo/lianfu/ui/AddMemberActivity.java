@@ -377,7 +377,7 @@ public class AddMemberActivity extends Activity implements View.OnClickListener 
         }else{
             issms="0";
         }
-        String register_time = (new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(new Date());
+        String register_time = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
         String kvs[] = new String[]{user_id,username,name,id_number,pw, phone, service_center, service_address,
                 referrer, sex, birth, qq, email, address, bank_account, bank_name, tvbank, bank_address, uplevel,issms};
         String param = AddMember.packagingParam(this, kvs);
