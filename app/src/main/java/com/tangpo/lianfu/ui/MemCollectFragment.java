@@ -2,20 +2,27 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.MemberCollectAdapter;
@@ -49,6 +56,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     private SharedPreferences preferences = null;
     private String centcount;
     private String userid;
+    private int page = 1;
 
     private Gson gson = null;
 
@@ -66,7 +74,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private void init(View view) {
         gson = new Gson();
-        getCollectStore();
+        getCollectStore("");
 
         locate = (Button) view.findViewById(R.id.locate);
         locate.setOnClickListener(this);
@@ -86,6 +94,73 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 intent.putExtra("userid", userid);
                 intent.putExtra("favorite", "1");
                 getActivity().startActivity(intent);
+            }
+        });
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (getActivity().getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }
+                return false;
+            }
+        });
+
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
+        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //
+                list.clear();
+                page = 1;
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        getActivity(),
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                getCollectStore("");
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //
+                if (centcount != null && Integer.parseInt(centcount) >= page) {
+                    //
+                    Tools.showToast(getActivity(), "已全部加载完成");
+                } else {
+                    page = page + 1;
+
+                    // 下拉的时候刷新数据
+                    int flags = DateUtils.FORMAT_SHOW_TIME
+                            | DateUtils.FORMAT_SHOW_DATE
+                            | DateUtils.FORMAT_ABBREV_ALL;
+                    String label = DateUtils.formatDateTime(
+                            getActivity(),
+                            System.currentTimeMillis(), flags);
+                    // 更新最后刷新时间
+                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                    getCollectStore("");
+                }
             }
         });
     }
@@ -110,7 +185,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 list = (List<FindStore>) msg.obj;
                 adapter = new MemberCollectAdapter(getActivity(), list, userid);
                 listView.setAdapter(adapter);
-                if (centcount != null) {
+                if (Integer.parseInt(centcount) >= page ) {
                     //
                     Tools.showToast(getActivity(), "已全部加载完成");
                 }
@@ -118,14 +193,14 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    private void getCollectStore() {
+    private void getCollectStore(String name) {
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String []{userid};
+        String kvs[] = new String []{userid, name, "10", page + ""};
         String parm = CheckCollectedStore.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
