@@ -385,6 +385,12 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
                     transaction = fragmentManager.beginTransaction();
                     fragment.onActivityResult(requestCode, resultCode, data);
                     break;
+//                case ManagerFragment.REQUEST_CODE:
+                default:
+                    fragmentManager=getFragmentManager();
+                    transaction=fragmentManager.beginTransaction();
+                    fragment.onActivityResult(requestCode,resultCode,data);
+                    break;
             }
             transaction.commit();
         }

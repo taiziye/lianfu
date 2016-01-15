@@ -2,8 +2,13 @@ package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -39,6 +47,7 @@ import com.tangpo.lianfu.utils.CircularImage;
 import com.tangpo.lianfu.utils.Escape;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
+import com.tangpo.lianfu.wxapi.WXEntryActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -49,6 +58,8 @@ import com.tencent.tauth.UiError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -258,6 +269,62 @@ public class MainActivity extends Activity implements View.OnClickListener {
         req.scope= com.tangpo.lianfu.config.WeiXin.Constants.SCOPE;
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);
+        registerReceiver(mBrocastReceiver,new IntentFilter(WXEntryActivity.ACTION));
+    }
+
+    private Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle= (Bundle) msg.obj;
+            String access_token=bundle.getString("access_token");
+            String openid=bundle.getString("openid");
+            getUserInfo(access_token, openid);
+            OAuthLogin(openid,"0");
+        }
+    };
+    private BroadcastReceiver mBrocastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(WXEntryActivity.ACTION)){
+                String access_token=intent.getStringExtra("access_token");
+                String openid=intent.getStringExtra("openid");
+                Configs.cacheOpenIdAndLoginType(MainActivity.this,openid,"0");
+                Message msg=new Message();
+                Bundle bundle=new Bundle();
+                bundle.putString("access_token",access_token);
+                bundle.putString("openid",openid);
+                msg.obj=bundle;
+                mHandler.sendMessage(msg);
+            }
+
+            if (mBrocastReceiver!=null){
+                unregisterReceiver(mBrocastReceiver);
+                mBrocastReceiver=null;
+            }
+
+        }
+    };
+
+    public void getUserInfo(String access_token, final String openid){
+        AsyncHttpClient httpClient=new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("access_token",access_token);
+        params.put("openid",openid);
+        String httpurl = "https://api.weixin.qq.com/sns/userinfo";
+        httpClient.get(httpurl, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Configs.cacheThirdUser(MainActivity.this,response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                ToastUtils.showToast(getApplicationContext(), getString(R.string.invalid_openid), Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     public void Weibo() {

@@ -341,4 +341,13 @@
     <string name="search_store">搜索收藏的店铺</string>
     <string name="Download_the_pictures">正在下载图片</string>
     <string name="Download_the_pictures_new">Download the pictures:</string>
+    <string name="bind">绑定</string>
+    <string name="weibo_auth_account">新浪微博</string>
+    <string name="wechat_auth_account">微信</string>
+    <string name="QQ_auth_account">QQ</string>
+    <string name="shop_ownner">地面店主</string>
+    <string name="unbind">解绑</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="this_account_has_bind_other_lianfu_account">此账号已绑定其他联富账号</string>
+    <string name="unbind_success">解绑成功</string>
 </resources>

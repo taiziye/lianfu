@@ -21,10 +21,7 @@ public class BindAccount {
         String time = GetTime.getTime();
         String rannum = RandomNum.randomString(32);
         String key = Configs.KEY_APPJSONKEY;
-        String sessid = Configs.getCatchedToken(context);
-        if(sessid==null){
-            sessid="";
-        }
+        String sessid = Configs.getCatchedToken(context)+"";
         String md5vec = GetMD5Vec.getMD5Vec(action, rannum, time, key, sessid);
         try {
             jsonObject.put("action", Escape.escape(action));
@@ -32,7 +29,9 @@ public class BindAccount {
             jsonObject.put("rannum", Escape.escape(rannum));
             jsonObject.put("md5ver", Escape.escape(md5vec));
             jsonObject.put("sessid", Escape.escape(sessid));
+
             JSONObject paramJsonObject = new JSONObject();
+
             paramJsonObject.put("user_id", kvs[0]);
             paramJsonObject.put("openid", kvs[1]);
             paramJsonObject.put("logintype", kvs[2]);

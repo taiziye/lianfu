@@ -413,17 +413,17 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     case 0:
                         flag = "";
                         list.clear();
-                        page=0;
+                        page=1;
                         break;
                     case 1:
                         flag = "0";
                         list.clear();
-                        page=0;
+                        page=1;
                         break;
                     case 2:
                         flag = "1";
                         list.clear();
-                        page=0;
+                        page=1;
                         break;
                 }
                 getProfitPay(flag, "");

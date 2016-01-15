@@ -250,7 +250,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@android:color/white"
-            android:text="@string/comput"
+            android:text="支付"
             android:background="@android:color/holo_red_light" />
     </LinearLayout>
 

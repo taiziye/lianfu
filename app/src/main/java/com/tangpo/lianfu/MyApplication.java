@@ -44,7 +44,7 @@ public class MyApplication extends Application {
          * @param debugMode
          * 在做代码混淆的时候需要设置成false
          */
-        //EMChat.getInstance().setDebugMode(true);
+        EMChat.getInstance().setDebugMode(false);
     }
 
     public boolean isDownload() {

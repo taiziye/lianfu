@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * Created by 果冻 on 2016/1/5.
  */
-public class RelieveAccount {
+public class UnbindAccount {
     public static final String packagingParam(Context context, String... kvs) {
         JSONObject jsonObject = new JSONObject();
         String action = "51";

@@ -164,7 +164,7 @@ public class DiscountActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 index = position - 1;
-                adapter.setSelected(position);
+                adapter.setSelected(position-1);
                 adapter.notifyDataSetChanged();
             }
         });

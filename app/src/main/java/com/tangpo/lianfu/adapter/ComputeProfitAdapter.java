@@ -94,10 +94,14 @@ public class ComputeProfitAdapter extends BaseAdapter {
         holder.profit.setText(String.format("%.2f", Float.parseFloat(list.get(position).getProfit())));
         if ("0".equals(list.get(position).getPay_status())) {
             holder.status.setText("未支付");
+            holder.time.setVisibility(View.GONE);
+            holder.status.setTextColor(Color.RED);
         } else {
             holder.status.setText("已支付");
+            holder.time.setVisibility(View.VISIBLE);
+            holder.time.setText(parseDate(list.get(position).getPay_date()));
+            holder.status.setTextColor(Color.parseColor("#008B00"));
         }
-        holder.time.setText(parseDate(list.get(position).getPay_date()));
         holder.check.setChecked(getIsSelected().get(position));
 
         return convertView;

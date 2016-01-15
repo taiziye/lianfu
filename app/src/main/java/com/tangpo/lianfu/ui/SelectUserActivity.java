@@ -158,7 +158,7 @@ public class SelectUserActivity extends Activity implements View.OnClickListener
             case R.id.search:
                 final EditText editText=new EditText(SelectUserActivity.this);
                 editText.setHint(getString(R.string.please_input_username_or_tel));
-                new AlertDialog.Builder(SelectUserActivity.this).setTitle(SelectUserActivity.this.getString(R.string.search_repay_record))
+                new AlertDialog.Builder(SelectUserActivity.this).setTitle(SelectUserActivity.this.getString(R.string.search_member))
                         .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
