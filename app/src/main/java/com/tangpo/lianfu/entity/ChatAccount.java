@@ -3,6 +3,8 @@ package com.tangpo.lianfu.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.easemob.chat.EMMessage;
+
 /**
  * Created by 果冻 on 2016/1/5.
  */
@@ -26,6 +28,7 @@ public class ChatAccount implements Parcelable {
     private String msg;  //最后的聊天内容
     private String time;  //最后的聊天时间
     private int unread;
+    private EMMessage.Type type;
 
     public ChatAccount() {
     }
@@ -41,6 +44,14 @@ public class ChatAccount implements Parcelable {
         this.photo = photo;
         this.msg = msg;
         this.time = time;
+    }
+
+    public EMMessage.Type getType() {
+        return type;
+    }
+
+    public void setType(EMMessage.Type type) {
+        this.type = type;
     }
 
     public int getUnread() {

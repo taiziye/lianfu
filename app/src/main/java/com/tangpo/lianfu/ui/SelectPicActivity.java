@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -158,19 +159,13 @@ public class SelectPicActivity extends Activity implements OnClickListener {
             }
             ContentResolver cr = this.getContentResolver();
             try {
-                //BitmapFactory.Options options = new BitmapFactory.Options();
-                //options.inJustDecodeBounds = true;
-
                 Bitmap bitmap1 = BitmapFactory.decodeStream(cr.openInputStream(photoUri));
-                //options.inSampleSize = AppUtil.calculateInSampleSize(options, 480, 800);
-                //options.inJustDecodeBounds = false;
 
                 if(bitmap1 == null) {
                 }
 
                 if (bitmap1 != null) {
                     picPath = FILE_DIR.toString() + "/" + System.currentTimeMillis() + ".jpg";
-                    //ToastUtils.showMessage(getApplicationContext(), "去成功");
                     Tools.isHasFile(picPath);
                     Tools.saveImage(bitmap1, picPath);
                     SmallpicPath = save(picPath);
@@ -194,7 +189,33 @@ public class SelectPicActivity extends Activity implements OnClickListener {
         // 返回图片的地址
         if (requestCode == ChatActivity.CHAT) {
             //
-            lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
+            photoUri = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(photoUri, filePathColumn, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                cursor = null;
+
+                if (picturePath == null || picturePath.equals("null")) {
+                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+                lastIntent.putExtra(KEY_PHOTO_PATH, picturePath);
+            } else {
+                File file = new File(photoUri.getPath());
+                if (!file.exists()) {
+                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+                lastIntent.putExtra(KEY_PHOTO_PATH, file.getAbsolutePath());
+            }
         } else {
             lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
             lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);

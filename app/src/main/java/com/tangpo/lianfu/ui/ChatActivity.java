@@ -1,10 +1,6 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +8,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,11 +34,16 @@ import com.easemob.chat.TextMessageBody;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
+import com.tangpo.lianfu.adapter.ExpressionAdapter;
+import com.tangpo.lianfu.adapter.ExpressionPagerAdapter;
 import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.utils.ExpandGridView;
+import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +67,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     private String photo;
     private ChatAccount account;
     private ChatAccount ac;
+    private List<String> reslist;
 
     private InputMethodManager inputMethodManager = null;
     private PullToRefreshListView listView;
@@ -72,7 +75,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
 
     private String latestmsg;
     private String time;
-    private List<Chat> list = new ArrayList<>();
+    private List<Chat> list = new ArrayList<Chat>();
     private ChatAdapter adapter = null;
 
     //表情
@@ -88,11 +91,11 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         account = getIntent().getExtras().getParcelable("account");
-        //userid = getIntent().getStringExtra("userid");
         photo = getIntent().getStringExtra("photo");
         username = getIntent().getStringExtra("username");
         hxid = getIntent().getStringExtra("hxid").toLowerCase();
-        my_id = getIntent().getStringExtra("myid").toLowerCase();
+        my_id = HomePageActivity.account.getEasemod_id();
+
         init();
     }
 
@@ -105,13 +108,20 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        account = intent.getExtras().getParcelable("account");
+        /*account = intent.getExtras().getParcelable("account");
         photo = intent.getStringExtra("photo");
         username = intent.getStringExtra("username");
         hxid = intent.getStringExtra("hxid").toLowerCase();
         my_id = intent.getStringExtra("myid").toLowerCase();
         list.clear();
-        initView(hxid);
+        initView(hxid);*/
+        String name = intent.getStringExtra("username");
+        if (username.equals(name)) {
+            super.onNewIntent(intent);
+        } else {
+            finish();
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -139,11 +149,18 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         more = (LinearLayout) findViewById(R.id.more);
         vPager = (ViewPager) findViewById(R.id.vPager);
 
+        reslist = getExpressionRes(35);
+        List<View> views = new ArrayList<>();
+        View gv1 = getGridChildView(1);
+        View gv2 = getGridChildView(2);
+        views.add(gv1);
+        views.add(gv2);
+        vPager.setAdapter(new ExpressionPagerAdapter(views));
+
         chat.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
@@ -154,7 +171,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                     add_img.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -173,7 +189,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
 
     private void initView(String hxid) {
         name.setText(username);
-
         loadCoversation(hxid);
         adapter = new ChatAdapter(ChatActivity.this, list, my_id);
         listView.setAdapter(adapter);
@@ -186,7 +201,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         EMChat.getInstance().setAppInited();
     }
 
-    private NewMessageBroadcastReceiver msgReceiver;
+    //private NewMessageBroadcastReceiver msgReceiver;
 
     @Override
     protected void onDestroy() {
@@ -206,6 +221,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                     flag = !flag;
                     expression.setImageResource(R.drawable.biaoqing_btn_enable);
                     more.setVisibility(View.VISIBLE);
+                    hideSoftKeyBoard();
                 } else {
                     flag = !flag;
                     expression.setImageResource(R.drawable.biaoqing_btn_normal);
@@ -239,17 +255,29 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     public void onEvent(EMNotifierEvent emNotifierEvent) {
         if (emNotifierEvent.getEvent() == EMNotifierEvent.Event.EventOfflineMessage) {
             EMMessage message = (EMMessage) emNotifierEvent.getData();
-            Log.e("tag", "msg " + message.toString());
+            EMConversation conversation = EMChatManager.getInstance().getConversation(message.getFrom());
+            if (message.getType() == EMMessage.Type.IMAGE) {
+                ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
+                latestmsg = "[图片]";
+                message.addBody(imgBody);
+                conversation.addMessage(message);
+            } else if (message.getType() == EMMessage.Type.TXT){
+                TextMessageBody txtBody = (TextMessageBody) message.getBody();
+                latestmsg = txtBody.getMessage();
+                conversation.addMessage(message);
+            }
+            time = Tools.long2DateString(message.getMsgTime());
+            ChatAccount ac = new ChatAccount("", message.getFrom(), message.getUserName(), "", message.getFrom().toLowerCase(), "", "", HomePageActivity.account.getPhoto(), latestmsg, time);
+            Tools.saveAccount(ac);
+            ac.setType(message.getType());
         }
-        Log.e("tag", "message " + ((EMMessage)emNotifierEvent.getData()).toString() + " event " + emNotifierEvent.getEvent().toString());
     }
 
-    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+    /*private class NewMessageBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // 注销广播
             abortBroadcast();
-
             // 消息id（每条消息都会生成唯一的一个id，目前是SDK生成）
             String msgId = intent.getStringExtra("msgid");
             //发送方
@@ -265,13 +293,11 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                 // 消息不是发给当前会话，return
                 return;
             }
-            Log.e("tag", message.toString());
-            Log.e("tag", "myid " + my_id + " hxid " + hxid);
             latestmsg = message.getBody().toString().substring(5, message.getBody().toString().length() - 1);
             time = Tools.long2DateString(message.getMsgTime());
 
             if (message.getFrom().toLowerCase().equals(hxid)) {
-                Chat chat = new Chat(message.getFrom().toLowerCase(), message.getUserName(), photo, latestmsg, time);
+                Chat chat = new Chat(message.getFrom().toLowerCase(), message.getUserName(), photo,  time);
                 list.add(chat);
                 conversation.addMessage(message);
                 adapter.notifyDataSetChanged();
@@ -283,13 +309,13 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             }
             notifier(message);
         }
-    }
+    }*/
 
     /**
      * 消息通知
      * @param message
      */
-    private void notifier(EMMessage message) {
+    /*private void notifier(EMMessage message) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         CharSequence title = "来自" + message.getUserName() + "的信息";
         Long when = System.currentTimeMillis();
@@ -305,7 +331,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
 
         Intent i = new Intent(ChatActivity.this, ChatActivity.class);
         i.putExtra("account", ac);
-        Log.e("tag", "ac " + ac.toString());
         i.putExtra("username", ac.getName());
         i.putExtra("hxid", ac.getEasemod_id());
         i.putExtra("myid", my_id);
@@ -316,7 +341,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         CharSequence text = latestmsg;
         notification.setLatestEventInfo(ChatActivity.this, title, msg, pd);
         manager.notify(2, notification);
-    }
+    }*/
 
     private Handler handler = new Handler(){
         @Override
@@ -357,7 +382,8 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         //把消息加入到此会话对象中
         conversation.addMessage(message);
         chat.getText().clear();
-        Chat chat = new Chat(my_id, username, photo, msg, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        chat.setMessage(message);
         list.add(chat);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
@@ -396,7 +422,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         final EMConversation conversation = EMChatManager.getInstance().getConversation(hxid);
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
         //如果是群聊，设置chattype,默认是单聊
-        message.setChatType(EMMessage.ChatType.GroupChat);
+        //message.setChatType(EMMessage.ChatType.GroupChat);
 
         ImageMessageBody body = new ImageMessageBody(new File(filePath));
         // 默认超过100k的图片会压缩后发给对方，可以设置成发送原图
@@ -405,9 +431,9 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         message.setReceipt(hxid);
         conversation.addMessage(message);
 
-        conversation.addMessage(message);
         chat.getText().clear();
-        Chat chat = new Chat(my_id, username, photo, filePath, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        chat.setMessage(message);
         list.add(chat);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
@@ -417,7 +443,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             @Override
             public void onSuccess() {
                    //conversation.addMessage(message);
-                latestmsg = filePath;
+                latestmsg = "[图片]";
                 Message msg = new Message();
                 msg.what = 3;
                 handler.sendMessage(msg);
@@ -486,15 +512,86 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             } else {
                 chat.setImg(account.getPhoto());
             }
-            String tmp = msg.getBody().toString();
+            /*String tmp = msg.getBody().toString();
             int length = tmp.length();
             if (length <= 6) {
                 chat.setMsg("");
             } else {
                 chat.setMsg(tmp.substring(5, length-1));
-            }
+            }*/
+            chat.setMessage(msg);
             chat.setTime(Tools.long2DateString(msg.getMsgTime()));
             list.add(chat);
         }
+    }
+
+    public List<String> getExpressionRes(int getSum) {
+        List<String> reslist = new ArrayList<String>();
+        for (int x = 1; x <= getSum; x++) {
+            String filename = "ee_" + x;
+            reslist.add(filename);
+        }
+        return reslist;
+    }
+
+    /**
+     * 获取表情的gridview的子view
+     *
+     * @param i
+     * @return
+     */
+    private View getGridChildView(int i) {
+        View view = View.inflate(this, R.layout.expression_gridview, null);
+        ExpandGridView gv = (ExpandGridView) view.findViewById(R.id.gridview);
+        List<String> list = new ArrayList<String>();
+        if (i == 1) {
+            List<String> list1 = reslist.subList(0, 20);
+            list.addAll(list1);
+        } else if (i == 2) {
+            list.addAll(reslist.subList(20, reslist.size()));
+        }
+        list.add("delete_expression");
+        final ExpressionAdapter expressionAdapter = new ExpressionAdapter(this, 1, list);
+        gv.setAdapter(expressionAdapter);
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String filename = expressionAdapter.getItem(position);
+                try {
+                    if (filename != "delete_expression") { // 不是删除键，显示表情
+                        // 这里用的反射，所以混淆的时候不要混淆SmileUtils这个类
+                        Class clz = Class.forName("com.tangpo.lianfu.utils.SmileUtils");
+                        Field field = clz.getField(filename);
+                        chat.append(SmileUtils.getSmiledText(ChatActivity.this,
+                                (String) field.get(null)));
+                    } else { // 删除文字或者表情
+                        if (!TextUtils.isEmpty(chat.getText())) {
+
+                            int selectionStart = chat.getSelectionStart();// 获取光标的位置
+                            if (selectionStart > 0) {
+                                String body = chat.getText().toString();
+                                String tempStr = body.substring(0, selectionStart);
+                                int i = tempStr.lastIndexOf("[");// 获取最后一个表情的位置
+                                if (i != -1) {
+                                    CharSequence cs = tempStr.substring(i, selectionStart);
+                                    if (SmileUtils.containsKey(cs.toString()))
+                                        chat.getEditableText().delete(i, selectionStart);
+                                    else
+                                        chat.getEditableText().delete(selectionStart - 1,
+                                                selectionStart);
+                                } else {
+                                    chat.getEditableText().delete(selectionStart - 1, selectionStart);
+                                }
+                            }
+                        }
+
+                    }
+                } catch (Exception e) {
+                }
+
+            }
+        });
+        return view;
     }
 }

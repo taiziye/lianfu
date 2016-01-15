@@ -1,9 +1,9 @@
 package com.tangpo.lianfu.ui;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.easemob.easeui.ui.EaseConversationListFragment;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
@@ -46,8 +45,6 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
 
     private Fragment fragment = null;
     private FragmentTransaction transaction = null;
-
-    private EaseConversationListFragment conversationListFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,13 +104,10 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     fragment = new ConversationFragment();
                     name.setText("会话记录");
                     fragment.setArguments(bundle);
-                    /*conversationListFragment = new EaseConversationListFragment();*/
+                    //conversationListFragment = new EaseConversationListFragment();
                     conversation.setSelected(true);
                     address_list.setSelected(false);
 
-                    transaction.replace(R.id.fragment_container, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
@@ -130,14 +124,16 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     conversation.setSelected(false);
                     address_list.setSelected(true);
 
-                    transaction.replace(R.id.fragment_container, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
                 }
                 break;
+        }
+        if (account != null) {
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 

@@ -1,5 +1,9 @@
 package com.tangpo.lianfu.entity;
 
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.ImageMessageBody;
+import com.easemob.chat.TextMessageBody;
+
 /**
  * Created by 果冻 on 2016/1/10.
  */
@@ -9,16 +13,24 @@ public class Chat {
     private String img;
     private String msg;
     private String time;
+    private EMMessage message;
 
     public Chat() {
     }
 
-    public Chat(String hxid, String username, String img, String msg, String time) {
+    public Chat(String hxid, String username, String img, String time) {
         this.hxid = hxid;
         this.username = username;
         this.img = img;
-        this.msg = msg;
         this.time = time;
+    }
+
+    public EMMessage getMessage() {
+        return message;
+    }
+
+    public void setMessage(EMMessage message) {
+        this.message = message;
     }
 
     public String getHxid() {
