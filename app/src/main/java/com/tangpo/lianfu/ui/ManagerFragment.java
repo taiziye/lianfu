@@ -67,9 +67,10 @@ import org.json.JSONObject;
  */
 public class ManagerFragment extends Fragment implements OnClickListener {
 
-    private final static int SCANNIN_STORE_INFO = 1;
     private final static int GET_STORE_INFO = 2;
     private final static int GET_OPENID = 3;
+
+    public static final int REQUEST_CODE = 7;
     private Button double_code;
     private Button chat;
     private Button login_out;
@@ -230,7 +231,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 intent=new Intent();
                 intent.setClass(getActivity(),MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent,SCANNIN_STORE_INFO);
+                startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
                 break;
@@ -271,31 +272,28 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 break;
 
             case R.id.bind_weibo:
-                Tools.showToast(getActivity(),getString(R.string.new_function_has_not_online));
-//                if("0".equals(isbindwb)){
-//                    Weibo();
-//                }
-//                else{
-//                    unBind("1");
-//                }
+                if("0".equals(isbindwb)){
+                    Weibo();
+                }
+                else{
+                    unBind("1");
+                }
                 break;
             case R.id.bind_wexin:
-                Tools.showToast(getActivity(),getString(R.string.new_function_has_not_online));
-//                if("0".equals(isbindwx)){
-//                    Weixin();
-//                }
-//                else{
-//                    unBind("0");
-//                }
+                if("0".equals(isbindwx)){
+                    Weixin();
+                }
+                else{
+                    unBind("0");
+                }
                 break;
             case R.id.bind_qq:
-                Tools.showToast(getActivity(),getString(R.string.new_function_has_not_online));
-//                if("0".equals(isbindqq)){
-//                    QQ();
-//                }
-//                else{
-//                    unBind("2");
-//                }
+                if("0".equals(isbindqq)){
+                    QQ();
+                }
+                else{
+                    unBind("2");
+                }
                 break;
         }
     }
@@ -476,9 +474,9 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 String expires = jsonResponse.getString(com.tencent.connect.common.Constants.PARAM_EXPIRES_IN);
                 String openId = jsonResponse.getString(com.tencent.connect.common.Constants.PARAM_OPEN_ID);
                 if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires) && !TextUtils.isEmpty(openId)){
-                    //将openid和token保存起来
-                    mTencent.setAccessToken(token, expires);
-                    mTencent.setOpenId(openId);
+//                    //将openid和token保存起来
+//                    mTencent.setAccessToken(token, expires);
+//                    mTencent.setOpenId(openId);
                     lianfuBindThirdAccount(user_id,openId,"2");
                 }
             } catch (JSONException e) {
@@ -502,7 +500,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case SCANNIN_STORE_INFO:
+            case REQUEST_CODE:
                 if(resultCode==getActivity().RESULT_OK){
                     Bundle bundle=data.getExtras();
                     String result=bundle.getString("result");
@@ -519,20 +517,14 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case '胍':{
                 if (mSsoHandler != null) {
                     mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-                    //获取用户信息接口
-                    mUsersAPI=new UsersAPI(getActivity(),Constants.APP_KEY,mAccessToken);
-                    if(mAccessToken!=null && mAccessToken.isSessionValid()){
-                        long uid=Long.parseLong(mAccessToken.getUid());
-                        mUsersAPI.show(uid,mListener);
-                    }
                 }
             }
             break;
             case com.tencent.connect.common.Constants.REQUEST_LOGIN:
             case  com.tencent.connect.common.Constants.REQUEST_APPBAR:
                 Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
-                mInfo=new UserInfo(getActivity(),MainActivity.mTencent.getQQToken());
-                mInfo.getUserInfo(new BaseUIListener(getActivity(), "get_simple_userinfo"));
+//                mInfo=new UserInfo(getActivity(),MainActivity.mTencent.getQQToken());
+//                mInfo.getUserInfo(new BaseUIListener(getActivity(), "get_simple_userinfo"));
             break;
         }
     }

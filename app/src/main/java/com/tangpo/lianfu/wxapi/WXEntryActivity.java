@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.wxapi;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import com.loopj.android.http.RequestParams;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.WeiXin.Constants;
+import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.OAuth;
 import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
+import com.tangpo.lianfu.ui.ManagerFragment;
 import com.tangpo.lianfu.ui.RelationActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -48,7 +51,23 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onCreate(Bundle savedInstanceState) {
 // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        MainActivity.api.handleIntent(getIntent(), this);
+        if(MainActivity.api!=null){
+            MainActivity.api.handleIntent(getIntent(), this);
+        }
+        if(ManagerFragment.api!=null){
+            ManagerFragment.api.handleIntent(getIntent(),this);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(MainActivity.api!=null){
+            MainActivity.api.handleIntent(getIntent(), this);
+        }
+        if(ManagerFragment.api!=null){
+            ManagerFragment.api.handleIntent(getIntent(),this);
+        }
     }
 
     @Override

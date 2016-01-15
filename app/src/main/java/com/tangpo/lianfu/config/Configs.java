@@ -30,7 +30,8 @@ public class Configs {
     public static final String KEY_LOGINTYPE = "logintype";
     public static final String KEY_PARAM = "param";
 
-    public static final String SERVER_URL = "http://182.92.191.236:10000/clientserver/fshopserver.aspx";
+//    public static final String SERVER_URL = "http://www.51xfzf.com/clientserver/fshopserver.aspx";
+    public static   String SERVER_URL = "http://182.92.191.236:10000/clientserver/fshopserver.aspx";
 
     //获取访问服务器的Token
     public static String getCatchedToken(Context context) {
