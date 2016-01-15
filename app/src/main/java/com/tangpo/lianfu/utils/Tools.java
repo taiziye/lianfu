@@ -71,6 +71,8 @@ public class Tools {
 
     private static List<Activity> activityList = new LinkedList<Activity>();
 
+    private static Toast toast;
+
     /**
      * 开启activity，无参数跳转
      *
@@ -147,21 +149,31 @@ public class Tools {
      * 显示Toast
      */
     public static void showToast(Context context, String msg) {
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-        View view = ((LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
-                R.layout.toast_layout, null);
-        TextView tv_message = (TextView) view.findViewById(R.id.tv_message);
-        tv_message.setText(msg);
-        toast.setView(view);
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        int width = wm.getDefaultDisplay().getWidth();
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv_message
-                .getLayoutParams();
-        lp.width = width - Tools.dip2px(context, 50);
-        tv_message.setLayoutParams(lp);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+//        View view = ((LayoutInflater) context
+//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
+//                R.layout.toast_layout, null);
+//        TextView tv_message = (TextView) view.findViewById(R.id.tv_message);
+//        WindowManager wm = (WindowManager) context
+//                .getSystemService(Context.WINDOW_SERVICE);
+//        int width = wm.getDefaultDisplay().getWidth();
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv_message
+//                .getLayoutParams();
+//        lp.width = width - Tools.dip2px(context, 50);
+//        tv_message.setLayoutParams(lp);
+//        tv_message.setText(msg);
+//        if(toast==null){
+//            toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+//            toast.setView(view);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
+//        }else{
+//            toast.setText(msg);
+//        }
+        if(toast==null){
+            toast=Toast.makeText(context,msg,Toast.LENGTH_SHORT);
+        }else{
+            toast.setText(msg);
+            toast.setDuration(Toast.LENGTH_SHORT);
+        }
         toast.show();
     }
 

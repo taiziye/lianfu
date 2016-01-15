@@ -353,6 +353,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         req.scope= com.tangpo.lianfu.config.WeiXin.Constants.SCOPE;
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);
+        api.unregisterApp();
         getActivity().registerReceiver(mBrocastReceiver,new IntentFilter(WXEntryActivity.ACTION));
     }
 
@@ -360,6 +361,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String openid=intent.getStringExtra("openid");
+            Log.e("tag",openid);
             Message msg=new Message();
             msg.what=GET_OPENID;
             msg.obj=openid;
@@ -604,7 +606,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 if(logintype.equals("1")){
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
-                    isbindwb="0";
+                    isbindwb="1";
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
@@ -612,7 +614,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
-                    isbindqq="2";
+                    isbindqq="1";
                 }
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }

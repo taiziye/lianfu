@@ -578,7 +578,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 if(logintype.equals("1")){
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
-                    isbindwb="0";
+                    isbindwb="1";
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
@@ -586,7 +586,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
-                    isbindqq="2";
+                    isbindqq="1";
                 }
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }
