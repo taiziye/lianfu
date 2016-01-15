@@ -13,11 +13,18 @@ import android.util.Log;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.ImageMessageBody;
+import com.easemob.chat.TextMessageBody;
+import com.easemob.exceptions.EaseMobException;
+import com.easemob.util.PathUtil;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by 果冻 on 2016/1/11.
@@ -50,16 +57,27 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
             // 消息不是发给当前会话，return
             return;
         }
-        Log.e("tag", message.toString());
         my_id = HomePageActivity.account.getEasemod_id();
-        Log.e("tag", "myid " + my_id + " hxid " + message.getFrom().toLowerCase());
         latestmsg = message.getBody().toString().substring(5, message.getBody().toString().length() - 1);
         time = Tools.long2DateString(message.getMsgTime());
+        if (message.getType() == EMMessage.Type.IMAGE) {
+            latestmsg = "[图片]";
+            /*ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
+            String filename = imgBody.getFileName();
+            Log.e("tag", "filename " + filename + " sub " + filename.substring(filename.lastIndexOf("\\") + 1) + " index " + filename.lastIndexOf("\\"));
+            imgBody.setLocalUrl("storage/emulated/0/data/" + filename.substring(filename.lastIndexOf("\\") + 1));
+            message.addBody(imgBody);*/
+        } else {
+            TextMessageBody txtBody = (TextMessageBody) message.getBody();
+            latestmsg = txtBody.getMessage();
+        }
 
+        conversation.addMessage(message);
         ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", HomePageActivity.account.getPhoto(), latestmsg, time);
+        Tools.saveAccount(ac);
+        ac.setType(message.getType());
         account.copy(ac);
         latestmsg = "";
-        //}
         notifier(context, message, ac);
     }
 
@@ -86,7 +104,6 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
 
         Intent i = new Intent(context.getApplicationContext(), ChatActivity.class);
         i.putExtra("account", ac);
-        Log.e("tag", "ac " + ac.toString());
         i.putExtra("username", ac.getName());
         i.putExtra("hxid", ac.getEasemod_id());
         i.putExtra("myid", my_id);
@@ -94,7 +111,6 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
         PendingIntent pd = PendingIntent.getActivity(context, 0, i, 0);
 
         CharSequence msg = message.getUserName();
-        CharSequence text = latestmsg;
         notification.setLatestEventInfo(context, title, msg, pd);
         manager.notify(2, notification);
     }

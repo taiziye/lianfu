@@ -1,14 +1,11 @@
 package com.tangpo.lianfu.utils;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -29,6 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import com.easemob.util.PathUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,7 +51,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -465,6 +467,49 @@ public class Tools {
         params.height = height + (list.getDividerPadding() * (adapter.getCount() - 1));
         list.setLayoutParams(params);
     }
+
+    public static void downLoadImg(String localurl, final String remotepath, String filename) {
+        final String name = localurl + filename.substring(filename.lastIndexOf(".") + 1);
+        new Thread() {
+            @Override
+            public void run() {
+                URL url;
+                try {
+                    url = new URL(remotepath);
+                    InputStream is = url.openStream();
+                    OutputStream os = context.openFileOutput(name, context.MODE_APPEND);
+                    byte[] buff = new byte[1024];
+                    int hasRead = 0;
+                    while ((hasRead = is.read(buff)) > 0) {
+                        os.write(buff, 0, hasRead);
+                    }
+                    is.close();
+                    os.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public static String getImagePath(String remoteurl) {
+        String imageName = remoteurl.substring(remoteurl.lastIndexOf("/") +1, remoteurl.length());
+        String path = PathUtil.getInstance().getImagePath() + "/" + imageName;
+        return path;
+    }
+
+    public static String getThumbnailImagePath(String thumbRemoteUrl) {
+        String thumbImageName = thumbRemoteUrl.substring(thumbRemoteUrl.lastIndexOf("/") + 1, thumbRemoteUrl.length());
+        String path = PathUtil.getInstance().getImagePath() + "/" + "th" + thumbImageName;
+        return path;
+    }
+
+    /*public static String getPath() {
+        String file = Environment.getDownloadCacheDirectory().toString();
+        return file;
+    }*/
 
     /**
      * 保存最近会话人

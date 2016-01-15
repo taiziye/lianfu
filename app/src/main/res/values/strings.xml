@@ -339,4 +339,6 @@
     <string name="please_input_storename">请输入店铺名</string>
     <string name="store_collect">店铺收藏</string>
     <string name="search_store">搜索收藏的店铺</string>
+    <string name="Download_the_pictures">正在下载图片</string>
+    <string name="Download_the_pictures_new">Download the pictures:</string>
 </resources>

@@ -51,8 +51,6 @@ public class ConversationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_conversation, container, false);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        /*helper = new DataHelper(getActivity());
-        init(view);*/
         hx_id = getArguments().getString("hxid");
         photo = getArguments().getString("photo");
         return view;

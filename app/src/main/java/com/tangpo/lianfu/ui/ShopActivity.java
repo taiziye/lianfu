@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +32,8 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -222,6 +225,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
 
     private void setBigPhoto(int n) {
         Intent intent = new Intent(ShopActivity.this, PictureActivity.class);
+        intent.putExtra("flag", "url");
         intent.putExtra("url", tmp[n]);
         startActivity(intent);
     }
@@ -263,7 +267,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 }
 
                 if(store == null) {
-                    Tools.showToast(getApplicationContext(), "该店铺不存在");
+                    //Tools.showToast(getApplicationContext(), "该店铺不存在");
                     ShopActivity.this.finish();
                 }
             }

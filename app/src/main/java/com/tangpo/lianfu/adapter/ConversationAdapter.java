@@ -20,6 +20,7 @@ import com.easemob.util.EMLog;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.utils.EaseSmileUtils;
+import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.jivesoftware.smack.Chat;
@@ -88,7 +89,8 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
         // 获取与此用户的会话
         holder.name.setText(list.get(position).getName());
-        holder.latest.setText(list.get(position).getMsg());
+        //holder.latest.setText(list.get(position).getMsg());
+        handleTextMessage(list.get(position).getMsg(), holder.latest);
         holder.time.setText(list.get(position).getTime());
         if (list.get(position).getUnread() != 0) {
             holder.unread.setText(list.get(position).getUnread());
@@ -114,6 +116,18 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         }*/
 
         return convertView;
+    }
+
+    /**
+     * 文本消息
+     *
+     * @param message
+     * @param txt
+     */
+    private void handleTextMessage(String message, TextView txt) {
+        Spannable span = SmileUtils.getSmiledText(context, message);
+        // 设置内容
+        txt.setText(span, TextView.BufferType.SPANNABLE);
     }
 
     private String getMessageDigest(EMMessage message, Context context) {

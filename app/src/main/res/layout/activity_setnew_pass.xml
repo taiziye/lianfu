@@ -4,6 +4,44 @@
     android:layout_height="match_parent"
     >
 
+    <RelativeLayout android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/confirm"
+            android:text="@string/confirm"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
+            android:background="@null"
+            android:textSize="16sp"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="设置新密码"/>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+    </RelativeLayout>
+
     <View android:id="@+id/t1"
         android:layout_below="@id/top"
         style="@style/view_line_style" />
@@ -109,43 +147,5 @@
 
     <View style="@style/view_line_style"
         android:layout_below="@id/three"/>
-
-    <RelativeLayout android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="#535456">
-
-        <Button
-            android:id="@+id/confirm"
-            android:text="@string/confirm"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:background="@null"
-            android:textSize="16sp"
-            android:layout_width="80dp"
-            android:layout_height="40dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:text="设置新密码"/>
-
-        <Button
-            android:id="@+id/back"
-            android:layout_width="15dp"
-            android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true"
-            android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/back" />
-    </RelativeLayout>
 
 </RelativeLayout>
