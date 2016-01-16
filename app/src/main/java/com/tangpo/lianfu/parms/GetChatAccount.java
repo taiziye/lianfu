@@ -33,7 +33,7 @@ public class GetChatAccount {
             jsonObject.put("md5ver", Escape.escape(md5vec));
             jsonObject.put("sessid", Escape.escape(sessid));
             JSONObject paramJsonObject = new JSONObject();
-            paramJsonObject.put("user_id", kvs[0]);
+            paramJsonObject.put("user_id", Escape.escape(kvs[0]));
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

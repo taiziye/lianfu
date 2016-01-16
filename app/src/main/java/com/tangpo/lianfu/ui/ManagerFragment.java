@@ -314,15 +314,19 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                     bind_weibo.setText(getString(R.string.bind));
                     bind_weibo.setBackgroundResource(R.drawable.bind);
                     isbindwb="0";
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.bind));
                     bind_weixin.setBackgroundResource(R.drawable.bind);
                     isbindwx="0";
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.bind));
                     bind_qq.setBackgroundResource(R.drawable.bind);
                     isbindqq="0";
+                    user.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.unbind_success));
             }
         }, new NetConnection.FailCallback() {
@@ -354,7 +358,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);
         api.unregisterApp();
-        getActivity().registerReceiver(mBrocastReceiver,new IntentFilter(WXEntryActivity.ACTION));
+        getActivity().registerReceiver(mBrocastReceiver, new IntentFilter(WXEntryActivity.ACTION));
     }
 
     private BroadcastReceiver mBrocastReceiver=new BroadcastReceiver() {
@@ -366,11 +370,6 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             msg.what=GET_OPENID;
             msg.obj=openid;
             handler.sendMessage(msg);
-
-            if(mBrocastReceiver!=null){
-                getActivity().unregisterReceiver(mBrocastReceiver);
-                mBrocastReceiver=null;
-            }
         }
     };
 
@@ -607,15 +606,20 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
                     isbindwb="1";
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
                     isbindwx="1";
+                    getActivity().unregisterReceiver(mBrocastReceiver);
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
                     isbindqq="1";
+                    user.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }
         }, new NetConnection.FailCallback() {
@@ -636,5 +640,14 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 }
             }
         },params);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mBrocastReceiver!=null){
+            //getActivity().unregisterReceiver(mBrocastReceiver);
+            mBrocastReceiver=null;
+        }
     }
 }

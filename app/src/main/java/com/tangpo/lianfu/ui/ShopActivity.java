@@ -357,6 +357,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 //
                 dialog.dismiss();
+                Log.e("tag","result:"+result);
                 JSONArray array = null;
                 try {
                     array = result.getJSONArray("param");

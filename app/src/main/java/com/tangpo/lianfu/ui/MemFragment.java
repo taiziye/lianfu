@@ -187,14 +187,23 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         if("1".equals(userEntity.getBindwb())){
             bind_weibo.setText(getString(R.string.unbind));
             bind_weibo.setBackgroundResource(R.drawable.unbind);
+        }else{
+            bind_weibo.setText(getString(R.string.bind));
+            bind_weibo.setBackgroundResource(R.drawable.bind);
         }
         if("1".equals(userEntity.getBindwx())){
             bind_weixin.setText(getString(R.string.unbind));
             bind_weixin.setBackgroundResource(R.drawable.unbind);
+        }else{
+            bind_weixin.setText(getString(R.string.bind));
+            bind_weixin.setBackgroundResource(R.drawable.bind);
         }
         if("1".equals(userEntity.getBindqq())){
             bind_qq.setText(getString(R.string.unbind));
             bind_qq.setBackgroundResource(R.drawable.unbind);
+        }else{
+            bind_qq.setText(getString(R.string.bind));
+            bind_qq.setBackgroundResource(R.drawable.bind);
         }
     }
 
@@ -285,15 +294,19 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                     bind_weibo.setText(getString(R.string.bind));
                     bind_weibo.setBackgroundResource(R.drawable.bind);
                     isbindwb="0";
+                    userEntity.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.bind));
                     bind_weixin.setBackgroundResource(R.drawable.bind);
                     isbindwx="0";
+                    userEntity.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.bind));
                     bind_qq.setBackgroundResource(R.drawable.bind);
                     isbindqq="0";
+                    userEntity.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),userEntity.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.unbind_success));
             }
         }, new NetConnection.FailCallback() {
@@ -303,7 +316,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 try {
                     String status=result.getString("status");
                     if ("3".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_other_lianfu_account));
+                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_this_third_account));
                     }else if("10".equals(status)){
                         Tools.showToast(getActivity(),getString(R.string.server_exception));
                     }else{
@@ -336,10 +349,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             msg.obj=openid;
             handler.sendMessage(msg);
 
-            if(mBrocastReceiver!=null){
-                getActivity().unregisterReceiver(mBrocastReceiver);
-                mBrocastReceiver=null;
-            }
+//            if(mBrocastReceiver!=null){
+//                getActivity().unregisterReceiver(mBrocastReceiver);
+//                mBrocastReceiver=null;
+//            }
         }
     };
 
@@ -579,15 +592,20 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
                     isbindwb="1";
+                    userEntity.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
                     isbindwx="1";
+                    getActivity().unregisterReceiver(mBrocastReceiver);
+                    userEntity.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
                     isbindqq="1";
+                    userEntity.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),userEntity.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }
         }, new NetConnection.FailCallback() {

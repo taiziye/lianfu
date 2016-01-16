@@ -85,6 +85,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
 
     private int paramcentcount;
 
+    public static HashMap<Integer,Boolean> checkedItems=new HashMap<>();
+
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -147,8 +149,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = 1;
                 list.clear();
-                tmp=0.00f;
-                money.setText("0.00");
+//                tmp=0.00f;
+//                money.setText("0.00");
                 select_all.setChecked(false);
 
                 // 下拉的时候刷新数据
@@ -170,8 +172,8 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                tmp=0.00f;
-                money.setText("0.00");
+//                tmp=0.00f;
+//                money.setText("0.00");
                 select_all.setChecked(false);
                 if(page<=paramcentcount){
                     getProfitPay(flag, "");
@@ -199,6 +201,7 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     holder.check.toggle();
                     //将CheckBox的选中状态记录下来
                     adapter.getIsSelected().put(position - 1, holder.check.isChecked());
+                    checkedItems.put(position-1,holder.check.isChecked());
                     //调整选定的条目
                     if (holder.check.isChecked() == true) {
                         if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
@@ -262,11 +265,12 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.select_all:
                 if (select_all.isChecked()) {
-                    tmp=0;
+                    tmp=0.00f;
                     set.clear();
                     for (int i = 0; i < list.size(); i++) {
                         if("0".equals(list.get(i).getPay_status())){
                             adapter.getIsSelected().put(i, true);
+                            checkedItems.put(i,true);
                             set.put(i, list.get(i).getId());
                             if(list.get(i).getProfit() != null)
                                 tmp += Double.parseDouble(list.get(i).getProfit());
@@ -279,9 +283,10 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     for(int i=0;i<list.size();i++){
                         if(adapter.getIsSelected().get(i)){
                             adapter.getIsSelected().put(i,false);
+                            checkedItems.put(i,false);
                         }
                     }
-                    tmp=0;
+                    tmp=0.00f;
                     set.clear();
                     checkNum=0;
                     money.setText(String.format("%.2f", tmp));

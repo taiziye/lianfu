@@ -265,15 +265,19 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                     bind_weibo.setText(getString(R.string.bind));
                     bind_weibo.setBackgroundResource(R.drawable.bind);
                     isbindwb="0";
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.bind));
                     bind_weixin.setBackgroundResource(R.drawable.bind);
                     isbindwx="0";
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.bind));
                     bind_qq.setBackgroundResource(R.drawable.bind);
                     isbindqq="0";
+                    user.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.unbind_success));
             }
         }, new NetConnection.FailCallback() {
@@ -304,9 +308,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         req.scope= com.tangpo.lianfu.config.WeiXin.Constants.SCOPE;
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);
-        if (mBrocastReceiver==null){
-            getActivity().registerReceiver(mBrocastReceiver,new IntentFilter(WXEntryActivity.ACTION));
-        }
+        api.unregisterApp();
+        getActivity().registerReceiver(mBrocastReceiver,new IntentFilter(WXEntryActivity.ACTION));
     }
 
     private BroadcastReceiver mBrocastReceiver=new BroadcastReceiver() {
@@ -318,10 +321,10 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             msg.obj=openid;
             handler.sendMessage(msg);
 
-            if(mBrocastReceiver!=null){
-                getActivity().unregisterReceiver(mBrocastReceiver);
-                mBrocastReceiver=null;
-            }
+//            if(mBrocastReceiver!=null){
+//                getActivity().unregisterReceiver(mBrocastReceiver);
+//                mBrocastReceiver=null;
+//            }
         }
     };
 
@@ -542,7 +545,7 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         },param);
     }
 
-    private void lianfuBindThirdAccount(String user_id,String openid, final String logintype){
+    private void lianfuBindThirdAccount(final String user_id,String openid, final String logintype){
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
@@ -560,15 +563,20 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
                     isbindwb="1";
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
                     isbindwx="1";
+                    getActivity().unregisterReceiver(mBrocastReceiver);
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
                     isbindqq="1";
+                    user.setBindqq(isbindqq);
                 }
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }
         }, new NetConnection.FailCallback() {

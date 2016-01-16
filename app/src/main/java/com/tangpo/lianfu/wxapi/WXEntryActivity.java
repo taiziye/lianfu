@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -18,9 +19,11 @@ import com.tangpo.lianfu.config.WeiXin.Constants;
 import com.tangpo.lianfu.entity.Manager;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.OAuth;
+import com.tangpo.lianfu.ui.EmployeeFragment;
 import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.ManagerFragment;
+import com.tangpo.lianfu.ui.MemFragment;
 import com.tangpo.lianfu.ui.RelationActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -57,6 +60,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if(ManagerFragment.api!=null){
             ManagerFragment.api.handleIntent(getIntent(),this);
         }
+        if(EmployeeFragment.api!=null){
+            EmployeeFragment.api.handleIntent(getIntent(),this);
+        }
+        if(MemFragment.api!=null){
+            MemFragment.api.handleIntent(getIntent(),this);
+        }
     }
 
     @Override
@@ -67,6 +76,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         if(ManagerFragment.api!=null){
             ManagerFragment.api.handleIntent(getIntent(),this);
+        }
+        if(EmployeeFragment.api!=null){
+            EmployeeFragment.api.handleIntent(getIntent(),this);
+        }
+        if(MemFragment.api!=null){
+            MemFragment.api.handleIntent(getIntent(),this);
         }
     }
 
@@ -81,6 +96,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 String code = ((SendAuth.Resp) resp).code;
+                Log.e("tag","code:"+code);
                 getOpenidAndToken(code);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -99,6 +115,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             try {
                 String access_token=((JSONObject)msg.obj).getString("access_token");
                 String openid=((JSONObject)msg.obj).getString("openid");
+                Log.e("tag","openid:"+openid);
                 Intent intent=new Intent(WXEntryActivity.ACTION);
                 intent.putExtra(WXEntryActivity.TOKEN,access_token);
                 intent.putExtra(WXEntryActivity.OPENID,openid);

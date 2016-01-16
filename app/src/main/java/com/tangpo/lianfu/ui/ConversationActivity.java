@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -72,6 +73,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         name.setText("客服列表");
 
         String str = getIntent().getStringExtra("servers");
+        Log.e("tag","server:"+str);
         try {
             JSONArray array = new JSONArray(str);
             JSONObject object;

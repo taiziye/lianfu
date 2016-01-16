@@ -294,6 +294,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Bundle bundle=new Bundle();
                 bundle.putString("access_token",access_token);
                 bundle.putString("openid",openid);
+
+                Log.e("tag","MainActivity:"+openid);
                 msg.obj=bundle;
                 mHandler.sendMessage(msg);
             }
@@ -544,5 +546,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             }
         },params);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mBrocastReceiver!=null){
+            mBrocastReceiver=null;
+        }
     }
 }

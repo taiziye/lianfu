@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ProfitPay;
+import com.tangpo.lianfu.ui.OfflineProfitPayActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,11 @@ public class ComputeProfitAdapter extends BaseAdapter {
 
     public void setIsSelected(int size) {
         for(int i=0;i<size;i++){
-            getIsSelected().put(i,false);
+            if(OfflineProfitPayActivity.checkedItems.get(i)!=null){
+                getIsSelected().put(i,OfflineProfitPayActivity.checkedItems.get(i));
+            }else{
+                getIsSelected().put(i,false);
+            }
         }
     }
 
@@ -50,7 +55,11 @@ public class ComputeProfitAdapter extends BaseAdapter {
 
     private void initData(){
         for(int i=0;i<list.size();i++){
-            getIsSelected().put(i,false);
+            if(OfflineProfitPayActivity.checkedItems.get(i)!=null){
+                getIsSelected().put(i,OfflineProfitPayActivity.checkedItems.get(i));
+            }else{
+                getIsSelected().put(i,false);
+            }
         }
     }
 

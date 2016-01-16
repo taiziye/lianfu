@@ -54,7 +54,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     private int paramcentcount;
 
     private Gson gson = new Gson();
-    private String user_id = null;
+    public static String user_id = null;
 
     private ProgressDialog dialog = null;
 
@@ -229,6 +229,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
+                Log.e("tag","listSize:"+list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
                 listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
@@ -243,7 +244,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         }
 
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-        String kvs[] = new String[]{user_id, name,"10", page + ""};
+        String kvs[] = new String[]{user_id, name,page + "","10"};
         String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -251,8 +252,10 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             public void onSuccess(JSONObject result) {
                 listView.onRefreshComplete();
                 dialog.dismiss();
+                Log.e("tag",result.toString());
                 try {
                     paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                    Log.e("tag","paramcentcount"+paramcentcount);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
