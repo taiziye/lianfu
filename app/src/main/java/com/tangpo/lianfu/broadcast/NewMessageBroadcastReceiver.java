@@ -6,36 +6,55 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.exceptions.EaseMobException;
-import com.easemob.util.PathUtil;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
-import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.utils.Tools;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by 果冻 on 2016/1/11.
  */
 public class NewMessageBroadcastReceiver extends BroadcastReceiver {
-    private String my_id;
+    public static int unread = 0;
+    private static String my_id = ChatAccount.getInstance().getEasemod_id();
     public static String latestmsg;
     public static String time;
-    public static ChatAccount account = new ChatAccount();
+    public static ChatAccount account = ChatAccount.getInstance();
+    //监听器是否注册
+    private static boolean flag = false;
+    private static NewMessageBroadcastReceiver receiver = null;
 
-    public NewMessageBroadcastReceiver() {
+    private String packageName = null;
+
+    public NewMessageBroadcastReceiver(Context context) {
+        packageName = context.getApplicationInfo().packageName;
+    }
+
+    public static void register(Context context) {
+        if (receiver == null) {
+            receiver = new NewMessageBroadcastReceiver(context);
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(EMChatManager.getInstance().getNewMessageBroadcastAction());
+        if (!flag) {
+            context.registerReceiver(receiver, filter);
+            flag = true;
+        }
+    }
+
+    public static void unregister(Context context) {
+        if (flag) {
+            context.unregisterReceiver(receiver);
+            flag = false;
+        }
     }
 
     @Override
@@ -57,7 +76,6 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
             // 消息不是发给当前会话，return
             return;
         }
-        my_id = HomePageActivity.account.getEasemod_id();
         latestmsg = message.getBody().toString().substring(5, message.getBody().toString().length() - 1);
         time = Tools.long2DateString(message.getMsgTime());
         if (message.getType() == EMMessage.Type.IMAGE) {
@@ -71,9 +89,10 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
             TextMessageBody txtBody = (TextMessageBody) message.getBody();
             latestmsg = txtBody.getMessage();
         }
+        unread ++;
 
         conversation.addMessage(message);
-        ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", HomePageActivity.account.getPhoto(), latestmsg, time);
+        ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
         Tools.saveAccount(ac);
         ac.setType(message.getType());
         account.copy(ac);
@@ -85,7 +104,7 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
      * 消息通知
      * @param message
      */
-    private void notifier(Context context, EMMessage message, ChatAccount ac) {
+    public static void notifier(Context context, EMMessage message, ChatAccount ac) {
         NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         CharSequence title = "来自" + message.getUserName() + "的信息";
         Long when = System.currentTimeMillis();
@@ -102,16 +121,29 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
         notification.sound = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "6");
         notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
+        /*PackageManager packageManager = context.getPackageManager();
+        String appname = (String) packageManager.getApplicationLabel(context.getApplicationInfo());
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(context.getApplicationInfo().icon)
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(true);
+        Intent msgIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);*/
+
         Intent i = new Intent(context.getApplicationContext(), ChatActivity.class);
         i.putExtra("account", ac);
         i.putExtra("username", ac.getName());
         i.putExtra("hxid", ac.getEasemod_id());
         i.putExtra("myid", my_id);
         i.putExtra("photo", ac.getPhoto());
-        PendingIntent pd = PendingIntent.getActivity(context, 0, i, 0);
+        PendingIntent pd = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        CharSequence msg = message.getUserName();
+        String msg = "";
+        if (message.getType() == EMMessage.Type.TXT) {
+            msg = ((TextMessageBody)message.getBody()).getMessage();
+        } else {
+            msg = "图片消息";
+        }
         notification.setLatestEventInfo(context, title, msg, pd);
-        manager.notify(2, notification);
+        manager.notify((int) System.currentTimeMillis(), notification);
     }
 }

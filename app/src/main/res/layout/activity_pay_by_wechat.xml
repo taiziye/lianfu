@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.tangpo.lianfu.ui.ExternalFragment"
+        android:name="com.tangpo.lianfu.fragment.ExternalFragment"
         android:layout_width="fill_parent"
         android:layout_height="match_parent" />
 

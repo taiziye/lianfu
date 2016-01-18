@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
@@ -86,7 +87,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_activity);
-
+        Log.e("tag", ChatAccount.getInstance().getEasemod_id());
         Tools.gatherActivity(this);
         if(getIntent() != null) {
             findStore=getIntent().getParcelableExtra("store");

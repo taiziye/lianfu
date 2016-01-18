@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,16 @@ import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.FileMessageBody;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.EMLog;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.entity.Chat;
+import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.PictureActivity;
 import com.tangpo.lianfu.utils.CircularImage;
@@ -37,35 +41,78 @@ import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Created by 果冻 on 2015/12/15.
  */
 public class ChatAdapter extends BaseAdapter {
+    private static final int HANDLER_MESSAGE_REFRESH_LIST = 0;
+    private static final int HANDLER_MESSAGE_SELECT_LAST = 1;
+    private static final int HANDLER_MESSAGE_SEEK_TO = 2;
+
     private LayoutInflater inflater;
-    private Context context;
-    private List<Chat> list;
-    private String hxid;
+    private Activity context;
+    private ImageMessageBody imgBody;
     private TextMessageBody txtBody;
     private Bitmap bm;
+    private String username;
+    private EMMessage[] messages = null;
+    private EMConversation conversation;
     //private String url;
 
-    public ChatAdapter(Context context, List<Chat> list, String hxid) {
-        this.context = context;
-        this.list = list;
-        this.hxid = hxid;
+    public ChatAdapter(Context context, String username) {
+        this.context = (Activity)context;
+        this.username = username;
         this.inflater = LayoutInflater.from(context);
+        this.conversation = EMChatManager.getInstance().getConversation(username);
+        this.conversation.markAllMessagesAsRead();
+        NewMessageBroadcastReceiver.unread -= 1;
     }
+
+    Handler handler = new Handler(){
+        private void refreshList() {
+            messages = (EMMessage[])conversation.getAllMessages().toArray(new EMMessage[conversation.getAllMessages().size()]);
+            for (int i=0; i<messages.length; i++) {
+                conversation.getMessage(i);
+            }
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HANDLER_MESSAGE_REFRESH_LIST:
+                    refreshList();
+                    break;
+                case HANDLER_MESSAGE_SELECT_LAST:
+                    if (context instanceof ChatActivity) {
+                        PullToRefreshListView listView = ((ChatActivity)context).getListView();
+                        if (messages.length > 0) {
+                            listView.getRefreshableView().setSelection(messages.length - 1);
+                        }
+                    }
+                    break;
+                case HANDLER_MESSAGE_SEEK_TO:
+                    int position = msg.arg1;
+                    if (context instanceof ChatActivity) {
+                        PullToRefreshListView listView = ((ChatActivity)context).getListView();
+                        listView.getRefreshableView().setSelection(position);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public int getCount() {
-        return list.size();
+        return conversation.getAllMessages().size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public EMMessage getItem(int position) {
+        return conversation.getMessage(position);
     }
 
     @Override
@@ -75,11 +122,11 @@ public class ChatAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        final EMMessage message = getItem(position);
         ViewHolder holder = null;
         if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.chat_list, parent, false);
-
             holder.he = (LinearLayout) convertView.findViewById(R.id.he);
             holder.me = (LinearLayout) convertView.findViewById(R.id.me);
             holder.heimg = (CircularImage) convertView.findViewById(R.id.heimg);
@@ -98,11 +145,11 @@ public class ChatAdapter extends BaseAdapter {
 
         holder.me.setVisibility(View.VISIBLE);
         holder.he.setVisibility(View.VISIBLE);
-        String my_id = hxid.toLowerCase();
-        String he_id = list.get(position).getHxid().toLowerCase();
-        EMMessage message = list.get(position).getMessage();
+        //String my_id = hxid.toLowerCase();
+        //String he_id = list.get(position).getHxid().toLowerCase();
+        //EMMessage message = list.get(position).getMessage();
         //根据数据设置holder要显示的frame
-        if ( he_id.equals(my_id) ) {  //根据情形是否需要显示
+        if ( message.direct == EMMessage.Direct.SEND ) {  //根据情形是否需要显示
             holder.he.setVisibility(View.GONE);
             if (message.getType() == EMMessage.Type.IMAGE) { //图片
                 //imgBody = list.get(position).getImgBody();
@@ -113,7 +160,7 @@ public class ChatAdapter extends BaseAdapter {
                 if (message.direct == EMMessage.Direct.RECEIVE) {
                     handleImageMessage(message, holder.img2, position, convertView);
                 } else {
-                    final ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
+                    imgBody = (ImageMessageBody) message.getBody();
                     bm = BitmapFactory.decodeFile(imgBody.getLocalUrl());
                     holder.img2.setImageBitmap(bm);
                     setOnClickable(holder.img2, imgBody.getLocalUrl());
@@ -123,8 +170,8 @@ public class ChatAdapter extends BaseAdapter {
                 holder.img2.setVisibility(View.GONE);
                 handleTextMessage(message, holder.me_text);
             }
-            holder.time2.setText(list.get(position).getTime());
-            Tools.setPhoto(context, list.get(position).getImg(), holder.meimg);
+            holder.time2.setText(Tools.long2DateString(message.getMsgTime()));
+            Tools.setPhoto(context, ChatAccount.getInstance().getPhoto(), holder.meimg);
         } else {
             holder.me.setVisibility(View.GONE);
             if (message.getType() == EMMessage.Type.IMAGE) { //图片
@@ -136,7 +183,7 @@ public class ChatAdapter extends BaseAdapter {
                 if (message.direct == EMMessage.Direct.RECEIVE) {
                     handleImageMessage(message, holder.img1, position, convertView);
                 } else {
-                    final ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
+                    imgBody = (ImageMessageBody) message.getBody();
                     bm = BitmapFactory.decodeFile(imgBody.getLocalUrl());
                     holder.img1.setImageBitmap(bm);
                     setOnClickable(holder.img1, imgBody.getLocalUrl());
@@ -146,8 +193,8 @@ public class ChatAdapter extends BaseAdapter {
                 holder.img1.setVisibility(View.GONE);
                 handleTextMessage(message, holder.he_text);
             }
-            holder.time1.setText(list.get(position).getTime());
-            Tools.setPhoto(context, list.get(position).getImg(), holder.heimg);
+            holder.time1.setText(Tools.long2DateString(message.getMsgTime()));
+            Tools.setPhoto(context, ChatAccount.getInstance().getPhoto(), holder.heimg);
         }
         return convertView;
     }
@@ -163,6 +210,25 @@ public class ChatAdapter extends BaseAdapter {
         TextView time2;
         ImageView img1;
         ImageView img2;
+    }
+
+    /**
+     * 刷新页面
+     */
+    public void refresh() {
+        if (handler.hasMessages(HANDLER_MESSAGE_REFRESH_LIST)) {
+            return;
+        }
+        android.os.Message msg = handler.obtainMessage(HANDLER_MESSAGE_REFRESH_LIST);
+        handler.sendMessage(msg);
+    }
+
+    /**
+     * 刷新页面, 选择最后一个
+     */
+    public void refreshSelectLast() {
+        handler.sendMessage(handler.obtainMessage(HANDLER_MESSAGE_REFRESH_LIST));
+        handler.sendMessage(handler.obtainMessage(HANDLER_MESSAGE_SELECT_LAST));
     }
 
     private void setOnClickable(ImageView view, final String url) {
@@ -185,7 +251,7 @@ public class ChatAdapter extends BaseAdapter {
      * @param txt
      */
     private void handleTextMessage(EMMessage message, TextView txt) {
-        TextMessageBody txtBody = (TextMessageBody) message.getBody();
+        txtBody = (TextMessageBody) message.getBody();
         Spannable span = SmileUtils.getSmiledText(context, txtBody.getMessage());
         // 设置内容
         txt.setText(span, TextView.BufferType.SPANNABLE);

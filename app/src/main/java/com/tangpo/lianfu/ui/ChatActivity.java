@@ -1,6 +1,9 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +39,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
 import com.tangpo.lianfu.adapter.ExpressionAdapter;
 import com.tangpo.lianfu.adapter.ExpressionPagerAdapter;
+import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
 import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.utils.ExpandGridView;
@@ -64,9 +68,9 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     //private String userid;
     private String hxid;
     private String my_id;
-    private String photo;
-    private ChatAccount account;
-    private ChatAccount ac;
+    //private String photo;
+    //private ChatAccount account;
+    //private ChatAccount ac;
     private List<String> reslist;
 
     private InputMethodManager inputMethodManager = null;
@@ -75,7 +79,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
 
     private String latestmsg;
     private String time;
-    private List<Chat> list = new ArrayList<Chat>();
+    //private List<Chat> list = new ArrayList<Chat>();
     private ChatAdapter adapter = null;
 
     //表情
@@ -88,21 +92,14 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_chat);
+        //注销外部广播
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        account = getIntent().getExtras().getParcelable("account");
-        photo = getIntent().getStringExtra("photo");
+        //account = getIntent().getExtras().getParcelable("account");
+        //photo = getIntent().getStringExtra("photo");
         username = getIntent().getStringExtra("username");
-        hxid = getIntent().getStringExtra("hxid").toLowerCase();
-        my_id = HomePageActivity.account.getEasemod_id();
-
+        hxid = getIntent().getStringExtra("hxid");
+        my_id = ChatAccount.getInstance().getEasemod_id();
         init();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventOfflineMessage});
     }
 
     @Override
@@ -115,22 +112,43 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         my_id = intent.getStringExtra("myid").toLowerCase();
         list.clear();
         initView(hxid);*/
-        String name = intent.getStringExtra("username");
+        username = intent.getStringExtra("username");
+        hxid = intent.getStringExtra("hxid");
+        name.setText(username);
+
+        adapter = new ChatAdapter(ChatActivity.this, hxid);
+        listView.setAdapter(adapter);
+        adapter.refreshSelectLast();
+        onConversationInit();
+        /*Log.e("tag", "onNewIntent " + username);
         if (username.equals(name)) {
             super.onNewIntent(intent);
         } else {
             finish();
             startActivity(intent);
-        }
+        }*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage});
+    }
+
+    @Override
+    protected void onStop() {
+        EMChatManager.getInstance().unregisterEventListener(this);
+        //finish();
+        super.onStop();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (latestmsg != null && latestmsg.length() != 0) {
-            account.setMsg(latestmsg);
-            account.setTime(time);
-            Tools.saveAccount(account);
+            //account.setMsg(latestmsg);
+            //account.setTime(time);
+            //Tools.saveAccount(account);
         }
     }
 
@@ -138,7 +156,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
         name = (TextView) findViewById(R.id.name);
-
         expression = (ImageView) findViewById(R.id.expression);
         expression.setOnClickListener(this);
         add_img = (ImageView) findViewById(R.id.add_img);
@@ -189,25 +206,90 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
 
     private void initView(String hxid) {
         name.setText(username);
-        loadCoversation(hxid);
-        adapter = new ChatAdapter(ChatActivity.this, list, my_id);
+        adapter = new ChatAdapter(ChatActivity.this, hxid);
         listView.setAdapter(adapter);
-        listView.getRefreshableView().setSelection(list.size() - 1);
-
-        /*msgReceiver = new NewMessageBroadcastReceiver();
+        adapter.refreshSelectLast();
+        onConversationInit();
+        //listView.getRefreshableView().setSelection(list.size() - 1);
+        //NewMessageBroadcastReceiver.unregister(ChatActivity.this);
+        /*msgReceiver = new MessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
         intentFilter.setPriority(3);
         registerReceiver(msgReceiver, intentFilter);*/
+        //NewMessageBroadcastReceiver.unregister(ChatActivity.this);
         EMChat.getInstance().setAppInited();
     }
 
-    //private NewMessageBroadcastReceiver msgReceiver;
+    public PullToRefreshListView getListView() {
+        return listView;
+    }
+
+    protected void onConversationInit() {
+        conversation = EMChatManager.getInstance().getConversation(hxid);
+        conversation.markAllMessagesAsRead();
+
+        final List<EMMessage> msgs = conversation.getAllMessages();
+        int msgCount = msgs != null ? msgs.size() : 0;
+        if (msgCount < conversation.getAllMsgCount() && msgCount < 20) {
+            String msgId = null;
+            if (msgs != null && msgs.size() > 0) {
+                msgId = msgs.get(0).getMsgId();
+            }
+            conversation.loadMoreMsgFromDB(msgId, 20);
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //unregisterReceiver(msgReceiver);
+        //NewMessageBroadcastReceiver.register(ChatActivity.this);
         finish();
+    }
+
+    private void notifier(EMMessage message, ChatAccount ac){
+        //NewMessageBroadcastReceiver.notifier(ChatActivity.this, message, ac);
+        //NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        CharSequence title = "来自" + message.getUserName() + "的信息";
+        String msg = "";
+        if (message.getType() == EMMessage.Type.TXT) {
+            msg = ((TextMessageBody)message.getBody()).getMessage();
+        } else {
+            msg = "图片消息";
+        }
+        /*builder.setContentTitle(title);
+        builder.setContentText(msg);
+        builder.setSmallIcon(R.drawable.chat);
+        builder.setDefaults(Notification.DEFAULT_VIBRATE);
+        Notification notification = builder.build();
+        manager.notify((int) System.currentTimeMillis(), notification);
+
+        Intent intent = new Intent(this, UpdatePasswordActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 6, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);*/
+        Long when = System.currentTimeMillis();
+        Notification notification = new Notification(R.drawable.chat, title, when);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.ledARGB = 0xff00ff00;
+        notification.ledOnMS = 300;
+        notification.ledOffMS = 1000;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        long[] vibrate = {0,100,200,300};
+        notification.vibrate = vibrate ;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+
+        Intent i = new Intent(ChatActivity.this, ChatActivity.class);
+        i.putExtra("username", message.getUserName());
+        i.putExtra("hxid", message.getFrom());
+        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pd = PendingIntent.getActivity(ChatActivity.this, 0, i, 0);  //PendingIntent.FLAG_UPDATE_CURRENT
+
+        notification.setLatestEventInfo(ChatActivity.this, title, msg, pd);
+        manager.notify(3, notification);
     }
 
     @Override
@@ -230,6 +312,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                 break;
             case R.id.add_img:
                 Intent intent = new Intent(ChatActivity.this, SelectPicActivity.class);
+                intent.putExtra("flag", "flag");
                 startActivityForResult(intent, CHAT);
                 break;
             case R.id.send:
@@ -246,51 +329,77 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            String picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
+            String picPath = data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH);
             sendImg(picPath);
         }
     }
 
     @Override
-    public void onEvent(EMNotifierEvent emNotifierEvent) {
-        if (emNotifierEvent.getEvent() == EMNotifierEvent.Event.EventOfflineMessage) {
-            EMMessage message = (EMMessage) emNotifierEvent.getData();
-            EMConversation conversation = EMChatManager.getInstance().getConversation(message.getFrom());
-            if (message.getType() == EMMessage.Type.IMAGE) {
-                ImageMessageBody imgBody = (ImageMessageBody) message.getBody();
-                latestmsg = "[图片]";
-                message.addBody(imgBody);
-                conversation.addMessage(message);
-            } else if (message.getType() == EMMessage.Type.TXT){
-                TextMessageBody txtBody = (TextMessageBody) message.getBody();
-                latestmsg = txtBody.getMessage();
-                conversation.addMessage(message);
-            }
-            time = Tools.long2DateString(message.getMsgTime());
-            ChatAccount ac = new ChatAccount("", message.getFrom(), message.getUserName(), "", message.getFrom().toLowerCase(), "", "", HomePageActivity.account.getPhoto(), latestmsg, time);
-            Tools.saveAccount(ac);
-            ac.setType(message.getType());
+    public void onEvent(EMNotifierEvent event) {
+        EMMessage message;
+        EMConversation conversation;
+        NewMessageBroadcastReceiver.unread += 1;
+        Chat chat;
+        switch (event.getEvent()){
+            case EventNewMessage:
+                message = (EMMessage) event.getData();
+                String user = message.getUserName();
+                if (user.equals(hxid)) {
+                    refreshUIWithNewMessage();
+                } else {
+                    ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
+                    Tools.saveAccount(ac);
+                    notifier(message, ac);
+                }
+                break;
+            case EventOfflineMessage:
+                refreshUI();
+                break;
         }
     }
 
-    /*private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+    private void refreshUI() {
+        if(adapter == null){
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.refresh();
+            }
+        });
+    }
+
+    private void refreshUIWithNewMessage(){
+        if(adapter == null){
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            public void run() {
+                adapter.refreshSelectLast();
+            }
+        });
+    }
+
+    /*private class MessageBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // 注销广播
+            NewMessageBroadcastReceiver.unregister(ChatActivity.this);
             abortBroadcast();
             // 消息id（每条消息都会生成唯一的一个id，目前是SDK生成）
             String msgId = intent.getStringExtra("msgid");
             //发送方
-            String username = intent.getStringExtra("from");
+            String user = intent.getStringExtra("from");
             // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
             EMMessage message = EMChatManager.getInstance().getMessage(msgId);
             EMConversation	conversation = EMChatManager.getInstance().getConversation(username);
             // 如果是群聊消息，获取到group id
             if (message.getChatType() == EMMessage.ChatType.GroupChat) {
-                username = message.getTo();
+                user = message.getTo();
             }
-            if (!username.equals(username)) {
+            if (!user.equals(username)) {
                 // 消息不是发给当前会话，return
+                notifier(message);
                 return;
             }
             latestmsg = message.getBody().toString().substring(5, message.getBody().toString().length() - 1);
@@ -307,7 +416,19 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                 ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", photo, latestmsg, time);
                 latestmsg = "";
             }
-            notifier(message);
+            Chat chat = new Chat();
+            chat.setHxid(message.getFrom().toLowerCase());
+            chat.setUsername(message.getUserName());
+            if (message.getFrom().equals(my_id)) {
+                chat.setImg(photo);
+            } else {
+                chat.setImg(account.getPhoto());
+            }
+            chat.setMessage(message);
+            chat.setTime(Tools.long2DateString(message.getMsgTime()));
+            list.add(chat);
+            adapter.notifyDataSetChanged();
+            //notifier(message);
         }
     }*/
 
@@ -330,11 +451,11 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         notification.flags |= Notification.FLAG_SHOW_LIGHTS;
 
         Intent i = new Intent(ChatActivity.this, ChatActivity.class);
-        i.putExtra("account", ac);
-        i.putExtra("username", ac.getName());
-        i.putExtra("hxid", ac.getEasemod_id());
-        i.putExtra("myid", my_id);
-        i.putExtra("photo", photo);
+        //i.putExtra("account", ac);
+        //i.putExtra("username", ac.getName());
+        //i.putExtra("hxid", ac.getEasemod_id());
+        //i.putExtra("myid", my_id);
+        //i.putExtra("photo", photo);
         PendingIntent pd = PendingIntent.getActivity(this, 0, i, 0);
 
         CharSequence msg = message.getUserName();
@@ -381,13 +502,14 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         message.setReceipt(hxid);
         //把消息加入到此会话对象中
         conversation.addMessage(message);
+        adapter.refreshSelectLast();
         chat.getText().clear();
-        Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        /*Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
         chat.setMessage(message);
         list.add(chat);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
-        listView.getRefreshableView().setSelection(list.size() - 1);
+        listView.getRefreshableView().setSelection(list.size() - 1);*/
         //发送消息
         EMChatManager.getInstance().sendMessage(message, new EMCallBack(){
             @Override
@@ -421,23 +543,23 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     private void sendImg(final String filePath) {
         final EMConversation conversation = EMChatManager.getInstance().getConversation(hxid);
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
+        EMChatManager.getInstance().updateCurrentUserNick(username);
         //如果是群聊，设置chattype,默认是单聊
         //message.setChatType(EMMessage.ChatType.GroupChat);
-
         ImageMessageBody body = new ImageMessageBody(new File(filePath));
         // 默认超过100k的图片会压缩后发给对方，可以设置成发送原图
         // body.setSendOriginalImage(true);
         message.addBody(body);
         message.setReceipt(hxid);
         conversation.addMessage(message);
-
+        adapter.refreshSelectLast();
         chat.getText().clear();
-        Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
+        /*Chat chat = new Chat(my_id, username, photo, new SimpleDateFormat("dd号 HH:mm").format(new Date()));
         chat.setMessage(message);
         list.add(chat);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
-        listView.getRefreshableView().setSelection(list.size() - 1);
+        listView.getRefreshableView().setSelection(list.size() - 1);*/
 
         EMChatManager.getInstance().sendMessage(message, new EMCallBack(){
             @Override
@@ -487,7 +609,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
      * 加载聊天记录
      * @return
      */
-    protected void loadCoversation(String hxid) {
+    /*protected void loadCoversation(String hxid) {
         conversation = EMChatManager.getInstance().getConversationByType(hxid, EMConversation.EMConversationType.Chat);
         conversation.markAllMessagesAsRead();
 
@@ -512,18 +634,18 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             } else {
                 chat.setImg(account.getPhoto());
             }
-            /*String tmp = msg.getBody().toString();
+            *//*String tmp = msg.getBody().toString();
             int length = tmp.length();
             if (length <= 6) {
                 chat.setMsg("");
             } else {
                 chat.setMsg(tmp.substring(5, length-1));
-            }*/
+            }*//*
             chat.setMessage(msg);
             chat.setTime(Tools.long2DateString(msg.getMsgTime()));
             list.add(chat);
         }
-    }
+    }*/
 
     public List<String> getExpressionRes(int getSum) {
         List<String> reslist = new ArrayList<String>();
@@ -589,7 +711,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                     }
                 } catch (Exception e) {
                 }
-
             }
         });
         return view;

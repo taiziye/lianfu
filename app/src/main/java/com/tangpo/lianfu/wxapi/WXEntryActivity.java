@@ -1,7 +1,6 @@
 package com.tangpo.lianfu.wxapi;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +13,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.WeiXin.Constants;
-import com.tangpo.lianfu.entity.Manager;
-import com.tangpo.lianfu.http.NetConnection;
-import com.tangpo.lianfu.parms.OAuth;
-import com.tangpo.lianfu.ui.EmployeeFragment;
-import com.tangpo.lianfu.ui.HomePageActivity;
+import com.tangpo.lianfu.fragment.EmployeeFragment;
 import com.tangpo.lianfu.ui.MainActivity;
-import com.tangpo.lianfu.ui.ManagerFragment;
-import com.tangpo.lianfu.ui.MemFragment;
-import com.tangpo.lianfu.ui.RelationActivity;
+import com.tangpo.lianfu.fragment.ManagerFragment;
+import com.tangpo.lianfu.fragment.MemFragment;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;

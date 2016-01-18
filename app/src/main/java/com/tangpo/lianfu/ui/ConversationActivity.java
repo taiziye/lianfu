@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +15,8 @@ import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.StoreServer;
+import com.tangpo.lianfu.fragment.ContactFragment;
+import com.tangpo.lianfu.fragment.ConversationFragment;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetChatAccount;
 import com.tangpo.lianfu.utils.Tools;
@@ -41,7 +42,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     private String userids = "";
     private String userid = "";
     private String hxid = "";
-    private ChatAccount account = HomePageActivity.account;
+    private ChatAccount account = ChatAccount.getInstance();
     private Bundle bundle = new Bundle();
 
     private Fragment fragment = null;
@@ -73,7 +74,6 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         name.setText("客服列表");
 
         String str = getIntent().getStringExtra("servers");
-        Log.e("tag","server:"+str);
         try {
             JSONArray array = new JSONArray(str);
             JSONObject object;

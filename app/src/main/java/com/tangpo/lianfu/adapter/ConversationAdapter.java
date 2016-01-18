@@ -3,6 +3,7 @@ package com.tangpo.lianfu.adapter;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
@@ -19,6 +21,7 @@ import com.easemob.util.DateUtils;
 import com.easemob.util.EMLog;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.ChatUser;
 import com.tangpo.lianfu.utils.EaseSmileUtils;
 import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -37,20 +40,26 @@ import java.util.regex.Pattern;
 public class ConversationAdapter extends BaseAdapter implements Filterable {
     public static final String MESSAGE_ATTR_IS_VOICE_CALL = "is_voice_call";
     public static final String MESSAGE_ATTR_IS_VIDEO_CALL = "is_video_call";
-
     public static final String MESSAGE_ATTR_IS_BIG_EXPRESSION = "em_is_big_expression";
     public static final String MESSAGE_ATTR_EXPRESSION_ID = "em_expression_id";
 
     private Context context = null;
-    private List<ChatAccount> list = null;
+    private List<EMConversation> list = null;
+    private List<EMConversation> copylist = null;
     private LayoutInflater inflater = null;
-    private List<ChatAccount> mOriginalValues = null;
+    private List<EMConversation> mOriginalValues = null;
     public static int unread = 0;
+    private boolean notiyfyByFilter;
+    private List<ChatUser> users = null;
+    private List<String> names = new ArrayList<>();
 
-    public ConversationAdapter(Context context, List<ChatAccount> list) {
+    public ConversationAdapter(Context context, List<EMConversation> list) {
         this.context = context;
-        this.list = list;
+        this.list = new ArrayList<>();
+        this.list.addAll(list);
+        copylist = new ArrayList<>(list);
         inflater = LayoutInflater.from(context);
+        users = Tools.getChatUserList();
     }
 
     @Override
@@ -59,7 +68,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public Object getItem(int position) {
+    public EMConversation getItem(int position) {
         return list.get(position);
     }
 
@@ -85,49 +94,65 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        EMConversation conversation = getItem(position);
+        String username = null;
+        for (int i=0; i<users.size(); i++) {
+            if (users.get(i).getEasemod_id().toLowerCase().equals(conversation.getUserName().toLowerCase())) {
+                username = users.get(i).getUsername();
+                names.add(username);
+                break;
+            }
+        }
 
-        Tools.setPhoto(context, list.get(position).getPhoto(), holder.img);
+        Tools.setPhoto(context, ChatAccount.getInstance().getPhoto(), holder.img);
         // 获取与此用户的会话
-        holder.name.setText(list.get(position).getName());
+        holder.name.setText(username);
+        //Log.e("tag", " " + conversation.getUserName() + " " + conversation.getMessage(position).getFrom());
         //holder.latest.setText(list.get(position).getMsg());
-        handleTextMessage(list.get(position).getMsg(), holder.latest);
-        holder.time.setText(list.get(position).getTime());
-        if (list.get(position).getUnread() != 0) {
-            holder.unread.setText(list.get(position).getUnread());
+        handleTextMessage(conversation, holder.latest);
+        handleTimeTextView(conversation, holder.time);
+
+        if (conversation.getUnreadMsgCount() > 0) {
+            holder.unread.setText(String.valueOf(conversation.getUnreadMsgCount()));
             holder.unread.setVisibility(View.VISIBLE);
             unread++;
         } else {
             holder.unread.setVisibility(View.INVISIBLE);
         }
-        /*if (conversation.getUnreadMsgCount() > 0) {
-            holder.unread.setText(String.valueOf(conversation.getUnreadMsgCount()));
-            holder.unread.setVisibility(View.VISIBLE);
-            unread += Integer.parseInt(String.valueOf(conversation.getUnreadMsgCount()));
-        } else {
-            holder.unread.setVisibility(View.INVISIBLE);
-        }
-        unread = conversation.getUnreadMsgCount();*/
-
-        //设置最后的聊天内容以及时间
-        /*if (conversation.getMsgCount() != 0) {
-            EMMessage lastMessage = conversation.getLastMessage();
-            holder.latest.setText(EaseSmileUtils.getSmiledText(context, getMessageDigest(lastMessage, (context))), TextView.BufferType.SPANNABLE);
-            holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
-        }*/
 
         return convertView;
+    }
+
+    public String getUserName(int position) {
+        return names.get(position);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        if (!notiyfyByFilter) {
+            list.clear();
+            list.addAll(copylist);
+            notiyfyByFilter = false;
+        }
     }
 
     /**
      * 文本消息
      *
-     * @param message
+     * @param conversation
      * @param txt
      */
-    private void handleTextMessage(String message, TextView txt) {
-        Spannable span = SmileUtils.getSmiledText(context, message);
+    private void handleTextMessage(EMConversation conversation, TextView txt) {
+        EMMessage message = conversation.getLastMessage();
+        Spannable span = SmileUtils.getSmiledText(context, getMessageDigest(message, context));
         // 设置内容
         txt.setText(span, TextView.BufferType.SPANNABLE);
+    }
+
+    private void handleTimeTextView(EMConversation conversation, TextView time) {
+        EMMessage message = conversation.getLastMessage();
+        time.setText(Tools.long2DateString(message.getMsgTime()));
     }
 
     private String getMessageDigest(EMMessage message, Context context) {
@@ -136,12 +161,10 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
             case LOCATION: // 位置消息
                 if (message.direct == EMMessage.Direct.RECEIVE) {
                     //从sdk中提到了ui中，使用更简单不犯错的获取string方法
-//              digest = EasyUtils.getAppResourceString(context, "location_recv");
                     digest = getString(context, R.string.location_recv);
                     digest = String.format(digest, message.getFrom());
                     return digest;
                 } else {
-//              digest = EasyUtils.getAppResourceString(context, "location_prefix");
                     digest = getString(context, R.string.location_prefix);
                 }
                 break;
@@ -156,11 +179,9 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
                 break;
             case TXT: // 文本消息
                 TextMessageBody txtBody = (TextMessageBody) message.getBody();
-            /*if(((DemoHXSDKHelper)HXSDKHelper.getInstance()).isRobotMenuMessage(message)){
-                digest = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getRobotMenuMessageDigest(message);
-            }else */if(message.getBooleanAttribute(MESSAGE_ATTR_IS_VOICE_CALL, false)){
-                digest = getString(context, R.string.voice_call) + txtBody.getMessage();
-            }else if(message.getBooleanAttribute(MESSAGE_ATTR_IS_BIG_EXPRESSION, false)){
+                if(message.getBooleanAttribute(MESSAGE_ATTR_IS_VOICE_CALL, false)){
+                    digest = getString(context, R.string.voice_call) + txtBody.getMessage();
+                }else if(message.getBooleanAttribute(MESSAGE_ATTR_IS_BIG_EXPRESSION, false)){
                 if(!TextUtils.isEmpty(txtBody.getMessage())){
                     digest = txtBody.getMessage();
                 }else{
@@ -177,7 +198,6 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
                 EMLog.e("tag", "error, unknow type");
                 return "";
         }
-
         return digest;
     }
 
@@ -191,10 +211,12 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<ChatAccount> filterlist = new ArrayList<>();
+                List<EMConversation> filterlist = new ArrayList<>();
 
                 if (mOriginalValues == null) {
                     mOriginalValues = new ArrayList<>(list);
+                } else {
+                    mOriginalValues.addAll(list);
                 }
 
                 if (constraint == null || constraint.length() == 0) {
@@ -203,8 +225,9 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i=0; i<mOriginalValues.size(); i++) {
-                        ChatAccount data = mOriginalValues.get(i);
-                        if (data.getName().startsWith(constraint.toString())) {
+                        EMConversation data = mOriginalValues.get(i);
+                        EMMessage msg = data.getLastMessage();
+                        if (msg.getUserName().startsWith(constraint.toString())) {
                             filterlist.add(data);
                         }
                     }
@@ -216,8 +239,14 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                list = (ArrayList<ChatAccount>) results.values;
-                notifyDataSetChanged();
+                list.clear();
+                list.addAll((List<EMConversation>)results.values);
+                if (results.count > 0) {
+                    notiyfyByFilter = true;
+                    notifyDataSetChanged();
+                } else {
+                    notifyDataSetChanged();
+                }
             }
         };
         return filter;

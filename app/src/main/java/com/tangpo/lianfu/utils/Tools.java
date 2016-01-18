@@ -1,11 +1,13 @@
 package com.tangpo.lianfu.utils;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -42,6 +44,7 @@ import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.ChatUser;
 import com.tangpo.lianfu.ui.MainActivity;
 
 import java.io.BufferedOutputStream;
@@ -468,6 +471,17 @@ public class Tools {
         helper.close();
     }
 
+    public static void saveConversation(ChatUser user) {
+        DataHelper helper = new DataHelper(MyApplication.context);
+        helper.saveChatUser(user);
+        helper.close();
+    }
+
+    public static List<ChatUser> getChatUserList() {
+        DataHelper helper = new DataHelper(MyApplication.context);
+        return helper.getChatUser();
+    }
+
     public static void setHeight(BaseAdapter adapter, PullToRefreshListView list) {
         int height = 0;
         for (int i = 0; i<adapter.getCount(); i++) {
@@ -540,10 +554,9 @@ public class Tools {
         values.put(ChatAccount.COLUMN_MSG, account.getMsg());
         values.put(ChatAccount.COLUMN_TIME, account.getTime());
         if (account.getPhoto() != null) values.put(ChatAccount.COLUMN_PHOTO, account.getPhoto());
+    }*/
 
-    }
-
-    *//**
+    /**
      * 获取最近会话人列表
      * @return
      *//*

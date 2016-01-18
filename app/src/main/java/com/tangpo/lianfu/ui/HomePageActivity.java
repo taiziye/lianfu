@@ -6,13 +6,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -28,6 +26,16 @@ import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.UserEntity;
+import com.tangpo.lianfu.fragment.EmployeeFragment;
+import com.tangpo.lianfu.fragment.EmployeeHomeFragment;
+import com.tangpo.lianfu.fragment.EmployeeManageFragment;
+import com.tangpo.lianfu.fragment.ManageHomeFragment;
+import com.tangpo.lianfu.fragment.ManagerFragment;
+import com.tangpo.lianfu.fragment.MemCollectFragment;
+import com.tangpo.lianfu.fragment.MemFragment;
+import com.tangpo.lianfu.fragment.MemManageFragment;
+import com.tangpo.lianfu.fragment.MemRecordFragment;
+import com.tangpo.lianfu.fragment.MemberHomeFragment;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetChatAccount;
 import com.tangpo.lianfu.utils.Tools;
@@ -40,8 +48,6 @@ import org.json.JSONObject;
  * Created by 果冻 on 2015/11/8.
  */
 public class HomePageActivity extends Activity implements View.OnClickListener {
-    public static ChatAccount account = new ChatAccount();
-
     private LinearLayout frame;
     private LinearLayout one;
     private LinearLayout two;
@@ -75,8 +81,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     private Gson gson=null;
     private UserEntity userEntity;
 
-    private NewMessageBroadcastReceiver receiver = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +99,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         store_name = userEntity.getStorename();
         init();
         //注册广播
-        receiver = new NewMessageBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(EMChatManager.getInstance().getNewMessageBroadcastAction());
-        registerReceiver(receiver, filter);
+        NewMessageBroadcastReceiver.register(HomePageActivity.this);
 
         fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -426,7 +427,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     ChatAccount ac = (ChatAccount) msg.obj;
-                    account.copy(ac);
+                    ChatAccount.getInstance().copy(ac);
                     if (!EMChat.getInstance().isLoggedIn()) {
                         //未登录
                         login(ac);
@@ -521,7 +522,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
+        NewMessageBroadcastReceiver.unregister(HomePageActivity.this);
         Tools.closeActivity();
         finish();
     }

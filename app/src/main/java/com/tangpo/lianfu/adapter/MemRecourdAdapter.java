@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.MemRecord;
-import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetSpecifyServer;
 import com.tangpo.lianfu.ui.ConversationActivity;
-import com.tangpo.lianfu.ui.MemRecordFragment;
+import com.tangpo.lianfu.fragment.MemRecordFragment;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
