@@ -211,7 +211,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         });
         initView(hxid);
 
-        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        /*listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉加载更多");
         listView.getLoadingLayoutProxy(true, false).setPullLabel("");
         listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在加载");
@@ -219,16 +219,14 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Log.e("tag", "11111111111");
                 page++;
                 onConversationInit(page);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Log.e("tag", "2222222222222222");
             }
-        });
+        });*/
     }
 
     private void initView(String hxid) {
@@ -252,14 +250,14 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     }
 
     protected void onConversationInit(int page) {
+        listView.onRefreshComplete();
         conversation = EMChatManager.getInstance().getConversation(hxid);
         conversation.markAllMessagesAsRead();
         Log.e("tag", "page " + page);
-        if (page > 1) complete();
 
         final List<EMMessage> msgs = conversation.getAllMessages();
         int msgCount = msgs != null ? msgs.size() : 0;
-        if (msgCount < conversation.getAllMsgCount() && msgCount < 20 * page) {
+        if (msgCount < conversation.getAllMsgCount() && msgCount < 200 * page) {
             String msgId = null;
             if (msgs != null && msgs.size() > 0) {
                 msgId = msgs.get(0).getMsgId();
