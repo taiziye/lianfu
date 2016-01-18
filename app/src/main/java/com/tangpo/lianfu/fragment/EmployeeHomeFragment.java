@@ -35,7 +35,6 @@ import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.MipcaActivityCapture;
 import com.tangpo.lianfu.ui.OfflineProfitPayActivity;
-import com.tangpo.lianfu.ui.RecordFragment;
 import com.tangpo.lianfu.ui.ShopActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;

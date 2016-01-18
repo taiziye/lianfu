@@ -1,4 +1,4 @@
-package com.tangpo.lianfu.ui;
+package com.tangpo.lianfu.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -34,6 +34,8 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.EmployeeConsumeRecord;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ConsumeRecord;
+import com.tangpo.lianfu.ui.AddConsumeActivity;
+import com.tangpo.lianfu.ui.ConsumeRecordActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;

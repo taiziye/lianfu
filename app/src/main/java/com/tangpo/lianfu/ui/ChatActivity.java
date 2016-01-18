@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
@@ -34,6 +35,7 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
@@ -86,6 +88,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     private boolean flag = false;
     private LinearLayout more;
     private ViewPager vPager;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         adapter = new ChatAdapter(ChatActivity.this, hxid);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-        onConversationInit();
+        onConversationInit(page);
         /*Log.e("tag", "onNewIntent " + username);
         if (username.equals(name)) {
             super.onNewIntent(intent);
@@ -127,6 +130,23 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             finish();
             startActivity(intent);
         }*/
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉加载更多");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在加载");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以加载");
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                onConversationInit(page);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+        });
     }
 
     @Override
@@ -150,6 +170,10 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             //account.setTime(time);
             //Tools.saveAccount(account);
         }
+    }
+
+    public void complete() {
+        listView.onRefreshComplete();
     }
 
     private void init() {
@@ -209,7 +233,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         adapter = new ChatAdapter(ChatActivity.this, hxid);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-        onConversationInit();
+        onConversationInit(page);
         //listView.getRefreshableView().setSelection(list.size() - 1);
         //NewMessageBroadcastReceiver.unregister(ChatActivity.this);
         /*msgReceiver = new MessageBroadcastReceiver();
@@ -224,19 +248,23 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         return listView;
     }
 
-    protected void onConversationInit() {
+    protected void onConversationInit(int page) {
         conversation = EMChatManager.getInstance().getConversation(hxid);
         conversation.markAllMessagesAsRead();
+        if (page > 1) complete();
 
         final List<EMMessage> msgs = conversation.getAllMessages();
         int msgCount = msgs != null ? msgs.size() : 0;
-        if (msgCount < conversation.getAllMsgCount() && msgCount < 20) {
+        if (msgCount < conversation.getAllMsgCount() && msgCount < 20 * page) {
             String msgId = null;
             if (msgs != null && msgs.size() > 0) {
                 msgId = msgs.get(0).getMsgId();
             }
             conversation.loadMoreMsgFromDB(msgId, 20);
         }
+
+        if (conversation.getMsgCount() < 20 * page) Tools.showToast(ChatActivity.this, "没有更多记录");
+
     }
 
     @Override

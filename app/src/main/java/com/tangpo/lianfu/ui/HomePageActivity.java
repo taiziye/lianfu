@@ -36,6 +36,7 @@ import com.tangpo.lianfu.fragment.MemFragment;
 import com.tangpo.lianfu.fragment.MemManageFragment;
 import com.tangpo.lianfu.fragment.MemRecordFragment;
 import com.tangpo.lianfu.fragment.MemberHomeFragment;
+import com.tangpo.lianfu.fragment.RecordFragment;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetChatAccount;
 import com.tangpo.lianfu.utils.Tools;
