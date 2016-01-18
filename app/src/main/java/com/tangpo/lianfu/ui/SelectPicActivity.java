@@ -125,10 +125,17 @@ public class SelectPicActivity extends Activity implements OnClickListener {
     }
 
     private void pickPhoto() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
+        if(getIntent().getStringExtra("name")==null){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
+        }else{
+            Intent intent=new Intent(this,PhotoAlbumActivity.class);
+            startActivity(intent);
+            finish();
+            //startActivityForResult(intent,);
+        }
     }
 
     @Override

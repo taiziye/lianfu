@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -25,6 +28,7 @@ import com.tangpo.lianfu.entity.Store;
 import com.tangpo.lianfu.entity.StoreInfo;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.DeleteStorePicture;
 import com.tangpo.lianfu.parms.UploadStorePicture;
 import com.tangpo.lianfu.utils.Tools;
 import com.tangpo.lianfu.utils.UploadImage;
@@ -65,10 +69,10 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("store_id");
 
-//        localImgPath=intent.getStringArrayListExtra("paths");
-//        for(int i=0;i<serverImgPath.size();i++){
-//            Log.e("tag",serverImgPath.get(i));
-//        }
+        localImgPath=intent.getStringArrayListExtra("paths");
+        for(int i=0;i<serverImgPath.size();i++){
+            Log.e("tag",serverImgPath.get(i));
+        }
         init();
     }
 
@@ -129,8 +133,8 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
                 Tools.showToast(StoreImgActivity.this, getString(R.string.upload_success));
-                serverImgPath.add(imgPath);
-                adapter.notifyDataSetChanged();
+                //serverImgPath.add(imgPath);
+                //adapter.notifyDataSetChanged();
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -150,6 +154,7 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         },param);
     }
 
+
     @Override
     public void onClick(View v) {
         Intent intent=null;
@@ -158,12 +163,32 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.add:
+                if(serverImgPath.size()==8){
+                    Tools.showToast(this,getString(R.string.only_can_add_8_pictures_at_most));
+                    return;
+                }
                 registerReceiver(broadcastReceiver,new IntentFilter(PhotoActivity.ACTION));
-                intent=new Intent(StoreImgActivity.this, ChooseShopImg.class);
+//                intent=new Intent(StoreImgActivity.this, ChooseShopImg.class);
+                intent=new Intent(StoreImgActivity.this,SelectPicActivity.class);
+                intent.putExtra("name","StoreImgActivity");
 //                startActivityForResult(intent,REQUEST_CODE);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 //finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));
+        if(data!=null){
+            //serverImgPath.add(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH));
+            uploadStorePicture(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH));
+            //adapter.notifyDataSetChanged();
+        }
+        //String path=data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
+        //receipt_photo=UploadImage.imgToBase64(data.getStringExtra(SelectPicActivity.SMALL_KEY_PHOTO_PATH));
+        //uploadStorePicture(path);
     }
 }

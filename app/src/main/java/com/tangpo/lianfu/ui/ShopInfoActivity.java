@@ -238,7 +238,11 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
             case R.id.et_top_ad:
             case R.id.top_ad:
-//                intent=new Intent(ShopInfoActivity.this)
+                intent=new Intent(ShopInfoActivity.this,StoreBannerActivity.class);
+                intent.putExtra("imgPath",store.getBanner());
+                intent.putExtra("user_id",user.getUser_id());
+                intent.putExtra("store_id",store.getStore_id());
+                startActivity(intent);
                 break;
 
             case R.id.et_shop_img:

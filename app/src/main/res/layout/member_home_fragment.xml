@@ -57,7 +57,9 @@
                 android:background="#cccccc"
                 />
 
-            <ImageView android:id="@+id/start"
+            <ImageView
+                android:focusable="true"
+                android:id="@+id/start"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
@@ -65,9 +67,11 @@
                 />
 
             <EditText
+                android:imeOptions="actionSearch"
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:singleLine="true"
                 android:background="@null" />
 
         </LinearLayout>

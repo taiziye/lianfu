@@ -256,6 +256,10 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_pay_by_wechat"></activity>
         <activity
+            android:name=".ui.StoreBannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ui.StoreImgActivity"
             android:label="@string/title_activity_choose_top_ad"
             android:screenOrientation="portrait"

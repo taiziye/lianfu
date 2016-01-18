@@ -2,7 +2,7 @@ package com.tangpo.lianfu.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.DeleteStorePicture;
 import com.tangpo.lianfu.parms.StorePictureSort;
+import com.tangpo.lianfu.ui.PictureActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONException;
@@ -32,7 +33,7 @@ public class ShopImgAdapter extends BaseAdapter {
     private LayoutInflater container;
     private String store_id = "";
     private String user_id="";
-    private static ProgressDialog dialog;
+    private ProgressDialog dialog;
     private List<Integer> order=new ArrayList<>();
 
     public ShopImgAdapter(List<String> list, Context context,
@@ -81,13 +82,17 @@ public class ShopImgAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        Tools.setPhoto(context,list.get(position),holder.shop_img);
 
-        if(list.get(position).contains("http")){
-            Tools.setPhoto(context,list.get(position),holder.shop_img);
-        }else{
-            Log.e("tag",list.get(position));
-            Tools.setPhoto(context, holder.shop_img,list.get(position));
-        }
+        holder.shop_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                intent.putExtra("flag","url");
+                intent.putExtra("url",list.get(position));
+                context.startActivity(intent);
+            }
+        });
 
         holder.settop.setOnClickListener(new View.OnClickListener() {
             @Override

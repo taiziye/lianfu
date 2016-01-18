@@ -57,8 +57,8 @@
             <ImageView
                 android:id="@+id/img_shop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
+                android:layout_height="240dp"
+                android:scaleType="centerCrop"
                 android:background="@android:color/black" />
 
             <View style="@style/view_line_style" />
