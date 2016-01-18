@@ -89,6 +89,7 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
             TextMessageBody txtBody = (TextMessageBody) message.getBody();
             latestmsg = txtBody.getMessage();
         }
+        unread += 1;
 
         conversation.addMessage(message);
         ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);

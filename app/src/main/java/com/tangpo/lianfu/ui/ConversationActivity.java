@@ -74,21 +74,23 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         name.setText("客服列表");
 
         String str = getIntent().getStringExtra("servers");
-        try {
-            JSONArray array = new JSONArray(str);
-            JSONObject object;
-            for (int i=0; i<array.length(); i++) {
-                object = array.getJSONObject(i);
-                StoreServer server = gson.fromJson(object.toString(), StoreServer.class);
-                servers.add(server);
+        if (str != null && str.length() > 0) {
+            try {
+                JSONArray array = new JSONArray(str);
+                JSONObject object;
+                for (int i=0; i<array.length(); i++) {
+                    object = array.getJSONObject(i);
+                    StoreServer server = gson.fromJson(object.toString(), StoreServer.class);
+                    servers.add(server);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        for (int i=0; i<servers.size(); i++) {
-            if (i != 0)  userids += ",";
-            userids += servers.get(i).getUser_id();
+            for (int i=0; i<servers.size(); i++) {
+                if (i != 0)  userids += ",";
+                userids += servers.get(i).getUser_id();
+            }
         }
     }
 

@@ -47,6 +47,8 @@ import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.parms.UnbindAccount;
 import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.ui.BoundOrRegister;
+import com.tangpo.lianfu.ui.ChatActivity;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.MipcaActivityCapture;
 import com.tangpo.lianfu.ui.PersonalInfoActivity;
@@ -191,8 +193,6 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             power.setText("会员");
         }
 
-        Log.e("tag", "unread " + NewMessageBroadcastReceiver.unread);
-
         if (NewMessageBroadcastReceiver.unread > 0) {
             chat.setBackgroundResource(R.drawable.msgs);
         } else {
@@ -251,6 +251,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
+                intent = new Intent(getActivity(), ConversationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.next:
                 break;

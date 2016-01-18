@@ -46,6 +46,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.BindAccount;
 import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.parms.UnbindAccount;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.MipcaActivityCapture;
 import com.tangpo.lianfu.ui.PersonalInfoActivity;
@@ -216,6 +217,8 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
+                intent = new Intent(getActivity(), ConversationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);

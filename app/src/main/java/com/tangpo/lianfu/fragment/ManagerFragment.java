@@ -49,6 +49,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.BindAccount;
 import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.parms.UnbindAccount;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.ui.DiscountManageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.MemberUpdateTypeActivity;
@@ -246,6 +247,8 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
+                intent = new Intent(getActivity(), ConversationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.shop_info:
                 intent = new Intent(getActivity(), ShopInfoActivity.class);

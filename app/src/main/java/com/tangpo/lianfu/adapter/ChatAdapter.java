@@ -65,6 +65,7 @@ public class ChatAdapter extends BaseAdapter {
         this.username = username;
         this.inflater = LayoutInflater.from(context);
         this.conversation = EMChatManager.getInstance().getConversation(username);
+        NewMessageBroadcastReceiver.unread -= this.conversation.getUnreadMsgCount();
         this.conversation.markAllMessagesAsRead();
     }
 

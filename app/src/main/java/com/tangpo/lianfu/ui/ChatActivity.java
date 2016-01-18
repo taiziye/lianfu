@@ -39,6 +39,7 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
 import com.tangpo.lianfu.adapter.ExpressionAdapter;
 import com.tangpo.lianfu.adapter.ExpressionPagerAdapter;
+import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
 import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.utils.ExpandGridView;
@@ -338,6 +339,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         EMMessage message;
         EMConversation conversation;
         Chat chat;
+        NewMessageBroadcastReceiver.unread += 1;
         switch (event.getEvent()){
             case EventNewMessage:
                 message = (EMMessage) event.getData();
