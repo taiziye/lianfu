@@ -11,10 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,8 +27,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class SelectPicActivity extends Activity implements OnClickListener {
-
+/**
+ * Created by shengshoubo on 2016/1/17.
+ */
+public class ChooseShopImg extends Activity implements View.OnClickListener {
     public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
 
     public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
@@ -36,8 +38,6 @@ public class SelectPicActivity extends Activity implements OnClickListener {
     public static final String KEY_PHOTO_PATH = "photo_path";
 
     public static final String SMALL_KEY_PHOTO_PATH = "smalll_photo_path";
-
-    private String flag = "";
 
     private LinearLayout dialogLayout;
     private TextView takePhotoBtn, pickPhotoBtn, cancelBtn;
@@ -57,9 +57,8 @@ public class SelectPicActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.take_picture);
-        Tools.gatherActivity(SelectPicActivity.this);
+        Tools.gatherActivity(ChooseShopImg.this);
         init();
-        flag = getIntent().getStringExtra("flag");
     }
 
     @Override
@@ -127,17 +126,12 @@ public class SelectPicActivity extends Activity implements OnClickListener {
     }
 
     private void pickPhoto() {
-        if(getIntent().getStringExtra("name")==null){
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }else{
-            Intent intent=new Intent(this,PhotoAlbumActivity.class);
-            startActivity(intent);
-            finish();
-            //startActivityForResult(intent,);
-        }
+        Intent intent = new Intent(ChooseShopImg.this,PhotoAlbumActivity.class);
+        startActivity(intent);
+        finish();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
     }
 
     @Override
@@ -155,7 +149,6 @@ public class SelectPicActivity extends Activity implements OnClickListener {
     }
 
     private void doPhoto(int requestCode, Intent data) {
-
         if (requestCode == SELECT_PIC_BY_PICK_PHOTO) // 从相册取图片，有些手机有异常情况，请注意
         {
             if (data == null) {
@@ -193,12 +186,13 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 picPath = cursor.getString(columnIndex);
                 cursor.close();
             }
+
             SmallpicPath = save(picPath);
         }
         // 返回图片的地址
-        /*if (flag != null && flag.length() != 0) {
+        if (requestCode == ChatActivity.CHAT) {
             //
-            *//*photoUri = data.getData();
+            photoUri = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
             Cursor cursor = getContentResolver().query(photoUri, filePathColumn, null, null, null);
             if (cursor != null) {
@@ -224,13 +218,11 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                     return;
                 }
                 lastIntent.putExtra(KEY_PHOTO_PATH, file.getAbsolutePath());
-            }*//*
+            }
         } else {
             lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
             lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
-        }*/
-        lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
-        lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
+        }
         setResult(Activity.RESULT_OK, lastIntent);
         finish();
     }
@@ -307,5 +299,4 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
         return inSampleSize;
     }
-
 }

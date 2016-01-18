@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="顶部广告位" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/add" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/view_line_style" />
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/vPager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--/>-->
+    <ImageView
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:id="@+id/ad"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@android:color/transparent"
+        >
+        <Button
+            android:id="@+id/delete"
+            android:background="@drawable/add_mem"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:text="删除当前照片"
+            android:textColor="@android:color/white"
+            android:layout_height="46dp" />
+    </RelativeLayout>
+
+</LinearLayout>

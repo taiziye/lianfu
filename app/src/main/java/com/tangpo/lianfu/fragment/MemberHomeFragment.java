@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -120,6 +122,26 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         locate.setOnClickListener(this);
         map.setOnClickListener(this);*/
         search = (EditText) view.findViewById(R.id.search);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_SEARCH||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)){
+                    String str = search.getText().toString().trim();
+                    if (str.length() == 0) {
+                        //
+                        storeList.clear();
+                        getStores();
+                    } else {
+                        storeList.clear();
+                        findStore(str);
+                    }
+                    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#535456">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="15dp"
+            android:text="@string/choose_album" />
+
+    </LinearLayout>
+
+    <View android:layout_marginTop="5dp"
+        style="@style/view_line_style" />
+<GridView  
+        android:id="@+id/album_gridview"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:gravity="center"  
+        android:horizontalSpacing="2dip"  
+        android:numColumns="2"  
+        android:verticalSpacing="2dip" /> 
+
+</LinearLayout>

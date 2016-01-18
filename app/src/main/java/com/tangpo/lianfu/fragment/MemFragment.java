@@ -66,6 +66,8 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by 果冻 on 2015/11/8.
  */
@@ -91,7 +93,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     private LinearLayout personal_info;
     private LinearLayout modify_pass;
     private TextView remainder;
-    private UserEntity userEntity;
+    private UserEntity user;
 
     private SharedPreferences preferences=null;
     private String logintype=null;
@@ -152,8 +154,16 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         gson=new Gson();
         preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
         logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
-        userEntity= (UserEntity) getArguments().getSerializable("user");
-        user_id=userEntity.getUser_id();
+//        userEntity= (UserEntity) getArguments().getSerializable("user");
+//        user_id=userEntity.getUser_id();
+        String str = preferences.getString(Configs.KEY_USER, "0");
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            user = gson.fromJson(jsonObject.toString(), UserEntity.class);
+            user_id=user.getUser_id();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         double_code = (Button) view.findViewById(R.id.double_code);
         double_code.setOnClickListener(this);
@@ -173,8 +183,8 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         modify_pass.setOnClickListener(this);
         remainder = (TextView) view.findViewById(R.id.remainder);
 
-        Tools.setPhoto(getActivity(), userEntity.getPhoto(), img);
-        name.setText(userEntity.getName());
+        Tools.setPhoto(getActivity(), user.getPhoto(), img);
+        name.setText(user.getName());
         if (logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
             power.setText("游客");
         }else {
@@ -188,7 +198,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             chat.setBackgroundResource(R.drawable.chat);
         }
         user_name.setText("");
-        remainder.setText(userEntity.getMoney());
+
+        float remain_money=Float.parseFloat(user.getMoney());
+        DecimalFormat formatter=new DecimalFormat("##0.00");
+        remainder.setText(formatter.format(remain_money));
 
         bind_weibo= (Button) view.findViewById(R.id.bind_weibo);
         bind_weixin= (Button) view.findViewById(R.id.bind_wexin);
@@ -198,27 +211,31 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         bind_weixin.setOnClickListener(this);
         bind_qq.setOnClickListener(this);
 
-        if("1".equals(userEntity.getBindwb())){
+        if("1".equals(user.getBindwb())){
             bind_weibo.setText(getString(R.string.unbind));
             bind_weibo.setBackgroundResource(R.drawable.unbind);
         }else{
             bind_weibo.setText(getString(R.string.bind));
             bind_weibo.setBackgroundResource(R.drawable.bind);
         }
-        if("1".equals(userEntity.getBindwx())){
+        if("1".equals(user.getBindwx())){
             bind_weixin.setText(getString(R.string.unbind));
             bind_weixin.setBackgroundResource(R.drawable.unbind);
         }else{
             bind_weixin.setText(getString(R.string.bind));
             bind_weixin.setBackgroundResource(R.drawable.bind);
         }
-        if("1".equals(userEntity.getBindqq())){
+        if("1".equals(user.getBindqq())){
             bind_qq.setText(getString(R.string.unbind));
             bind_qq.setBackgroundResource(R.drawable.unbind);
         }else{
             bind_qq.setText(getString(R.string.bind));
             bind_qq.setBackgroundResource(R.drawable.bind);
         }
+
+        isbindwb=user.getBindwb();
+        isbindwx=user.getBindwx();
+        isbindqq=user.getBindqq();
     }
 
     @Override
@@ -238,7 +255,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.personal_info:
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
-                intent.putExtra("user", userEntity);
+                intent.putExtra("user", user);
                 intent.putExtra("flag", "1");
 //                if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
 //                    intent=new Intent(getActivity(),BoundOrRegister.class);
@@ -254,7 +271,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                     intent=new Intent(getActivity(),BoundOrRegister.class);
                 }else{
                     intent = new Intent(getActivity(), UpdatePasswordActivity.class);
-                    intent.putExtra("user", userEntity);
+                    intent.putExtra("user", user);
                 }
                 startActivity(intent);
                 break;
@@ -308,19 +325,19 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                     bind_weibo.setText(getString(R.string.bind));
                     bind_weibo.setBackgroundResource(R.drawable.bind);
                     isbindwb="0";
-                    userEntity.setBindwb(isbindwb);
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.bind));
                     bind_weixin.setBackgroundResource(R.drawable.bind);
                     isbindwx="0";
-                    userEntity.setBindwx(isbindwx);
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.bind));
                     bind_qq.setBackgroundResource(R.drawable.bind);
                     isbindqq="0";
-                    userEntity.setBindqq(isbindqq);
+                    user.setBindqq(isbindqq);
                 }
-                Configs.cacheUser(getActivity(),userEntity.toJSONString());
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.unbind_success));
             }
         }, new NetConnection.FailCallback() {
@@ -606,20 +623,20 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                     bind_weibo.setText(getString(R.string.unbind));
                     bind_weibo.setBackgroundResource(R.drawable.unbind);
                     isbindwb="1";
-                    userEntity.setBindwb(isbindwb);
+                    user.setBindwb(isbindwb);
                 }else if(logintype.equals("0")){
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
                     isbindwx="1";
                     getActivity().unregisterReceiver(mBrocastReceiver);
-                    userEntity.setBindwx(isbindwx);
+                    user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
                     bind_qq.setBackgroundResource(R.drawable.unbind);
                     isbindqq="1";
-                    userEntity.setBindqq(isbindqq);
+                    user.setBindqq(isbindqq);
                 }
-                Configs.cacheUser(getActivity(),userEntity.toJSONString());
+                Configs.cacheUser(getActivity(),user.toJSONString());
                 Tools.showToast(getActivity(), getString(R.string.bind_success));
             }
         }, new NetConnection.FailCallback() {
