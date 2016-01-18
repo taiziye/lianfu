@@ -263,7 +263,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             conversation.loadMoreMsgFromDB(msgId, 20);
         }
 
-        if (conversation.getMsgCount() < 20 * page) Tools.showToast(ChatActivity.this, "没有更多记录");
+        if (conversation.getMsgCount() < 20 * page) Tools.showToast(ChatActivity.this, "聊天记录已全部加载");
 
     }
 
