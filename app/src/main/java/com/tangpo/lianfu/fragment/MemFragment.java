@@ -190,6 +190,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         }else {
             power.setText("会员");
         }
+
         Log.e("tag", "unread " + NewMessageBroadcastReceiver.unread);
 
         if (NewMessageBroadcastReceiver.unread > 0) {

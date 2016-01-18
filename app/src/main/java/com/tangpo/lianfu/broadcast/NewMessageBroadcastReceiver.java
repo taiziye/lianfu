@@ -23,7 +23,7 @@ import com.tangpo.lianfu.utils.Tools;
  * Created by 果冻 on 2016/1/11.
  */
 public class NewMessageBroadcastReceiver extends BroadcastReceiver {
-    public static int unread = 0;
+    public static int unread = EMChatManager.getInstance().getUnreadMsgsCount();
     private static String my_id = ChatAccount.getInstance().getEasemod_id();
     public static String latestmsg;
     public static String time;
@@ -89,7 +89,6 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
             TextMessageBody txtBody = (TextMessageBody) message.getBody();
             latestmsg = txtBody.getMessage();
         }
-        unread ++;
 
         conversation.addMessage(message);
         ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
