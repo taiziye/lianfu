@@ -116,6 +116,12 @@ public class Configs {
         editor.commit();
     }
 
+    public static void cacheStore(Context context,String store){
+        SharedPreferences.Editor editor=context.getSharedPreferences(APP_ID,Context.MODE_APPEND).edit();
+        editor.putString(KEY_STORE,store);
+        editor.commit();
+    }
+
     public static void cleanData(Context context){
         SharedPreferences.Editor editor = context.getSharedPreferences(APP_ID,Context.MODE_PRIVATE).edit();
         editor.remove(Configs.KEY_TOKEN);

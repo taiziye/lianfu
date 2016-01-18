@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.Employee;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
@@ -37,8 +39,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -63,14 +69,18 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
     private EditText address;
     private EditText detail_address;
     private EditText commodity;
+
+    private EditText et_top_ad;
+    private EditText et_shop_img;
+
+    private ImageView top_ad;
+    private ImageView shop_img;
+
+
     private Button map_locate;
     private View view;
     private ListView listView;
 
-    private ImageView top_ad;
-    private ImageView img1;
-    private ImageView img2;
-    private ImageView img3;
 
     private ImageView ivvocation=null;
     private ImageView ivaddress=null;
@@ -159,18 +169,34 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
         map_locate = (Button) findViewById(R.id.map_locate);
         map_locate.setOnClickListener(this);
 
-        top_ad = (ImageView) findViewById(R.id.top_ad);
-        img1 = (ImageView) findViewById(R.id.img1);
-        img2 = (ImageView) findViewById(R.id.img2);
-        img3 = (ImageView) findViewById(R.id.img3);
+        et_top_ad= (EditText) findViewById(R.id.et_top_ad);
+        top_ad= (ImageView) findViewById(R.id.top_ad);
+        et_top_ad.setOnClickListener(this);
+        top_ad.setOnClickListener(this);
+
+        et_shop_img= (EditText) findViewById(R.id.et_shop_img);
+        shop_img= (ImageView) findViewById(R.id.shop_img);
+        et_shop_img.setOnClickListener(this);
+        shop_img.setOnClickListener(this);
+
+//        top_ad = (ImageView) findViewById(R.id.top_ad);
+//        img1 = (ImageView) findViewById(R.id.img1);
+//        img2 = (ImageView) findViewById(R.id.img2);
+//        img3 = (ImageView) findViewById(R.id.img3);
 
         view = View.inflate(getApplicationContext(), R.layout.dialog_layout, null);
         listView = (ListView) view.findViewById(R.id.list);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         getStoreInfo();
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent=null;
         switch (v.getId()) {
             case R.id.back:
                 finish();
@@ -179,7 +205,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 editShopInfo();
                 break;
             case R.id.map_locate:
-                Intent intent=new Intent(ShopInfoActivity.this,StoreLocationActivity.class);
+                intent=new Intent(ShopInfoActivity.this,StoreLocationActivity.class);
                 intent.putExtra("lng",store.getLng());
                 intent.putExtra("lat",store.getLat());
                 startActivity(intent);
@@ -208,6 +234,27 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     //
                     setProvince();
                 }
+                break;
+
+            case R.id.et_top_ad:
+            case R.id.top_ad:
+//                intent=new Intent(ShopInfoActivity.this)
+                break;
+
+            case R.id.et_shop_img:
+            case R.id.shop_img:
+                intent=new Intent(ShopInfoActivity.this,StoreImgActivity.class);
+                String[] images=null;
+                if(store.getPhoto()!=""){
+                    images = store.getPhoto().split("\\,");
+                }else{
+                    images=new String[]{};
+                }
+                List<String> imgPath= new ArrayList<>(Arrays.asList(images));
+                intent.putExtra("imgPath", (Serializable) imgPath);
+                intent.putExtra("user_id",user.getUser_id());
+                intent.putExtra("store_id", store.getStore_id());
+                startActivity(intent);
                 break;
         }
     }
@@ -239,23 +286,23 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                     /**
                      * 需要修改的：地图定位，加载图片
                      */
-                    Tools.setPhoto(ShopInfoActivity.this, store.getBanner(), top_ad);
-                    String tmp[] = store.getPhoto().split("\\,");
-                    img1.setVisibility(View.INVISIBLE);
-                    img2.setVisibility(View.INVISIBLE);
-                    img3.setVisibility(View.INVISIBLE);
-                    if(tmp.length>0){
-                        img1.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
-                    }
-                    if(tmp.length>1){
-                        img2.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
-                    }
-                    if(tmp.length>2){
-                        img3.setVisibility(View.VISIBLE);
-                        Tools.setPhoto(ShopInfoActivity.this,tmp[2],img3);
-                    }
+//                    Tools.setPhoto(ShopInfoActivity.this, store.getBanner(), top_ad);
+//                    String tmp[] = store.getPhoto().split("\\,");
+//                    img1.setVisibility(View.INVISIBLE);
+//                    img2.setVisibility(View.INVISIBLE);
+//                    img3.setVisibility(View.INVISIBLE);
+//                    if(tmp.length>0){
+//                        img1.setVisibility(View.VISIBLE);
+//                        Tools.setPhoto(ShopInfoActivity.this, tmp[0], img1);
+//                    }
+//                    if(tmp.length>1){
+//                        img2.setVisibility(View.VISIBLE);
+//                        Tools.setPhoto(ShopInfoActivity.this, tmp[1], img2);
+//                    }
+//                    if(tmp.length>2){
+//                        img3.setVisibility(View.VISIBLE);
+//                        Tools.setPhoto(ShopInfoActivity.this,tmp[2],img3);
+//                    }
                     break;
                 case 2:
                     object = (JSONObject) msg.obj;
@@ -496,6 +543,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
                 }
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), com.tangpo.lianfu.entity.StoreInfo.class);
+                    Configs.cacheStore(ShopInfoActivity.this,result.getJSONObject("param").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

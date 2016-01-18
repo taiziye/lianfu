@@ -336,7 +336,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 try {
                     String status=result.getString("status");
                     if ("3".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_other_lianfu_account));
+                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_this_third_account));
                     }else if("10".equals(status)){
                         Tools.showToast(getActivity(),getString(R.string.server_exception));
                     }else{

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:id="@+id/ad"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:id="@+id/settop"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <ImageView
+                android:scaleType="fitXY"
+                android:src="@drawable/settop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textColor="#999999"
+                android:textSize="18sp"
+                android:text="置顶"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="36dp"
+            android:background="#999999"/>
+
+        <LinearLayout android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/recycle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textColor="#999999"
+                android:textSize="18sp"
+                android:text="删除"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

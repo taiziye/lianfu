@@ -351,4 +351,10 @@
     <string name="this_account_has_bind_other_lianfu_account">此账号已绑定其他联富账号</string>
     <string name="unbind_success">解绑成功</string>
     <string name="this_account_has_bind_this_third_account">该用户未绑定此类型第三方帐号！</string>
+    <string name="title_activity_choose_top_ad">ChooseTopAd</string>
+    <string name="sort_success">排序成功</string>
+    <string name="sort_error">排序失败</string>
+    <string name="choose_album">选择相册</string>
+    <string name="upload_success">上传成功</string>
+    <string name="upload_fail">上传失败</string>
 </resources>

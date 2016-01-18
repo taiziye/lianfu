@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.utils;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -248,6 +250,23 @@ public class Tools {
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         imageLoader.displayImage(path, img, options);
+    }
+
+    public static void setPhoto(Context context,ImageView img,String path){
+//        File file=new File(path);
+//        Bitmap bitmap=null;
+//        if(file.exists()){
+//            bitmap=BitmapFactory.decodeFile(path);
+//        }
+        //img.setImageBitmap(bitmap);
+//        img.setImageURI(Uri.parse(path));
+        ContentResolver cr = context.getContentResolver();
+        try {
+            Bitmap bitmap= BitmapFactory.decodeStream(cr.openInputStream(Uri.parse(path)));
+            img.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

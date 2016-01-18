@@ -34,7 +34,7 @@ public class UploadStorePicture {
             paramJsonObject.put("store_id", Escape.escape(kvs[0]));
             paramJsonObject.put("user_id", Escape.escape(kvs[1]));
             paramJsonObject.put("pictype", Escape.escape(kvs[2]));
-            paramJsonObject.put("photo", Escape.escape(kvs[3]));
+            paramJsonObject.put("photo", kvs[3]);
 
             jsonObject.put("param", paramJsonObject);
         } catch (JSONException e) {

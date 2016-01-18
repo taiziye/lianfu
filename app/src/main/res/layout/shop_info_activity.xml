@@ -442,7 +442,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
@@ -451,25 +451,41 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="15sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/top_ad" />
 
+                <!--<ImageView-->
+                    <!--android:id="@+id/top_ad"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_marginBottom="10dp" />-->
+                <EditText
+                    android:id="@+id/et_top_ad"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:editable="false"
+                    android:gravity="center|right"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@null" />
                 <ImageView
                     android:id="@+id/top_ad"
-                    android:layout_width="0dp"
-                    android:scaleType="fitXY"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
 
             </LinearLayout>
             <View style="@style/view_line_style" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
@@ -478,38 +494,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textSize="15sp"
+                    android:textColor="@android:color/black"
                     android:text="@string/shop_img" />
 
-                <ImageView
-                    android:id="@+id/img1"
-                    android:scaleType="fitXY"
+                <EditText
+                    android:id="@+id/et_shop_img"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
-
+                    android:editable="false"
+                    android:gravity="center|right"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@null" />
                 <ImageView
-                    android:id="@+id/img2"
-                    android:layout_width="0dp"
-                    android:scaleType="fitXY"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
-
-                <ImageView
-                    android:id="@+id/img3"
-                    android:layout_width="0dp"
-                    android:scaleType="fitXY"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:id="@+id/shop_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/next"/>
             </LinearLayout>
 
         </LinearLayout>
