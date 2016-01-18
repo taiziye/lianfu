@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -130,23 +131,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             finish();
             startActivity(intent);
         }*/
-        listView.setMode(PullToRefreshBase.Mode.BOTH);
-        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉加载更多");
-        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
-        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在加载");
-        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以加载");
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                onConversationInit(page);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
-            }
-        });
     }
 
     @Override
@@ -226,6 +210,25 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             }
         });
         initView(hxid);
+
+        listView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉加载更多");
+        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
+        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在加载");
+        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以加载");
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                Log.e("tag", "11111111111");
+                page++;
+                onConversationInit(page);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                Log.e("tag", "2222222222222222");
+            }
+        });
     }
 
     private void initView(String hxid) {
@@ -251,6 +254,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     protected void onConversationInit(int page) {
         conversation = EMChatManager.getInstance().getConversation(hxid);
         conversation.markAllMessagesAsRead();
+        Log.e("tag", "page " + page);
         if (page > 1) complete();
 
         final List<EMMessage> msgs = conversation.getAllMessages();
