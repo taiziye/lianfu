@@ -84,12 +84,13 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     private String time;
     //private List<Chat> list = new ArrayList<Chat>();
     private ChatAdapter adapter = null;
-
+    private boolean isloading;
+    private boolean haveMoreData = true;
     //表情
     private boolean flag = false;
     private LinearLayout more;
     private ViewPager vPager;
-    private int page = 1;
+    private int pageSize = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +124,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         adapter = new ChatAdapter(ChatActivity.this, hxid);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-        onConversationInit(page);
+        onConversationInit();
         /*Log.e("tag", "onNewIntent " + username);
         if (username.equals(name)) {
             super.onNewIntent(intent);
@@ -156,10 +157,6 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         }
     }
 
-    public void complete() {
-        listView.onRefreshComplete();
-    }
-
     private void init() {
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -186,6 +183,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
@@ -196,6 +194,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                     add_img.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -210,23 +209,34 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             }
         });
         initView(hxid);
-
-        /*listView.setMode(PullToRefreshBase.Mode.BOTH);
-        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉加载更多");
-        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
-        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在加载");
-        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以加载");
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                page++;
-                onConversationInit(page);
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                Log.e("tag", "refresh");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!isloading && haveMoreData) {
+                            List<EMMessage> messages;
+                            messages = conversation.loadMoreMsgFromDB(adapter.getItem(0).getMsgId(), pageSize);
+                            if (messages.size() > 0) {
+                                adapter.notifyDataSetChanged();
+                                adapter.refreshSeekTo(messages.size() - 1);
+                                if (messages.size() != pageSize) {
+                                    haveMoreData = false;
+                                }
+                            } else {
+                                haveMoreData = false;
+                            }
+                            isloading = false;
+                        } else {
+                            Tools.showToast(ChatActivity.this, "没有更多记录");
+                        }
+                        listView.onRefreshComplete();
+                    }
+                }, 1000);
             }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-            }
-        });*/
+        });
     }
 
     private void initView(String hxid) {
@@ -234,7 +244,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         adapter = new ChatAdapter(ChatActivity.this, hxid);
         listView.setAdapter(adapter);
         adapter.refreshSelectLast();
-        onConversationInit(page);
+        onConversationInit();
         //listView.getRefreshableView().setSelection(list.size() - 1);
         //NewMessageBroadcastReceiver.unregister(ChatActivity.this);
         /*msgReceiver = new MessageBroadcastReceiver();
@@ -249,24 +259,24 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         return listView;
     }
 
-    protected void onConversationInit(int page) {
-        listView.onRefreshComplete();
+    protected void onConversationInit() {
         conversation = EMChatManager.getInstance().getConversation(hxid);
         conversation.markAllMessagesAsRead();
-        Log.e("tag", "page " + page);
 
         final List<EMMessage> msgs = conversation.getAllMessages();
         int msgCount = msgs != null ? msgs.size() : 0;
-        if (msgCount < conversation.getAllMsgCount() && msgCount < 200 * page) {
+        if (msgCount < conversation.getAllMsgCount() && msgCount < pageSize) {
             String msgId = null;
             if (msgs != null && msgs.size() > 0) {
                 msgId = msgs.get(0).getMsgId();
             }
-            conversation.loadMoreMsgFromDB(msgId, 20);
+            conversation.loadMoreMsgFromDB(msgId, pageSize);
         }
 
-        if (conversation.getMsgCount() < 20 * page) Tools.showToast(ChatActivity.this, "聊天记录已全部加载");
-
+        if (conversation.getMsgCount() < 20) {
+            Tools.showToast(ChatActivity.this, "聊天记录已全部加载");
+            haveMoreData = false;
+        }
     }
 
     @Override

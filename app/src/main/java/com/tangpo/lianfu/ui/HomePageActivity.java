@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,12 +19,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.fragment.EmployeeFragment;
@@ -48,7 +55,7 @@ import org.json.JSONObject;
 /**
  * Created by 果冻 on 2015/11/8.
  */
-public class HomePageActivity extends Activity implements View.OnClickListener {
+public class HomePageActivity extends Activity implements View.OnClickListener, EMEventListener {
     private LinearLayout frame;
     private LinearLayout one;
     private LinearLayout two;
@@ -526,5 +533,48 @@ public class HomePageActivity extends Activity implements View.OnClickListener {
         NewMessageBroadcastReceiver.unregister(HomePageActivity.this);
         Tools.closeActivity();
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventOfflineMessage});
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //注销监听
+                EMChatManager.getInstance().unregisterEventListener(HomePageActivity.this);
+            }
+        }, 5000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        EMMessage message = null;
+        EMConversation conversation = null;
+        Chat chat;
+        Log.e("tag", "=============EventOfflineMessage=============" + event.getEvent());
+        switch (event.getEvent()) {
+            case EventOfflineMessage:
+                //message = (EMMessage) event.getData();
+                message = (EMMessage) event.getData();
+                conversation.addMessage(message);
+                String user = message.getUserName();
+                String latestmsg = ((TextMessageBody)message.getBody()).getMessage();
+                String time = Tools.long2DateString(message.getMsgTime());
+                ChatAccount ac = new ChatAccount("", user, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
+                Tools.saveAccount(ac);
+                NewMessageBroadcastReceiver.notifier(HomePageActivity.this, message, ac);
+                break;
+            //case EventNewMessage:
+                //message = (EMMessage) event.getData();
+                //conversation.addMessage(message);
+                //break;
+        }
     }
 }
