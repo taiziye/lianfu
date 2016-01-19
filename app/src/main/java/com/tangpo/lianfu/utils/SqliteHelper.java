@@ -5,12 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.ChatUser;
 
 /**
  * Created by 果冻 on 2016/1/9.
  */
 public class SqliteHelper extends SQLiteOpenHelper{
     public static final String TABLE_NAME= "users";
+    public static final String TABLE_NAMES= "user";
     private static SqliteHelper instance;
 
     private static final String USERNAME_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS "
@@ -21,7 +23,14 @@ public class SqliteHelper extends SQLiteOpenHelper{
             + ChatAccount.EASEMOD_ID + " TEXT, "
             + ChatAccount.MSG + " TEXT, "
             + ChatAccount.TIME + " TEXT, "
+            + ChatAccount.UNREAD + "TEXT, "
             + ChatAccount.PHOTO + " TEXT);";
+
+    private static final String USER_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_NAMES + " ("
+            + ChatUser.ID + " integer primary key, "
+            + ChatUser.USERNAME + " TEXT, "
+            + ChatUser.EASEMOD_ID + " TEXT);";
 
     /**
      *
@@ -44,14 +53,24 @@ public class SqliteHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(USERNAME_TABLE_CREATE);
+        db.execSQL(USER_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 2){
-            db.execSQL("ALTER TABLE "+ TABLE_NAME +" ADD COLUMN "+
-                    ChatAccount.PHOTO + " TEXT ;");
+            db.execSQL("drop table " + TABLE_NAME);
+            /*db.execSQL("ALTER TABLE "+ TABLE_NAME +" ADD COLUMN "+
+                    ChatAccount.PHOTO + " TEXT ;");*/
+            db.execSQL(USERNAME_TABLE_CREATE);
+        } else if (oldVersion <= 5) {
+            db.execSQL("drop table " + TABLE_NAME);
+            //db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + ChatAccount.UNREAD + " TEXT ;");
+            db.execSQL(USERNAME_TABLE_CREATE);
+        } else {
+            db.execSQL(USER_TABLE);
         }
+
 
         /*if(oldVersion < 3){
             db.execSQL(CREATE_PREF_TABLE);

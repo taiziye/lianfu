@@ -15,23 +15,13 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import com.easemob.util.PathUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -44,6 +34,7 @@ import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.ChatUser;
 import com.tangpo.lianfu.ui.MainActivity;
 
 import java.io.BufferedOutputStream;
@@ -51,6 +42,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -487,6 +482,17 @@ public class Tools {
         helper.close();
     }
 
+    public static void saveConversation(ChatUser user) {
+        DataHelper helper = new DataHelper(MyApplication.context);
+        helper.saveChatUser(user);
+        helper.close();
+    }
+
+    public static List<ChatUser> getChatUserList() {
+        DataHelper helper = new DataHelper(MyApplication.context);
+        return helper.getChatUser();
+    }
+
     public static void setHeight(BaseAdapter adapter, PullToRefreshListView list) {
         int height = 0;
         for (int i = 0; i<adapter.getCount(); i++) {
@@ -559,10 +565,9 @@ public class Tools {
         values.put(ChatAccount.COLUMN_MSG, account.getMsg());
         values.put(ChatAccount.COLUMN_TIME, account.getTime());
         if (account.getPhoto() != null) values.put(ChatAccount.COLUMN_PHOTO, account.getPhoto());
+    }*/
 
-    }
-
-    *//**
+    /**
      * 获取最近会话人列表
      * @return
      *//*

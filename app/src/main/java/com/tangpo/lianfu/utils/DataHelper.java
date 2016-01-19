@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.ChatUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ public class DataHelper {
     //数据库名称
     private static String DB_NAME = "hx.db";
     //数据库版本
-    private static int DB_VERSION = 4;
+    private static int DB_VERSION = 6;
     private SQLiteDatabase db = null;
     private SqliteHelper dbHelper = null;
 
@@ -49,7 +52,23 @@ public class DataHelper {
             account.setPhoto(cursor.getString(cursor.getColumnIndex(ChatAccount.PHOTO)));
             account.setMsg(cursor.getString(cursor.getColumnIndex(ChatAccount.MSG)));
             account.setTime(cursor.getString(cursor.getColumnIndex(ChatAccount.TIME)));
+            account.setUnread(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ChatAccount.UNREAD))));
             list.add(account);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
+    public List<ChatUser> getChatUser(){
+        List<ChatUser> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + SqliteHelper.TABLE_NAMES + " desc", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast() && (cursor.getString(1)) != null) {
+            ChatUser user = new ChatUser();
+            user.setEasemod_id(cursor.getString(cursor.getColumnIndex(ChatUser.EASEMOD_ID)));
+            user.setUsername(cursor.getString(cursor.getColumnIndex(ChatUser.USERNAME)));
+            list.add(user);
             cursor.moveToNext();
         }
         cursor.close();
@@ -78,6 +97,17 @@ public class DataHelper {
         return uid;
     }
 
+    public Long saveChatUser(ChatUser user) {
+        if (judge(user.getEasemod_id())) {
+            return 0l;
+        }
+        ContentValues values = new ContentValues();
+        values.put(ChatUser.USERNAME, user.getUsername());
+        values.put(ChatUser.EASEMOD_ID, user.getEasemod_id());
+        Long uid = db.insert(SqliteHelper.TABLE_NAMES, ChatUser.ID, values);
+        return uid;
+    }
+
     /**
      * 删除记录
      * @param easemod_id  用户的环信id
@@ -102,6 +132,13 @@ public class DataHelper {
         values.put(ChatAccount.TIME, account.getTime());
         int id = db.update(SqliteHelper.TABLE_NAME, values, ChatAccount.EASEMOD_ID + " =?", new String[]{account.getEasemod_id()});
         return id;
+    }
+
+    private boolean judge(String str) {
+        Cursor cursor = db.rawQuery("select * from " + SqliteHelper.TABLE_NAMES + " where " + ChatUser.EASEMOD_ID + " =?", new String[]{str});
+        int num = cursor.getCount();
+        if (num > 0) return true;
+        return false;
     }
 
     /**

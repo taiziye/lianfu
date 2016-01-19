@@ -5,10 +5,15 @@ import android.os.Parcelable;
 
 import com.easemob.chat.EMMessage;
 
+import java.util.Objects;
+
 /**
  * Created by 果冻 on 2016/1/5.
  */
 public class ChatAccount implements Parcelable {
+    private static ChatAccount account = null;
+    private static Object lock = new Object();
+
     public static final String ID = "_id";
     public static final String USERNAME = "username";
     public static final String NAME = "name";
@@ -16,6 +21,7 @@ public class ChatAccount implements Parcelable {
     public static final String PHOTO = "photo";
     public static final String MSG = "msg";
     public static final String TIME = "time";
+    public static final String UNREAD = "unread";
 
     private String user_id;
     private String username;
@@ -29,6 +35,17 @@ public class ChatAccount implements Parcelable {
     private String time;  //最后的聊天时间
     private int unread;
     private EMMessage.Type type;
+
+    public static ChatAccount getInstance(){
+        if (account == null) {
+            synchronized (lock) {
+                if (account == null) {
+                    account = new ChatAccount();
+                }
+            }
+        }
+        return account;
+    }
 
     public ChatAccount() {
     }
