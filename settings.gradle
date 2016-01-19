@@ -1,2 +1,1 @@
-include ':app', ':lib:pull'
-include ':easeUI'
+include ':easeui', ':app',':lib:pull'

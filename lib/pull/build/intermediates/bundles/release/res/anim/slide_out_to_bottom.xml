@@ -18,4 +18,4 @@
     android:duration="@android:integer/config_longAnimTime"
     android:fromYDelta="0"
     android:toYDelta="100%p" />
-<!-- From: file:/F:/eclipse-jee/lianfu/lib/pull/res/anim/slide_out_to_bottom.xml -->
+<!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/lib/pull/res/anim/slide_out_to_bottom.xml -->

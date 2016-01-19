@@ -56,4 +56,5 @@ dependencies {
     compile files('libs/libammsdk.jar')
     //    环信
     compile files('libs/easemobchat_2.2.5.jar')
+    //compile project(':easeui')
 }
