@@ -192,10 +192,11 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         }else {
             power.setText("会员");
         }
-
+        Log.e("tag", "===========" + NewMessageBroadcastReceiver.unread);
         if (NewMessageBroadcastReceiver.unread > 0) {
             chat.setBackgroundResource(R.drawable.msgs);
         } else {
+            NewMessageBroadcastReceiver.unread = 0;
             chat.setBackgroundResource(R.drawable.chat);
         }
         user_name.setText("");

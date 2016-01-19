@@ -208,6 +208,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         if (NewMessageBroadcastReceiver.unread > 0) {
             chat.setBackgroundResource(R.drawable.msgs);
         } else {
+            NewMessageBroadcastReceiver.unread = 0;
             chat.setBackgroundResource(R.drawable.chat);
         }
 
