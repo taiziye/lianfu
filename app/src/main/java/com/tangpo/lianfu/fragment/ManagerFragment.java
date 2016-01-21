@@ -32,18 +32,15 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.utils.LogUtil;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
+import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.QQ.AppConstants;
-import com.tangpo.lianfu.config.QQ.BaseUIListener;
 import com.tangpo.lianfu.config.QQ.Util;
-import com.tangpo.lianfu.config.WeiBo.AccessTokenKeeper;
 import com.tangpo.lianfu.config.WeiBo.Constants;
 import com.tangpo.lianfu.config.WeiBo.ErrorInfo;
 import com.tangpo.lianfu.config.WeiBo.User;
 import com.tangpo.lianfu.config.WeiBo.UsersAPI;
 import com.tangpo.lianfu.entity.FindStore;
-import com.tangpo.lianfu.entity.StoreInfo;
 import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.BindAccount;
@@ -205,13 +202,6 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
 
-        if (NewMessageBroadcastReceiver.unread > 0) {
-            chat.setBackgroundResource(R.drawable.msgs);
-        } else {
-            NewMessageBroadcastReceiver.unread = 0;
-            chat.setBackgroundResource(R.drawable.chat);
-        }
-
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
 
         user_name.setText("");
@@ -234,6 +224,17 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         if("1".equals(user.getBindqq())){
             bind_qq.setText(getString(R.string.unbind));
             bind_qq.setBackgroundResource(R.drawable.unbind);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (NewMessageReceiver.getUnread() > 0) {
+            chat.setBackgroundResource(R.drawable.msgs);
+        } else {
+            //NewMessageReceiver.setUnread(0);
+            chat.setBackgroundResource(R.drawable.chat);
         }
     }
 
