@@ -213,6 +213,16 @@ public class ChatAdapter extends BaseAdapter {
     }
 
     /**
+     * 刷新页面, 选择Position
+     */
+    public void refreshSeekTo(int position) {
+        handler.sendMessage(handler.obtainMessage(HANDLER_MESSAGE_REFRESH_LIST));
+        android.os.Message msg = handler.obtainMessage(HANDLER_MESSAGE_SEEK_TO);
+        msg.arg1 = position;
+        handler.sendMessage(msg);
+    }
+
+    /**
      * 刷新页面
      */
     public void refresh() {

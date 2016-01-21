@@ -11,7 +11,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+<<<<<<< HEAD
             <option value="$PROJECT_DIR$/easeui" />
+=======
+            <option value="$PROJECT_DIR$/easeUI" />
+>>>>>>> 3af0b2099a4f81035349a8a8e123764dd5feb671
             <option value="$PROJECT_DIR$/lib" />
             <option value="$PROJECT_DIR$/lib/pull" />
           </set>

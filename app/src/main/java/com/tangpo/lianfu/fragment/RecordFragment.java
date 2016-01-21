@@ -385,7 +385,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     hideSoftKeyBoard();
                     break;
                 case 4:
-                    adapter.notifyDataSetChanged();
+                    if(adapter!=null){
+                        adapter.notifyDataSetChanged();
+                    }
                     hideSoftKeyBoard();
                     break;
             }
