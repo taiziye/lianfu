@@ -79,7 +79,13 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.member_home_fragment, container, false);
+        View view = null; if (view == null) {
+            view = inflater.inflate(R.layout.member_home_fragment, container, false);
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         bundle = getArguments();
 
         init(view);
