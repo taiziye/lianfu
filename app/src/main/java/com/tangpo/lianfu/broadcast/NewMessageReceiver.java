@@ -35,7 +35,7 @@ public class NewMessageReceiver {
     }*/
 
     public static int getUnread() {
-        Log.e("tag", "count " + EMChatManager.getInstance().getUnreadMsgsCount());
+        Log.e("tag", "count " + EMChatManager.getInstance().getUnreadMsgsCount() + " id " + ChatAccount.getInstance().getEasemod_id());
         return EMChatManager.getInstance().getUnreadMsgsCount();
     }
 
