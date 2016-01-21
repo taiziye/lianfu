@@ -60,6 +60,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         copylist = new ArrayList<>(list);
         inflater = LayoutInflater.from(context);
         users = Tools.getChatUserList();
+        Log.e("tag", "users " + users.size() + " list " + list.size());
     }
 
     @Override
@@ -97,6 +98,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         EMConversation conversation = getItem(position);
         String username = null;
         for (int i=0; i<users.size(); i++) {
+            Log.e("tag", users.get(i).getEasemod_id().toLowerCase() + " " + conversation.getUserName().toLowerCase());
             if (users.get(i).getEasemod_id().toLowerCase().equals(conversation.getUserName().toLowerCase())) {
                 username = users.get(i).getUsername();
                 names.add(username);
@@ -106,7 +108,11 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
 
         Tools.setPhoto(context, ChatAccount.getInstance().getPhoto(), holder.img);
         // 获取与此用户的会话
-        holder.name.setText(username);
+        if (username == null || username.length() == 0) {
+            holder.name.setText(conversation.getUserName());
+        } else {
+            holder.name.setText(username);
+        }
         //Log.e("tag", " " + conversation.getUserName() + " " + conversation.getMessage(position).getFrom());
         //holder.latest.setText(list.get(position).getMsg());
         handleTextMessage(conversation, holder.latest);
@@ -124,6 +130,10 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
     }
 
     public String getUserName(int position) {
+        Log.e("tag", "get " + names.size());
+        if (names.size() == 0 || names.get(position) == null) {
+            return list.get(position).getUserName();
+        }
         return names.get(position);
     }
 

@@ -29,7 +29,7 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.util.EMLog;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
+import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.PictureActivity;
@@ -65,7 +65,7 @@ public class ChatAdapter extends BaseAdapter {
         this.username = username;
         this.inflater = LayoutInflater.from(context);
         this.conversation = EMChatManager.getInstance().getConversation(username);
-        NewMessageBroadcastReceiver.unread -= this.conversation.getUnreadMsgCount();
+        //NewMessageReceiver.setUnread(-this.conversation.getUnreadMsgCount());
         this.conversation.markAllMessagesAsRead();
     }
 
@@ -145,9 +145,6 @@ public class ChatAdapter extends BaseAdapter {
 
         holder.me.setVisibility(View.VISIBLE);
         holder.he.setVisibility(View.VISIBLE);
-        //String my_id = hxid.toLowerCase();
-        //String he_id = list.get(position).getHxid().toLowerCase();
-        //EMMessage message = list.get(position).getMessage();
         //根据数据设置holder要显示的frame
         if ( message.direct == EMMessage.Direct.SEND ) {  //根据情形是否需要显示
             holder.he.setVisibility(View.GONE);

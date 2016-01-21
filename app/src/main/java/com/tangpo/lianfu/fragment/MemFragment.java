@@ -31,7 +31,7 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.utils.LogUtil;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
+import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.QQ.AppConstants;
 import com.tangpo.lianfu.config.QQ.Util;
@@ -45,9 +45,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.BindAccount;
 import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.parms.UnbindAccount;
-import com.tangpo.lianfu.parms.UpdatePassword;
 import com.tangpo.lianfu.ui.BoundOrRegister;
-import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.ui.MipcaActivityCapture;
@@ -192,13 +190,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         }else {
             power.setText("会员");
         }
-        Log.e("tag", "===========" + NewMessageBroadcastReceiver.unread);
-        if (NewMessageBroadcastReceiver.unread > 0) {
-            chat.setBackgroundResource(R.drawable.msgs);
-        } else {
-            NewMessageBroadcastReceiver.unread = 0;
-            chat.setBackgroundResource(R.drawable.chat);
-        }
+
         user_name.setText("");
 
         float remain_money=Float.parseFloat(user.getMoney());
@@ -238,6 +230,18 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         isbindwb=user.getBindwb();
         isbindwx=user.getBindwx();
         isbindqq=user.getBindqq();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("tag", "===========" + NewMessageReceiver.getUnread());
+        if (NewMessageReceiver.getUnread() > 0) {
+            chat.setBackgroundResource(R.drawable.msgs);
+        } else {
+            //NewMessageReceiver.setUnread(0);
+            chat.setBackgroundResource(R.drawable.chat);
+        }
     }
 
     @Override

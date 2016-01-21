@@ -32,7 +32,7 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.utils.LogUtil;
 import com.tangpo.lianfu.R;
-import com.tangpo.lianfu.broadcast.NewMessageBroadcastReceiver;
+import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.config.QQ.AppConstants;
 import com.tangpo.lianfu.config.QQ.Util;
@@ -169,13 +169,6 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
 
-        if (NewMessageBroadcastReceiver.unread > 0) {
-            chat.setBackgroundResource(R.drawable.msgs);
-        } else {
-            NewMessageBroadcastReceiver.unread = 0;
-            chat.setBackgroundResource(R.drawable.chat);
-        }
-
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
         user_name.setText("");
         power.setText("员工");
@@ -206,6 +199,17 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
         isbindwb=user.getBindwb();
         isbindwx=user.getBindwx();
         isbindqq=user.getBindqq();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (NewMessageReceiver.getUnread() > 0) {
+            chat.setBackgroundResource(R.drawable.msgs);
+        } else {
+            //NewMessageReceiver.setUnread(0);
+            chat.setBackgroundResource(R.drawable.chat);
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -198,6 +199,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     JSONArray array = result.getJSONArray("param");
                     for (int i = 0; i<array.length(); i++) {
                         ChatAccount account = gson.fromJson(array.getJSONObject(i).toString(), ChatAccount.class);
+                        Log.e("tag", " " + account.toString());
                         accounts.add(account);
                     }
                 } catch (JSONException e) {
