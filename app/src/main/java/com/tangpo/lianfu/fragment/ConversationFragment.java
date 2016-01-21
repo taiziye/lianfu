@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created by 果冻 on 2016/1/8.
  */
-public class ConversationFragment extends Fragment implements EMEventListener {
+public class ConversationFragment extends Fragment {
     private ListView listView = null;
     private EditText query = null;
     private Button clear = null;
@@ -75,7 +75,7 @@ public class ConversationFragment extends Fragment implements EMEventListener {
         if (!hidden) {
             refresh();
         }
-        EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage});
+        //EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage});
         //helper = new DataHelper(getActivity());
         //Log.e("tag", "resume");
         list.clear();
@@ -84,9 +84,19 @@ public class ConversationFragment extends Fragment implements EMEventListener {
 
     @Override
     public void onStop() {
-        EMChatManager.getInstance().unregisterEventListener(this);
+        //EMChatManager.getInstance().unregisterEventListener(this);
         super.onStop();
     }
+
+    /*@Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()) {
+            case EventNewMessage:
+                break;
+            case EventOfflineMessage:
+                break;
+        }
+    }*/
 
     @Override
     public void onPause() {
@@ -145,6 +155,7 @@ public class ConversationFragment extends Fragment implements EMEventListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("tag", list.size() + " size " + adapter.getCount());
                 EMConversation conversation = adapter.getItem(position);
                 String username = adapter.getUserName(position);
                 String hxid = conversation.getUserName();
@@ -232,13 +243,4 @@ public class ConversationFragment extends Fragment implements EMEventListener {
         });
     }
 
-    @Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewMessage:
-                break;
-            case EventOfflineMessage:
-                break;
-        }
-    }
 }

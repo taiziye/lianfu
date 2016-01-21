@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.entity.Manager;
@@ -31,6 +32,7 @@ import com.tangpo.lianfu.parms.StoreDetail;
 import com.tangpo.lianfu.ui.AddConsumeActivity;
 import com.tangpo.lianfu.ui.AddEmployeeActivity;
 import com.tangpo.lianfu.ui.AddMemberActivity;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.ui.CostRepayActivity;
 import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
@@ -305,6 +307,17 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     };
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (NewMessageReceiver.getUnread() > 0) {
+            chat.setBackgroundResource(R.drawable.msgs);
+        } else {
+            //NewMessageReceiver.setUnread(0);
+            chat.setBackgroundResource(R.drawable.chat);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -319,6 +332,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
 
                 break;
             case R.id.chat:
+                intent = new Intent(getActivity(), ConversationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.add_record:
                 intent = new Intent(getActivity(), AddConsumeActivity.class);
