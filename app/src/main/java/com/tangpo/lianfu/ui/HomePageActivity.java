@@ -113,6 +113,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
 
         fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
+        getAccounts(userid);
 
         if (userType.equals("3") || userType.equals("4")) { //管理员
             Bundle bundle = new Bundle();
@@ -131,7 +132,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
         } else {  //会员
             Bundle bundle = new Bundle();
             bundle.putString("userid", userid);
-            getAccounts(userid);
             fragment = new MemberHomeFragment();
             fragment.setArguments(bundle);
         }
@@ -438,10 +438,11 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
                 case 1:
                     ChatAccount ac = (ChatAccount) msg.obj;
                     ChatAccount.getInstance().copy(ac);
-                    if (!EMChat.getInstance().isLoggedIn()) {
+                    /*if (!EMChat.getInstance().isLoggedIn()) {
                         //未登录
                         login(ac);
-                    }
+                    }*/
+                    login(ac);
                     break;
             }
         }
@@ -533,6 +534,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     protected void onDestroy() {
         super.onDestroy();
         //NewMessageReceiver.unregister(HomePageActivity.this);
+        EMChatManager.getInstance().logout();
         Tools.closeActivity();
         finish();
     }

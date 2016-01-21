@@ -85,7 +85,14 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.employee_home_fragment, container, false);
+        View view = null;
+        if (view == null) {
+            view = inflater.inflate(R.layout.employee_home_fragment, container, false);
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         bundle = getArguments();
 
         init(view);

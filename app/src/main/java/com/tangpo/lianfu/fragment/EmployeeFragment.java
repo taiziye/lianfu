@@ -136,7 +136,14 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.employee_fragment, container, false);
+        View view = null;
+        if (view == null) {
+            view = inflater.inflate(R.layout.employee_fragment, container, false);
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
 
         init(view);
         return view;

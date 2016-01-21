@@ -69,7 +69,14 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mem_collect_fragment, container, false);
+        View view = null;
+        if (view == null) {
+            view = inflater.inflate(R.layout.mem_collect_fragment, container, false);
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
 
         Bundle bundle = getArguments();
         if (bundle != null) {
