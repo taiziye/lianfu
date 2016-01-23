@@ -236,7 +236,6 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
-                Log.e("tag","listSize:"+list.size());
                 adapter = new MemRecourdAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
                 listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
@@ -259,10 +258,8 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             public void onSuccess(JSONObject result) {
                 listView.onRefreshComplete();
                 dialog.dismiss();
-                Log.e("tag",result.toString());
                 try {
                     paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
-                    Log.e("tag","paramcentcount"+paramcentcount);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

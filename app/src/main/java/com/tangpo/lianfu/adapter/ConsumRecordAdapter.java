@@ -140,13 +140,11 @@ public class ConsumRecordAdapter extends BaseAdapter {
         /*try {
             Date date = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss").parse(str);
             dateStr = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(date);
-            Log.e("tag", dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }*/
         tmp1 = str.split(" ");
         tmp2 = tmp1[0].split("/");
-        Log.e("tag", "length " + tmp1.length + " " + tmp1 + " " + str);
         String date = tmp2[0] + "年" + tmp2[1] + "月" + tmp2[2] + "日 " + tmp1[1];
         return date;
     }

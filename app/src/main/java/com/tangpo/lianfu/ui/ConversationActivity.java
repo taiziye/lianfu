@@ -199,7 +199,6 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     JSONArray array = result.getJSONArray("param");
                     for (int i = 0; i<array.length(); i++) {
                         ChatAccount account = gson.fromJson(array.getJSONObject(i).toString(), ChatAccount.class);
-                        Log.e("tag", " " + account.toString());
                         accounts.add(account);
                     }
                 } catch (JSONException e) {

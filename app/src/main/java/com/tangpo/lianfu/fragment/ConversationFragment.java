@@ -77,7 +77,6 @@ public class ConversationFragment extends Fragment {
         }
         //EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage});
         //helper = new DataHelper(getActivity());
-        //Log.e("tag", "resume");
         list.clear();
         init(view);
     }
@@ -155,11 +154,9 @@ public class ConversationFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("tag", list.size() + " size " + adapter.getCount());
                 EMConversation conversation = adapter.getItem(position);
                 String username = adapter.getUserName(position);
                 String hxid = conversation.getUserName();
-                Log.e("tag", "hxid " + hxid + "  " + ChatAccount.getInstance().getEasemod_id());
                 if (hxid.toLowerCase().equals(ChatAccount.getInstance().getEasemod_id().toLowerCase())) {
                     Tools.showToast(getActivity(), "无法跟自己聊天");
                 } else {

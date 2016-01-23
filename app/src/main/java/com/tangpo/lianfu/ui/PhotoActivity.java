@@ -75,7 +75,6 @@ public class PhotoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 //				Toast.makeText(PhotoActivity.this, paths.toString(), Toast.LENGTH_SHORT).show();
-//				Log.e("info", paths.toString());
 				Intent intent=new Intent(PhotoActivity.ACTION);
 				intent.putExtra("paths", paths);
 //				setResult(RESULT_CODE,intent);

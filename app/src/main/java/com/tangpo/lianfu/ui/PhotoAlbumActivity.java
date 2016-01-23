@@ -95,7 +95,6 @@ public class PhotoAlbumActivity extends Activity {
 			String id = cursor.getString(3);
 			String dir_id = cursor.getString(4);
 			String dir = cursor.getString(5);
-			Log.e("info", "id===" + id + "==dir_id==" + dir_id + "==dir==" + dir + "==path=" + path);
 			if (!countMap.containsKey(dir_id)) {
 				pa = new PhotoAibum();
 				pa.setName(dir);

@@ -381,7 +381,6 @@ public class EmployeeFragment extends Fragment implements OnClickListener {
             // 从 Bundle 中解析 Token
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             String openid=mAccessToken.getToken();
-            Log.e("tag", ">>>>>>>>>>>>>>>>>>>" + openid);
             if (mAccessToken.isSessionValid()) {
                 lianfuBindThirdAccount(userid,openid,"1");
             } else {

@@ -154,7 +154,6 @@ public class PersonalInfoActivity extends Activity implements View.OnClickListen
                 type.setVisibility(View.GONE);
                 userlayout.setVisibility(View.GONE);
             }
-            Log.e("tag", user.toString());
             user_name.setText(user.getUsername());
             contact_tel.setText(user.getPhone());
             rel_name.setText(user.getName());

@@ -555,7 +555,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("tag", "onStop");
         EMChatManager.getInstance().unregisterEventListener(HomePageActivity.this);
     }
 
@@ -564,7 +563,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
         EMMessage message = null;
         EMConversation conversation = null;
         Chat chat;
-        Log.e("tag", "=============EventOfflineMessage=============" + event.getEvent());
         switch (event.getEvent()) {
             case EventOfflineMessage:
             case EventNewMessage:

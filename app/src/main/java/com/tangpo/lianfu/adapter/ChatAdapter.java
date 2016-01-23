@@ -309,7 +309,6 @@ public class ChatAdapter extends BaseAdapter {
                     File file = new File(localFullSizePath);
                     if (file.exists()) {
                         Uri uri = Uri.fromFile(file);
-                        Log.e("tag", "uri chat " + uri.getPath());
                         intent.putExtra("flag", "url");
                         intent.putExtra("url", localFullSizePath);
                     } else {

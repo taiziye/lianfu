@@ -87,7 +87,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_activity);
-        Log.e("tag", ChatAccount.getInstance().getEasemod_id());
         Tools.gatherActivity(this);
         if(getIntent() != null) {
             findStore=getIntent().getParcelableExtra("store");
@@ -247,7 +246,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
-                Log.e("tag",result.toString());
                 try {
                     store = gson.fromJson(result.getJSONObject("param").toString(), Store.class);
                 } catch (JSONException e) {
@@ -358,7 +356,6 @@ public class ShopActivity extends Activity implements View.OnClickListener {
             public void onSuccess(JSONObject result) {
                 //
                 dialog.dismiss();
-                Log.e("tag","result:"+result);
                 JSONArray array = null;
                 try {
                     array = result.getJSONArray("param");

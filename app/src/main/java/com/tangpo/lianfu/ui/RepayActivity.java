@@ -180,7 +180,6 @@ public class RepayActivity extends Activity implements View.OnClickListener {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for(int i=0; i<jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Log.e("tag", object.toString());
                         Repay repay = gson.fromJson(object.toString(), Repay.class);
                         list.add(repay);
                     }

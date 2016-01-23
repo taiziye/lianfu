@@ -389,7 +389,6 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String openid=intent.getStringExtra("openid");
-            Log.e("tag",openid);
             Message msg=new Message();
             msg.what=GET_OPENID;
             msg.obj=openid;
@@ -421,7 +420,6 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             // 从 Bundle 中解析 Token
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             String openid=mAccessToken.getToken();
-            Log.e("tag",">>>>>>>>>>>>>>>>>>>"+openid);
             if (mAccessToken.isSessionValid()) {
                 lianfuBindThirdAccount(user_id,openid,"1");
             } else {

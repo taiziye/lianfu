@@ -35,7 +35,6 @@ public class NewMessageReceiver {
     }*/
 
     public static int getUnread() {
-        Log.e("tag", "count " + EMChatManager.getInstance().getUnreadMsgsCount() + " id " + ChatAccount.getInstance().getEasemod_id());
         return EMChatManager.getInstance().getUnreadMsgsCount();
     }
 
@@ -44,7 +43,6 @@ public class NewMessageReceiver {
      * @param message
      */
     public static void notifier(Context context, EMMessage message, ChatAccount ac) {
-        Log.e("tag", "notifier ");
         NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         CharSequence title = "来自" + message.getUserName() + "的信息";
         Long when = System.currentTimeMillis();

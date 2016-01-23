@@ -463,7 +463,6 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
 
 //    private void setEmployee() {
 //        //
-//        Log.e("tag", stafflist.length + "");
 //        AlertDialog dialog = new AlertDialog.Builder(ShopInfoActivity.this).setTitle("请选择客服员工")
 //                .setItems(stafflist, new DialogInterface.OnClickListener() {
 //                    @Override

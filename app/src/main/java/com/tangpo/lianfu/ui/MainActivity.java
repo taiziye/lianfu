@@ -295,7 +295,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 bundle.putString("access_token",access_token);
                 bundle.putString("openid",openid);
 
-                Log.e("tag","MainActivity:"+openid);
                 msg.obj=bundle;
                 mHandler.sendMessage(msg);
             }

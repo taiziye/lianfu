@@ -242,7 +242,6 @@ public class MemFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("tag", "===========" + NewMessageReceiver.getUnread());
         if (NewMessageReceiver.getUnread() > 0) {
             chat.setBackgroundResource(R.drawable.msgs);
         } else {
@@ -426,7 +425,6 @@ public class MemFragment extends Fragment implements View.OnClickListener {
             // 从 Bundle 中解析 Token
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             String openid=mAccessToken.getToken();
-            Log.e("tag",">>>>>>>>>>>>>>>>>>>"+openid);
             if (mAccessToken.isSessionValid()) {
                 lianfuBindThirdAccount(user_id,openid,"1");
             } else {

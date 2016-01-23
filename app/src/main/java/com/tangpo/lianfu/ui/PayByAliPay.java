@@ -163,7 +163,6 @@ public class PayByAliPay extends FragmentActivity {
         String user_id=bundle.getString("user_id");
         String paymode=bundle.getString("paymode");
         String fee=bundle.getString("fee");
-        Log.e("tag",fee);
         String idlist=null;
         consume_id=bundle.getString("consume_id");
         if(consume_id==null||consume_id.length()==0){

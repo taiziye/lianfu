@@ -206,8 +206,6 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
                     if (holder.check.isChecked() == true) {
                         if(list.get(position - 1).getProfit() != null) tmp += Double.parseDouble(list.get(position - 1).getProfit());
                         set.put(position - 1, list.get(position - 1).getId());
-//                    Log.e("tag", list.get(position - 1).getId());
-//                    Log.e("tag",set.get(position-1));
                         checkNum++;
                     } else {
                         if(list.get(position - 1).getProfit() != null) tmp -= Double.parseDouble(list.get(position - 1).getProfit());

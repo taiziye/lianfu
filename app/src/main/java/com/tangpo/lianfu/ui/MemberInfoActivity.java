@@ -231,7 +231,6 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
 //            public void onFail(JSONObject result) {
 //                dialog.dismiss();
 //                try {
-//                    Log.e("tag",result.toString());
 //                    Tools.handleResult(MemberInfoActivity.this, result.getString("status"));
 //                } catch (JSONException e) {
 //                    e.printStackTrace();

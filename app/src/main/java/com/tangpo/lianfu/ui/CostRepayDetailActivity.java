@@ -337,7 +337,6 @@ public class CostRepayDetailActivity extends Activity implements OnClickListener
             public void onFail(JSONObject result) {
                 //
                 listView.onRefreshComplete();
-                Log.e("tag", result.toString());
                 try {
                     if ("404".equals(result.getString("status"))) {
                         Tools.showToast(getApplicationContext(), "无数据");
