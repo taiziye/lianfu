@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,15 +17,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.EditMember;
+import com.tangpo.lianfu.parms.GetChatAccount;
 import com.tangpo.lianfu.parms.GetTypeList;
 import com.tangpo.lianfu.utils.MD5Tool;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,6 +124,7 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
 //                editMember();
 //                break;
             case R.id.send:
+                getAccount();
                 break;
 //            case R.id.bank:
 //            case R.id.select_bank:
@@ -240,4 +246,51 @@ public class MemberInfoActivity extends Activity implements View.OnClickListener
 //        },params);
 //
 //    }
+    private Gson gson = new Gson();
+    private ChatAccount account = null;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    account = (ChatAccount) msg.obj;
+                    Log.e("tag", "account " + member.toString());
+                    Intent intent = new Intent(MemberInfoActivity.this, ChatActivity.class);
+                    intent.putExtra("username", account.getName());
+                    intent.putExtra("hxid", account.getEasemod_id());
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
+
+    private void getAccount(){
+
+        String[] kvs = new String[]{member.getUser_id()};
+        String param = GetChatAccount.packagingParam(this, kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    JSONArray array = result.getJSONArray("param");
+                    for (int i = 0; i<array.length(); i++) {
+                        account = gson.fromJson(array.getJSONObject(i).toString(), ChatAccount.class);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = account;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                Tools.showToast(MemberInfoActivity.this, "获取聊天账户失败，请稍后重试");
+            }
+        }, param);
+    }
 }

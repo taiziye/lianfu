@@ -91,8 +91,8 @@
     <orderEntry type="library" exported="" name="alipaySdk-20151112" level="project" />
     <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.1" level="project" />
-    <orderEntry type="library" exported="" name="easemobchat_2.2.5" level="project" />
     <orderEntry type="library" exported="" name="zxing" level="project" />
+    <orderEntry type="library" exported="" name="easemobchat_2.2.5" level="project" />
     <orderEntry type="library" exported="" name="guava-16.0.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="weiboSDKCore_3.1.2" level="project" />
