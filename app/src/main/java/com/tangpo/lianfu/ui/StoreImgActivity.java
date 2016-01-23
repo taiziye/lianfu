@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ShopImgAdapter;
 import com.tangpo.lianfu.config.Configs;
@@ -52,11 +51,12 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
     private ShopImgAdapter adapter=null;
 
     private List<String> serverImgPath=null;
-    private List<String> localImgPath=null;
+    private List<String> localImgPath=new ArrayList<>();
     private String user_id=null;
     private String store_id=null;
 
     private ProgressDialog dialog=null;
+    int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +69,10 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         user_id=intent.getStringExtra("user_id");
         store_id=intent.getStringExtra("store_id");
 
-        localImgPath=intent.getStringArrayListExtra("paths");
-        for(int i=0;i<serverImgPath.size();i++){
-            Log.e("tag",serverImgPath.get(i));
-        }
+//        localImgPath=intent.getStringArrayListExtra("paths");
+//        for(int i=0;i<serverImgPath.size();i++){
+//            Log.e("tag",serverImgPath.get(i));
+//        }
         init();
     }
 
@@ -99,9 +99,18 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             if(msg.what==1){
                 if(localImgPath!=null&&localImgPath.size()!=0){
+                    dialog=ProgressDialog.show(StoreImgActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
                 for(int i=0;i<localImgPath.size();i++){
                         uploadStorePicture(localImgPath.get(i));
                     }
+                }
+            }
+            if(msg.what==2){
+                flag++;
+                if(flag==localImgPath.size()){
+                    dialog.dismiss();
+                    flag=0;
+                    localImgPath.clear();
                 }
             }
         }
@@ -127,11 +136,14 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         String[] kvs=new String[]{store_id,user_id,"1",photo};
         String param= UploadStorePicture.packagingParam(StoreImgActivity.this,kvs);
 
-        dialog=ProgressDialog.show(StoreImgActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
+        //dialog=ProgressDialog.show(StoreImgActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                dialog.dismiss();
+                //dialog.dismiss();
+                Message msg=new Message();
+                msg.what=2;
+                handler.sendMessage(msg);
                 Tools.showToast(StoreImgActivity.this, getString(R.string.upload_success));
                 //serverImgPath.add(imgPath);
                 //adapter.notifyDataSetChanged();
@@ -139,7 +151,7 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
-                dialog.dismiss();
+               // dialog.dismiss();
                 try {
                     String status=result.getString("status");
                     if("1".equals(status)){
@@ -184,6 +196,8 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         //Uri.parse(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH)));
         if(data!=null){
             //serverImgPath.add(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH));
+            dialog=ProgressDialog.show(StoreImgActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
+            localImgPath.add(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH));
             uploadStorePicture(data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH));
             //adapter.notifyDataSetChanged();
         }

@@ -392,7 +392,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     hideSoftKeyBoard();
                     break;
                 case 4:
-                    adapter.notifyDataSetChanged();
+                    if(adapter!=null){
+                        adapter.notifyDataSetChanged();
+                    }
                     hideSoftKeyBoard();
                     break;
             }
@@ -432,6 +434,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                     JSONArray jsonArray = result.getJSONArray("param");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
+                        Log.e("tag",object.toString());
                         EmployeeConsumeRecord record = gson.fromJson(object.toString(), EmployeeConsumeRecord.class);
                         recordList.add(record);
                     }

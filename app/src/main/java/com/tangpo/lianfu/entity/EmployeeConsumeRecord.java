@@ -13,7 +13,10 @@ public class EmployeeConsumeRecord implements Serializable {
     private String user_id;
     private String store_id;
     private String username;
+    private String phone;
+
     private String name;
+
     private String store;
     private String consume_date;
     private String gains;
@@ -27,7 +30,6 @@ public class EmployeeConsumeRecord implements Serializable {
     private String desc;
     private String ticket;
     private String ticketpic;
-
     public void setConsume_date(String consume_date) {
         this.consume_date = consume_date;
     }
@@ -38,6 +40,14 @@ public class EmployeeConsumeRecord implements Serializable {
 
     public void setTicket(String ticket) {
         this.ticket = ticket;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getTicketpic() {
@@ -187,6 +197,7 @@ public class EmployeeConsumeRecord implements Serializable {
         this.store_id = "";
         this.username = "";
         this.name = "";
+        this.phone="";
         this.store = "";
         this.consume_date = "";
         this.gains = "";
@@ -217,17 +228,18 @@ public class EmployeeConsumeRecord implements Serializable {
                 '}';
     }
 
-    public EmployeeConsumeRecord(String id, String user_id, String store_id, String username, String name, String store, String consume_date, String gains, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onlines, String desc) {
+    public EmployeeConsumeRecord(String id, String user_id, String store_id, String username, String name,String phone,String store, String consume_date, String gains, String fee, String isPass, String discount, String pay_status, String pay_way, String pay_date, String onlines, String desc) {
         this.id = id;
         this.user_id = user_id;
         this.store_id = store_id;
         this.username = username;
         this.name = name;
+        this.phone=phone;
         this.store = store;
         this.consume_date = consume_date;
         this.gains = gains;
         this.fee = fee;
-        IsPass = isPass;
+        this.IsPass = isPass;
         this.discount = discount;
         this.pay_status = pay_status;
         this.pay_way = pay_way;

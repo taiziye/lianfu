@@ -289,7 +289,7 @@ int id chatting_length_iv 0x7f090038
 int id chatting_size_iv 0x7f090037
 int id chatting_status_btn 0x7f090039
 int id chatting_video_data_area 0x7f090036
-int id close 0x7f090001
+int id close 0x7f090000
 int id contact_list 0x7f090019
 int id content_container 0x7f090018
 int id edittext_layout 0x7f09004d
@@ -328,7 +328,7 @@ int id mic_image 0x7f090062
 int id msg_state 0x7f090025
 int id msg_status 0x7f09003e
 int id name 0x7f090023
-int id open 0x7f090000
+int id open 0x7f090001
 int id pager_view 0x7f090056
 int id pb_load_local 0x7f090006
 int id percentage 0x7f090034

@@ -55,6 +55,8 @@
             android:paddingRight="10dp">
 
             <LinearLayout android:id="@+id/id"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style">
 
                 <TextView
@@ -67,8 +69,9 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/name"
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
@@ -80,12 +83,13 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/sex"
-                style="@style/consum_top_style"
-                android:layout_marginLeft="8dp">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/consum_top_style">
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/sex" />
+                    android:text="@string/contact_phone" />
 
                 <ImageView
                     style="@style/consum_top_img_style"
@@ -93,6 +97,8 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 style="@style/consum_top_style">
                 <TextView
                     style="@style/consum_top_text_style"

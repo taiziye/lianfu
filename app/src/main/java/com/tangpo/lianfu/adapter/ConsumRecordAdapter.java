@@ -25,6 +25,7 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,6 +87,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             holder.profit = (TextView) convertView.findViewById(R.id.profit);
             holder.status = (TextView) convertView.findViewById(R.id.status);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.phone= (TextView) convertView.findViewById(R.id.phone_num);
 
             holder.frame = (RelativeLayout) convertView.findViewById(R.id.frame);
             holder.delete = (Button) convertView.findViewById(R.id.delete);
@@ -111,16 +113,20 @@ public class ConsumRecordAdapter extends BaseAdapter {
         });
 
         holder.name.setText(list.get(position).getName());
-        holder.money.setText("￥" + Float.valueOf(list.get(position).getFee()));
-        if(list.get(position).getGains().length() >= 1) holder.profit.setText( Float.valueOf(list.get(position).getGains()) + "" );
+        DecimalFormat formatter=new DecimalFormat("##0.00");
+        holder.money.setText(formatter.format(Float.valueOf(list.get(position).getFee())));
+        if(list.get(position).getGains().length() >= 1) holder.profit.setText(formatter.format(Float.valueOf(list.get(position).getGains())));
         else holder.profit.setText( 0 );
-        if (list.get(position).getPay_status().equals("1")) {
-            holder.status.setText("已结算");
-        } else {
-            holder.status.setText("未结算");
+        if (list.get(position).getIsPass().equals("0")) {
+            holder.status.setText("等待审核");
+        } else if(list.get(position).getIsPass().equals("1")){
+            holder.status.setText("审核未通过");
+        }else{
+            holder.status.setText("审核通过");
         }
 
         holder.time.setText(parseDate(list.get(position).getConsume_date()));
+        holder.phone.setText(list.get(position).getPhone());
         /*if(employeename == null) {
             holder.name.setText("");
         }else
@@ -200,6 +206,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         public TextView profit;
         public TextView status;
         public TextView time;
+        public TextView phone;
 
         public RelativeLayout frame;
         public Button delete;

@@ -575,7 +575,7 @@ public class ShopInfoActivity extends Activity implements View.OnClickListener {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
-        indestry = occupation.getText().toString();
+        //indestry = occupation.getText().toString();
         dialog = ProgressDialog.show(this, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[]=new String[]{store.getStore_id(),shop_name.getText().toString(),shop_host.getText().toString(),
                 contact_name.getText().toString(),contact_tel.getText().toString(),const_tel.getText().toString(),

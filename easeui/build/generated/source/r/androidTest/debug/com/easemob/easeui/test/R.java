@@ -473,7 +473,7 @@ containing a value of this type.
         public static final int chatting_size_iv=0x7f090037;
         public static final int chatting_status_btn=0x7f090039;
         public static final int chatting_video_data_area=0x7f090036;
-        public static final int close=0x7f090001;
+        public static final int close=0x7f090000;
         public static final int contact_list=0x7f090019;
         public static final int content_container=0x7f090018;
         public static final int edittext_layout=0x7f09004d;
@@ -512,7 +512,7 @@ containing a value of this type.
         public static final int msg_state=0x7f090025;
         public static final int msg_status=0x7f09003e;
         public static final int name=0x7f090023;
-        public static final int open=0x7f090000;
+        public static final int open=0x7f090001;
         public static final int pager_view=0x7f090056;
         public static final int pb_load_local=0x7f090006;
         public static final int percentage=0x7f090034;

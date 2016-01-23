@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
@@ -36,19 +36,20 @@
             android:text="闻柏坤" />
 
         <TextView
-            android:id="@+id/sex"
+            android:id="@+id/contact"
             android:layout_width="0dp"
             android:layout_weight="1.2"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@android:color/black"
-            android:text="女" />
+            android:text="联系电话" />
 
         <TextView
             android:id="@+id/time"
+            android:layout_marginLeft="10dp"
             android:layout_width="0dp"
-            android:layout_weight="1.1"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:textColor="#333333"
