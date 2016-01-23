@@ -26,6 +26,7 @@ import com.tangpo.lianfu.utils.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
     private EditText bank_card;
     private EditText bank_name;
     private EditText consume_money;
-    private EditText profit;
+//    private EditText profit;
     private EditText discount_type;
     private TextView discount_text;
     private EmployeeConsumeRecord record = null;
@@ -96,7 +97,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
         discount_text = (TextView) findViewById(R.id.discount_text);
         discount_text.setOnClickListener(this);
 
-        profit = (EditText) findViewById(R.id.profit);
+//        profit = (EditText) findViewById(R.id.profit);
         user_name = (EditText) findViewById(R.id.user_name);
         name = (EditText) findViewById(R.id.name);
         contact_tel = (EditText) findViewById(R.id.contact_tel);
@@ -123,6 +124,7 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             consume_id=record.getId();
             user_name.setText(record.getUsername());
             name.setText(record.getName());
+            contact_tel.setText(record.getPhone());
 //            username=record.getUsername();
 //            consume_id=intent.getStringExtra("consume_id");
 //            username = intent.getStringExtra("username");
@@ -146,17 +148,32 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
                     }
                 }
             }
-            profit.setText(record.getGains());
-            consume_money.setText("￥"+Float.valueOf(record.getFee()));
+            DecimalFormat formatter=new DecimalFormat("##0.00");
+            consume_money.setText(formatter.format(Float.valueOf(record.getFee())));
             mfee=record.getFee();
-            if (record.getTicket().length() != 0) {
-                frame1.setVisibility(View.VISIBLE);
-                ticket.setText(record.getTicket());
-            }
-            if (record.getTicketpic().length() != 0) {
-                frame2.setVisibility(View.VISIBLE);
-                Tools.setPhoto(this, record.getTicketpic(), ticketpic);
-            }
+
+            frame1.setVisibility(View.VISIBLE);
+            ticket.setText(record.getTicket());
+            frame2.setVisibility(View.VISIBLE);
+            Tools.setPhoto(this, record.getTicketpic(), ticketpic);
+
+            ticketpic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ConsumeRecordActivity.this, PictureActivity.class);
+                    intent.putExtra("flag","url");
+                    intent.putExtra("url",record.getTicketpic());
+                    startActivity(intent);
+                }
+            });
+//            if (record.getTicket().length() != 0) {
+//                frame1.setVisibility(View.VISIBLE);
+//                ticket.setText(record.getTicket());
+//            }
+//            if (record.getTicketpic().length() != 0) {
+//                frame2.setVisibility(View.VISIBLE);
+//                Tools.setPhoto(this, record.getTicketpic(), ticketpic);
+//            }
 
             if ("2".equals(record.getIsPass())) {
                 setUnable();
@@ -205,6 +222,10 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             return;
         }
 
+        if("2".equals(record.getIsPass())){
+            Tools.showToast(ConsumeRecordActivity.this,getString(R.string.can_not_commit_the_comsume_record_has_been_audit));
+            return;
+        }
         if (mdiscount == null || mdiscount.length() == 0) {
             Tools.showToast(getApplicationContext(), getString(R.string.please_choose_discount));
             return;

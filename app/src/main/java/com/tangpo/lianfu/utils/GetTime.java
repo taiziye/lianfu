@@ -2,6 +2,7 @@ package com.tangpo.lianfu.utils;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -42,12 +43,13 @@ public class GetTime {
             public void run() {
                 super.run();
                 try {
-                    URL url=new URL("http://www.bjtime.cn");
+                    URL url=new URL("http://www.baidu.com");
                     URLConnection uc=url.openConnection();
                     uc.connect();
                     long ld=uc.getDate();
+                    Date date=new Date(ld);
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String time = formatter.format(ld);
+                    String time = formatter.format(date);
                     Message msg=new Message();
                     msg.what=1;
                     msg.obj=time;

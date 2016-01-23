@@ -51,7 +51,7 @@ public class MemberAdapter extends BaseAdapter {
 
             holder.user_name = (TextView) convertView.findViewById(R.id.user_name);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.sex = (TextView) convertView.findViewById(R.id.sex);
+            holder.contact = (TextView) convertView.findViewById(R.id.contact);
             holder.time = (TextView) convertView.findViewById(R.id.time);
 
             convertView.setTag(holder);
@@ -61,10 +61,11 @@ public class MemberAdapter extends BaseAdapter {
 
         holder.user_name.setText(list.get(position).getUsername());
         holder.name.setText(list.get(position).getName());
-        if (list.get(position).getSex().equals("0"))
-            holder.sex.setText("男");
-        else
-            holder.sex.setText("女");
+//        if (list.get(position).getSex().equals("0"))
+//            holder.sex.setText("男");
+//        else
+//            holder.sex.setText("女");
+        holder.contact.setText(list.get(position).getPhone());
         holder.time.setText(list.get(position).getRegister_time());
         return convertView;
     }
@@ -72,7 +73,7 @@ public class MemberAdapter extends BaseAdapter {
     private class ViewHolder {
         public TextView user_name;
         public TextView name;
-        public TextView sex;
+        public TextView contact;
         public TextView time;
     }
 }

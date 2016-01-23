@@ -358,4 +358,7 @@
     <string name="upload_success">上传成功</string>
     <string name="upload_fail">上传失败</string>
     <string name="only_can_add_8_pictures_at_most">最多只能添加8张图片！</string>
+    <string name="commit">提交</string>
+    <string name="can_not_commit_the_comsume_record_has_been_audit">已经审核的消费记录不能再次提交</string>
+    <string name="contact_phone">联系电话</string>
 </resources>

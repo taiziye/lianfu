@@ -178,14 +178,14 @@ public class PayBillActivity extends Activity implements View.OnClickListener {
             ToastUtils.showToast(this,getString(R.string.fee_can_not_be_null),Toast.LENGTH_SHORT);
             return;
         }
-        if(receipt_no.equals("")){
-            ToastUtils.showToast(this,getString(R.string.receipt_no_can_not_be_null),Toast.LENGTH_SHORT);
-            return;
-        }
-        if(receipt_photo == null || receipt_photo.length() == 0) {
-            Tools.showToast(getApplicationContext(), "请添加购物凭证");
-            return;
-        }
+//        if(receipt_no.equals("")){
+//            ToastUtils.showToast(this,getString(R.string.receipt_no_can_not_be_null),Toast.LENGTH_SHORT);
+//            return;
+//        }
+//        if(receipt_photo == null || receipt_photo.length() == 0) {
+//            Tools.showToast(getApplicationContext(), "请添加购物凭证");
+//            return;
+//        }
         if(!Tools.isMobileNum(phone)) {
             Tools.showToast(getApplicationContext(), "请填写正确的电话号码");
             return;

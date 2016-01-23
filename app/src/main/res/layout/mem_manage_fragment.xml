@@ -85,7 +85,7 @@
 
                 <TextView
                     style="@style/consum_top_text_style"
-                    android:text="@string/sex" />
+                    android:text="@string/contact_phone" />
 
                 <ImageView
                     style="@style/consum_top_img_style"

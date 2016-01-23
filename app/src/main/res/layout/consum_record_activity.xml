@@ -25,21 +25,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginLeft="40dp"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:text="@string/record" />
 
         <Button
+            android:text="@string/commit"
             android:id="@+id/edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/setting"
-            android:layout_marginRight="15dp"
+            android:layout_width="65dp"
+            android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:background="#535456"
             />
     </LinearLayout>
 
@@ -136,10 +139,11 @@
                     android:layout_height="40dp"
                     android:background="@null"
                     android:gravity="right|center"
+                    android:editable="false"
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
+                    android:textColor="#6f6f6f" />
             </LinearLayout>
 
             <View style="@style/view_line_style" />
@@ -392,32 +396,32 @@
 
             <View style="@style/view_line_style" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/profit" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:text="@string/profit" />-->
 
-                <EditText
-                    android:id="@+id/profit"
-                    style="@style/manager_personal_style"
-                    android:background="@null"
-                    android:gravity="right|center"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:textColorHint="@android:color/black" />
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:id="@+id/profit"-->
+                    <!--style="@style/manager_personal_style"-->
+                    <!--android:background="@null"-->
+                    <!--android:gravity="right|center"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:textColorHint="@android:color/black" />-->
+            <!--</LinearLayout>-->
 
-            <View style="@style/view_line_style" />
+            <!--<View style="@style/view_line_style" />-->
 
             <LinearLayout android:id="@+id/frame1"
                 android:layout_width="match_parent"
@@ -431,7 +435,7 @@
                     android:textSize="15sp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
-                    android:text="小票号" />
+                    android:text="小票单号" />
 
                 <TextView
                     android:id="@+id/ticket"
@@ -459,7 +463,7 @@
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="20dp"
-                    android:text="小票号" />
+                    android:text="小票照片" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -468,10 +472,11 @@
 
                 <ImageView android:id="@+id/ticketpic"
                     android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_marginRight="20dp"
                     android:layout_gravity="right"/>
             </LinearLayout>
+            <View style="@style/view_line_style" />
         </LinearLayout>
 
     </ScrollView>

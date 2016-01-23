@@ -199,6 +199,8 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
                     try {
                         if (result.getString("status").equals("9")) {
                             ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                            Configs.cleanData(getActivity());
+                            getActivity().finish();
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             getActivity().startActivity(intent);
                         } else if (result.getString("status").equals("10")) {
