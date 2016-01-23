@@ -87,6 +87,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
             holder.profit = (TextView) convertView.findViewById(R.id.profit);
             holder.status = (TextView) convertView.findViewById(R.id.status);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.phone= (TextView) convertView.findViewById(R.id.phone_num);
 
             holder.frame = (RelativeLayout) convertView.findViewById(R.id.frame);
             holder.delete = (Button) convertView.findViewById(R.id.delete);
@@ -125,6 +126,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         }
 
         holder.time.setText(parseDate(list.get(position).getConsume_date()));
+        holder.phone.setText(list.get(position).getPhone());
         /*if(employeename == null) {
             holder.name.setText("");
         }else
@@ -204,6 +206,7 @@ public class ConsumRecordAdapter extends BaseAdapter {
         public TextView profit;
         public TextView status;
         public TextView time;
+        public TextView phone;
 
         public RelativeLayout frame;
         public Button delete;

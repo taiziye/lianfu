@@ -147,60 +147,83 @@
             android:text="@string/delete"/>
     </RelativeLayout>-->
 
-    <LinearLayout android:id="@+id/top"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-        <TextView android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="老佛爷"/>
+        android:layout_height="wrap_content">
 
-        <TextView android:id="@+id/money"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout android:id="@+id/top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="1000"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+            <TextView android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="老佛爷"/>
 
-        <TextView android:id="@+id/profit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="20"/>
+            <TextView android:id="@+id/money"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="1000"/>
 
-        <TextView android:id="@+id/status"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="已确认"/>
+            <TextView android:id="@+id/profit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="20"/>
+
+            <TextView android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="已确认"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/phone_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:textSize="15sp"
+                android:textColor="#999999"
+                android:text="18072895583"/>
+
+            <TextView android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:textSize="15sp"
+                android:textColor="#999999"
+                android:text="2015年12月31日14:46:44"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView android:id="@+id/time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="20dp"
-        android:textSize="15sp"
-        android:textColor="#999999"
-        android:text="2015年12月31日14:46:44"/>
+
 
     <RelativeLayout android:id="@+id/frame"
         android:layout_width="100dp"

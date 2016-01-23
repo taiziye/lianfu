@@ -234,11 +234,14 @@ public class ConsumeRecordActivity extends Activity implements View.OnClickListe
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_correct_amount));
             return;
         }
+        mfee=consume_money.getText().toString();
         String kvs[]=new String[]{user_id,consume_id,mfee,mdiscount};
         String params= EditConsumeRecord.packagingParam(ConsumeRecordActivity.this,kvs);
-        record.setFee(mfee);
+        record.setFee(consume_money.getText().toString());
         record.setDiscount(mdiscount);
         record.setDesc(discount_type.getText().toString());
+        DecimalFormat formatter=new DecimalFormat("##0.00");
+        record.setGains(formatter.format((1-Float.valueOf(mdiscount)/100)*Float.valueOf(consume_money.getText().toString())));
 
         dialog=ProgressDialog.show(ConsumeRecordActivity.this,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {

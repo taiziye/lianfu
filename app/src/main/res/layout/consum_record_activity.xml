@@ -323,6 +323,7 @@
                     android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
+                    android:inputType="numberDecimal"
                     android:textColorHint="@android:color/black" />
             </LinearLayout>
 
