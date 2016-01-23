@@ -117,12 +117,11 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         EMMessage message;
         EMConversation conversation;
         Chat chat;
-        //NewMessageReceiver.setUnread(1);
         switch (event.getEvent()){
             case EventNewMessage:
                 message = (EMMessage) event.getData();
-                String user = message.getUserName();
-                if (user.equals(hxid)) {
+                String user = message.getFrom().toLowerCase();
+                if (user.equals(hxid.toLowerCase())) {
                     refreshUIWithNewMessage();
                 } else {
                     ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
