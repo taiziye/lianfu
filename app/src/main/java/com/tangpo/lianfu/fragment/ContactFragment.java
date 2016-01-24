@@ -72,8 +72,8 @@ public class ContactFragment extends Fragment {
                 intent.putExtra("hxid", hxid);
                 intent.putExtra("myid", hx_id);
                 intent.putExtra("photo", photo);
-                ChatUser user = new ChatUser(hxid, username);
-                Tools.saveConversation(user);
+                //ChatUser user = new ChatUser(hxid, username);
+                //Tools.saveConversation(user);
                 startActivity(intent);
             }
         });
