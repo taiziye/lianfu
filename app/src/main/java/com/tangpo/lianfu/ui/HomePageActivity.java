@@ -577,7 +577,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
                 String latestmsg = ((TextMessageBody)message.getBody()).getMessage();
                 String time = Tools.long2DateString(message.getMsgTime());
                 ChatAccount ac = new ChatAccount("", user, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
-                Tools.saveAccount(ac);
+                //Tools.saveAccount(ac);
                 NewMessageReceiver.notifier(HomePageActivity.this, message, ac);
                 break;
             //case EventNewMessage:

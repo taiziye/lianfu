@@ -1,6 +1,5 @@
 package com.tangpo.lianfu.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,7 +60,6 @@ public class ConversationFragment extends Fragment {
     private List<HXUser> names = new ArrayList<HXUser>();
     private boolean hidden;
     private Gson gson = new Gson();
-    private ProgressDialog dialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,8 +160,8 @@ public class ConversationFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = adapter.getItem(position);
                 String username = adapter.getUserName(position);
-                String hxid = conversation.getUserName();
-                if (hxid.toLowerCase().equals(ChatAccount.getInstance().getEasemod_id().toLowerCase())) {
+                String hxid = conversation.getUserName().toLowerCase();
+                if (hxid.equals(ChatAccount.getInstance().getEasemod_id().toLowerCase())) {
                     Tools.showToast(getActivity(), "无法跟自己聊天");
                 } else {
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
