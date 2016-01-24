@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -121,11 +122,12 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
             case EventNewMessage:
                 message = (EMMessage) event.getData();
                 String user = message.getFrom().toLowerCase();
+                Log.e("tag", "from " + user + " to " + hxid);
                 if (user.equals(hxid.toLowerCase())) {
                     refreshUIWithNewMessage();
                 } else {
-                    ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
-                    Tools.saveAccount(ac);
+                    ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
+                    //Tools.saveAccount(ac);
                     notifier(message, ac);
                 }
                 break;
@@ -480,6 +482,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
      */
     private void sendMsg(final String msg) {
         //获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
+        Log.e("tag", "to " + hxid + " from " + my_id);
         EMConversation conversation = EMChatManager.getInstance().getConversation(hxid);
         //EMChatManager.getInstance().updateCurrentUserNick(username);
         //创建一条文本消息

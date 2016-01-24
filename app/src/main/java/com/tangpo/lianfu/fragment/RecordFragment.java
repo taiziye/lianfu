@@ -36,6 +36,7 @@ import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.ConsumeRecord;
 import com.tangpo.lianfu.ui.AddConsumeActivity;
 import com.tangpo.lianfu.ui.ConsumeRecordActivity;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -95,16 +96,26 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             parent.removeView(view);
         }
 
-        Bundle bundle = getArguments();
+        /*Bundle bundle = getArguments();
         if (bundle != null) {
             userid = bundle.getString("userid");
             employeename = bundle.getString("employeename");
             username = bundle.getString("username");
             store_name = bundle.getString("storename");
-        }
+        }*/
+        userid = ((HomePageActivity)getActivity()).getUserid();
+        employeename = ((HomePageActivity)getActivity()).getEmployeename();
+        username = ((HomePageActivity)getActivity()).getUserName();
+        store_name = ((HomePageActivity)getActivity()).getStore_name();
         init(view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recordList.clear();
     }
 
     private void init(View view) {

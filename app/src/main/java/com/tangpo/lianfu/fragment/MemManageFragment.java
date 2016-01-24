@@ -97,9 +97,15 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         init(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        list.clear();
+        getMembers("");
     }
 
     private void init(View view) {
@@ -117,8 +123,6 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         sex.setOnClickListener(this);
         time = (LinearLayout) view.findViewById(R.id.time);
         time.setOnClickListener(this);
-
-        getMembers("");
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
 

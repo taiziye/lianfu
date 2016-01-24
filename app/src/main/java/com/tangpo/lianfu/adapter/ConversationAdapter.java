@@ -3,7 +3,6 @@ package com.tangpo.lianfu.adapter;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +12,17 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.util.DateUtils;
-import com.easemob.util.EMLog;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
-import com.tangpo.lianfu.entity.ChatUser;
 import com.tangpo.lianfu.entity.HXUser;
-import com.tangpo.lianfu.utils.EaseSmileUtils;
 import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
 
-import org.jivesoftware.smack.Chat;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Created by 果冻 on 2016/1/8.
@@ -203,7 +192,6 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
                 digest = getString(context, R.string.file);
                 break;
             default:
-                EMLog.e("tag", "error, unknow type");
                 return "";
         }
         return digest;

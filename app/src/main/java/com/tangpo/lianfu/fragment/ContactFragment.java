@@ -22,6 +22,7 @@ import com.tangpo.lianfu.adapter.ContactAdapter;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.ChatUser;
 import com.tangpo.lianfu.ui.ChatActivity;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import java.util.ArrayList;
@@ -53,9 +54,12 @@ public class ContactFragment extends Fragment {
         query = (EditText) view.findViewById(R.id.query);
         clear = (Button) view.findViewById(R.id.clear);
 
-        accounts.addAll((ArrayList<ChatAccount>) getArguments().getSerializable("acstr"));
-        hx_id = getArguments().getString("hxid");
-        photo = getArguments().getString("photo");
+        //accounts.addAll((ArrayList<ChatAccount>) getArguments().getSerializable("acstr"));
+        //hx_id = getArguments().getString("hxid");
+        //photo = getArguments().getString("photo");
+        accounts.addAll(((ConversationActivity)getActivity()).getAccounts());
+        hx_id = ((ConversationActivity)getActivity()).getHxid();
+        photo = ((ConversationActivity)getActivity()).getPhoto();
         adapter = new ContactAdapter(getActivity(), accounts);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,8 +76,8 @@ public class ContactFragment extends Fragment {
                 intent.putExtra("hxid", hxid);
                 intent.putExtra("myid", hx_id);
                 intent.putExtra("photo", photo);
-                ChatUser user = new ChatUser(hxid, username);
-                Tools.saveConversation(user);
+                //ChatUser user = new ChatUser(hxid, username);
+                //Tools.saveConversation(user);
                 startActivity(intent);
             }
         });
@@ -85,7 +89,9 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s.toString());
+                if (adapter != null) {
+                    adapter.getFilter().filter(s.toString());
+                }
                 if (s.length() > 0) {
                     clear.setVisibility(View.VISIBLE);
                 } else {

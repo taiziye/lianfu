@@ -66,8 +66,6 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
     private LinearLayout recordpage;
     private LinearLayout memberpage;
 
-    private Bundle bundle = null;
-
     private ProgressDialog dialog = null;
 
     private Manager manager = null;
@@ -93,7 +91,6 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
         if (parent != null) {
             parent.removeView(view);
         }
-        bundle = getArguments();
 
         init(view);
         return view;
@@ -133,98 +130,98 @@ public class EmployeeHomeFragment extends Fragment implements View.OnClickListen
         add_mem.setOnClickListener(this);
 
         //初始化控件，填充数据
-        if (bundle != null) {
-            userid = bundle.getString("userid");
-            store_id = bundle.getString("storeid");
-            user = (UserEntity) bundle.getSerializable("user");
-            String[] kvs = new String[]{userid};
-            String params = HomePage.packagingParam(getActivity(), kvs);
-
-            if(!Tools.checkLAN()) {
-                Tools.showToast(getActivity(), "网络未连接，请联网后重试");
-                return;
-            }
-
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    dialog.dismiss();
-
-                    try {
-                        JSONObject object = result.getJSONObject("param");
-                        manager = mGson.fromJson(object.toString(), Manager.class);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(manager.getStore_name() == null || manager.getStore_name().length() == 0) {
-                        shop_name.setText("");
-                    } else {
-                        shop_name.setText(manager.getStore_name());
-                    }
-                    if (manager.getIncome() == null || manager.getIncome().length() == 0)
-                        record.setText("0人");
-                    else
-                        record.setText("" + manager.getIncome() + "人");
-
-                    if (manager.getMem_num() == null || manager.getMem_num().length() == 0)
-                        mem.setText("0人");
-                    else
-                        mem.setText("" + manager.getMem_num() + "人");
-
-                    if (manager.getProfit() == null || manager.getIncome().length() == 0)
-                        profit.setText("0元");
-                    else {
-                        String tmp = manager.getIncome();
-                        int l = tmp.length();
-                        if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
-                        else profit.setText(tmp + "元");
-                    }
-
-                    if (manager.getPayback() == null || manager.getNeed_pay().length() == 0)
-                        profit_can.setText("0元");
-                    else {
-                        String tmp = manager.getNeed_pay();
-                        int l = tmp.length();
-                        if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
-                        else profit.setText(tmp + "元");
-                    }
-
-                    Configs.cacheManager(getActivity(), result.toString());
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        if (result.getString("status").equals("9")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                            Configs.cleanData(getActivity());
-                            getActivity().finish();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                        } else if (result.getString("status").equals("10")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    shop_name.setText("");
-                    record.setText("0元");
-                    mem.setText("0人");
-                    profit_can.setText("0");
-                    profit.setText("0元");
-                }
-            }, params);
+        /*if (bundle != null) {
         } else {
             shop_name.setText("");
             record.setText("0元");
             mem.setText("0人");
             profit_can.setText("0");
             profit.setText("0元");
+        }*/
+        userid = ((HomePageActivity)getActivity()).getUserid();
+        store_id = ((HomePageActivity)getActivity()).getStore_id();
+        user = ((HomePageActivity)getActivity()).getUserEntity();
+        String[] kvs = new String[]{userid};
+        String params = HomePage.packagingParam(getActivity(), kvs);
+
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
         }
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+
+                try {
+                    JSONObject object = result.getJSONObject("param");
+                    manager = mGson.fromJson(object.toString(), Manager.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(manager.getStore_name() == null || manager.getStore_name().length() == 0) {
+                    shop_name.setText("");
+                } else {
+                    shop_name.setText(manager.getStore_name());
+                }
+                if (manager.getIncome() == null || manager.getIncome().length() == 0)
+                    record.setText("0人");
+                else
+                    record.setText("" + manager.getIncome() + "人");
+
+                if (manager.getMem_num() == null || manager.getMem_num().length() == 0)
+                    mem.setText("0人");
+                else
+                    mem.setText("" + manager.getMem_num() + "人");
+
+                if (manager.getProfit() == null || manager.getIncome().length() == 0)
+                    profit.setText("0元");
+                else {
+                    String tmp = manager.getIncome();
+                    int l = tmp.length();
+                    if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
+                    else profit.setText(tmp + "元");
+                }
+
+                if (manager.getPayback() == null || manager.getNeed_pay().length() == 0)
+                    profit_can.setText("0元");
+                else {
+                    String tmp = manager.getNeed_pay();
+                    int l = tmp.length();
+                    if(l>2) profit.setText(tmp.substring(0, l-2) + "元");
+                    else profit.setText(tmp + "元");
+                }
+
+                Configs.cacheManager(getActivity(), result.toString());
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    if (result.getString("status").equals("9")) {
+                        ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                        Configs.cleanData(getActivity());
+                        getActivity().finish();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        getActivity().startActivity(intent);
+                    } else if (result.getString("status").equals("10")) {
+                        ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                shop_name.setText("");
+                record.setText("0元");
+                mem.setText("0人");
+                profit_can.setText("0");
+                profit.setText("0元");
+            }
+        }, params);
     }
 
     @Override

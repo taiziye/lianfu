@@ -1,6 +1,5 @@
 package com.tangpo.lianfu.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,6 +33,7 @@ import com.tangpo.lianfu.entity.HXUser;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetSpecifyHX;
 import com.tangpo.lianfu.ui.ChatActivity;
+import com.tangpo.lianfu.ui.ConversationActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -64,14 +63,15 @@ public class ConversationFragment extends Fragment {
     private List<HXUser> names = new ArrayList<HXUser>();
     private boolean hidden;
     private Gson gson = new Gson();
-    private ProgressDialog dialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_conversation, container, false);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        myid = getArguments().getString("hxid");
-        photo = getArguments().getString("photo");
+        //myid = getArguments().getString("hxid");
+        //photo = getArguments().getString("photo");
+        myid = ChatAccount.getInstance().getEasemod_id();
+        photo = ((ConversationActivity)getActivity()).getPhoto();
         return view;
     }
 
@@ -87,30 +87,18 @@ public class ConversationFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        /*Log.e("tag", "hidden " + hidden);
         if (!hidden) {
             refresh();
-        }
-        //EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage});
-        //helper = new DataHelper(getActivity());
+        }*/
         list.clear();
         init(view);
     }
 
     @Override
     public void onStop() {
-        //EMChatManager.getInstance().unregisterEventListener(this);
         super.onStop();
     }
-
-    /*@Override
-    public void onEvent(EMNotifierEvent event) {
-        switch (event.getEvent()) {
-            case EventNewMessage:
-                break;
-            case EventOfflineMessage:
-                break;
-        }
-    }*/
 
     @Override
     public void onPause() {
@@ -151,7 +139,9 @@ public class ConversationFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                if (adapter != null) {
+                    adapter.getFilter().filter(s);
+                }
                 if (s.length() > 0) {
                     clear.setVisibility(View.VISIBLE);
                 } else {
@@ -188,7 +178,7 @@ public class ConversationFragment extends Fragment {
                 EMConversation conversation = adapter.getItem(position);
                 String username = adapter.getUserName(position);
                 String hxid = conversation.getUserName();
-                if (hxid.toLowerCase().equals(ChatAccount.getInstance().getEasemod_id().toLowerCase())) {
+                if (hxid.toLowerCase().equals(myid.toLowerCase())) {
                     Tools.showToast(getActivity(), "无法跟自己聊天");
                 } else {
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
@@ -236,7 +226,7 @@ public class ConversationFragment extends Fragment {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
                     sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
-                    id.add(conversation.getUserName().toLowerCase());
+                    id.add(conversation.getUserName());
                 }
             }
         }
@@ -280,7 +270,6 @@ public class ConversationFragment extends Fragment {
         }
         //dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
         String[] kvs = new String[]{easemod_id};
-        Log.e("tag", "id " + easemod_id);
         String param = GetSpecifyHX.packagingParam(getActivity(), kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
@@ -293,7 +282,6 @@ public class ConversationFragment extends Fragment {
                     for (int i=0; i<array.length(); i++) {
                         object = array.getJSONObject(i);
                         HXUser user = gson.fromJson(object.toString(), HXUser.class);
-                        Log.e("tag", "name " + user.getName());
                         names.add(user);
                     }
                 } catch (JSONException e) {
@@ -309,7 +297,6 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onFail(JSONObject result) {
                 //dialog.dismiss();
-                Log.e("tag", "fail " + result.toString());
                 Tools.showToast(getActivity(), "获取聊天用户信息失败");
             }
         }, param);
