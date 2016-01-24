@@ -3,7 +3,6 @@ package com.tangpo.lianfu.adapter;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +85,6 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
         EMConversation conversation = getItem(position);
-        Log.e("tag", "hxid " + conversation.getUserName());
         String username = null;
         for (int i=0; i<users.size(); i++) {
             if (users.get(i).getEasemod_id().toLowerCase().equals(conversation.getUserName().toLowerCase())) {

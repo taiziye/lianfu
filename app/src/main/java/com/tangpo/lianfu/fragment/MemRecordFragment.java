@@ -25,6 +25,7 @@ import com.tangpo.lianfu.adapter.MemRecourdAdapter;
 import com.tangpo.lianfu.entity.MemRecord;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckConsumeRecord;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -72,16 +73,24 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             parent.removeView(view);
         }
 
-        Bundle bundle = getArguments();
+        /*Bundle bundle = getArguments();
         if (bundle != null) {
             user_id = bundle.getString("userid");
-        }
+        }*/
+        user_id = ((HomePageActivity)getActivity()).getUserid();
         init(view);
         return view;
     }
 
-    private void init(View view) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        list.clear();
         getConsumeRecord("");
+    }
+
+    private void init(View view) {
+
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
         time = (LinearLayout) view.findViewById(R.id.time);
         time.setOnClickListener(this);

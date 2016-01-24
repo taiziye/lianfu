@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.tangpo.lianfu.adapter.MemberCollectAdapter;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckCollectedStore;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MapActivity;
 import com.tangpo.lianfu.ui.ShopActivity;
 import com.tangpo.lianfu.utils.Tools;
@@ -78,17 +80,24 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             parent.removeView(view);
         }
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
+        //Bundle bundle = getArguments();
+        /*if (bundle != null) {
             userid = bundle.getString("userid");
-        }
+        }*/
+        userid = ((HomePageActivity)getActivity()).getUserid();
         init(view);
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        list.clear();
+        getCollectStore("");
+    }
+
     private void init(View view) {
         gson = new Gson();
-        getCollectStore("");
 
         search= (Button) view.findViewById(R.id.search);
         search.setOnClickListener(this);
@@ -97,7 +106,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         map.setOnClickListener(this);
 
         listView = (PullToRefreshListView) view.findViewById(R.id.list);
-
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
         listView.getLoadingLayoutProxy(true, false).setPullLabel("");
@@ -170,59 +178,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        /*listView.setMode(PullToRefreshBase.Mode.BOTH);
-        listView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
-        listView.getLoadingLayoutProxy(true, false).setPullLabel("");
-        listView.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
-        listView.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
-        // 上拉加载更多时的提示文本设置
-        listView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
-        listView.getLoadingLayoutProxy(false, true).setPullLabel("");
-        listView.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
-        listView.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
-
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                //
-                list.clear();
-                page = 1;
-                // 下拉的时候刷新数据
-                int flags = DateUtils.FORMAT_SHOW_TIME
-                        | DateUtils.FORMAT_SHOW_DATE
-                        | DateUtils.FORMAT_ABBREV_ALL;
-
-                String label = DateUtils.formatDateTime(
-                        getActivity(),
-                        System.currentTimeMillis(), flags);
-
-                // 更新最后刷新时间
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                getCollectStore("");
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                //
-                if (paramcentcount != null && Integer.parseInt(paramcentcount) >= page) {
-                    //
-                    Tools.showToast(getActivity(), "已全部加载完成");
-                } else {
-                    page = page + 1;
-
-                    // 下拉的时候刷新数据
-                    int flags = DateUtils.FORMAT_SHOW_TIME
-                            | DateUtils.FORMAT_SHOW_DATE
-                            | DateUtils.FORMAT_ABBREV_ALL;
-                    String label = DateUtils.formatDateTime(
-                            getActivity(),
-                            System.currentTimeMillis(), flags);
-                    // 更新最后刷新时间
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                    getCollectStore("");
-                }
-            }
-        });*/
     }
 
     @Override
@@ -257,7 +212,6 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 transaction.replace(R.id.frame, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
                 break;
         }
     }

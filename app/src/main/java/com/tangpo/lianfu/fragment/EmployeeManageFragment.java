@@ -69,17 +69,15 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
     private String userid = null;
     private String store_id = null;
     private Gson gson = null;
-
     private int page = 1;
     private int paramcentcount;
-
     private int index = 0;
     private ProgressDialog dialog = null;
     private UserEntity userEntity=null;
+    private View view = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = null;
         if (view == null) {
             view = inflater.inflate(R.layout.employee_manage_fragment, container, false);
         }
@@ -95,8 +93,15 @@ public class EmployeeManageFragment extends Fragment implements View.OnClickList
         UserEntity userEntity=gson.fromJson(user,UserEntity.class);
         userid=userEntity.getUser_id();
         store_id=userEntity.getStore_id();
-        getEmployeeList("");
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        memList.clear();
+        getEmployeeList("");
     }
 
     private void init(View view) {
