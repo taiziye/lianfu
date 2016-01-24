@@ -22,6 +22,7 @@ import com.easemob.util.EMLog;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.ChatUser;
+import com.tangpo.lianfu.entity.HXUser;
 import com.tangpo.lianfu.utils.EaseSmileUtils;
 import com.tangpo.lianfu.utils.SmileUtils;
 import com.tangpo.lianfu.utils.Tools;
@@ -50,16 +51,17 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
     private List<EMConversation> mOriginalValues = null;
     public static int unread = 0;
     private boolean notiyfyByFilter;
-    private List<ChatUser> users = null;
+    private List<HXUser> users = null;
     private List<String> names = new ArrayList<>();
 
-    public ConversationAdapter(Context context, List<EMConversation> list) {
+    public ConversationAdapter(Context context, List<EMConversation> list, List<HXUser> users) {
         this.context = context;
         this.list = new ArrayList<>();
         this.list.addAll(list);
         copylist = new ArrayList<>(list);
         inflater = LayoutInflater.from(context);
-        users = Tools.getChatUserList();
+        //users = Tools.getChatUserList();
+        this.users = users;
     }
 
     @Override
@@ -98,7 +100,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
         String username = null;
         for (int i=0; i<users.size(); i++) {
             if (users.get(i).getEasemod_id().toLowerCase().equals(conversation.getUserName().toLowerCase())) {
-                username = users.get(i).getUsername();
+                username = users.get(i).getName();
                 names.add(username);
                 break;
             }
@@ -221,8 +223,6 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
 
                 if (mOriginalValues == null) {
                     mOriginalValues = new ArrayList<>(list);
-                } else {
-                    mOriginalValues.addAll(list);
                 }
 
                 if (constraint == null || constraint.length() == 0) {
@@ -232,8 +232,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
                     constraint = constraint.toString().toLowerCase();
                     for (int i=0; i<mOriginalValues.size(); i++) {
                         EMConversation data = mOriginalValues.get(i);
-                        EMMessage msg = data.getLastMessage();
-                        if (msg.getUserName().startsWith(constraint.toString())) {
+                        if (names.get(i).toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                             filterlist.add(data);
                         }
                     }

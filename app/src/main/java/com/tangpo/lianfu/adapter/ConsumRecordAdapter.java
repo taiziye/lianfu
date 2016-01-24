@@ -118,11 +118,11 @@ public class ConsumRecordAdapter extends BaseAdapter {
         if(list.get(position).getGains().length() >= 1) holder.profit.setText(formatter.format(Float.valueOf(list.get(position).getGains())));
         else holder.profit.setText( 0 );
         if (list.get(position).getIsPass().equals("0")) {
-            holder.status.setText("等待审核");
+            holder.status.setText("未确认");
         } else if(list.get(position).getIsPass().equals("1")){
-            holder.status.setText("审核未通过");
+            holder.status.setText("已拒绝");
         }else{
-            holder.status.setText("审核通过");
+            holder.status.setText("已确认");
         }
 
         holder.time.setText(parseDate(list.get(position).getConsume_date()));

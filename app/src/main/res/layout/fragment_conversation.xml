@@ -20,7 +20,10 @@
             android:layout_height="30dp"
             android:src="@drawable/search"/>
 
-        <EditText android:id="@+id/query"
+        <EditText
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:id="@+id/query"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@null"

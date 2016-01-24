@@ -1,33 +1,45 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.google.gson.Gson;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ConversationAdapter;
 import com.tangpo.lianfu.entity.ChatAccount;
+import com.tangpo.lianfu.entity.HXUser;
+import com.tangpo.lianfu.http.NetConnection;
+import com.tangpo.lianfu.parms.GetSpecifyHX;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.utils.Tools;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,11 +57,14 @@ public class ConversationFragment extends Fragment {
     private InputMethodManager inputMethodManager = null;
     private ConversationAdapter adapter = null;
     private List<EMConversation> list = new ArrayList<>();
-    //private DataHelper helper = null;
     private View view;
     private String myid = "";
     private String photo = "";
+    private List<String> id = new ArrayList<String>();
+    private List<HXUser> names = new ArrayList<HXUser>();
     private boolean hidden;
+    private Gson gson = new Gson();
+    private ProgressDialog dialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,6 +121,28 @@ public class ConversationFragment extends Fragment {
     private void init(View view){
         listView = (ListView) view.findViewById(R.id.list);
         query = (EditText) view.findViewById(R.id.query);
+        query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_SEARCH||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)){
+                    String str = query.getText().toString().trim();
+//                    if (str.length() == 0||str=="") {
+//                        Tools.showToast(getActivity(),"没有找到对应的匹配项");
+//                        //storeList.clear();
+//                        //getStores();
+//                    } else {
+//                        adapter.getFilter().filter(str);
+//                        //storeList.clear();
+//                        //findStore(str);
+//                    }
+                    adapter.getFilter().filter(str);
+                    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
         clear = (Button) view.findViewById(R.id.clear);
         query.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,15 +179,9 @@ public class ConversationFragment extends Fragment {
         });
 
         list.addAll(loadConversationsWithRecentChat());
-        //conversations = loadCoversationList();
-        /*Collections.sort(list, new Comparator<ChatAccount>() {
-            @Override
-            public int compare(ChatAccount lhs, ChatAccount rhs) {
-                return Tools.CompareDate(lhs.getTime(), rhs.getTime());
-            }
-        });*/
-        adapter = new ConversationAdapter(getActivity(), list);
-        listView.setAdapter(adapter);
+        getName();
+        //adapter = new ConversationAdapter(getActivity(), list);
+        //listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -185,6 +216,7 @@ public class ConversationFragment extends Fragment {
     public void refresh() {
         list.clear();
         list.addAll(loadConversationsWithRecentChat());
+        //getName();
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
@@ -204,6 +236,7 @@ public class ConversationFragment extends Fragment {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
                     sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+                    id.add(conversation.getUserName().toLowerCase());
                 }
             }
         }
@@ -216,7 +249,6 @@ public class ConversationFragment extends Fragment {
         for (Pair<Long, EMConversation> sortItem : sortList) {
             list.add(sortItem.second);
         }
-
         return list;
     }
 
@@ -239,5 +271,62 @@ public class ConversationFragment extends Fragment {
 
         });
     }
+
+    private void getName(){
+        String easemod_id = "";
+        for (int i = 0; i<id.size(); i++) {
+            if (i > 0) easemod_id += ",";
+            easemod_id += id.get(i);
+        }
+        //dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        String[] kvs = new String[]{easemod_id};
+        Log.e("tag", "id " + easemod_id);
+        String param = GetSpecifyHX.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //dialog.dismiss();
+                try {
+                    JSONArray array = result.getJSONArray("param");
+                    JSONObject object;
+                    for (int i=0; i<array.length(); i++) {
+                        object = array.getJSONObject(i);
+                        HXUser user = gson.fromJson(object.toString(), HXUser.class);
+                        Log.e("tag", "name " + user.getName());
+                        names.add(user);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = names;
+                handler.sendMessage(msg);
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                //dialog.dismiss();
+                Log.e("tag", "fail " + result.toString());
+                Tools.showToast(getActivity(), "获取聊天用户信息失败");
+            }
+        }, param);
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    names = (List<HXUser>) msg.obj;
+                    adapter = new ConversationAdapter(getActivity(), list, names);
+                    listView.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
 
 }
