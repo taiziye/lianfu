@@ -35,6 +35,7 @@ import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.StoreDetail;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MapActivity;
 import com.tangpo.lianfu.ui.MipcaActivityCapture;
 import com.tangpo.lianfu.ui.ShopActivity;
@@ -59,7 +60,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private Button map;
     private EditText search;
     private PullToRefreshListView listView;
-    private Bundle bundle = null;
+//    private Bundle bundle = null;
     private ProgressDialog dialog = null;
     private PositionAdapter adapter = null;
     private ArrayList<FindStore> storeList = new ArrayList<>();
@@ -86,11 +87,11 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         if (parent != null) {
             parent.removeView(view);
         }
-        bundle = getArguments();
+        //bundle = getArguments();
 
         init(view);
         hide();
-        if (bundle != null) {
+        /*if (bundle != null) {
             userid = bundle.getString("userid");
             //getCollectedStore();
             SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
@@ -100,6 +101,15 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             }else{
                 getStores();
             }
+        }*/
+        userid = ((HomePageActivity)getActivity()).getUserid();
+        //getCollectedStore();
+        SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        String logintype=preferences.getString(Configs.KEY_LOGINTYPE, null);
+        if (logintype!=null){
+            findStore("");
+        }else{
+            getStores();
         }
 
         return view;

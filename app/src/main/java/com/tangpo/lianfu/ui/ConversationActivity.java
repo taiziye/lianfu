@@ -46,8 +46,28 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     private ChatAccount account = ChatAccount.getInstance();
     private Bundle bundle = new Bundle();
 
-    private Fragment fragment = null;
+    private Fragment[] fragment = null;
+    private int index = 0;
+    private int currentIndex = 0;
     private FragmentTransaction transaction = null;
+
+    public String getHxid() {
+        return hxid;
+    }
+
+    public ArrayList<ChatAccount> getAccounts() {
+        return accounts;
+    }
+
+    public String getPhoto(){
+        return account.getPhoto();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +75,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_conversation);
         userid = getIntent().getStringExtra("userid");
+        fragment = new Fragment[]{new ContactFragment(), new ConversationFragment()};
         init();
         getAccounts(userids);
     }
@@ -103,42 +124,63 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_conversation:  //会话记录
-                if (account != null) {
-                    bundle.putString("photo", account.getPhoto());
+                /*if (account != null) {
+                    *//*bundle.putString("photo", account.getPhoto());
                     bundle.putString("hxid", hxid);
                     fragment = new ConversationFragment();
                     name.setText("会话记录");
                     fragment.setArguments(bundle);
                     //conversationListFragment = new EaseConversationListFragment();
                     conversation.setSelected(true);
+                    address_list.setSelected(false);*//*
+                    name.setText("会话记录");
+                    conversation.setSelected(true);
                     address_list.setSelected(false);
-
+                    index = 1;
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
-                }
+                }*/
+                name.setText("会话记录");
+                conversation.setSelected(true);
+                address_list.setSelected(false);
+                index = 1;
                 break;
             case R.id.address_list:  //客户列表
-                if (account != null) {
-                    bundle.putString("photo", account.getPhoto());
+                /*if (account != null) {
+                    *//*bundle.putString("photo", account.getPhoto());
                     bundle.putString("hxid", hxid);
                     bundle.putSerializable("acstr", accounts);
                     fragment = new ContactFragment();
-                    fragment.setArguments(bundle);
+                    fragment.setArguments(bundle);*//*
                     name.setText("客服列表");
                     conversation.setSelected(false);
                     address_list.setSelected(true);
-
+                    index = 0;
                 } else {
                     Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                     finish();
-                }
+                }*/
+                name.setText("客服列表");
+                conversation.setSelected(false);
+                address_list.setSelected(true);
+                index = 0;
                 break;
         }
         if (account != null) {
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            /*transaction.replace(R.id.fragment_container, fragment);
+            transaction.commit();*/
+            if (currentIndex != index) {
+                transaction.hide(fragment[currentIndex]);
+                if (!fragment[index].isAdded()) {
+                    transaction.add(R.id.fragment_container, fragment[index]);
+                }
+                transaction.show(fragment[index]).commit();
+                currentIndex = index;
+            }
+        } else {
+            Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
+            finish();
         }
     }
 
@@ -151,18 +193,20 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     accounts = (ArrayList<ChatAccount>) msg.obj;
                     if (account != null) {
                         transaction = getSupportFragmentManager().beginTransaction();
-                        fragment = new ContactFragment();
+                        /*fragment = new ContactFragment();
                         bundle.putString("hxid", hxid);
                         bundle.putSerializable("acstr", accounts);
                         bundle.putString("photo", account.getPhoto());
-                        fragment.setArguments(bundle);
+                        fragment.setArguments(bundle);*/
                         name.setText("客服列表");
                         conversation.setSelected(false);
                         address_list.setSelected(true);
 
-                        transaction.replace(R.id.fragment_container, fragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        /*transaction.replace(R.id.fragment_container, fragment);
+                        transaction.commit();*/
+                        if (!fragment[index].isAdded()) {
+                            transaction.add(R.id.fragment_container, fragment[index]).show(fragment[index]).commit();
+                        }
                     } else {
                         Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
                         finish();

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
     private LinearLayout employeepage;
     private Intent intent;
 
-    private Bundle bundle = null;
+    //private Bundle bundle = null;
 
     private ProgressDialog dialog = null;
 
@@ -102,9 +103,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             parent.removeView(view);
         }
 
-        bundle = getArguments();
-
         init(view);
+        Log.e("tags", "managehome");
         return view;
     }
 
@@ -154,59 +154,8 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         cost_pay.setOnClickListener(this);
 
         //初始化控件，填充数据
-        if (bundle != null) {
-            if(!Tools.checkLAN()) {
-                Tools.showToast(getActivity(), "网络未连接，请联网后重试");
-                return;
-            }
+        /*if (bundle != null) {
 
-            dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
-            userid = bundle.getString("userid");
-            store_id = bundle.getString("storeid");
-            userEntity = (UserEntity) bundle.getSerializable("user");
-            String[] kvs = new String[]{userid};
-            String params = HomePage.packagingParam(getActivity(), kvs);
-
-            new NetConnection(new NetConnection.SuccessCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        JSONObject object = result.getJSONObject("param");
-                        man = mGson.fromJson(object.toString(), Manager.class);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    Message msg = new Message();
-                    msg.what = 1;
-                    msg.obj = man;
-                    handler.sendMessage(msg);
-                    Configs.cacheManager(getActivity(), result.toString());
-                }
-            }, new NetConnection.FailCallback() {
-                @Override
-                public void onFail(JSONObject result) {
-                    dialog.dismiss();
-                    try {
-                        if (result.getString("status").equals("9")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
-                            Configs.cleanData(getActivity());
-                            getActivity().finish();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            getActivity().startActivity(intent);
-                        } else if (result.getString("status").equals("10")) {
-                            ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    Message msg = new Message();
-                    msg.what = 2;
-                    handler.sendMessage(msg);
-                }
-            }, params);
         } else {
             shop_name.setText("");
             record.setText("0");
@@ -217,7 +166,61 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
             manager.setText("0人");
             rebate.setText("0");
             cost.setText("0元");
+        }*/
+        if(!Tools.checkLAN()) {
+            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            return;
         }
+
+        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+//            userid = bundle.getString("userid");
+//            store_id = bundle.getString("storeid");
+        userid = ((HomePageActivity)getActivity()).getUserid();
+        store_id = ((HomePageActivity)getActivity()).getStore_id();
+        userEntity = ((HomePageActivity)getActivity()).getUserEntity();
+        String[] kvs = new String[]{userid};
+        String params = HomePage.packagingParam(getActivity(), kvs);
+
+        new NetConnection(new NetConnection.SuccessCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    JSONObject object = result.getJSONObject("param");
+                    man = mGson.fromJson(object.toString(), Manager.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = man;
+                handler.sendMessage(msg);
+                Configs.cacheManager(getActivity(), result.toString());
+            }
+        }, new NetConnection.FailCallback() {
+            @Override
+            public void onFail(JSONObject result) {
+                dialog.dismiss();
+                try {
+                    if (result.getString("status").equals("9")) {
+                        ToastUtils.showToast(getActivity(), getString(R.string.login_timeout), Toast.LENGTH_SHORT);
+                        Configs.cleanData(getActivity());
+                        getActivity().finish();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        getActivity().startActivity(intent);
+                    } else if (result.getString("status").equals("10")) {
+                        ToastUtils.showToast(getActivity(), getString(R.string.server_exception), Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Message msg = new Message();
+                msg.what = 2;
+                handler.sendMessage(msg);
+            }
+        }, params);
 
     }
 

@@ -1,6 +1,5 @@
 package com.tangpo.lianfu.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.easemob.EMCallBack;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -55,33 +54,28 @@ import org.json.JSONObject;
 /**
  * Created by 果冻 on 2015/11/8.
  */
-public class HomePageActivity extends Activity implements View.OnClickListener, EMEventListener {
-    public static int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-
-    private LinearLayout frame;
+public class HomePageActivity extends FragmentActivity implements View.OnClickListener, EMEventListener {
     private LinearLayout one;
     private LinearLayout two;
     private LinearLayout three;
     private LinearLayout four;
     private LinearLayout five;
-
     private ImageView one_i;
     private ImageView two_i;
     private ImageView three_i;
     private ImageView four_i;
     private ImageView five_i;
-
     private TextView one_t;
     private TextView two_t;
     private TextView three_t;
     private TextView four_t;
     private TextView five_t;
 
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager = getFragmentManager();
     private FragmentTransaction transaction;
-
-    private Fragment fragment;
-
+    private Fragment[] fragment;
+    private int index = 0;
+    private int currentIndex = 0;
     private SharedPreferences preferences;
     private String userType;
     private String userid = null;
@@ -90,6 +84,213 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     private String store_name = "";
     private Gson gson=null;
     private UserEntity userEntity;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public String getStore_id() {
+        return store_id;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public String getEmployeename() {
+        return employeename;
+    }
+
+    public String getStore_name() {
+        return store_name;
+    }
+
+    public String getUserName() {
+        return userEntity.getName();
+    }
+
+    @Override
+    public void onClick(View v) {
+        transaction = fragmentManager.beginTransaction();
+        //transaction.remove(fragment);
+        switch (v.getId()) {
+            case R.id.one:
+                one_t.setTextColor(Color.RED);
+                one_i.setImageResource(R.drawable.home_page_r);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
+
+                if (userType.equals("3") || userType.equals("4")) { //管理员
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("userid", userid);
+//                    bundle.putString("storeid", store_id);
+//                    bundle.putSerializable("user", userEntity);
+//                    fragment = new ManageHomeFragment();
+//                    fragment.setArguments(bundle);
+                    index = 0;
+                } else if (userType.equals("2")) {  //员工
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("userid", userid);
+//                    bundle.putString("storeid", store_id);
+//                    bundle.putSerializable("user", userEntity);
+//                    fragment = new EmployeeHomeFragment();
+//                    fragment.setArguments(bundle);
+                    index = 5;
+                } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate_r);
+                    two_i.setImageResource(R.drawable.s_collect);
+                    three_i.setImageResource(R.drawable.record);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("userid", userid);
+//                    fragment = new MemberHomeFragment();
+//                    fragment.setArguments(bundle);
+                    index = 7;
+                }
+                break;
+            case R.id.two:
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.RED);
+                three_t.setTextColor(Color.BLACK);
+
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
+
+                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
+                    two_i.setImageResource(R.drawable.record_r);
+                    three_i.setImageResource(R.drawable.member_manage);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("userid", userid);
+//                    bundle.putString("employeename", employeename);
+//                    bundle.putString("username", userEntity.getName());
+//                    bundle.putString("storename", store_name);
+//                    fragment = new RecordFragment();
+//                    fragment.setArguments(bundle);
+                    index = 1;
+                } else {  //会员
+                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                        Intent intent=new Intent(HomePageActivity.this, BoundOrRegister.class);
+                        startActivity(intent);
+                    }else{
+                        one_i.setImageResource(R.drawable.map_locate);
+                        two_i.setImageResource(R.drawable.s_collect_r);
+                        three_i.setImageResource(R.drawable.record);
+
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("userid", userid);
+//                        fragment = new MemCollectFragment();
+//                        fragment.setArguments(bundle);
+                        index = 8;
+                    }
+                }
+                break;
+            case R.id.three:
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                three_t.setTextColor(Color.RED);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
+
+                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
+                    two_i.setImageResource(R.drawable.record);
+                    three_i.setImageResource(R.drawable.member_manage_r);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("userid", userid);
+//                    bundle.putString("storeid", store_id);
+//                    fragment = new MemManageFragment();
+//                    fragment.setArguments(bundle);
+                    index = 2;
+                } else {  //会员
+                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
+                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
+                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
+                        Intent intent=new Intent(HomePageActivity.this,BoundOrRegister.class);
+                        startActivity(intent);
+                    }else {
+                        one_i.setImageResource(R.drawable.map_locate);
+                        two_i.setImageResource(R.drawable.s_collect);
+                        three_i.setImageResource(R.drawable.record_r);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("userid", userid);
+//                        bundle.putString("storeid", store_id);
+//                        fragment = new MemRecordFragment();
+//                        fragment.setArguments(bundle);
+                        index = 9;
+                    }
+                }
+                break;
+            case R.id.four:
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.RED);
+                four_i.setImageResource(R.drawable.employee_manage_r);
+                five_t.setTextColor(Color.BLACK);
+                five_i.setImageResource(R.drawable.personal);
+                //fragment = new EmployeeManageFragment();
+                index = 3;
+                break;
+            case R.id.five:
+                one_t.setTextColor(Color.BLACK);
+                one_i.setImageResource(R.drawable.home_page);
+                two_t.setTextColor(Color.BLACK);
+                two_i.setImageResource(R.drawable.record);
+                three_t.setTextColor(Color.BLACK);
+                three_i.setImageResource(R.drawable.member_manage);
+                four_t.setTextColor(Color.BLACK);
+                four_i.setImageResource(R.drawable.employee_manage);
+                five_t.setTextColor(Color.RED);
+                five_i.setImageResource(R.drawable.personal_r);
+
+                if (userType.equals("3") || userType.equals("4")) { //管理员
+                    //fragment = new ManagerFragment();
+                    index = 4;
+                } else if (userType.equals("2")) {  //员工
+                    //fragment = new EmployeeFragment();
+                    index = 6;
+                } else {  //会员
+                    one_i.setImageResource(R.drawable.map_locate);
+                    two_i.setImageResource(R.drawable.s_collect);
+                    three_i.setImageResource(R.drawable.record);
+
+//                    Bundle bundle=new Bundle();
+//                    bundle.putSerializable("user", userEntity);
+//                    fragment = new MemFragment();
+//                    fragment.setArguments(bundle);
+                    index = 10;
+                }
+                break;
+        }
+        //transaction.replace(R.id.frame, fragment);
+        //transaction.add(R.id.frame, fragment).show(fragment);
+        //transaction.addToBackStack(null);
+        //transaction.commit();
+        /*if (currentIndex != index) {
+            transaction.hide(fragment[currentIndex]);
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.frame, fragment[index]);
+            }
+            transaction.show(fragment[index]).commit();
+        }*/
+        transaction.replace(R.id.frame, fragment[index]).commit();
+        currentIndex = index;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,42 +311,54 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
         init();
         //注册广播
         //NewMessageReceiver.register(HomePageActivity.this);
+        fragment = new Fragment[]{new ManageHomeFragment(), new RecordFragment(), new MemManageFragment(), new EmployeeManageFragment(),
+                new ManagerFragment(), new EmployeeHomeFragment(), new EmployeeFragment(), new MemberHomeFragment(), new MemCollectFragment(),
+                new MemRecordFragment(), new MemFragment()};
 
-        fragmentManager = getFragmentManager();
         transaction = fragmentManager.beginTransaction();
         getAccounts(userid);
 
         if (userType.equals("3") || userType.equals("4")) { //管理员
-            Bundle bundle = new Bundle();
-            bundle.putString("userid", userid);
-            bundle.putString("storeid", store_id);
-            bundle.putSerializable("user", userEntity);
-            fragment = new ManageHomeFragment();
-            fragment.setArguments(bundle);
+            //Bundle bundle = new Bundle();
+            //bundle.putString("userid", userid);
+            //bundle.putString("storeid", store_id);
+            //bundle.putSerializable("user", userEntity);
+            //fragment = new ManageHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 0;
         } else if (userType.equals("2")) {  //员工
-            Bundle bundle = new Bundle();
-            bundle.putString("userid", userid);
-            bundle.putString("storeid", store_id);
-            bundle.putSerializable("user", userEntity);
-            fragment = new EmployeeHomeFragment();
-            fragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("userid", userid);
+//            bundle.putString("storeid", store_id);
+//            bundle.putSerializable("user", userEntity);
+            //fragment = new EmployeeHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 5;
         } else {  //会员
-            Bundle bundle = new Bundle();
-            bundle.putString("userid", userid);
-            fragment = new MemberHomeFragment();
-            fragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("userid", userid);
+            //fragment = new MemberHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 7;
         }
 
-        transaction.add(R.id.frame, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        //transaction.add(R.id.frame, fragment);
+        //transaction.addToBackStack(null);
+        //transaction.commit();
+        /*if (currentIndex != index) {
+            transaction.hide(fragment[currentIndex]);
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.frame, fragment[index]);
+            }
+            transaction.show(fragment[index]).commit();
+        }*/
+        //transaction.add(R.id.frame, fragment[index]).show(fragment[index]).commit();
+        transaction.replace(R.id.frame, fragment[index]).commit();
+        currentIndex = index;
     }
 
     //这里需要统一修改
     private void init() {
-        //根据不同的需要显示不同的Fragment
-        frame = (LinearLayout) findViewById(R.id.frame);
-
         //根据不同的身份信息需要隐藏一个button，且注意更换button的text
         one = (LinearLayout) findViewById(R.id.one);
         one.setOnClickListener(this);
@@ -207,170 +420,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     }
 
     @Override
-    public void onClick(View v) {
-        transaction = fragmentManager.beginTransaction();
-        switch (v.getId()) {
-            case R.id.one:
-                one_t.setTextColor(Color.RED);
-                one_i.setImageResource(R.drawable.home_page_r);
-                two_t.setTextColor(Color.BLACK);
-                two_i.setImageResource(R.drawable.record);
-                three_t.setTextColor(Color.BLACK);
-                three_i.setImageResource(R.drawable.member_manage);
-                four_t.setTextColor(Color.BLACK);
-                four_i.setImageResource(R.drawable.employee_manage);
-                five_t.setTextColor(Color.BLACK);
-                five_i.setImageResource(R.drawable.personal);
-
-                if (userType.equals("3") || userType.equals("4")) { //管理员
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    bundle.putString("storeid", store_id);
-                    bundle.putSerializable("user", userEntity);
-                    fragment = new ManageHomeFragment();
-                    fragment.setArguments(bundle);
-                } else if (userType.equals("2")) {  //员工
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    bundle.putString("storeid", store_id);
-                    bundle.putSerializable("user", userEntity);
-                    fragment = new EmployeeHomeFragment();
-                    fragment.setArguments(bundle);
-                } else {  //会员
-                    one_i.setImageResource(R.drawable.map_locate_r);
-                    two_i.setImageResource(R.drawable.s_collect);
-                    three_i.setImageResource(R.drawable.record);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    fragment = new MemberHomeFragment();
-                    fragment.setArguments(bundle);
-                }
-                break;
-            case R.id.two:
-                one_t.setTextColor(Color.BLACK);
-                one_i.setImageResource(R.drawable.home_page);
-                two_t.setTextColor(Color.RED);
-                three_t.setTextColor(Color.BLACK);
-
-                four_t.setTextColor(Color.BLACK);
-                four_i.setImageResource(R.drawable.employee_manage);
-                five_t.setTextColor(Color.BLACK);
-                five_i.setImageResource(R.drawable.personal);
-
-                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
-                    two_i.setImageResource(R.drawable.record_r);
-                    three_i.setImageResource(R.drawable.member_manage);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    bundle.putString("employeename", employeename);
-                    bundle.putString("username", userEntity.getName());
-                    bundle.putString("storename", store_name);
-                    fragment = new RecordFragment();
-                    fragment.setArguments(bundle);
-                } else {  //会员
-                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
-                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
-                        Intent intent=new Intent(HomePageActivity.this,BoundOrRegister.class);
-                        startActivity(intent);
-                    }else{
-                        one_i.setImageResource(R.drawable.map_locate);
-                        two_i.setImageResource(R.drawable.s_collect_r);
-                        three_i.setImageResource(R.drawable.record);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userid", userid);
-                        fragment = new MemCollectFragment();
-                        fragment.setArguments(bundle);
-                    }
-                }
-                break;
-            case R.id.three:
-                one_t.setTextColor(Color.BLACK);
-                one_i.setImageResource(R.drawable.home_page);
-                two_t.setTextColor(Color.BLACK);
-
-                three_t.setTextColor(Color.RED);
-
-                four_t.setTextColor(Color.BLACK);
-                four_i.setImageResource(R.drawable.employee_manage);
-                five_t.setTextColor(Color.BLACK);
-                five_i.setImageResource(R.drawable.personal);
-
-                if (userType.equals("2") || userType.equals("3") || userType.equals("4")) { //管理员
-                    two_i.setImageResource(R.drawable.record);
-                    three_i.setImageResource(R.drawable.member_manage_r);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", userid);
-                    bundle.putString("storeid", store_id);
-                    fragment = new MemManageFragment();
-                    fragment.setArguments(bundle);
-                } else {  //会员
-                    SharedPreferences preferences=getSharedPreferences(Configs.APP_ID,MODE_PRIVATE);
-                    String logintype=preferences.getString(Configs.KEY_LOGINTYPE,"");
-                    if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
-                        Intent intent=new Intent(HomePageActivity.this,BoundOrRegister.class);
-                        startActivity(intent);
-                    }else {
-                        one_i.setImageResource(R.drawable.map_locate);
-                        two_i.setImageResource(R.drawable.s_collect);
-                        three_i.setImageResource(R.drawable.record_r);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userid", userid);
-                        bundle.putString("storeid", store_id);
-                        fragment = new MemRecordFragment();
-                        fragment.setArguments(bundle);
-                    }
-                }
-                break;
-            case R.id.four:
-                one_t.setTextColor(Color.BLACK);
-                one_i.setImageResource(R.drawable.home_page);
-                two_t.setTextColor(Color.BLACK);
-                two_i.setImageResource(R.drawable.record);
-                three_t.setTextColor(Color.BLACK);
-                three_i.setImageResource(R.drawable.member_manage);
-                four_t.setTextColor(Color.RED);
-                four_i.setImageResource(R.drawable.employee_manage_r);
-                five_t.setTextColor(Color.BLACK);
-                five_i.setImageResource(R.drawable.personal);
-
-                fragment = new EmployeeManageFragment();
-                break;
-            case R.id.five:
-                one_t.setTextColor(Color.BLACK);
-                one_i.setImageResource(R.drawable.home_page);
-                two_t.setTextColor(Color.BLACK);
-                two_i.setImageResource(R.drawable.record);
-                three_t.setTextColor(Color.BLACK);
-                three_i.setImageResource(R.drawable.member_manage);
-                four_t.setTextColor(Color.BLACK);
-                four_i.setImageResource(R.drawable.employee_manage);
-                five_t.setTextColor(Color.RED);
-                five_i.setImageResource(R.drawable.personal_r);
-
-                if (userType.equals("3") || userType.equals("4")) { //管理员
-                    fragment = new ManagerFragment();
-                } else if (userType.equals("2")) {  //员工
-                    fragment = new EmployeeFragment();
-                } else {  //会员
-                    one_i.setImageResource(R.drawable.map_locate);
-                    two_i.setImageResource(R.drawable.s_collect);
-                    three_i.setImageResource(R.drawable.record);
-
-                    Bundle bundle=new Bundle();
-                    bundle.putSerializable("user", userEntity);
-                    fragment = new MemFragment();
-                    fragment.setArguments(bundle);
-                }
-                break;
-        }
-        transaction.replace(R.id.frame, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    @Override
     public void onBackPressed() {
         Tools.closeActivity();
     }
@@ -378,29 +427,34 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        transaction = fragmentManager.beginTransaction();
         if (data != null) {
             switch (requestCode) {
                 case MemManageFragment.REQUEST_CODE:
+                    fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
+                    break;
                 case MemManageFragment.REQUEST_EDIT:
-                    transaction = fragmentManager.beginTransaction();
-                    fragment.onActivityResult(requestCode, resultCode, data);
+                    //transaction = fragmentManager.beginTransaction();
+                    fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
                     break;
                 case EmployeeManageFragment.ADD_REQUEST_CODE:
                 case EmployeeManageFragment.EDIT_REQUEST_CODE:
-                    transaction = fragmentManager.beginTransaction();
-                    fragment.onActivityResult(requestCode, resultCode, data);
+                    //transaction = fragmentManager.beginTransaction();
+                    fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
                     break;
                 case RecordFragment.REQUEST_CODE:
                 case RecordFragment.REQUEST_EDIT:
-                    fragmentManager = getFragmentManager();
-                    transaction = fragmentManager.beginTransaction();
-                    fragment.onActivityResult(requestCode, resultCode, data);
+                    //fragmentManager = getFragmentManager();
+                    //transaction = fragmentManager.beginTransaction();
+                    fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
                     break;
 //                case ManagerFragment.REQUEST_CODE:
                 default:
-                    fragmentManager=getFragmentManager();
-                    transaction=fragmentManager.beginTransaction();
-                    fragment.onActivityResult(requestCode,resultCode,data);
+                    //fragmentManager=getFragmentManager();
+                    //transaction=fragmentManager.beginTransaction();
+//                    fragment.onActivityResult(requestCode,resultCode,data);
+//                    break;
+                    fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
                     break;
             }
             transaction.commit();
@@ -555,7 +609,6 @@ public class HomePageActivity extends Activity implements View.OnClickListener, 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("tag", "onStop");
         EMChatManager.getInstance().unregisterEventListener(HomePageActivity.this);
     }
 

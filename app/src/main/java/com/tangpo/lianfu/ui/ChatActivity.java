@@ -95,7 +95,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         //注销外部广播
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         username = getIntent().getStringExtra("username");
-        hxid = getIntent().getStringExtra("hxid").toLowerCase();
+        hxid = getIntent().getStringExtra("hxid");
         my_id = ChatAccount.getInstance().getEasemod_id();
         init();
     }
@@ -104,7 +104,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         username = intent.getStringExtra("username");
-        hxid = intent.getStringExtra("hxid").toLowerCase();
+        hxid = intent.getStringExtra("hxid");
         name.setText(username);
 
         adapter = new ChatAdapter(ChatActivity.this, hxid);
@@ -123,10 +123,10 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
                 message = (EMMessage) event.getData();
                 String user = message.getFrom().toLowerCase();
                 Log.e("tag", "from " + user + " to " + hxid);
-                if (user.equals(hxid)) {
+                if (user.equals(hxid.toLowerCase())) {
                     refreshUIWithNewMessage();
                 } else {
-                    ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom().toLowerCase(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
+                    ChatAccount ac = new ChatAccount("", username, message.getUserName(), "", message.getFrom(), "", "", ChatAccount.getInstance().getPhoto(), latestmsg, time);
                     //Tools.saveAccount(ac);
                     notifier(message, ac);
                 }
