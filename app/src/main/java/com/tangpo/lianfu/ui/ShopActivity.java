@@ -337,6 +337,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(ShopActivity.this, ConversationActivity.class);
                 intent.putExtra("servers", array.toString());
                 intent.putExtra("userid", user_id);
+                intent.putExtra("flag", "1");
                 startActivity(intent);
             }
         }

@@ -43,6 +43,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     private String userids = "";
     private String userid = "";
     private String hxid = "";
+    private String flag;
     private ChatAccount account = ChatAccount.getInstance();
     private Bundle bundle = new Bundle();
 
@@ -75,9 +76,22 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_conversation);
         userid = getIntent().getStringExtra("userid");
+        flag = getIntent().getStringExtra("flag");
         fragment = new Fragment[]{new ContactFragment(), new ConversationFragment()};
         init();
-        getAccounts(userids);
+        if (flag != null && "1".equals(flag)) {
+            getAccounts(userids);
+        } else {
+            name.setText("会话记录");
+            conversation.setSelected(true);
+            address_list.setSelected(false);
+            index = 1;
+
+            if (!fragment[index].isAdded()) {
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment[index]).show(fragment[index]).commit();
+            }
+            currentIndex = index;
+        }
     }
 
     private void init() {

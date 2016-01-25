@@ -107,6 +107,8 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
             }
             if(msg.what==2){
                 flag++;
+                serverImgPath.add((String )msg.obj);
+                adapter.notifyDataSetChanged();
                 if(flag==localImgPath.size()){
                     dialog.dismiss();
                     flag=0;
@@ -123,7 +125,7 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
         add.setOnClickListener(this);
 
         listView= (ListView) findViewById(R.id.list);
-        adapter=new ShopImgAdapter(serverImgPath,this,store_id,user_id);
+        adapter=new ShopImgAdapter(serverImgPath, this, store_id, user_id);
         listView.setAdapter(adapter);
     }
 
@@ -143,6 +145,7 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
                 //dialog.dismiss();
                 Message msg=new Message();
                 msg.what=2;
+                msg.obj = imgPath;
                 handler.sendMessage(msg);
                 Tools.showToast(StoreImgActivity.this, getString(R.string.upload_success));
                 //serverImgPath.add(imgPath);
@@ -188,6 +191,10 @@ public class StoreImgActivity extends Activity implements View.OnClickListener {
                 //finish();
                 break;
         }
+    }
+
+    public List<String> getLocalImgPath() {
+        return localImgPath;
     }
 
     @Override
