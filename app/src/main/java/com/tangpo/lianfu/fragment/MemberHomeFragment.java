@@ -87,17 +87,15 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         if (parent != null) {
             parent.removeView(view);
         }
-<<<<<<< HEAD
-        bundle = getArguments();
+        //bundle = getArguments();
         //hide();
         getActivity().getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         init(view);
-        if (bundle != null) {
-=======
+        //if (bundle != null) {
         //bundle = getArguments();
 
         init(view);
-        hide();
+        //hide();
         /*if (bundle != null) {
 >>>>>>> ed05066c3597cf705fbec181cb8382a1ca3b24ec
             userid = bundle.getString("userid");
