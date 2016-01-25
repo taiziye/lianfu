@@ -95,7 +95,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
         //注销外部广播
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         username = getIntent().getStringExtra("username");
-        hxid = getIntent().getStringExtra("hxid");
+        hxid = getIntent().getStringExtra("hxid").toLowerCase();
         my_id = ChatAccount.getInstance().getEasemod_id();
         init();
     }
@@ -104,7 +104,7 @@ public class ChatActivity extends Activity implements View.OnClickListener, EMEv
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         username = intent.getStringExtra("username");
-        hxid = intent.getStringExtra("hxid");
+        hxid = intent.getStringExtra("hxid").toLowerCase();
         name.setText(username);
 
         adapter = new ChatAdapter(ChatActivity.this, hxid);
