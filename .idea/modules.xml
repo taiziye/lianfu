@@ -3,12 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/easeui/easeui.iml" filepath="$PROJECT_DIR$/easeui/easeui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easeui/easeui.iml" filepath="$PROJECT_DIR$/easeui/easeui.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/easeUI/easeui.iml" filepath="$PROJECT_DIR$/easeUI/easeui.iml" />
->>>>>>> ed05066c3597cf705fbec181cb8382a1ca3b24ec
       <module fileurl="file://$PROJECT_DIR$/lianfu.iml" filepath="$PROJECT_DIR$/lianfu.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/pull/pull.iml" filepath="$PROJECT_DIR$/lib/pull/pull.iml" />

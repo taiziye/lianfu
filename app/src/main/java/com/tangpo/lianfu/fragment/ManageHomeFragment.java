@@ -104,7 +104,6 @@ public class ManageHomeFragment extends Fragment implements View.OnClickListener
         }
 
         init(view);
-        Log.e("tags", "managehome");
         return view;
     }
 

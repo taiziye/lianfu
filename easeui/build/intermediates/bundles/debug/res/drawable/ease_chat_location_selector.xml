@@ -3,4 +3,4 @@
     <item android:drawable="@drawable/ease_chat_location_pressed" android:state_pressed="true"/>
     <item android:drawable="@drawable/ease_chat_location_normal"/>
 
-</selector><!-- From: file:/F:/eclipse-jee/lianfu/easeUI/src/main/res/drawable/ease_chat_location_selector.xml -->
+</selector><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/src/main/res/drawable/ease_chat_location_selector.xml -->

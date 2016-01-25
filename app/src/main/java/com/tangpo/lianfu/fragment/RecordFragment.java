@@ -116,6 +116,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         recordList.clear();
+        getConsumeRecord("");
     }
 
     private void init(View view) {
@@ -138,7 +139,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         list = (PullToRefreshListView) view.findViewById(R.id.list);
 
         recordList = new ArrayList<>();
-        getConsumeRecord("");
+        //getConsumeRecord("");
 
         list.setMode(PullToRefreshBase.Mode.BOTH);
         list.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
@@ -368,13 +369,15 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 } else {
                     adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
                     list.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
-            } else {
+            } else{
                 //编辑
                 //getConsumeRecord();
                 EmployeeConsumeRecord record = (EmployeeConsumeRecord) data.getExtras().getSerializable("record");
                 recordList.remove(index);
                 recordList.add(index, record);
+//                adapter.notifyDataSetChanged();
                 adapter.notifyDataSetInvalidated();
             }
         }

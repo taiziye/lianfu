@@ -442,14 +442,14 @@ public class AddEmployeeActivity extends Activity implements View.OnClickListene
             Tools.showToast(getApplicationContext(), getString(R.string.please_input_idnumber));
             return;
         }
-        if(bank_account.length() == 0||bank_account==null) {
-            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_account));
-            return;
-        }
-        if(bank_nameStr.length() == 0||bank_nameStr==null) {
-            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_name));
-            return;
-        }
+//        if(bank_account.length() == 0||bank_account==null) {
+//            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_account));
+//            return;
+//        }
+//        if(bank_nameStr.length() == 0||bank_nameStr==null) {
+//            Tools.showToast(getApplicationContext(), getString(R.string.please_input_bank_name));
+//            return;
+//        }
         if(upgrades.length()==0||upgrades==null){
             Tools.showToast(getApplicationContext(),"请选择升级类型");
             return;

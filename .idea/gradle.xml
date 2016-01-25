@@ -3,19 +3,14 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\Program Files\Android\gradle\gradle-2.8" />
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-<<<<<<< HEAD
             <option value="$PROJECT_DIR$/easeui" />
-=======
-            <option value="$PROJECT_DIR$/easeUI" />
->>>>>>> 3af0b2099a4f81035349a8a8e123764dd5feb671
             <option value="$PROJECT_DIR$/lib" />
             <option value="$PROJECT_DIR$/lib/pull" />
           </set>
