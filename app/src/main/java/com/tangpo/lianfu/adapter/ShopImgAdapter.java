@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.adapter;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,17 +29,18 @@ import java.util.List;
  */
 public class ShopImgAdapter extends BaseAdapter {
 
-    private Context context;
+    private Activity context;
     private List<String> list;
     private LayoutInflater container;
     private String store_id = "";
     private String user_id="";
     private ProgressDialog dialog;
     private List<Integer> order=new ArrayList<>();
+    private List<String> imagePath = null;
 
     public ShopImgAdapter(List<String> list, Context context,
                           String store_id,String user_id) {
-        this.context = context;
+        this.context = (Activity)context;
         this.list = list;
         container = LayoutInflater.from(context);
         this.store_id = store_id;
@@ -82,7 +84,11 @@ public class ShopImgAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Tools.setPhoto(context,list.get(position),holder.shop_img);
+        if (Tools.isExists(list.get(position))) {
+            Tools.setPhoto(list.get(position), holder.shop_img);
+        } else {
+            Tools.setPhoto(context, list.get(position), holder.shop_img);
+        }
 
         holder.shop_img.setOnClickListener(new View.OnClickListener() {
             @Override

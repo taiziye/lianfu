@@ -44,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -245,6 +246,24 @@ public class Tools {
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         imageLoader.displayImage(path, img, options);
+    }
+
+    public static void setPhoto(String path, ImageView view){
+        File file = new File(path);
+        if (file.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(path);
+            view.setImageBitmap(bm);
+        } else {
+            showToast(MyApplication.getContext(), "路径错误，请重新选择图片");
+        }
+    }
+
+    public static boolean isExists(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            return true;
+        }
+        return false;
     }
 
     public static void setPhoto(Context context,ImageView img,String path){

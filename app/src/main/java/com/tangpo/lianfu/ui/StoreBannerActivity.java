@@ -84,6 +84,7 @@ public class StoreBannerActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(JSONObject result) {
                 dialog.dismiss();
+                Tools.setPhoto(imgPath, imageView);
                 Tools.showToast(StoreBannerActivity.this, getString(R.string.upload_success));
             }
         }, new NetConnection.FailCallback() {

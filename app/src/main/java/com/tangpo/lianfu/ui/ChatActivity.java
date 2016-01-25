@@ -42,7 +42,6 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.ChatAdapter;
 import com.tangpo.lianfu.adapter.ExpressionAdapter;
 import com.tangpo.lianfu.adapter.ExpressionPagerAdapter;
-import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.entity.Chat;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.utils.ExpandGridView;

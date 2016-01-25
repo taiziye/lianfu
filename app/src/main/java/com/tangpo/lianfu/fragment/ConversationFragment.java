@@ -144,7 +144,9 @@ public class ConversationFragment extends Fragment {
         });
 
         list.addAll(loadConversationsWithRecentChat());
-        getName();
+        if (list.size() > 0) {
+            getName();
+        }
         //adapter = new ConversationAdapter(getActivity(), list);
         //listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
