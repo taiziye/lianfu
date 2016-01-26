@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#535456">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:text="选择照片"/>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/back" />
+    </RelativeLayout>
+
+    <View android:id="@+id/t1"
+        android:layout_below="@id/top"
+        style="@style/view_line_style" />
+    <RelativeLayout
+        android:id="@+id/rl_shuju"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+        <GridView
+            android:id="@+id/photo_gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:clipChildren="true"
+            android:layout_alignParentTop="true"
+            android:listSelector="@android:color/transparent"
+            android:gravity="center"
+            android:verticalSpacing="3dip"
+            android:horizontalSpacing="3dip"
+            android:numColumns="3" />
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/ll_bottom"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="65dip"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="#292929" -->
+        <!--android:gravity="center_vertical">-->
+
+        <!--<HorizontalScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="60dip"-->
+        <!--android:layout_marginRight="5dip"-->
+        <!--android:layout_toLeftOf="@+id/btn_sure"-->
+        <!--android:scrollbars="none" >-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:orientation="horizontal" >-->
+
+        <!--<com.tangpo.lianfu.entity.MyGridView-->
+        <!--android:id="@+id/gl_bottom"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbars="none" />-->
+        <!--</LinearLayout>-->
+        <!--</HorizontalScrollView>-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_sure"-->
+        <!--android:layout_width="60dip"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="5dip"-->
+        <!--android:background="@drawable/ssp_queding_btn"-->
+        <!--android:text="确定"-->
+        <!--android:textColor="#f4f4f4"-->
+        <!--android:textSize="13sp" -->
+        <!--android:gravity="center"/>-->
+        <!--</RelativeLayout>-->
+    </RelativeLayout>
+</LinearLayout>

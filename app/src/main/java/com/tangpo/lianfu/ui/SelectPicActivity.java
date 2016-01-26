@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -128,9 +129,9 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 
     private void pickPhoto() {
         if(getIntent().getStringExtra("name")==null){
-            Intent intent = new Intent();
+            Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            //intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
         }else{
             Intent intent=new Intent(this,PhotoAlbumActivity.class);
@@ -196,9 +197,9 @@ public class SelectPicActivity extends Activity implements OnClickListener {
             SmallpicPath = save(picPath);
         }
         // 返回图片的地址
-        /*if (flag != null && flag.length() != 0) {
+        if (flag != null && flag.length() != 0) {
             //
-            *//*photoUri = data.getData();
+            photoUri = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
             Cursor cursor = getContentResolver().query(photoUri, filePathColumn, null, null, null);
             if (cursor != null) {
@@ -224,11 +225,12 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                     return;
                 }
                 lastIntent.putExtra(KEY_PHOTO_PATH, file.getAbsolutePath());
-            }*//*
+            }
         } else {
             lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
             lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
-        }*/
+        }
+
         lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
         lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
         setResult(Activity.RESULT_OK, lastIntent);

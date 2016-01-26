@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,14 +14,11 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.PhotoAdappter;
 import com.tangpo.lianfu.entity.PhotoAibum;
 import com.tangpo.lianfu.entity.PhotoItem;
-import com.tangpo.lianfu.utils.Tools;
 
 import java.util.ArrayList;
 
