@@ -42,6 +42,7 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
     private boolean notiyfyByFilter;
     private List<HXUser> users = null;
     private List<String> names = new ArrayList<>();
+    private List<String> photos = new ArrayList<>();
 
     public ConversationAdapter(Context context, List<EMConversation> list, List<HXUser> users) {
         this.context = context;
@@ -91,11 +92,12 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
             if (users.get(i).getEasemod_id().toLowerCase().equals(conversation.getUserName().toLowerCase())) {
                 username = users.get(i).getName();
                 names.add(username);
+                photos.add(users.get(position).getPhoto());
                 break;
             }
         }
 
-        Tools.setPhoto(context, ChatAccount.getInstance().getPhoto(), holder.img);
+        Tools.setPhoto(context, users.get(position).getPhoto(), holder.img);
         // 获取与此用户的会话
         if (username == null || username.length() == 0) {
             holder.name.setText(conversation.getUserName());
@@ -122,6 +124,13 @@ public class ConversationAdapter extends BaseAdapter implements Filterable {
             return list.get(position).getUserName();
         }
         return names.get(position);
+    }
+
+    public String getPhoto(int posistion) {
+        if (photos.size() == 0 || photos.get(posistion) == null) {
+            return ChatAccount.getInstance().getPhoto();
+        }
+        return photos.get(posistion);
     }
 
     @Override

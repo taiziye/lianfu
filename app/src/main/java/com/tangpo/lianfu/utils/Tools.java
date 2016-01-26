@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -35,6 +36,8 @@ import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.ChatUser;
+import com.tangpo.lianfu.service.CacheService;
+import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MainActivity;
 
 import java.io.BufferedOutputStream;
@@ -47,6 +50,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -235,9 +240,7 @@ public class Tools {
      * @param img     放置图片的控件
      */
     public static void setPhoto(Context context, String path, final ImageView img) {
-
-        ImageLoader imageLoader = ImageLoader.getInstance();
-
+        /*ImageLoader imageLoader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.camera)
                 .showImageForEmptyUri(R.drawable.camera).showImageOnFail(R.drawable.camera)
                 .resetViewBeforeLoading(false).delayBeforeLoading(1000).cacheInMemory(false).cacheOnDisc(true)
@@ -245,7 +248,11 @@ public class Tools {
                 .displayer(new FadeInBitmapDisplayer(300)).handler(new Handler()).build();
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        imageLoader.displayImage(path, img, options);
+        imageLoader.displayImage(path, img, options);*/
+
+        CacheService service = new CacheService();
+        AsyncImageTask task = new AsyncImageTask(service, img);
+        task.execute(path);
     }
 
     public static void setPhoto(String path, ImageView view){
@@ -258,12 +265,63 @@ public class Tools {
         }
     }
 
+    private static final class AsyncImageTask extends AsyncTask<String, Integer, Uri> {
+        private CacheService service;
+        private ImageView view;
+
+        public AsyncImageTask(CacheService service, ImageView view) {
+            this.service = service;
+            this.view = view;
+        }
+
+        @Override
+        protected Uri doInBackground(String... params) {
+            try {
+                return service.getImageURI(params[0], HomePageActivity.cache);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Uri uri) {
+            super.onPostExecute(uri);
+            if (view != null && uri != null) {
+                view.setImageURI(uri);
+            } else {
+                view.setImageResource(R.drawable.camera);
+            }
+        }
+    }
+
     public static boolean isExists(String path) {
         File file = new File(path);
         if (file.exists()) {
             return true;
         }
         return false;
+    }
+
+    public static String getMD5(String content) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(content.getBytes());
+            return getHashString(digest);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getHashString(MessageDigest digest) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : digest.digest()) {
+            builder.append(Integer.toHexString((b >> 4) & 0xf));
+            builder.append(Integer.toHexString(b & 0xf));
+        }
+        return builder.toString();
     }
 
     public static void setPhoto(Context context,ImageView img,String path){
