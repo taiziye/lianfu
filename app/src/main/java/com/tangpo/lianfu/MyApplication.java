@@ -4,10 +4,12 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.util.Log;
 
 import com.easemob.chat.EMChat;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,11 +17,8 @@ import java.util.List;
  * Created by shengshoubo on 2015/11/2.
  */
 public class MyApplication extends Application {
-
     public static Context context;
     private boolean isDownload;
-
-
 
     @Override
     public void onCreate() {
@@ -94,9 +93,6 @@ public class MyApplication extends Application {
             try {
                 if (info.pid == pID) {
                     CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName, PackageManager.GET_META_DATA));
-                    // Log.d("Process", "Id: "+ info.pid +" ProcessName: "+
-                    // info.processName +"  Label: "+c.toString());
-                    // processName = c.toString();
                     processName = info.processName;
                     return processName;
                 }

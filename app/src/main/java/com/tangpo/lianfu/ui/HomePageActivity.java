@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -26,6 +27,7 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.google.gson.Gson;
+import com.tangpo.lianfu.MyApplication;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.broadcast.NewMessageReceiver;
 import com.tangpo.lianfu.config.Configs;
@@ -51,10 +53,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 /**
  * Created by 果冻 on 2015/11/8.
  */
 public class HomePageActivity extends FragmentActivity implements View.OnClickListener, EMEventListener {
+    public static File cache;
     private LinearLayout one;
     private LinearLayout two;
     private LinearLayout three;
@@ -298,6 +303,10 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_page_activity);
         Tools.gatherActivity(this);
+        cache = new File(Environment.getExternalStorageDirectory(), "cache");
+        if(!cache.exists()){
+            cache.mkdirs();
+        }
 
         preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
@@ -588,6 +597,13 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         //NewMessageReceiver.unregister(HomePageActivity.this);
+        if (cache.exists()) {
+            File[] files = cache.listFiles();
+            for (File file : files) {
+                file.delete();
+            }
+            cache.delete();
+        }
         EMChatManager.getInstance().logout();
         Tools.closeActivity();
         finish();

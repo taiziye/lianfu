@@ -179,6 +179,7 @@ public class ConversationFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = adapter.getItem(position);
                 String username = adapter.getUserName(position);
+                String photo = adapter.getPhoto(position);
                 String hxid = conversation.getUserName();
                 if (hxid.toLowerCase().equals(myid.toLowerCase())) {
                     Tools.showToast(getActivity(), "无法跟自己聊天");
