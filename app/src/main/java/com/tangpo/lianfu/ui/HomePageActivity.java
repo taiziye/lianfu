@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -54,6 +55,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by 果冻 on 2015/11/8.
@@ -430,7 +433,63 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        Tools.closeActivity();
+        if (currentIndex == 0 || currentIndex == 5 || currentIndex == 7) {
+            //Tools.showToast(HomePageActivity.this, "再按一次返回键退出程序");
+            exitBy2Click();
+        } else {
+            transaction = fragmentManager.beginTransaction();
+            one_t.setTextColor(Color.RED);
+            one_i.setImageResource(R.drawable.home_page_r);
+            two_t.setTextColor(Color.BLACK);
+            two_i.setImageResource(R.drawable.record);
+            three_t.setTextColor(Color.BLACK);
+            three_i.setImageResource(R.drawable.member_manage);
+            four_t.setTextColor(Color.BLACK);
+            four_i.setImageResource(R.drawable.employee_manage);
+            five_t.setTextColor(Color.BLACK);
+            five_i.setImageResource(R.drawable.personal);
+
+            if ("3".equals(userType) || "4".equals(userType)) {
+                index = 0;
+                //transaction.replace(R.id.frame, fragment[0]).commit();
+                //transaction.hide(fragment[currentIndex]).show(fragment[0]).commit();
+            } else if ("2".equals(userType)) {
+                index = 5;
+                //transaction.replace(R.id.frame, fragment[5]).commit();
+                //transaction.hide(fragment[currentIndex]).show(fragment[5]).commit();
+            } else {
+                index = 7;
+                one_i.setImageResource(R.drawable.map_locate_r);
+                two_i.setImageResource(R.drawable.s_collect);
+                three_i.setImageResource(R.drawable.record);
+
+                //transaction.replace(R.id.frame, fragment[7]).commit();
+                //transaction.hide(fragment[currentIndex]).show(fragment[7]).commit();
+            }
+            transaction.replace(R.id.frame, fragment[index]).commit();
+            currentIndex = index;
+        }
+//        Tools.closeActivity();
+    }
+
+    private static boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true;
+            Tools.showToast(HomePageActivity.this, "再按一次返回键退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            Tools.closeActivity();
+            System.exit(0);
+        }
     }
 
     @Override

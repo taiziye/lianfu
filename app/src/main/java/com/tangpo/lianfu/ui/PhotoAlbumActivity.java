@@ -71,17 +71,17 @@ public class PhotoAlbumActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view,
 				int position, long id) {
-			Intent intent=null;
-			if(getIntent().getStringExtra("name").equals("StoreImgActivity")){
-				intent = new Intent(PhotoAlbumActivity.this, PhotoActivity.class);
+			//Intent intent=null;
+			//if(getIntent().getStringExtra("name").equals("StoreImgActivity")){
+				Intent intent = new Intent(PhotoAlbumActivity.this, PhotoActivity.class);
 				intent.putExtra("aibum", aibumList.get(position));
 				startActivity(intent);
 				PhotoAlbumActivity.this.finish();
-			}else{
-				intent=new Intent(PhotoAlbumActivity.this,PayBillPhotoActivity.class);
-				intent.putExtra("aibum", aibumList.get(position));
-				startActivity(intent);
-			}
+//			}else{
+//				intent=new Intent(PhotoAlbumActivity.this,PayBillPhotoActivity.class);
+//				intent.putExtra("aibum", aibumList.get(position));
+//				startActivity(intent);
+//			}
 
 		}
 	};

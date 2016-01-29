@@ -164,26 +164,40 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 return;
             }
             photoUri = data.getData();
+            Bitmap bitmap1;
             if (photoUri == null) {
-                Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
-                return;
-            }
-            ContentResolver cr = this.getContentResolver();
-            try {
-                Bitmap bitmap1 = BitmapFactory.decodeStream(cr.openInputStream(photoUri));
-
-                if(bitmap1 == null) {
+                Bundle bundle=data.getExtras();
+                if(bundle!=null){
+                    bitmap1= (Bitmap) bundle.get("data");
+                    if (bitmap1 != null) {
+                        picPath = FILE_DIR.toString() + "/" + System.currentTimeMillis() + ".jpg";
+                        Tools.isHasFile(picPath);
+                        Tools.saveImage(bitmap1, picPath);
+                        SmallpicPath = save(picPath);
+                    }
+                }else{
+                    Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
                 }
+            }else{
+                ContentResolver cr = this.getContentResolver();
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 3;
+                    bitmap1 = BitmapFactory.decodeStream(cr.openInputStream(photoUri),null,options);
 
-                if (bitmap1 != null) {
-                    picPath = FILE_DIR.toString() + "/" + System.currentTimeMillis() + ".jpg";
-                    Tools.isHasFile(picPath);
-                    Tools.saveImage(bitmap1, picPath);
-                    SmallpicPath = save(picPath);
+                    if(bitmap1 == null) {
+                    }
+
+                    if (bitmap1 != null) {
+                        picPath = FILE_DIR.toString() + "/" + System.currentTimeMillis() + ".jpg";
+                        Tools.isHasFile(picPath);
+                        Tools.saveImage(bitmap1, picPath);
+                        SmallpicPath = save(picPath);
+                    }
+                    // bitmap = ImageUtil.toRoundBitmap(bitmap1);
+                } catch (FileNotFoundException e) {
+
                 }
-                // bitmap = ImageUtil.toRoundBitmap(bitmap1);
-            } catch (FileNotFoundException e) {
-
             }
         } else {
             String[] pojo = { MediaStore.Images.Media.DATA };
@@ -196,41 +210,40 @@ public class SelectPicActivity extends Activity implements OnClickListener {
             }
             SmallpicPath = save(picPath);
         }
-        // 返回图片的地址
-        if (flag != null && flag.length() != 0) {
-            //
-            photoUri = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver().query(photoUri, filePathColumn, null, null, null);
-            if (cursor != null) {
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-                cursor = null;
-
-                if (picturePath == null || picturePath.equals("null")) {
-                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return;
-                }
-                lastIntent.putExtra(KEY_PHOTO_PATH, picturePath);
-            } else {
-                File file = new File(photoUri.getPath());
-                if (!file.exists()) {
-                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return;
-                }
-                lastIntent.putExtra(KEY_PHOTO_PATH, file.getAbsolutePath());
-            }
-        } else {
-            lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
-            lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
-        }
-
+//        // 返回图片的地址
+//        if (flag != null && flag.length() != 0) {
+//            //
+//            photoUri = data.getData();
+//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//            Cursor cursor = getContentResolver().query(photoUri, filePathColumn, null, null, null);
+//            if (cursor != null) {
+//                cursor.moveToFirst();
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                String picturePath = cursor.getString(columnIndex);
+//                cursor.close();
+//                cursor = null;
+//
+//                if (picturePath == null || picturePath.equals("null")) {
+//                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
+//                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                    toast.show();
+//                    return;
+//                }
+//                lastIntent.putExtra(KEY_PHOTO_PATH, picturePath);
+//            } else {
+//                File file = new File(photoUri.getPath());
+//                if (!file.exists()) {
+//                    Toast toast = Toast.makeText(this, "选择图片失败", Toast.LENGTH_SHORT);
+//                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                    toast.show();
+//                    return;
+//                }
+//                lastIntent.putExtra(KEY_PHOTO_PATH, file.getAbsolutePath());
+//            }
+//        } else {
+//            lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
+//            lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
+//        }
         lastIntent.putExtra(KEY_PHOTO_PATH, picPath);
         lastIntent.putExtra(SMALL_KEY_PHOTO_PATH, SmallpicPath);
         setResult(Activity.RESULT_OK, lastIntent);
