@@ -390,6 +390,7 @@ public class PayByAliPay extends FragmentActivity {
         }
         String[] kvs=new String[]{store_id,user_id,idlist,paymode,fee};
         String params= GetAlipayOrder.packagingParam(this, kvs);
+        Log.e("tag",params);
         dialog=ProgressDialog.show(this,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override

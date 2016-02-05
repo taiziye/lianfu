@@ -182,7 +182,12 @@ public class SelectPicActivity extends Activity implements OnClickListener {
                 ContentResolver cr = this.getContentResolver();
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 3;
+                    options.inJustDecodeBounds=false;
+                    options.inPreferredConfig=Bitmap.Config.RGB_565;
+                    options.inPurgeable=true;
+                    options.inInputShareable=true;
+                    options.inDither=false;
+                    options.inSampleSize =calculateInSampleSize(options,128,128);
                     bitmap1 = BitmapFactory.decodeStream(cr.openInputStream(photoUri),null,options);
 
                     if(bitmap1 == null) {
@@ -293,7 +298,7 @@ public class SelectPicActivity extends Activity implements OnClickListener {
         BitmapFactory.decodeFile(filePath, options);
 
         // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+        options.inSampleSize = calculateInSampleSize(options, 128, 128);
 //        BitmapFactory.decodeFile(filePath, options);
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
