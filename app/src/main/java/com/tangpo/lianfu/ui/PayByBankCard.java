@@ -37,6 +37,7 @@ public class PayByBankCard extends FragmentActivity implements View.OnClickListe
     private String store_id=null;
     private String idlist=null;
     private String paymode=null;
+    private String consume_id=null;
     private String fee=null;
 
     private String orderid=null;
@@ -98,7 +99,12 @@ public class PayByBankCard extends FragmentActivity implements View.OnClickListe
         user_id=bundle.getString("user_id");
         paymode=bundle.getString("paymode");
         fee=bundle.getString("fee");
-        payBill();
+        consume_id=bundle.getString("consume_id");
+        if(consume_id==null||consume_id.length()==0)payBill();
+        else{
+            idlist=consume_id;
+            getIndent();
+        }
 
 
     }

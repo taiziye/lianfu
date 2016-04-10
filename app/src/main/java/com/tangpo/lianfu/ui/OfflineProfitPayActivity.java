@@ -234,10 +234,18 @@ public class OfflineProfitPayActivity extends Activity implements View.OnClickLi
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        checkedItems.clear();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
+                //checkedItems.clear();
                 finish();
                 break;
             case R.id.compute:

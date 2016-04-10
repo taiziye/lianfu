@@ -54,6 +54,7 @@ public class ComputeProfitAdapter extends BaseAdapter {
     }
 
     private void initData(){
+        getIsSelected().clear();
         for(int i=0;i<list.size();i++){
             if(OfflineProfitPayActivity.checkedItems.get(i)!=null){
                 getIsSelected().put(i,OfflineProfitPayActivity.checkedItems.get(i));
@@ -112,7 +113,7 @@ public class ComputeProfitAdapter extends BaseAdapter {
             holder.status.setTextColor(Color.parseColor("#008B00"));
         }
         holder.check.setChecked(getIsSelected().get(position));
-
+        //holder.check.setChecked(false);
         return convertView;
     }
 
