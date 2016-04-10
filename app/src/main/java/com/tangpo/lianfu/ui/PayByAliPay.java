@@ -43,21 +43,21 @@ public class PayByAliPay extends FragmentActivity {
     private static final int ORDER_INFO = 4;
 
     //商户的PID
-    public  String partner = null;
+    private   String partner = null;
     // 商户收款账号
-    public  String seller_id = null;
-    //回调地址
-    public  String notify_url=null;
+    private   String seller_id = null;
+    //回调地址（支付宝异步通知的回调地址）
+    private  String notify_url=null;
     //商品标题
     private String subject=null;
     //商品详情
     private String body=null;
     // 支付宝公钥
-    public  String RSA_PUBLIC_KEY =null;
+    private  String RSA_PUBLIC_KEY =null;
     // 商户私钥，pkcs8格式
-    public  String RSA_PRIVATE_KEY =null;
+    private  String RSA_PRIVATE_KEY =null;
     //订单号
-    public  String out_trade_no=null;
+    private  String out_trade_no=null;
     //交易金额
     private String total_fee=null;
 

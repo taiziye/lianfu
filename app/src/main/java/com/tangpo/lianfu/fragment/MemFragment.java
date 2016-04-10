@@ -53,6 +53,7 @@ import com.tangpo.lianfu.ui.PersonalInfoActivity;
 import com.tangpo.lianfu.ui.ShopActivity;
 import com.tangpo.lianfu.ui.UpdatePasswordActivity;
 import com.tangpo.lianfu.utils.CircularImage;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 import com.tangpo.lianfu.wxapi.WXEntryActivity;
 import com.tencent.connect.UserInfo;
@@ -177,6 +178,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
         chat = (Button) view.findViewById(R.id.chat);
         chat.setOnClickListener(this);
         login_out = (Button) view.findViewById(R.id.login_out);
+        if(user_id.equals("游客"))login_out.setText(getString(R.string.login));
         login_out.setOnClickListener(this);
 
         img = (CircularImage) view.findViewById(R.id.img);
@@ -192,6 +194,7 @@ public class MemFragment extends Fragment implements View.OnClickListener {
 
         Tools.setPhoto(getActivity(), user.getPhoto(), img);
         name.setText(user.getName());
+        if(user_id.equals("游客"))power.setVisibility(View.GONE);
         if (logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
             power.setText("游客");
         }else {
@@ -262,12 +265,21 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
+                //如果是游客登陆
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 intent = new Intent(getActivity(), ConversationActivity.class);
                 startActivity(intent);
                 break;
             case R.id.next:
                 break;
             case R.id.personal_info:
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 intent = new Intent(getActivity(), PersonalInfoActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("flag", "1");
@@ -281,6 +293,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 //Tools.showToast(getActivity(), "请期待下一个版本");
                 break;
             case R.id.modify_pass:
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){
                     intent=new Intent(getActivity(),BoundOrRegister.class);
                 }else{
@@ -297,6 +313,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.bind_weibo:
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 if("0".equals(isbindwb)){
                     Weibo();
                 }
@@ -305,6 +325,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.bind_wexin:
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 if("0".equals(isbindwx)){
                     Weixin();
                 }
@@ -313,6 +337,10 @@ public class MemFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.bind_qq:
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 if("0".equals(isbindqq)){
                     QQ();
                 }

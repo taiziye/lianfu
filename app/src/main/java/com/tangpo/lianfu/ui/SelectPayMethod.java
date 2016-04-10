@@ -86,7 +86,11 @@ public class SelectPayMethod extends FragmentActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.pay_by_bankcard:
-                ToastUtils.showToast(SelectPayMethod.this,getString(R.string.bankcard_pay_has_not_online),Toast.LENGTH_SHORT);
+                //ToastUtils.showToast(SelectPayMethod.this,getString(R.string.bankcard_pay_has_not_online),Toast.LENGTH_SHORT);
+                intent=new Intent(SelectPayMethod.this,PayByBankCard.class);
+                bundle.putString("pay_way","1");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             default:
                 finish();

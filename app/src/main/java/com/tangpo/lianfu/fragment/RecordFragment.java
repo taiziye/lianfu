@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -37,6 +38,7 @@ import com.tangpo.lianfu.parms.ConsumeRecord;
 import com.tangpo.lianfu.ui.AddConsumeActivity;
 import com.tangpo.lianfu.ui.ConsumeRecordActivity;
 import com.tangpo.lianfu.ui.HomePageActivity;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -420,6 +422,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
+
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
 
         preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);

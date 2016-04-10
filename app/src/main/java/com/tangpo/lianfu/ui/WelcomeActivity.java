@@ -13,6 +13,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.config.Configs;
+import com.tangpo.lianfu.entity.UserEntity;
 import com.tangpo.lianfu.utils.Tools;
 
 /**
@@ -66,7 +67,13 @@ public class WelcomeActivity extends Activity{
         new Handler().postDelayed(new Runnable() {
             public void run() {
 
-                Tools.gotoActivity(WelcomeActivity.this, MainActivity.class);
+                UserEntity userEntity=new UserEntity("0","游客","","","游客","","","0","","","","","","","","游客","","0","0","0","0","0");
+                String token=Configs.getCatchedToken(WelcomeActivity.this);
+                if(token!=null) Tools.gotoActivity(WelcomeActivity.this, HomePageActivity.class);
+                else{
+                    Configs.cacheUser(WelcomeActivity.this,userEntity.toJSONString());
+                    Tools.gotoActivity(WelcomeActivity.this,HomePageActivity.class);
+                }
                 WelcomeActivity.this.finish();
             }
         }, 3000);

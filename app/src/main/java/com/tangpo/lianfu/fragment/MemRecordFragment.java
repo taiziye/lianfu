@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -26,6 +27,7 @@ import com.tangpo.lianfu.entity.MemRecord;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CheckConsumeRecord;
 import com.tangpo.lianfu.ui.HomePageActivity;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -253,6 +255,10 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
     };
 
     private void getConsumeRecord(String name) {
+        if(user_id.equals("游客")){
+            ToastUtils.showToast(getActivity(), getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
+            return;
+        }
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;

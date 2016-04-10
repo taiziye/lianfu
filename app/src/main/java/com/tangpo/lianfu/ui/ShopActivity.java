@@ -166,6 +166,15 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.collect:
+
+                //如果是游客登陆
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    intent=new Intent(ShopActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 if(favorite.equals("1")) {
                     cancelCollect();
                 } else {
@@ -180,10 +189,26 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.contact:
+                //如果是游客登陆
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    intent=new Intent(ShopActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 //ToastUtils.showToast(ShopActivity.this,getString(R.string.new_function_has_not_online),Toast.LENGTH_SHORT);
                 getServer();
                 break;
             case R.id.pay:
+                //如果是游客登陆
+                if(user_id.equals("游客")){
+                    ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    intent=new Intent(ShopActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 SharedPreferences preferences=getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
                 String logintype=preferences.getString(Configs.KEY_LOGINTYPE, "");
                 if(logintype.equals("0")||logintype.equals("1")||logintype.equals("2")){

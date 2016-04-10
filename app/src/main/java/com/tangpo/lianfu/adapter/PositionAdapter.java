@@ -20,6 +20,7 @@ import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.CollectStore;
 import com.tangpo.lianfu.ui.BoundOrRegister;
+import com.tangpo.lianfu.ui.MainActivity;
 import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
@@ -44,6 +45,7 @@ public class PositionAdapter extends BaseAdapter {
     private SharedPreferences preferences = null;
 
     private String userid = null;
+    private String user_type=null;
 
     public PositionAdapter(Context context, List<FindStore> list) {
         this.context = context;
@@ -54,6 +56,7 @@ public class PositionAdapter extends BaseAdapter {
         try {
             JSONObject jsonObject = new JSONObject(user);
             userid = jsonObject.getString("user_id");
+            user_type=jsonObject.getString("user_type");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -159,6 +162,15 @@ public class PositionAdapter extends BaseAdapter {
                     context.startActivity(intent);
                     return;
                 }
+
+                //如果是游客登陆
+                if (user_type.equals("0")){
+                    ToastUtils.showToast(context,context.getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    Intent intent=new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
+                    return;
+                }
+
                 cur = position;
 
                 if(!Tools.checkLAN()) {
