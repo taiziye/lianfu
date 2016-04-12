@@ -3,6 +3,7 @@ package com.tangpo.lianfu.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.InvitedMessage;
@@ -151,6 +152,7 @@ public class DBManager {
                 msg.setReason(reason);
                 msg.setTime(time);
                 msg.setGroupInviter(groupInviter);
+                Log.e("tag", "msg: " + msg.toString());
 
                 if(status == InvitedMessage.InviteMessageStatus.BEINVITEED.ordinal()) {
                     msg.setStatus(InvitedMessage.InviteMessageStatus.BEINVITEED);
@@ -191,6 +193,9 @@ public class DBManager {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         if (db.isOpen()) {
             Cursor cursor = db.rawQuery("select " + InviteMessageDao.COLUMN_NAME_UNREAD_MSG_COUNT + " from " + InviteMessageDao.TABLE_NAME, null);
+            /*Cursor cursor = db.rawQuery("select count(*) from " + InviteMessageDao.TABLE_NAME
+                            + " where " + InviteMessageDao.COLUMN_NAME_STATUS + " != 4 or "
+                    + InviteMessageDao.COLUMN_NAME_STATUS + " != 5", null);*/
             if (cursor.moveToFirst()){
                 count = cursor.getInt(0);
             }
