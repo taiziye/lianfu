@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,8 @@ public class RequestAdapter extends BaseAdapter {
         }else {
             holder = (Holder) convertView.getTag();
         }
+
+        Log.e("tag", "status " + list.get(position).getMessage().getStatus() + " id " + list.get(position).getMessage().getId());
 
         if(list.get(position).getMessage().getStatus() == InvitedMessage.InviteMessageStatus.AGREED ||
                 list.get(position).getMessage().getStatus() == InvitedMessage.InviteMessageStatus.REFUSED) {

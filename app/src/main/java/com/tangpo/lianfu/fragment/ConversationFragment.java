@@ -211,6 +211,7 @@ public class ConversationFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddFriendActivity.class);
                 (new InviteMessageDao(getActivity())).saveUnreadMessageCount(0);
+                //((ConversationActivity)getActivity()).saveUnreadMessageCount(0);
                 msg.setVisibility(View.INVISIBLE);
                 startActivity(intent);
             }

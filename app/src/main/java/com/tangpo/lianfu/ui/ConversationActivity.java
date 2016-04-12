@@ -204,6 +204,10 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                 index = 0;
                 break;
             case R.id.add:  //添加好友
+                if(account == null) {
+                    Tools.showToast(getApplicationContext(), "请登录后操作");
+                    return;
+                }
                 Intent intent = new Intent(this, AddFriendsActivity.class);
                 intent.putExtra("userid", userid);
                 intent.putExtra("flag", flag);
@@ -433,6 +437,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     }
 
     public int getUnread() {
+        Log.e("tag", "count " + inviteMessageDao.getUnreadMessagesCount());
         return inviteMessageDao.getUnreadMessagesCount();
     }
 
@@ -447,7 +452,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(currentIndex == 1) {
+                /*if(currentIndex == 1) {
                     if(fragment[currentIndex] != null) {
                         ((ConversationFragment)fragment[currentIndex]).setMsgView(1);
                     }
@@ -455,7 +460,9 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                     if (fragment[currentIndex] != null) {
                         ((ContactFragment)fragment[currentIndex]).refresh();
                     }
-                }
+                }*/
+                ((ConversationFragment)fragment[currentIndex]).setMsgView(1);
+                ((ContactFragment)fragment[currentIndex]).refresh();
             }
         };
         broadcastManager.registerReceiver(broadcastReceiver, filter);
@@ -565,9 +572,14 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
             inviteMessageDao = new InviteMessageDao(this);
         }
         inviteMessageDao.saveMessage(msg);
+        //saveUnreadMessageCount(1);
         inviteMessageDao.saveUnreadMessageCount(1);
         //
         getNotifier().viberateAndPlayTone(null);
+    }
+
+    public void saveUnreadMessageCount(int count) {
+        inviteMessageDao.saveUnreadMessageCount(1);
     }
 
     public EaseNotifier getNotifier() {
