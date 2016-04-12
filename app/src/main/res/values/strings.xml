@@ -361,4 +361,8 @@
     <string name="commit">提交</string>
     <string name="can_not_commit_the_comsume_record_has_been_audit">已经审核的消费记录不能再次提交</string>
     <string name="contact_phone">联系电话</string>
+    <string name="title_activity_pay_by_bank_card">PayByBankCard</string>
+    <string name="BankUnionPay">银联支付</string>
+    <string name="order_success">下单成功</string>
+    <string name="please_register_and_Login">请先注册登录</string>
 </resources>

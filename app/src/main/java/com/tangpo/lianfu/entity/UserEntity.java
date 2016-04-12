@@ -34,8 +34,16 @@ public class UserEntity implements Serializable {
     private String bindwx;
     private String bindwb;
     private String bindqq;
+    private String upleveltype;
 
-    public UserEntity(String user_type, String user_id, String store_id, String storename, String name, String phone, String id_number, String sex, String birth, String qq, String email, String address, String bank_account, String bank_name, String bank, String bank_address, String rank, String photo, String session_id, String username, String ulevel, String money) {
+
+    public UserEntity(String user_type, String user_id, String store_id,
+                      String storename, String name, String phone,
+                      String id_number, String sex, String birth,
+                      String qq, String email, String address,
+                      String bank_account, String bank_name, String bank, String bank_address,
+                      String rank, String photo, String session_id, String username,
+                      String ulevel, String money) {
         this.user_type = user_type;
         this.user_id = user_id;
         this.store_id = store_id;
@@ -61,9 +69,10 @@ public class UserEntity implements Serializable {
         this.bindwx = "0";
         this.bindwb = "0";
         this.bindqq = "0";
+        this.upleveltype="0";
     }
 
-    public UserEntity() {
+    public UserEntity(String s, String 游客) {
 
     }
 
@@ -267,6 +276,15 @@ public class UserEntity implements Serializable {
         this.bindqq = bindqq;
     }
 
+    public String getUpleveltype() {
+        return upleveltype;
+    }
+
+    public void setUpleveltype(String upleveltype) {
+        this.upleveltype = upleveltype;
+    }
+
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -295,6 +313,7 @@ public class UserEntity implements Serializable {
                 ", bindwx='" + bindwx + '\'' +
                 ", bindwb='" + bindwb + '\'' +
                 ", bindqq='" + bindqq + '\'' +
+                ", upleveltype='" + upleveltype + '\'' +
                 '}';
     }
 
@@ -325,6 +344,7 @@ public class UserEntity implements Serializable {
             json.put("bindwx", this.bindwx);
             json.put("bindwb", this.bindwb);
             json.put("bindqq", this.bindqq);
+            json.put("upleveltype",this.upleveltype);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -37,6 +38,7 @@ import com.tangpo.lianfu.parms.CheckCollectedStore;
 import com.tangpo.lianfu.ui.HomePageActivity;
 import com.tangpo.lianfu.ui.MapActivity;
 import com.tangpo.lianfu.ui.ShopActivity;
+import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -203,6 +205,10 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 }).show();
                 break;
             case R.id.map:
+                if(userid.equals("游客")){
+                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    return;
+                }
                 Fragment fragment = new MapActivity();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
@@ -233,12 +239,17 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     };
 
     private void getCollectStore(String name) {
+        if(userid.equals("游客")){
+            ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
+            return;
+        }
+
         if(!Tools.checkLAN()) {
             Tools.showToast(getActivity(), "网络未连接，请联网后重试");
             return;
         }
-
         dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+
         String kvs[] = new String []{userid, name, "10", page + ""};
         String parm = CheckCollectedStore.packagingParam(getActivity(), kvs);
 

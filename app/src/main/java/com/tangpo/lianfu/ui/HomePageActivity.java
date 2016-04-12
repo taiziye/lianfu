@@ -328,7 +328,7 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
                 new MemRecordFragment(), new MemFragment()};
 
         transaction = fragmentManager.beginTransaction();
-        getAccounts(userid);
+        if(!userid.equals("游客")) getAccounts(userid);
 
         if (userType.equals("3") || userType.equals("4")) { //管理员
             //Bundle bundle = new Bundle();
@@ -392,7 +392,7 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
         four.setOnClickListener(this);
         four_i = (ImageView) findViewById(R.id.four_i);
         four_t = (TextView) findViewById(R.id.four_t);
-        if (userType.equals("1") || userType.equals("2")) {  //如果是非管理员登录，则隐藏改按钮
+        if (userType.equals("1") || userType.equals("2")||userType.equals("0")) {  //如果是非管理员登录，则隐藏改按钮
             four.setVisibility(View.GONE);
         } else {
             four_t.setText(getResources().getString(R.string.employee_management));

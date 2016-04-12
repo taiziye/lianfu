@@ -162,19 +162,19 @@
         <activity
             android:name=".ui.SelectPayMethod"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogStyleBottom"></activity>
+            android:theme="@style/DialogStyleBottom" />
         <activity
             android:name=".ui.PayByAliPay"
             android:label="@string/title_activity_pay_by_ali_pay"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CostRepayActivity"
             android:label="@string/title_activity_cost_repay"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CostRepayDetailActivity"
             android:label="@string/title_activity_cost_repay"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MipcaActivityCapture"
             android:screenOrientation="portrait" />
@@ -197,7 +197,7 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <!-- QQ登陆时用到 -->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
@@ -259,34 +259,43 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".ui.PayByBankCard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".ui.PayByWechat"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_pay_by_wechat"></activity>
+            android:label="@string/title_activity_pay_by_wechat"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.StoreBannerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.StoreImgActivity"
             android:label="@string/title_activity_choose_top_ad"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ui.ChooseShopImg"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ChooseShopImg"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogStyleBottom"></activity>
-        <activity android:name=".ui.PhotoAlbumActivity"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".ui.PhotoAlbumActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.PhotoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.PhotoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.ShowBigPic"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ShowBigPic"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.PayBillPhotoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.PayBillPhotoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
