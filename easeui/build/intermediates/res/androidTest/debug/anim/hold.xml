@@ -2,4 +2,4 @@
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
        android:interpolator="@android:anim/accelerate_interpolator"
        android:fromXDelta="0" android:toXDelta="0"
-       android:duration="300" /><!-- From: file:/E:/Android/lianfu/easeui/src/main/res/anim/hold.xml --><!-- From: file:/E:/Android/lianfu/easeui/build/intermediates/bundles/debug/res/anim/hold.xml -->
+       android:duration="300" /><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/src/main/res/anim/hold.xml --><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/build/intermediates/bundles/debug/res/anim/hold.xml -->

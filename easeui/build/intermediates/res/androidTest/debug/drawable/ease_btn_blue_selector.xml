@@ -3,4 +3,4 @@
     <item android:drawable="@drawable/ease_btn_blue_pressed_shape" android:state_pressed="true"/>
     <item android:drawable="@drawable/ease_btn_blue_pressed_shape" android:state_enabled="false"/>
     <item android:drawable="@drawable/ease_btn_blue_normal_shape"/>
-</selector><!-- From: file:/E:/Android/lianfu/easeui/src/main/res/drawable/ease_btn_blue_selector.xml --><!-- From: file:/E:/Android/lianfu/easeui/build/intermediates/bundles/debug/res/drawable/ease_btn_blue_selector.xml -->
+</selector><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/src/main/res/drawable/ease_btn_blue_selector.xml --><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/build/intermediates/bundles/debug/res/drawable/ease_btn_blue_selector.xml -->
