@@ -28,7 +28,7 @@
             android:textSize="22sp"
             android:textColor="@android:color/white" />
 
-        <!--<Button
+        <Button
             android:id="@+id/add"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp" />-->
+            android:paddingRight="15dp" />
     </RelativeLayout>
 
     <View

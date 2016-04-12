@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
 
 import java.io.File;
 import java.util.Iterator;
@@ -38,6 +39,7 @@ public class MyApplication extends Application {
         }
         //初始化SDK
         EMChat.getInstance().init(context);
+        EMChatManager.getInstance().getChatOptions().setUseRoster(true);
         /**
          * debugMode == true 时为打开，sdk 会在log里输入调试信息
          * @param debugMode

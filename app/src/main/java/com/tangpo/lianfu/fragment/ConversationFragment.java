@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,8 +34,10 @@ import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.HXUser;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetSpecifyHX;
+import com.tangpo.lianfu.ui.AddFriendActivity;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.ConversationActivity;
+import com.tangpo.lianfu.utils.InviteMessageDao;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -50,6 +54,8 @@ import java.util.List;
  * Created by 果冻 on 2016/1/8.
  */
 public class ConversationFragment extends Fragment {
+    private LinearLayout invite;
+    private ImageView msg;
     private ListView listView = null;
     private EditText query = null;
     private Button clear = null;
@@ -63,6 +69,11 @@ public class ConversationFragment extends Fragment {
     private List<HXUser> names = new ArrayList<HXUser>();
     private boolean hidden;
     private Gson gson = new Gson();
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -193,6 +204,20 @@ public class ConversationFragment extends Fragment {
                 }
             }
         });
+
+        invite = (LinearLayout) view.findViewById(R.id.invite);
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddFriendActivity.class);
+                (new InviteMessageDao(getActivity())).saveUnreadMessageCount(0);
+                msg.setVisibility(View.INVISIBLE);
+                startActivity(intent);
+            }
+        });
+        msg = (ImageView) view.findViewById(R.id.msg);
+        if(((ConversationActivity)getActivity()).getUnread() <= 0) msg.setVisibility(View.INVISIBLE);
+        else msg.setVisibility(View.VISIBLE);
     }
 
     private void hideSoftKeyBoard() {
@@ -212,6 +237,14 @@ public class ConversationFragment extends Fragment {
         //getName();
         if (adapter != null) {
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setMsgView(int flag) {
+        if(flag == 0) {
+            msg.setVisibility(View.INVISIBLE);
+        } else {
+            msg.setVisibility(View.VISIBLE);
         }
     }
 

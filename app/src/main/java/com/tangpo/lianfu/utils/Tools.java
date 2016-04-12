@@ -255,6 +255,11 @@ public class Tools {
         task.execute(path);
     }
 
+    /**
+     * 加载本地图片
+     * @param path
+     * @param view
+     */
     public static void setPhoto(String path, ImageView view){
         File file = new File(path);
         if (file.exists()) {
