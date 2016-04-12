@@ -77,6 +77,20 @@ public class InvitedMessage {
         this.time = time;
     }
 
+    @Override
+    public String toString() {
+        return "InvitedMessage{" +
+                "from='" + from + '\'' +
+                ", time=" + time +
+                ", reason='" + reason + '\'' +
+                ", status=" + status +
+                ", groupId='" + groupId + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", groupInviter='" + groupInviter + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
     public enum InviteMessageStatus{
         BEINVITEED,
         BEREFUSED,
