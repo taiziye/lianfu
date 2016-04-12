@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,9 +37,86 @@
             android:background="@drawable/tab_clear_bg"/>
     </LinearLayout>
 
-    <ListView android:id="@+id/list"
-        android:background="@android:color/white"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="1dp"
+        android:background="@color/white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout android:id="@+id/waiter"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="客服"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:visibility="invisible"/>
+                <ImageView android:id="@+id/wtag"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/fold"/>
+            </LinearLayout>
+            <ListView android:id="@+id/list_waiter"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <LinearLayout android:id="@+id/friend"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="好友"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:visibility="invisible"/>
+                <ImageView android:id="@+id/ftag"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/fold"/>
+            </LinearLayout>
+            <ListView android:id="@+id/list_friend"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

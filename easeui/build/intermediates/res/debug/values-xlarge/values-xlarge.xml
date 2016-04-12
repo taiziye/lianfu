@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/src/main/res/values-xlarge/ease_dimens.xml -->
+    <!-- From: file:/E:/Android/lianfu/easeui/src/main/res/values-xlarge/ease_dimens.xml -->
     <eat-comment/>
     <dimen name="image_thumbnail_size">198dp</dimen>
     <dimen name="image_thumbnail_spacing">2dp</dimen>

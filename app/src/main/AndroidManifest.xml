@@ -240,6 +240,14 @@
             android:name=".ui.PictureActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".ui.AddFriendsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name=".ui.AddFriendActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleBottom" />
 
         <service
             android:name="com.baidu.location.f"
