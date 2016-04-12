@@ -3,6 +3,8 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+<<<<<<< HEAD
+=======
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
@@ -13,6 +15,7 @@
       </MavenGeneralSettings>
     </option>
   </component>
+>>>>>>> 21e12d2f43dc712f3d1f25cc96939b9f2d61958d
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
@@ -52,5 +55,20 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

@@ -1,5 +1,7 @@
 package com.tangpo.lianfu.entity;
 
+import android.util.Log;
+
 /**
  * Created by 果冻 on 2016/1/23.
  */
@@ -12,6 +14,15 @@ public class HXUser {
     private String uuid;
     private String pwd;
     private String photo;
+    private InvitedMessage message;
+
+    public InvitedMessage getMessage() {
+        return message;
+    }
+
+    public void setMessage(InvitedMessage message) {
+        this.message = message;
+    }
 
     public HXUser() {
     }
