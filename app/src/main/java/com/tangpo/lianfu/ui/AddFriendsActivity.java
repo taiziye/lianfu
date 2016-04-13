@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,12 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.HXUserAdapter;
 import com.tangpo.lianfu.entity.HXUser;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.GetHXUser;
+import com.tangpo.lianfu.parms.GetUserList;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -39,7 +46,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
     private TextView id;
     private TextView name;
 
-    private ListView list;
+    private PullToRefreshListView list;
 
     private Gson gson;
     private ArrayList<Member> members = new ArrayList<>();
@@ -50,6 +57,9 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
     private String userid = "";
     private String flag = "";
     private String userName = "";
+    private String queryStr;
+    private int paramcentcount = 0;
+    private int page = 1;
 
     @Override
     public void onClick(View v) {
@@ -58,10 +68,11 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.search:
-                String queryStr = query.getText().toString();
-                getHXuser(queryStr);
+                queryStr = query.getText().toString();
+                getUserInfo(queryStr);
                 break;
             case R.id.clear:
+                query.setText("");
                 break;
         }
     }
@@ -88,8 +99,74 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
         img = (ImageView) findViewById(R.id.img);
         id = (TextView) findViewById(R.id.id);
         name = (TextView) findViewById(R.id.name);
-        list = (ListView) findViewById(R.id.list);
+        list = (PullToRefreshListView) findViewById(R.id.list);
         list.setVisibility(View.GONE);
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+        list.getLoadingLayoutProxy(true, false).setLastUpdatedLabel("下拉刷新");
+        list.getLoadingLayoutProxy(true, false).setPullLabel("");
+        list.getLoadingLayoutProxy(true, false).setRefreshingLabel("正在刷新");
+        list.getLoadingLayoutProxy(true, false).setReleaseLabel("放开以刷新");
+        // 上拉加载更多时的提示文本设置
+        list.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
+        list.getLoadingLayoutProxy(false, true).setPullLabel("");
+        list.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
+        list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page = 1;
+                users.clear();
+                // 下拉的时候刷新数据
+                int flags = DateUtils.FORMAT_SHOW_TIME
+                        | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_ABBREV_ALL;
+
+                String label = DateUtils.formatDateTime(
+                        AddFriendsActivity.this,
+                        System.currentTimeMillis(), flags);
+
+                // 更新最后刷新时间
+                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                getUserInfo(queryStr);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page = page + 1;
+                if(page<=paramcentcount){
+                    getUserInfo(queryStr);
+                }else{
+                    Tools.showToast(AddFriendsActivity.this,getString(R.string.alread_last_page));
+                    list.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            list.onRefreshComplete();
+                        }
+                    },500);
+                }
+            }
+        });
+
+        query.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    clear.setVisibility(View.VISIBLE);
+                } else {
+                    clear.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         gson = new Gson();
     }
@@ -99,39 +176,53 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    members = (ArrayList<Member>) msg.obj;
+                    users.clear();
+                    //members.addAll((ArrayList<Member>) msg.obj);
+                    //Log.e("tag", "size " + members.size());
                     StringBuilder id = new StringBuilder();
                     for (int i=0; i<members.size(); i++){
-                        if(i!=0) id.append(",");
-                        id.append(members.get(i).getUsername());
+                        /*if(i!=0) id.append(",");
+                        id.append(members.get(i).getUsername());*/
+                        //Log.e("tag", "id " + members.get(i).getUsername());
+                        getHXuser(members.get(i).getUsername());
                     }
-                    getHXuser(id.toString());
+                    //getHXuser(id.toString());
                     break;
                 case 2:
-                    users = (ArrayList<HXUser>) msg.obj;
+                    //users.addAll((ArrayList<HXUser>) msg.obj);
                     adapter = new HXUserAdapter(AddFriendsActivity.this, users, userName);
                     list.setVisibility(View.VISIBLE);
                     list.setAdapter(adapter);
+                    list.getRefreshableView().setSelection((page - 1) * 10 + 1);
+                    members.clear();
                     break;
             }
         }
     };
 
-    /*private void getUserInfo(String query){
+    private void getUserInfo(String query){
         if(!Tools.checkLAN()) {
             Tools.showToast(getApplicationContext(), "网络未连接，请联网后重试");
             return;
         }
 
         String[] kvs;
-        if(!Tools.isMobileNum(query)) kvs = new String[]{"","","",query,"1","10"};
-        else kvs = new String[]{"","",query,"","1","10"};
+        if(Tools.isMobileNum(query)) kvs = new String[]{"","","",query,page + "","10"};
+        else kvs = new String[]{"",query,"","","1","10"};
         String param = GetUserList.packagingParam(getApplicationContext(), kvs);
 
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                //Log.e("tag", "res " + result.toString());
+                list.onRefreshComplete();
+                members.clear();
+                try {
+                    paramcentcount=Integer.valueOf(result.getString("paramcentcount"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONArray array = result.getJSONArray("param");
                     for(int i=0; i<array.length(); i++){
@@ -143,12 +234,13 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
                 }
                 Message msg = new Message();
                 msg.what=1;
-                msg.obj=members;
+                //msg.obj=members;
                 handler.handleMessage(msg);
             }
         }, new NetConnection.FailCallback() {
             @Override
             public void onFail(JSONObject result) {
+                list.onRefreshComplete();
                 try {
                     if ("3".equals(result.getString("status"))) {
                         Tools.showToast(getApplicationContext(), "用户不存在");
@@ -162,7 +254,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
                 }
             }
         }, param);
-    }*/
+    }
 
     private void getHXuser(String username){
         if(!Tools.checkLAN()) {
@@ -172,6 +264,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
 
         String[] kvs=new String[]{username};
         String param = GetHXUser.packagingParam(getApplicationContext(), kvs);
+        Log.e("tag", "param " + param);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -187,7 +280,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
                 }
                 Message msg = new Message();
                 msg.what = 2;
-                msg.obj = users;
+                //msg.obj = users;
                 handler.handleMessage(msg);
             }
         }, new NetConnection.FailCallback() {
