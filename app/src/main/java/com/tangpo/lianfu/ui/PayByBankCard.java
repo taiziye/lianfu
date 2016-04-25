@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -93,6 +94,13 @@ public class PayByBankCard extends FragmentActivity implements View.OnClickListe
         webView.getSettings().setJavaScriptEnabled(true);
         webView.requestFocus();
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
 
         bundle=getIntent().getExtras();
         store_id=bundle.getString("store_id");

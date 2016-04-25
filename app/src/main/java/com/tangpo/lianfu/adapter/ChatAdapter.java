@@ -58,14 +58,12 @@ public class ChatAdapter extends BaseAdapter {
     private String username;
     private EMMessage[] messages = null;
     private EMConversation conversation;
-    //private String url;
 
     public ChatAdapter(Context context, String username) {
         this.context = (Activity)context;
         this.username = username;
         this.inflater = LayoutInflater.from(context);
         this.conversation = EMChatManager.getInstance().getConversation(username);
-        //NewMessageReceiver.setUnread(-this.conversation.getUnreadMsgCount());
         this.conversation.markAllMessagesAsRead();
     }
 

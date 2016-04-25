@@ -306,68 +306,8 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_page_activity);
         Tools.gatherActivity(this);
-        cache = new File(Environment.getExternalStorageDirectory(), "cache");
-        if(!cache.exists()){
-            cache.mkdirs();
-        }
-
-        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
-        String user = preferences.getString(Configs.KEY_USER, "0");
-        gson=new Gson();
-        userEntity=gson.fromJson(user, UserEntity.class);
-        userType=userEntity.getUser_type();
-        userid=userEntity.getUser_id();
-        employeename=userEntity.getName();
-        store_id=userEntity.getStore_id();
-        store_name = userEntity.getStorename();
-        init();
-        //注册广播
-        //NewMessageReceiver.register(HomePageActivity.this);
-        fragment = new Fragment[]{new ManageHomeFragment(), new RecordFragment(), new MemManageFragment(), new EmployeeManageFragment(),
-                new ManagerFragment(), new EmployeeHomeFragment(), new EmployeeFragment(), new MemberHomeFragment(), new MemCollectFragment(),
-                new MemRecordFragment(), new MemFragment()};
-
-        transaction = fragmentManager.beginTransaction();
-        if(!userid.equals("游客")) getAccounts(userid);
-
-        if (userType.equals("3") || userType.equals("4")) { //管理员
-            //Bundle bundle = new Bundle();
-            //bundle.putString("userid", userid);
-            //bundle.putString("storeid", store_id);
-            //bundle.putSerializable("user", userEntity);
-            //fragment = new ManageHomeFragment();
-            //fragment.setArguments(bundle);
-            index = 0;
-        } else if (userType.equals("2")) {  //员工
-//            Bundle bundle = new Bundle();
-//            bundle.putString("userid", userid);
-//            bundle.putString("storeid", store_id);
-//            bundle.putSerializable("user", userEntity);
-            //fragment = new EmployeeHomeFragment();
-            //fragment.setArguments(bundle);
-            index = 5;
-        } else {  //会员
-//            Bundle bundle = new Bundle();
-//            bundle.putString("userid", userid);
-            //fragment = new MemberHomeFragment();
-            //fragment.setArguments(bundle);
-            index = 7;
-        }
-
-        //transaction.add(R.id.frame, fragment);
-        //transaction.addToBackStack(null);
-        //transaction.commit();
-        /*if (currentIndex != index) {
-            transaction.hide(fragment[currentIndex]);
-            if (!fragment[index].isAdded()) {
-                transaction.add(R.id.frame, fragment[index]);
-            }
-            transaction.show(fragment[index]).commit();
-        }*/
-        //transaction.add(R.id.frame, fragment[index]).show(fragment[index]).commit();
-        transaction.replace(R.id.frame, fragment[index]).commit();
-        currentIndex = index;
     }
+
 
     //这里需要统一修改
     private void init() {
@@ -679,6 +619,67 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
                 EMChatManager.getInstance().unregisterEventListener(HomePageActivity.this);
             }
         }, 5000);*/
+        cache = new File(Environment.getExternalStorageDirectory(), "cache");
+        if(!cache.exists()){
+            cache.mkdirs();
+        }
+
+        preferences = getSharedPreferences(Configs.APP_ID, MODE_PRIVATE);
+        String user = preferences.getString(Configs.KEY_USER, "0");
+        gson=new Gson();
+        userEntity=gson.fromJson(user, UserEntity.class);
+        userType=userEntity.getUser_type();
+        userid=userEntity.getUser_id();
+        employeename=userEntity.getName();
+        store_id=userEntity.getStore_id();
+        store_name = userEntity.getStorename();
+        init();
+        //注册广播
+        //NewMessageReceiver.register(HomePageActivity.this);
+        fragment = new Fragment[]{new ManageHomeFragment(), new RecordFragment(), new MemManageFragment(), new EmployeeManageFragment(),
+                new ManagerFragment(), new EmployeeHomeFragment(), new EmployeeFragment(), new MemberHomeFragment(), new MemCollectFragment(),
+                new MemRecordFragment(), new MemFragment()};
+
+        transaction = fragmentManager.beginTransaction();
+        if(!userid.equals("游客")) getAccounts(userid);
+
+        if (userType.equals("3") || userType.equals("4")) { //管理员
+            //Bundle bundle = new Bundle();
+            //bundle.putString("userid", userid);
+            //bundle.putString("storeid", store_id);
+            //bundle.putSerializable("user", userEntity);
+            //fragment = new ManageHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 0;
+        } else if (userType.equals("2")) {  //员工
+//            Bundle bundle = new Bundle();
+//            bundle.putString("userid", userid);
+//            bundle.putString("storeid", store_id);
+//            bundle.putSerializable("user", userEntity);
+            //fragment = new EmployeeHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 5;
+        } else {  //会员
+//            Bundle bundle = new Bundle();
+//            bundle.putString("userid", userid);
+            //fragment = new MemberHomeFragment();
+            //fragment.setArguments(bundle);
+            index = 7;
+        }
+
+        //transaction.add(R.id.frame, fragment);
+        //transaction.addToBackStack(null);
+        //transaction.commit();
+        /*if (currentIndex != index) {
+            transaction.hide(fragment[currentIndex]);
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.frame, fragment[index]);
+            }
+            transaction.show(fragment[index]).commit();
+        }*/
+        //transaction.add(R.id.frame, fragment[index]).show(fragment[index]).commit();
+        transaction.replace(R.id.frame, fragment[index]).commit();
+        currentIndex = index;
     }
 
     @Override

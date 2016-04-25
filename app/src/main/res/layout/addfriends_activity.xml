@@ -48,7 +48,8 @@
             android:layout_height="25dp"
             android:src="@drawable/search"/>
 
-        <EditText android:id="@+id/query"
+        <EditText
+            android:id="@+id/query"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:layout_width="0dp"

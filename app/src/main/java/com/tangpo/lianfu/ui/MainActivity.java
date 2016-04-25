@@ -40,6 +40,7 @@ import com.tangpo.lianfu.config.WeiBo.Constants;
 import com.tangpo.lianfu.config.WeiBo.ErrorInfo;
 import com.tangpo.lianfu.config.WeiBo.User;
 import com.tangpo.lianfu.config.WeiBo.UsersAPI;
+import com.tangpo.lianfu.entity.FindStore;
 import com.tangpo.lianfu.http.NetConnection;
 import com.tangpo.lianfu.parms.Login;
 import com.tangpo.lianfu.parms.OAuth;
@@ -102,6 +103,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     //这里是微信授权的实例的对象
     public static IWXAPI api;
+
+    //这里用Store来表示用户登陆前是否浏览到具体的商店的页面
+
+    private FindStore store;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +122,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         init();
     }
+
 
     private void init() {
         user_name = (EditText) findViewById(R.id.user_name);
@@ -136,6 +142,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qq = (CircularImage) findViewById(R.id.qq);
         qq.setOnClickListener(this);
 
+        store=getIntent().getParcelableExtra("store");
     }
 
     private void login() {
@@ -171,9 +178,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    intent = new Intent(MainActivity.this, HomePageActivity.class);
-                    startActivity(intent);
-                    MainActivity.this.finish();
+                    if(jsonObject.getString("user_type").equals("1")&&store!=null){
+                        Intent intent=new Intent(MainActivity.this,ShopActivity.class);
+                        intent.putExtra("store",store);
+                        //intent.putExtra("favorite",store.getFavorite());
+                        //Log.e("tag",store.getFavorite());
+                        intent.putExtra("userid",jsonObject.getString("user_id"));
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        intent = new Intent(MainActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                        MainActivity.this.finish();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -517,9 +534,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     String sessid = jsonObject.getString("session_id");
                     Configs.cacheToken(getApplicationContext(), sessid);
                     Configs.cacheUser(getApplicationContext(), jsonObject.toString());
-                    intent = new Intent(MainActivity.this, HomePageActivity.class);
-                    startActivity(intent);
-                    finish();
+
+                    if(jsonObject.getString("user_type").equals("1")&&store!=null){
+                        Intent intent=new Intent(MainActivity.this,ShopActivity.class);
+                        intent.putExtra("store",store);
+                        //intent.putExtra("favorite",store.getFavorite());
+                        //Log.e("tag",store.getFavorite());
+                        intent.putExtra("userid",jsonObject.getString("user_id"));
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        intent = new Intent(MainActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

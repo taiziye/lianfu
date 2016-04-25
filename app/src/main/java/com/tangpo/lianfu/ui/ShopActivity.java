@@ -73,14 +73,9 @@ public class ShopActivity extends Activity implements View.OnClickListener {
     private ProgressDialog dialog=null;
     private Gson gson=null;
     private String[] tmp = null;
-//    private ArrayList<StoreServer> servers = new ArrayList<>();
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Tools.deleteActivity(this);
-        finish();
-    }
+    private FindStore temp=null;
+//    private ArrayList<StoreServer> servers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +83,14 @@ public class ShopActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_activity);
         Tools.gatherActivity(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if(getIntent() != null) {
             findStore=getIntent().getParcelableExtra("store");
+            temp=findStore;
             store_id=findStore.getId();
             favorite=findStore.getFavorite();
             if(favorite==null){
@@ -166,11 +167,11 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.collect:
-
                 //如果是游客登陆
                 if(user_id.equals("游客")){
                     ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
                     intent=new Intent(ShopActivity.this,MainActivity.class);
+                    intent.putExtra("store",temp);
                     startActivity(intent);
                     finish();
                     return;
@@ -193,6 +194,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 if(user_id.equals("游客")){
                     ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
                     intent=new Intent(ShopActivity.this,MainActivity.class);
+                    intent.putExtra("store",temp);
                     startActivity(intent);
                     finish();
                     return;
@@ -205,6 +207,7 @@ public class ShopActivity extends Activity implements View.OnClickListener {
                 if(user_id.equals("游客")){
                     ToastUtils.showToast(ShopActivity.this,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
                     intent=new Intent(ShopActivity.this,MainActivity.class);
+                    intent.putExtra("store",temp);
                     startActivity(intent);
                     finish();
                     return;

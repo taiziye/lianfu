@@ -1,6 +1,7 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,8 +9,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -135,20 +139,33 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 page = page + 1;
-                if(page<=paramcentcount){
+                if (page <= paramcentcount) {
                     getUserInfo(queryStr);
-                }else{
-                    Tools.showToast(AddFriendsActivity.this,getString(R.string.alread_last_page));
+                } else {
+                    Tools.showToast(AddFriendsActivity.this, getString(R.string.alread_last_page));
                     list.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             list.onRefreshComplete();
                         }
-                    },500);
+                    }, 500);
                 }
             }
         });
 
+        query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    queryStr = query.getText().toString();
+                    getUserInfo(queryStr);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
         query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
