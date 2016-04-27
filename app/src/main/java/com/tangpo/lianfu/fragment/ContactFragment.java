@@ -25,6 +25,7 @@ import com.tangpo.lianfu.adapter.ContactAdapter;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.ConversationActivity;
+import com.tangpo.lianfu.ui.FriendInfoActivity;
 
 import java.util.ArrayList;
 
@@ -154,6 +155,15 @@ public class ContactFragment extends Fragment {
                 intent.putExtra("myid", hx_id);
                 intent.putExtra("photo", photo);
                 startActivity(intent);
+            }
+        });
+        list_friend.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), FriendInfoActivity.class);
+                intent.putExtra("hxid", friends.get(position).getEasemod_id());
+                startActivity(intent);
+                return true;
             }
         });
 

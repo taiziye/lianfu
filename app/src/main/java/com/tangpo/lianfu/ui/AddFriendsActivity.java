@@ -25,6 +25,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tangpo.lianfu.R;
 import com.tangpo.lianfu.adapter.HXUserAdapter;
+import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.entity.HXUser;
 import com.tangpo.lianfu.entity.Member;
 import com.tangpo.lianfu.http.NetConnection;
@@ -57,7 +58,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
     private ArrayList<HXUser> users = new ArrayList<>();
 
     private HXUserAdapter adapter;
-
+    private ChatAccount account = ChatAccount.getInstance();
     private String userid = "";
     private String flag = "";
     private String userName = "";
@@ -207,7 +208,7 @@ public class AddFriendsActivity extends Activity implements View.OnClickListener
                     break;
                 case 2:
                     //users.addAll((ArrayList<HXUser>) msg.obj);
-                    adapter = new HXUserAdapter(AddFriendsActivity.this, users, userName);
+                    adapter = new HXUserAdapter(AddFriendsActivity.this, users, userName, account.getEasemod_id());
                     list.setVisibility(View.VISIBLE);
                     list.setAdapter(adapter);
                     list.getRefreshableView().setSelection((page - 1) * 10 + 1);
