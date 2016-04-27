@@ -513,9 +513,11 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onContactDeleted(List<String> list) {
                 //被删除
-                Map<String, ChatAccount> localUsers = userDao.getContactList();
+                //Map<String, ChatAccount> localUsers = userDao.getContactList();
                 for (int i = 0; i < list.size(); i++) {
-                    localUsers.remove(list.get(i));
+                    if (!localUsers.containsKey(list.get(i))) {
+                        localUsers.remove(list.get(i));
+                    }
                     userDao.deleteContact(list.get(i));
                     inviteMessageDao.deleteMessage(list.get(i));
                 }

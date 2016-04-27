@@ -5,4 +5,4 @@
     <item android:state_selected="true" android:drawable="@drawable/ease_type_select_btn_pressed" />
     <item android:state_focused="true" android:drawable="@drawable/ease_type_select_btn_pressed" />
     <item android:drawable="@drawable/ease_type_select_btn_nor" />
-</selector><!-- From: file:/C:/Users/shengshoubo/Desktop/lianfu/easeui/src/main/res/drawable/ease_type_select_btn.xml -->
+</selector><!-- From: file:/E:/WorkSpace/Android/lianfu/easeui/src/main/res/drawable/ease_type_select_btn.xml -->
