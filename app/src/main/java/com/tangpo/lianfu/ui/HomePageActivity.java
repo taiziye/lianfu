@@ -119,7 +119,7 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        transaction = fragmentManager.beginTransaction();
+        //transaction = fragmentManager.beginTransaction();
         //transaction.remove(fragment);
         switch (v.getId()) {
             case R.id.one:
@@ -296,8 +296,9 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
             }
             transaction.show(fragment[index]).commit();
         }*/
-        transaction.replace(R.id.frame, fragment[index]).commit();
-        currentIndex = index;
+        //transaction.replace(R.id.frame, fragment[index]).commit();
+        //currentIndex = index;
+        replaceFragment(index, currentIndex);
     }
 
     @Override
@@ -305,12 +306,14 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.home_page_activity);
+        Log.e("tag", "onCreate");
         Tools.gatherActivity(this);
     }
 
 
     //这里需要统一修改
     private void init() {
+        Log.e("tag", "init");
         //根据不同的身份信息需要隐藏一个button，且注意更换button的text
         one = (LinearLayout) findViewById(R.id.one);
         one.setOnClickListener(this);
@@ -377,7 +380,7 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
             //Tools.showToast(HomePageActivity.this, "再按一次返回键退出程序");
             exitBy2Click();
         } else {
-            transaction = fragmentManager.beginTransaction();
+            //transaction = fragmentManager.beginTransaction();
             one_t.setTextColor(Color.RED);
             one_i.setImageResource(R.drawable.home_page_r);
             two_t.setTextColor(Color.BLACK);
@@ -406,8 +409,9 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
                 //transaction.replace(R.id.frame, fragment[7]).commit();
                 //transaction.hide(fragment[currentIndex]).show(fragment[7]).commit();
             }
-            transaction.replace(R.id.frame, fragment[index]).commit();
-            currentIndex = index;
+            //transaction.replace(R.id.frame, fragment[index]).commit();
+            //currentIndex = index;
+            replaceFragment(index, currentIndex);
         }
 //        Tools.closeActivity();
     }
@@ -435,7 +439,7 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        transaction = fragmentManager.beginTransaction();
+        //transaction = fragmentManager.beginTransaction();
         if (data != null) {
             switch (requestCode) {
                 case MemManageFragment.REQUEST_CODE:
@@ -465,8 +469,11 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
                     fragment[currentIndex].onActivityResult(requestCode, resultCode, data);
                     break;
             }
-            transaction.commit();
+            /*transaction.replace(R.id.frame, fragment[currentIndex]);
+            transaction.commit();*/
         }
+        //transaction.replace(R.id.frame, fragment[currentIndex]).commit();
+        replaceFragment(index, currentIndex);
     }
 
     public void change(int n) {
@@ -611,14 +618,8 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("tag", "onResume" + " " + index + " cur " + currentIndex);
         EMChatManager.getInstance().registerEventListener(this, new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventOfflineMessage, EMNotifierEvent.Event.EventNewMessage});
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //注销监听
-                EMChatManager.getInstance().unregisterEventListener(HomePageActivity.this);
-            }
-        }, 5000);*/
         cache = new File(Environment.getExternalStorageDirectory(), "cache");
         if(!cache.exists()){
             cache.mkdirs();
@@ -633,14 +634,11 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
         employeename=userEntity.getName();
         store_id=userEntity.getStore_id();
         store_name = userEntity.getStorename();
-        init();
-        //注册广播
-        //NewMessageReceiver.register(HomePageActivity.this);
         fragment = new Fragment[]{new ManageHomeFragment(), new RecordFragment(), new MemManageFragment(), new EmployeeManageFragment(),
                 new ManagerFragment(), new EmployeeHomeFragment(), new EmployeeFragment(), new MemberHomeFragment(), new MemCollectFragment(),
                 new MemRecordFragment(), new MemFragment()};
 
-        transaction = fragmentManager.beginTransaction();
+        //transaction = fragmentManager.beginTransaction();
         if(!userid.equals("游客")) getAccounts(userid);
 
         if (userType.equals("3") || userType.equals("4")) { //管理员
@@ -678,8 +676,41 @@ public class HomePageActivity extends FragmentActivity implements View.OnClickLi
             transaction.show(fragment[index]).commit();
         }*/
         //transaction.add(R.id.frame, fragment[index]).show(fragment[index]).commit();
-        transaction.replace(R.id.frame, fragment[index]).commit();
-        currentIndex = index;
+        /*transaction.hide(fragment[index]);
+        if(!fragment[currentIndex].isAdded()) {
+            transaction.add(R.id.frame, fragment[currentIndex]);
+        }
+        transaction.show(fragment[currentIndex]);
+        //transaction.replace(R.id.frame, fragment[index]).commit();
+        currentIndex = index;*/
+        if((index == 0 || index == 5 || index == 7) && currentIndex == 0) {
+            init();
+            replaceFragment(index, currentIndex);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("tag", "onSaveInstanceState");
+        if(outState == null) Log.e("tag", "outState");
+    }
+
+    private void replaceFragment(int index, int currentIndex) {
+        //change(index);
+        Log.e("tag", "index " + index + " cur " + currentIndex);
+        if(currentIndex != index || (currentIndex==0 && index == 0)) {
+            transaction = fragmentManager.beginTransaction();
+            /*transaction.hide(fragment[currentIndex]);
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.frame, fragment[index]);
+            }
+            transaction.show(fragment[index]);*/
+            transaction.replace(R.id.frame, fragment[index]);
+            transaction.addToBackStack(null);
+            transaction.commit();
+            this.currentIndex = index;
+        }
     }
 
     @Override

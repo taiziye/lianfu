@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -20,11 +21,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -38,7 +37,6 @@ import com.tangpo.lianfu.parms.ConsumeRecord;
 import com.tangpo.lianfu.ui.AddConsumeActivity;
 import com.tangpo.lianfu.ui.ConsumeRecordActivity;
 import com.tangpo.lianfu.ui.HomePageActivity;
-import com.tangpo.lianfu.utils.ToastUtils;
 import com.tangpo.lianfu.utils.Tools;
 
 import org.json.JSONArray;
@@ -93,6 +91,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         if (view == null) {
             view = inflater.inflate(R.layout.record_fragment, container, false);
         }
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            // remove掉保存的Fragment
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
@@ -105,10 +108,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             username = bundle.getString("username");
             store_name = bundle.getString("storename");
         }*/
-        userid = ((HomePageActivity)getActivity()).getUserid();
-        employeename = ((HomePageActivity)getActivity()).getEmployeename();
-        username = ((HomePageActivity)getActivity()).getUserName();
-        store_name = ((HomePageActivity)getActivity()).getStore_name();
+        userid = ((HomePageActivity)activity).getUserid();
+        employeename = ((HomePageActivity)activity).getEmployeename();
+        username = ((HomePageActivity)activity).getUserName();
+        store_name = ((HomePageActivity)activity).getStore_name();
         init(view);
 
         return view;
@@ -165,7 +168,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                         | DateUtils.FORMAT_ABBREV_ALL;
 
                 String label = DateUtils.formatDateTime(
-                        getActivity(),
+                        activity,
                         System.currentTimeMillis(), flags);
 
                 // 更新最后刷新时间
@@ -179,7 +182,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 if(page<=paramcentcount){
                     getConsumeRecord("");
                 }else{
-                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    Tools.showToast(activity,getString(R.string.alread_last_page));
                     list.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -195,10 +198,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
                 index = position - 1;
-                intent = new Intent(getActivity(), ConsumeRecordActivity.class);
+                intent = new Intent(activity, ConsumeRecordActivity.class);
                 intent.putExtra("record", recordList.get(index));
                 intent.putExtra("user_id", userid);
-                getActivity().startActivityForResult(intent, REQUEST_EDIT);
+                activity.startActivityForResult(intent, REQUEST_EDIT);
             }
         });
     }
@@ -207,9 +210,9 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-                final EditText editText=new EditText(getActivity());
+                final EditText editText=new EditText(activity);
                 editText.setHint(getString(R.string.please_input_username_or_tel));
-                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_consume_record))
+                new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.search_consume_record))
                         .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -244,8 +247,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.add:
-                intent = new Intent(getActivity(), AddConsumeActivity.class);
-                getActivity().startActivityForResult(intent, REQUEST_CODE);
+                intent = new Intent(activity, AddConsumeActivity.class);
+                activity.startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.time:
                 if(recordList.size() > 0) {
@@ -361,6 +364,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("tag", requestCode + " code " + resultCode + " data " + (data==null));
         if (data != null) {
             if (requestCode == REQUEST_CODE) {
                 //新增
@@ -369,7 +373,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 if(adapter != null) {
                     adapter.notifyDataSetChanged();
                 } else {
-                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
+                    adapter = new ConsumRecordAdapter(recordList, activity, store_id, employeename, userid, store_name);
                     list.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
@@ -386,12 +390,20 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     }
 
     private void hideSoftKeyBoard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-            if (getActivity().getCurrentFocus() != null) {
-                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (activity.getCurrentFocus() != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
+    }
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     Handler mHandler = new Handler() {
@@ -401,7 +413,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case 1:
                     recordList = (List<EmployeeConsumeRecord>) msg.obj;
-                    adapter = new ConsumRecordAdapter(recordList, getActivity(), store_id, employeename, userid, store_name);
+                    adapter = new ConsumRecordAdapter(recordList, activity, store_id, employeename, userid, store_name);
                     adapter.notifyDataSetChanged();
                     list.setAdapter(adapter);
                     list.getRefreshableView().setSelection((page - 1) * 10 + 1);
@@ -419,13 +431,13 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private void getConsumeRecord(String name) {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
 
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
 
-        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        preferences = activity.getSharedPreferences(Configs.APP_ID, activity.MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
         try {
             JSONObject jsonObject = new JSONObject(user);
@@ -435,7 +447,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         }
 
         String kvs[] = new String[]{userid,store_id, "",name,"", "", "", page+"","10"};
-        String param = ConsumeRecord.packagingParam(getActivity(), kvs);
+        String param = ConsumeRecord.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -469,7 +481,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 list.onRefreshComplete();
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

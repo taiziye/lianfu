@@ -1,10 +1,12 @@
 package com.tangpo.lianfu.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -39,6 +41,7 @@ public class FriendInfoActivity extends Activity implements View.OnClickListener
     private HXUser user;
     private Gson gson;
     private ChatAccount account = ChatAccount.getInstance();
+    private boolean del = false;
 
     private int flag = 1;
 
@@ -68,7 +71,10 @@ public class FriendInfoActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back:
-                finish();
+                /*Intent intent = getIntent();
+                intent.putExtra("del", del);
+                setResult(RESULT_OK, intent);
+                finish();*/
                 break;
             case R.id.delete:
                 if(flag == 1) {
@@ -111,8 +117,12 @@ public class FriendInfoActivity extends Activity implements View.OnClickListener
                 case 2:
                     delete = (Button) msg.obj;
                     Tools.showToast(FriendInfoActivity.this, "好友已删除");
+                    del = true;
                     delete.setText("加为好友");
                     flag = 0;
+                    Intent data = getIntent();
+                    data.putExtra("del", del);
+                    setResult(RESULT_OK, data);
                     break;
                 case 3:
                     delete = (Button) msg.obj;
@@ -123,6 +133,16 @@ public class FriendInfoActivity extends Activity implements View.OnClickListener
             }
         }
     };
+
+    /*@Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.e("tag", "onBackPressed + " + del);
+        Intent data = new Intent();
+        data.putExtra("del", del);
+        setResult(RESULT_OK, data);
+        finish();
+    }*/
 
     private void addFriend(final String userID){
         new Thread(){

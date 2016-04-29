@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -156,6 +157,14 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         return view;
     }
 
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
+
     private void init(View view) {
         gson = new Gson();
 
@@ -195,7 +204,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         modify_pass = (LinearLayout) view.findViewById(R.id.modify_pass);
         modify_pass.setOnClickListener(this);
 
-        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        preferences = activity.getSharedPreferences(Configs.APP_ID, activity.MODE_PRIVATE);
         String str = preferences.getString(Configs.KEY_USER, "0");
         try {
             JSONObject jsonObject = new JSONObject(str);
@@ -209,7 +218,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
 
-        Tools.setPhoto(getActivity(), user.getPhoto(), img);
+        Tools.setPhoto(activity, user.getPhoto(), img);
 
         user_name.setText("");
         if("3".equals(user.getUser_type())){
@@ -251,28 +260,28 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case R.id.double_code:
                 //扫描二维码
                 intent=new Intent();
-                intent.setClass(getActivity(),MipcaActivityCapture.class);
+                intent.setClass(activity,MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.chat:
-                intent = new Intent(getActivity(), ConversationActivity.class);
+                intent = new Intent(activity, ConversationActivity.class);
                 startActivity(intent);
                 break;
             case R.id.shop_info:
-                intent = new Intent(getActivity(), ShopInfoActivity.class);
+                intent = new Intent(activity, ShopInfoActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.personal_info:
-                intent = new Intent(getActivity(), PersonalInfoActivity.class);
+                intent = new Intent(activity, PersonalInfoActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("flag", "1");
                 startActivity(intent);
-                //Tools.showToast(getActivity(), "请期待下一个版本");
+                //Tools.showToast(activity, "请期待下一个版本");
                 break;
             case R.id.discount_manage:
-                intent = new Intent(getActivity(), DiscountManageActivity.class);
+                intent = new Intent(activity, DiscountManageActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
@@ -280,19 +289,19 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 /**
                  * 无接口
                  */
-                intent = new Intent(getActivity(), MemberUpdateTypeActivity.class);
+                intent = new Intent(activity, MemberUpdateTypeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.modify_pass:
-                intent = new Intent(getActivity(), UpdatePasswordActivity.class);
+                intent = new Intent(activity, UpdatePasswordActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.login_out:
-                Configs.cleanData(getActivity());
-                intent = new Intent(getActivity(), MainActivity.class);
+                Configs.cleanData(activity);
+                intent = new Intent(activity, MainActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+                activity.finish();
                 break;
 
             case R.id.bind_weibo:
@@ -324,12 +333,12 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private void unBind(final String logintype) {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
         String[] kvs=new String[]{user_id,logintype};
-        String param= UnbindAccount.packagingParam(getActivity(),kvs);
-        dialog=ProgressDialog.show(getActivity(),getString(R.string.connecting),getString(R.string.please_wait));
+        String param= UnbindAccount.packagingParam(activity,kvs);
+        dialog=ProgressDialog.show(activity,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -350,8 +359,8 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                     isbindqq="0";
                     user.setBindqq(isbindqq);
                 }
-                Configs.cacheUser(getActivity(),user.toJSONString());
-                Tools.showToast(getActivity(), getString(R.string.unbind_success));
+                Configs.cacheUser(activity,user.toJSONString());
+                Tools.showToast(activity, getString(R.string.unbind_success));
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -360,11 +369,11 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 try {
                     String status=result.getString("status");
                     if ("3".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_this_third_account));
+                        Tools.showToast(activity,getString(R.string.this_account_has_bind_this_third_account));
                     }else if("10".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.server_exception));
+                        Tools.showToast(activity,getString(R.string.server_exception));
                     }else{
-                        Tools.showToast(getActivity(),getString(R.string.input_error));
+                        Tools.showToast(activity,getString(R.string.input_error));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -375,14 +384,14 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     public void Weixin() {
         // 注册微信
-        api= WXAPIFactory.createWXAPI(getActivity(), com.tangpo.lianfu.config.WeiXin.Constants.APP_ID, true);
+        api= WXAPIFactory.createWXAPI(activity, com.tangpo.lianfu.config.WeiXin.Constants.APP_ID, true);
         api.registerApp(com.tangpo.lianfu.config.WeiXin.Constants.APP_ID);
         SendAuth.Req req=new SendAuth.Req();
         req.scope= com.tangpo.lianfu.config.WeiXin.Constants.SCOPE;
         req.state= com.tangpo.lianfu.config.WeiXin.Constants.STATE;
         api.sendReq(req);
         api.unregisterApp();
-        getActivity().registerReceiver(mBrocastReceiver, new IntentFilter(WXEntryActivity.ACTION));
+        activity.registerReceiver(mBrocastReceiver, new IntentFilter(WXEntryActivity.ACTION));
     }
 
     private BroadcastReceiver mBrocastReceiver=new BroadcastReceiver() {
@@ -398,19 +407,19 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     public void Weibo() {
         //以下是微博授权实例
-        mAuthInfo=new AuthInfo(getActivity(),Constants.APP_KEY,Constants.REDIRECT_URL,Constants.SCOPE);
-        mSsoHandler=new SsoHandler(getActivity(),mAuthInfo);
+        mAuthInfo=new AuthInfo(activity,Constants.APP_KEY,Constants.REDIRECT_URL,Constants.SCOPE);
+        mSsoHandler=new SsoHandler(activity,mAuthInfo);
         mSsoHandler.authorize(new AuthListener());
     }
 
     public void QQ() {
         //以下是QQ授权实例
         mAppid = AppConstants.APP_ID;
-        mTencent= Tencent.createInstance(mAppid, getActivity());
+        mTencent= Tencent.createInstance(mAppid, activity);
         if (!mTencent.isSessionValid()) {
-            mTencent.login(getActivity(), "all", loginListener);
+            mTencent.login(activity, "all", loginListener);
         }
-        mTencent.logout(getActivity());
+        mTencent.logout(activity);
     }
 
     class AuthListener implements WeiboAuthListener {
@@ -432,19 +441,19 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 if (!TextUtils.isEmpty(code)) {
                     message = message + "\nObtained the code: " + code;
                 }
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
             }
         }
 
         @Override
         public void onCancel() {
-            Toast.makeText(getActivity(),
+            Toast.makeText(activity,
                     R.string.weibosdk_demo_toast_auth_canceled, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onWeiboException(WeiboException e) {
-            Toast.makeText(getActivity(),
+            Toast.makeText(activity,
                     "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -460,10 +469,10 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 User user = User.parse(response);
                 if (user != null) {
                     //Util.showResultDialog(MainActivity.this, response.toString(), getString(R.string.login_success));
-                    Configs.cacheThirdUser(getActivity(),response.toString());
+                    Configs.cacheThirdUser(activity,response.toString());
                     //第三方登录
                 } else {
-                    Util.showResultDialog(getActivity(), getString(R.string.return_is_null), getString(R.string.login_fail));
+                    Util.showResultDialog(activity, getString(R.string.return_is_null), getString(R.string.login_fail));
                 }
             }
         }
@@ -472,7 +481,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         public void onWeiboException(WeiboException e) {
             LogUtil.e(TAG, e.getMessage());
             ErrorInfo info = ErrorInfo.parse(e.getMessage());
-            Toast.makeText(getActivity(), info.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, info.toString(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -483,12 +492,12 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         @Override
         public void onComplete(Object response) {
             if (null == response) {
-                Util.showResultDialog(getActivity(), getString(R.string.return_is_null), getString(R.string.login_fail));
+                Util.showResultDialog(activity, getString(R.string.return_is_null), getString(R.string.login_fail));
                 return;
             }
             JSONObject jsonResponse = (JSONObject) response;
             if (null != jsonResponse && jsonResponse.length() == 0) {
-                Util.showResultDialog(getActivity(), getString(R.string.return_is_null), getString(R.string.login_fail));
+                Util.showResultDialog(activity, getString(R.string.return_is_null), getString(R.string.login_fail));
                 return;
             }
             //这里的value缓存了openid的信息
@@ -509,13 +518,13 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onError(UiError e) {
-            Util.toastMessage(getActivity(), "onError: " + e.errorDetail);
+            Util.toastMessage(activity, "onError: " + e.errorDetail);
             Util.dismissDialog();
         }
 
         @Override
         public void onCancel() {
-            Util.toastMessage(getActivity(), "onCancel: ");
+            Util.toastMessage(activity, "onCancel: ");
             Util.dismissDialog();
         }
     }
@@ -524,7 +533,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CODE:
-                if(resultCode==getActivity().RESULT_OK){
+                if(resultCode==activity.RESULT_OK){
                     Bundle bundle=data.getExtras();
                     String result=bundle.getString("result");
                     //在这里处理返回来的store_id、service_center、referrer
@@ -546,9 +555,9 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             case com.tencent.connect.common.Constants.REQUEST_LOGIN:
             case  com.tencent.connect.common.Constants.REQUEST_APPBAR:
                 Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
-//                mInfo=new UserInfo(getActivity(),MainActivity.mTencent.getQQToken());
-//                mInfo.getUserInfo(new BaseUIListener(getActivity(), "get_simple_userinfo"));
-            break;
+//                mInfo=new UserInfo(activity,MainActivity.mTencent.getQQToken());
+//                mInfo.getUserInfo(new BaseUIListener(activity, "get_simple_userinfo"));
+                break;
         }
     }
 
@@ -560,7 +569,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 case GET_STORE_INFO:
                     FindStore store= (FindStore) msg.obj;
                     String favoriate="0";
-                    Intent intent=new Intent(getActivity(),ShopActivity.class);
+                    Intent intent=new Intent(activity,ShopActivity.class);
                     intent.putExtra("store",store);
                     intent.putExtra("userid",user_id);
                     intent.putExtra("favorite",favoriate);
@@ -576,12 +585,12 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     };
     private void getStoreDetail(String store_id,String user_id){
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{store_id, user_id};
-        String param = StoreDetail.packagingParam(getActivity(), kvs);
+        String param = StoreDetail.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -602,7 +611,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -612,14 +621,14 @@ public class ManagerFragment extends Fragment implements OnClickListener {
 
     private void lianfuBindThirdAccount(String user_id,String openid, final String logintype){
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
 
         String[] kvs=new String[]{user_id,openid,logintype};
-        String params= BindAccount.packagingParam(getActivity(),kvs);
+        String params= BindAccount.packagingParam(activity,kvs);
 
-        dialog=ProgressDialog.show(getActivity(),getString(R.string.connecting),getString(R.string.please_wait));
+        dialog=ProgressDialog.show(activity,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -633,7 +642,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                     bind_weixin.setText(getString(R.string.unbind));
                     bind_weixin.setBackgroundResource(R.drawable.unbind);
                     isbindwx="1";
-                    getActivity().unregisterReceiver(mBrocastReceiver);
+                    activity.unregisterReceiver(mBrocastReceiver);
                     user.setBindwx(isbindwx);
                 }else{
                     bind_qq.setText(getString(R.string.unbind));
@@ -641,8 +650,8 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                     isbindqq="1";
                     user.setBindqq(isbindqq);
                 }
-                Configs.cacheUser(getActivity(),user.toJSONString());
-                Tools.showToast(getActivity(), getString(R.string.bind_success));
+                Configs.cacheUser(activity,user.toJSONString());
+                Tools.showToast(activity, getString(R.string.bind_success));
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -651,11 +660,11 @@ public class ManagerFragment extends Fragment implements OnClickListener {
                 try {
                     String status=result.getString("status");
                     if ("3".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.this_account_has_bind_other_lianfu_account));
+                        Tools.showToast(activity,getString(R.string.this_account_has_bind_other_lianfu_account));
                     }else if("10".equals(status)){
-                        Tools.showToast(getActivity(),getString(R.string.server_exception));
+                        Tools.showToast(activity,getString(R.string.server_exception));
                     }else{
-                        Tools.showToast(getActivity(),getString(R.string.input_error));
+                        Tools.showToast(activity,getString(R.string.input_error));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -668,7 +677,7 @@ public class ManagerFragment extends Fragment implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         if(mBrocastReceiver!=null){
-            //getActivity().unregisterReceiver(mBrocastReceiver);
+            //activity.unregisterReceiver(mBrocastReceiver);
             mBrocastReceiver=null;
         }
     }

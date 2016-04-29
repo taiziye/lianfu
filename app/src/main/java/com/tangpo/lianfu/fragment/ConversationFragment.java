@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,6 +70,13 @@ public class ConversationFragment extends Fragment {
     private List<HXUser> names = new ArrayList<HXUser>();
     private boolean hidden;
     private Gson gson = new Gson();
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,11 +86,11 @@ public class ConversationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_conversation, container, false);
-        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         //myid = getArguments().getString("hxid");
         //photo = getArguments().getString("photo");
         myid = ChatAccount.getInstance().getEasemod_id();
-        photo = ((ConversationActivity)getActivity()).getPhoto();
+        photo = ((ConversationActivity)activity).getPhoto();
         return view;
     }
 
@@ -126,7 +134,7 @@ public class ConversationFragment extends Fragment {
                 if(actionId== EditorInfo.IME_ACTION_SEARCH||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)){
                     String str = query.getText().toString().trim();
 //                    if (str.length() == 0||str=="") {
-//                        Tools.showToast(getActivity(),"没有找到对应的匹配项");
+//                        Tools.showToast(activity,"没有找到对应的匹配项");
 //                        //storeList.clear();
 //                        //getStores();
 //                    } else {
@@ -135,7 +143,7 @@ public class ConversationFragment extends Fragment {
 //                        //findStore(str);
 //                    }
                     adapter.getFilter().filter(str);
-                    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm= (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     return true;
                 }
@@ -183,7 +191,7 @@ public class ConversationFragment extends Fragment {
         if (list.size() > 0) {
             getName();
         }
-        //adapter = new ConversationAdapter(getActivity(), list);
+        //adapter = new ConversationAdapter(activity, list);
         //listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -193,9 +201,9 @@ public class ConversationFragment extends Fragment {
                 String photo = adapter.getPhoto(position);
                 String hxid = conversation.getUserName();
                 if (hxid.toLowerCase().equals(myid.toLowerCase())) {
-                    Tools.showToast(getActivity(), "无法跟自己聊天");
+                    Tools.showToast(activity, "无法跟自己聊天");
                 } else {
-                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    Intent intent = new Intent(activity, ChatActivity.class);
                     intent.putExtra("username", username);
                     intent.putExtra("hxid", hxid);
                     intent.putExtra("myid", myid);
@@ -209,22 +217,22 @@ public class ConversationFragment extends Fragment {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddFriendActivity.class);
-                (new InviteMessageDao(getActivity())).saveUnreadMessageCount(0);
-                //((ConversationActivity)getActivity()).saveUnreadMessageCount(0);
+                Intent intent = new Intent(activity, AddFriendActivity.class);
+                (new InviteMessageDao(activity)).saveUnreadMessageCount(0);
+                //((ConversationActivity)activity).saveUnreadMessageCount(0);
                 msg.setVisibility(View.INVISIBLE);
                 startActivity(intent);
             }
         });
         msg = (ImageView) view.findViewById(R.id.msg);
-        if(((ConversationActivity)getActivity()).getUnread() <= 0) msg.setVisibility(View.INVISIBLE);
+        if(((ConversationActivity)activity).getUnread() <= 0) msg.setVisibility(View.INVISIBLE);
         else msg.setVisibility(View.VISIBLE);
     }
 
     private void hideSoftKeyBoard() {
-        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-            if (getActivity().getCurrentFocus() != null) {
-                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (activity.getCurrentFocus() != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
     }
@@ -305,9 +313,9 @@ public class ConversationFragment extends Fragment {
             if (i > 0) easemod_id += ",";
             easemod_id += id.get(i);
         }
-        //dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        //dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
         String[] kvs = new String[]{easemod_id};
-        String param = GetSpecifyHX.packagingParam(getActivity(), kvs);
+        String param = GetSpecifyHX.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -334,7 +342,7 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onFail(JSONObject result) {
                 //dialog.dismiss();
-                Tools.showToast(getActivity(), "获取聊天用户信息失败");
+                Tools.showToast(activity, "获取聊天用户信息失败");
             }
         }, param);
     }
@@ -346,7 +354,7 @@ public class ConversationFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     names = (List<HXUser>) msg.obj;
-                    adapter = new ConversationAdapter(getActivity(), list, names);
+                    adapter = new ConversationAdapter(activity, list, names);
                     listView.setAdapter(adapter);
                     break;
             }

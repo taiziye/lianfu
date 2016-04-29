@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -86,9 +87,17 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         /*if (bundle != null) {
             userid = bundle.getString("userid");
         }*/
-        userid = ((HomePageActivity)getActivity()).getUserid();
+        userid = ((HomePageActivity)activity).getUserid();
         init(view);
         return view;
+    }
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     @Override
@@ -131,7 +140,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                         | DateUtils.FORMAT_ABBREV_ALL;
 
                 String label = DateUtils.formatDateTime(
-                        getActivity(),
+                        activity,
                         System.currentTimeMillis(), flags);
 
                 // 更新最后刷新时间
@@ -145,7 +154,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 if (page <= paramcentcount) {
                     getCollectStore("");
                 } else {
-                    Tools.showToast(getActivity(), getString(R.string.alread_last_page));
+                    Tools.showToast(activity, getString(R.string.alread_last_page));
                     listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -159,21 +168,21 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                Intent intent = new Intent(activity, ShopActivity.class);
                 intent.putExtra("store", list.get(position - 1));
                 intent.putExtra("userid", userid);
                 intent.putExtra("favorite", "1");
-                getActivity().startActivity(intent);
+                activity.startActivity(intent);
             }
         });
 
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-                    if (getActivity().getCurrentFocus() != null) {
-                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (activity.getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }
                 return false;
@@ -186,9 +195,9 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-                final EditText editText=new EditText(getActivity());
+                final EditText editText=new EditText(activity);
                 editText.setHint(getString(R.string.please_input_storename));
-                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_store))
+                new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.search_store))
                         .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -206,7 +215,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.map:
                 if(userid.equals("游客")){
-                    ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
+                    ToastUtils.showToast(activity,getString(R.string.please_register_and_Login),Toast.LENGTH_SHORT);
                     return;
                 }
                 Fragment fragment = new MapActivity();
@@ -228,11 +237,11 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<FindStore>) msg.obj;
-                adapter = new MemberCollectAdapter(getActivity(), list, userid);
+                adapter = new MemberCollectAdapter(activity, list, userid);
                 listView.setAdapter(adapter);
                 if (paramcentcount >= page ) {
                     //
-                    Tools.showToast(getActivity(), "已全部加载完成");
+                    Tools.showToast(activity, "已全部加载完成");
                 }
             }
         }
@@ -240,18 +249,18 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
 
     private void getCollectStore(String name) {
         if(userid.equals("游客")){
-            ToastUtils.showToast(getActivity(),getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
+            ToastUtils.showToast(activity,getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
             return;
         }
 
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String []{userid, name, "10", page + ""};
-        String parm = CheckCollectedStore.packagingParam(getActivity(), kvs);
+        String parm = CheckCollectedStore.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -281,7 +290,7 @@ public class MemCollectFragment extends Fragment implements View.OnClickListener
                 listView.onRefreshComplete();
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
