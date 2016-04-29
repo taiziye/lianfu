@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -79,9 +80,17 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
         if (bundle != null) {
             user_id = bundle.getString("userid");
         }*/
-        user_id = ((HomePageActivity)getActivity()).getUserid();
+        user_id = ((HomePageActivity)activity).getUserid();
         init(view);
         return view;
+    }
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     @Override
@@ -128,7 +137,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                         | DateUtils.FORMAT_ABBREV_ALL;
 
                 String label = DateUtils.formatDateTime(
-                        getActivity(),
+                        activity,
                         System.currentTimeMillis(), flags);
 
                 // 更新最后刷新时间
@@ -143,7 +152,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 if(page<=paramcentcount){
                     getConsumeRecord("");
                 }else{
-                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    Tools.showToast(activity,getString(R.string.alread_last_page));
                     listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -216,9 +225,9 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.search:
-                final EditText editText=new EditText(getActivity());
+                final EditText editText=new EditText(activity);
                 editText.setHint(getString(R.string.please_input_storename));
-                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_consume_record))
+                new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.search_consume_record))
                         .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -236,7 +245,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.add:
-                Tools.showToast(getActivity(), getActivity().getString(R.string.ordinary_member_has_not_permission));
+                Tools.showToast(activity, activity.getString(R.string.ordinary_member_has_not_permission));
                 break;
         }
     }
@@ -247,7 +256,7 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
             super.handleMessage(msg);
             if(msg.what == 1){
                 list = (List<MemRecord>) msg.obj;
-                adapter = new MemRecourdAdapter(getActivity(), list);
+                adapter = new MemRecourdAdapter(activity, list);
                 listView.setAdapter(adapter);
                 listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
             }
@@ -256,17 +265,17 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
 
     private void getConsumeRecord(String name) {
         if(user_id.equals("游客")){
-            ToastUtils.showToast(getActivity(), getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
+            ToastUtils.showToast(activity, getString(R.string.please_register_and_Login), Toast.LENGTH_SHORT);
             return;
         }
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
 
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{user_id, name,page + "","10"};
-        String param = CheckConsumeRecord.packagingParam(getActivity(), kvs);
+        String param = CheckConsumeRecord.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -302,9 +311,9 @@ public class MemRecordFragment extends Fragment implements View.OnClickListener 
                 dialog.dismiss();
                 try {
                     if("404".equals(result.getString("status"))){
-                        Tools.showToast(getActivity(), "没有数据");
+                        Tools.showToast(activity, "没有数据");
                     } else {
-                        Tools.handleResult(getActivity(), result.getString("status"));
+                        Tools.handleResult(activity, result.getString("status"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

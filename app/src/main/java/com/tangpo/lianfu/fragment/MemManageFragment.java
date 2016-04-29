@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -64,7 +65,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     private boolean f4 = false;
 
     private SharedPreferences preferences = null;
-//    private Set<String> members = null;
+    //    private Set<String> members = null;
     private MemberAdapter adapter = null;
     private List<Member> list = new ArrayList<>();
     private Gson gson = null;
@@ -88,7 +89,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             parent.removeView(view);
         }
 
-        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        preferences = activity.getSharedPreferences(Configs.APP_ID, activity.MODE_PRIVATE);
         String user = preferences.getString(Configs.KEY_USER, "0");
         try {
             JSONObject jsonObject = new JSONObject(user);
@@ -106,6 +107,14 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         super.onResume();
         list.clear();
         getMembers("");
+    }
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     private void init(View view) {
@@ -148,7 +157,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                         | DateUtils.FORMAT_ABBREV_ALL;
 
                 String label = DateUtils.formatDateTime(
-                        getActivity(),
+                        activity,
                         System.currentTimeMillis(), flags);
 
                 // 更新最后刷新时间
@@ -162,7 +171,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 if(page<=paramcentcount){
                     getMembers("");
                 }else{
-                    Tools.showToast(getActivity(),getString(R.string.alread_last_page));
+                    Tools.showToast(activity,getString(R.string.alread_last_page));
                     listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -176,7 +185,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MemberInfoActivity.class);
+                Intent intent = new Intent(activity, MemberInfoActivity.class);
                 intent.putExtra("member", list.get(position - 1));
                 intent.putExtra("userid",userid);
                 startActivityForResult(intent, REQUEST_EDIT);
@@ -188,9 +197,9 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-                final EditText editText=new EditText(getActivity());
+                final EditText editText=new EditText(activity);
                 editText.setHint(getString(R.string.please_input_username_or_tel));
-                new AlertDialog.Builder(getActivity()).setTitle(getActivity().getString(R.string.search_member))
+                new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.search_member))
                         .setView(editText).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -207,7 +216,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 }).show();
                 break;
             case R.id.add:
-                Intent intent = new Intent(getActivity(), AddMemberActivity.class);
+                Intent intent = new Intent(activity, AddMemberActivity.class);
                 intent.putExtra("userid", userid);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
@@ -309,7 +318,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
             switch (msg.what) {
                 case 1:
                     list = (List<Member>) msg.obj;
-                    adapter = new MemberAdapter(list, getActivity());
+                    adapter = new MemberAdapter(list, activity);
                     listView.setAdapter(adapter);
                     listView.getRefreshableView().setSelection((page - 1) * 10 + 1);
                     break;
@@ -319,13 +328,13 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
 
     private void getMembers(String name) {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
         String kvs[]=new String[]{userid,store_id,"","",name,page+"","10"};
-        String param = MemberManagement.packagingParam(getActivity(), kvs);
+        String param = MemberManagement.packagingParam(activity, kvs);
         final Set<String> set = new HashSet<>();
-        dialog=ProgressDialog.show(getActivity(),getString(R.string.connecting),getString(R.string.please_wait));
+        dialog=ProgressDialog.show(activity,getString(R.string.connecting),getString(R.string.please_wait));
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -353,7 +362,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 msg.obj = list;
                 mHandler.sendMessage(msg);
 
-                Configs.cacheMember(getActivity(), set);
+                Configs.cacheMember(activity, set);
             }
         }, new NetConnection.FailCallback() {
             @Override
@@ -361,7 +370,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 //
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -379,7 +388,7 @@ public class MemManageFragment extends Fragment implements View.OnClickListener 
                 adapter.notifyDataSetChanged();
                 Set<String> set = new HashSet<>();
                 set.add(gson.toJson(member));
-                Configs.cacheMember(getActivity(), set);
+                Configs.cacheMember(activity, set);
             } else {
                 //编辑
             }

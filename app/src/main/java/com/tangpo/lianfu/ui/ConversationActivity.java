@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -83,6 +84,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     private Map<String, ChatAccount> localUsers;
     private Map<String, ChatAccount> toAddUsers;
     private List<HXUser> users = new ArrayList<>();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     public String getHxid() {
         return hxid;
@@ -95,6 +97,14 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
     public ArrayList<ChatAccount> getFriendList() {
         ArrayList<ChatAccount> list = new ArrayList<>(localUsers.values());
         return list;
+    }
+
+    public void deleteFriend(String userId) {
+        if(localUsers.containsKey(userId)) {
+            localUsers.remove(userId);
+        }
+        userDao.deleteContact(userId);
+        inviteMessageDao.deleteMessage(userId);
     }
 
     public String getPhoto(){
@@ -140,10 +150,36 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
         address_list.setSelected(false);
         index = 1;
 
-        if (!fragment[index].isAdded()) {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment[index]).show(fragment[index]).commit();
+        /*if (!fragment[index].isAdded()) {
+            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment[index]).show(fragment[index]).commit();
         }
-        currentIndex = index;
+        currentIndex = index;*/
+        replaceFragment(index, currentIndex);
+    }
+
+    private void replaceFragment(int index, int currentIndex) {
+        if(currentIndex != index || (currentIndex==0 && index == 0)) {
+            /*transaction = fragmentManager.beginTransaction();
+            *//*transaction.hide(fragment[currentIndex]);
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.frame, fragment[index]);
+            }
+            transaction.show(fragment[index]);*//*
+            if (!fragment[index].isAdded()) {
+                transaction.add(R.id.fragment_container, fragment[index]);
+            }
+            transaction.commit();
+            this.currentIndex = index;*/
+            transaction = fragmentManager.beginTransaction();
+            if (currentIndex != index) {
+                transaction.hide(fragment[currentIndex]);
+                if (!fragment[index].isAdded()) {
+                    transaction.add(R.id.fragment_container, fragment[index]);
+                }
+                transaction.show(fragment[index]).commit();
+                this.currentIndex = index;
+            }
+        }
     }
 
     private void init() {
@@ -186,7 +222,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        transaction = getSupportFragmentManager().beginTransaction();
+        //transaction = fragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.back:
                 finish();
@@ -216,14 +252,15 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                 break;
         }
         if (account != null) {
-            if (currentIndex != index) {
+            /*if (currentIndex != index) {
                 transaction.hide(fragment[currentIndex]);
                 if (!fragment[index].isAdded()) {
                     transaction.add(R.id.fragment_container, fragment[index]);
                 }
                 transaction.show(fragment[index]).commit();
                 currentIndex = index;
-            }
+            }*/
+            replaceFragment(index, currentIndex);
         } else {
             Tools.showToast(getApplicationContext(), "登录失败，请重新登陆");
             finish();
@@ -238,7 +275,7 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                 case 1:  //客户列表
                     accounts = (ArrayList<ChatAccount>) msg.obj;
                     if (account != null) {
-                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction = fragmentManager.beginTransaction();
                         name.setText("会话记录");
                         conversation.setSelected(true);
                         address_list.setSelected(false);
@@ -461,8 +498,8 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
                         ((ContactFragment)fragment[currentIndex]).refresh();
                     }
                 }*/
-                ((ConversationFragment)fragment[currentIndex]).setMsgView(1);
-                ((ContactFragment)fragment[currentIndex]).refresh();
+                if(currentIndex == 1) ((ConversationFragment)fragment[currentIndex]).setMsgView(1);
+                else ((ContactFragment)fragment[currentIndex]).refresh();
             }
         };
         broadcastManager.registerReceiver(broadcastReceiver, filter);
@@ -513,9 +550,11 @@ public class ConversationActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onContactDeleted(List<String> list) {
                 //被删除
-                Map<String, ChatAccount> localUsers = userDao.getContactList();
+                //Map<String, ChatAccount> localUsers = userDao.getContactList();
                 for (int i = 0; i < list.size(); i++) {
-                    localUsers.remove(list.get(i));
+                    if (!localUsers.containsKey(list.get(i))) {
+                        localUsers.remove(list.get(i));
+                    }
                     userDao.deleteContact(list.get(i));
                     inviteMessageDao.deleteMessage(list.get(i));
                 }

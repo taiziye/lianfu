@@ -1,11 +1,13 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.tangpo.lianfu.adapter.ContactAdapter;
 import com.tangpo.lianfu.entity.ChatAccount;
 import com.tangpo.lianfu.ui.ChatActivity;
 import com.tangpo.lianfu.ui.ConversationActivity;
+import com.tangpo.lianfu.ui.FriendInfoActivity;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,7 @@ import java.util.ArrayList;
  * Created by 果冻 on 2016/1/8.
  */
 public class ContactFragment extends Fragment {
+    private static final int DELETE=0;
     private ListView list_waiter = null;
     private ListView list_friend = null;
     private LinearLayout waiter;
@@ -51,12 +55,21 @@ public class ContactFragment extends Fragment {
 
     private int w=0;
     private int f=0;
+    private int pos = 0;
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
 
     public void refresh() {
         //waiters.clear();
         friends.clear();
-        //waiters.addAll(((ConversationActivity) getActivity()).getAccounts());
-        friends.addAll(((ConversationActivity) getActivity()).getFriendList());
+        //waiters.addAll(((ConversationActivity) activity).getAccounts());
+        friends.addAll(((ConversationActivity) activity).getFriendList());
         setListViewHeightBasedOnChildren(list_friend);
         //getName();
         if (contactAdapter != null) {
@@ -70,7 +83,7 @@ public class ContactFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
-        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         init(view);
         return view;
     }
@@ -114,16 +127,16 @@ public class ContactFragment extends Fragment {
         //waiters.addAll((ArrayList<ChatAccount>) getArguments().getSerializable("acstr"));
         //hx_id = getArguments().getString("hxid");
         //photo = getArguments().getString("photo");
-        waiters.addAll(((ConversationActivity) getActivity()).getAccounts());
-        hx_id = ((ConversationActivity)getActivity()).getHxid();
-        photo = ((ConversationActivity)getActivity()).getPhoto();
-        contactAdapter = new ContactAdapter(getActivity(), waiters);
+        waiters.addAll(((ConversationActivity) activity).getAccounts());
+        hx_id = ((ConversationActivity)activity).getHxid();
+        photo = ((ConversationActivity)activity).getPhoto();
+        contactAdapter = new ContactAdapter(activity, waiters);
         list_waiter.setAdapter(contactAdapter);
         list_waiter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Intent intent = new Intent(activity, ChatActivity.class);
                 String username = waiters.get(position).getName();
                 //String userid = waiters.get(position).getUser_id();
                 String hxid = waiters.get(position).getEasemod_id();
@@ -139,13 +152,13 @@ public class ContactFragment extends Fragment {
             }
         });
 
-        friends.addAll(((ConversationActivity) getActivity()).getFriendList());
-        friendsAdapter = new ContactAdapter(getActivity(), friends);
+        friends.addAll(((ConversationActivity) activity).getFriendList());
+        friendsAdapter = new ContactAdapter(activity, friends);
         list_friend.setAdapter(friendsAdapter);
         list_friend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Intent intent = new Intent(activity, ChatActivity.class);
                 String username = friends.get(position).getName();
                 String hxid = friends.get(position).getEasemod_id();
                 intent.putExtra("account", friends.get(position));
@@ -154,6 +167,16 @@ public class ContactFragment extends Fragment {
                 intent.putExtra("myid", hx_id);
                 intent.putExtra("photo", photo);
                 startActivity(intent);
+            }
+        });
+        list_friend.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(activity, FriendInfoActivity.class);
+                intent.putExtra("hxid", friends.get(position).getEasemod_id());
+                pos = position;
+                ContactFragment.this.startActivityForResult(intent, DELETE);
+                return true;
             }
         });
 
@@ -216,10 +239,23 @@ public class ContactFragment extends Fragment {
         setListViewHeightBasedOnChildren(list_friend);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("tag", "onActivityResult " + (data==null));
+        if(data != null) {
+            boolean del = data.getBooleanExtra("del", false);
+            if(del) {
+                ((ConversationActivity) activity).deleteFriend(friends.get(pos).getEasemod_id());
+                refresh();
+            }
+        }
+    }
+
     private void hideSoftKeyBoard() {
-        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-            if (getActivity().getCurrentFocus() != null) {
-                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (activity.getCurrentFocus() != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
     }

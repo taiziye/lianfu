@@ -1,5 +1,6 @@
 package com.tangpo.lianfu.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -60,7 +61,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
     private Button map;
     private EditText search;
     private PullToRefreshListView listView;
-//    private Bundle bundle = null;
+    //    private Bundle bundle = null;
     private ProgressDialog dialog = null;
     private PositionAdapter adapter = null;
     private ArrayList<FindStore> storeList = new ArrayList<>();
@@ -89,7 +90,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }
         //bundle = getArguments();
         //hide();
-        getActivity().getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        activity.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         init(view);
         //if (bundle != null) {
         //bundle = getArguments();
@@ -97,10 +98,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         init(view);
         //hide();
         /*if (bundle != null) {
->>>>>>> ed05066c3597cf705fbec181cb8382a1ca3b24ec
             userid = bundle.getString("userid");
             //getCollectedStore();
-            SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+            SharedPreferences preferences=activity.getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
             String logintype=preferences.getString(Configs.KEY_LOGINTYPE, null);
             if (logintype!=null){
                 findStore("");
@@ -108,9 +108,9 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 getStores();
             }
         }*/
-        userid = ((HomePageActivity)getActivity()).getUserid();
+        userid = ((HomePageActivity)activity).getUserid();
         //getCollectedStore();
-        SharedPreferences preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        SharedPreferences preferences=activity.getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
         String logintype=preferences.getString(Configs.KEY_LOGINTYPE, null);
         if (logintype!=null){
             findStore("");
@@ -119,6 +119,14 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         }
 
         return view;
+    }
+
+    private Activity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     private void init(View view) {
@@ -148,7 +156,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                         storeList.clear();
                         findStore(str);
                     }
-                    InputMethodManager imm= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm= (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     return true;
                 }
@@ -172,10 +180,10 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-                    if (getActivity().getCurrentFocus() != null) {
-                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+                    if (activity.getCurrentFocus() != null) {
+                        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }
                 return false;
@@ -195,7 +203,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                         | DateUtils.FORMAT_ABBREV_ALL;
 
                 String label = DateUtils.formatDateTime(
-                        getActivity(),
+                        activity,
                         System.currentTimeMillis(), flags);
 
                 // 更新最后刷新时间
@@ -209,7 +217,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 if(page<=paramcentcount){
                     getStores();
                 }else{
-                    Tools.showToast(getActivity(), getString(R.string.alread_last_page));
+                    Tools.showToast(activity, getString(R.string.alread_last_page));
                     listView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -223,7 +231,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(),ShopActivity.class);
+                Intent intent=new Intent(activity,ShopActivity.class);
                 intent.putExtra("store",storeList.get(position-1));
                 intent.putExtra("userid",userid);
                 intent.putExtra("favorite", storeList.get(position - 1).getFavorite());
@@ -231,7 +239,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        preferences = getActivity().getSharedPreferences(Configs.APP_ID, getActivity().MODE_PRIVATE);
+        preferences = activity.getSharedPreferences(Configs.APP_ID, activity.MODE_PRIVATE);
         gson = new Gson();
     }
 
@@ -240,7 +248,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.double_code:
                 intent=new Intent();
-                intent.setClass(getActivity(),MipcaActivityCapture.class);
+                intent.setClass(activity,MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(intent,SCANNIN_STORE_INFO);
                 break;
@@ -254,7 +262,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 getStores();
                 break;
             case R.id.map:
-                /*Intent intent = new Intent(getActivity(), MapActivity.class);
+                /*Intent intent = new Intent(activity, MapActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putParcelableArrayList("list",storeList);
                 intent.putExtras(bundle);
@@ -288,7 +296,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case SCANNIN_STORE_INFO:
-                if(resultCode==getActivity().RESULT_OK){
+                if(resultCode==activity.RESULT_OK){
                     Bundle bundle=data.getExtras();
                     String result=bundle.getString("result");
                     //在这里处理返回来的store_id、service_center、referrer
@@ -305,12 +313,12 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private void getStoreDetail(String store_id,String userid){
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
         String kvs[] = new String[]{store_id, userid};
-        String param = StoreDetail.packagingParam(getActivity(), kvs);
+        String param = StoreDetail.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -331,7 +339,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             public void onFail(JSONObject result) {
                 dialog.dismiss();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -346,7 +354,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
             switch (msg.what) {
                 case 1:
                     storeList = (ArrayList<FindStore>) msg.obj;
-                    adapter = new PositionAdapter(getActivity(), storeList);
+                    adapter = new PositionAdapter(activity, storeList);
                     /*if (!flag) listView.setAdapter(adapter);
                     else adapter.notifyDataSetInvalidated();*/
                     listView.setAdapter(adapter);
@@ -356,19 +364,19 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                     break;
                 case 3:
                     storeList = (ArrayList<FindStore>) msg.obj;
-                    adapter = new PositionAdapter(getActivity(), storeList);
+                    adapter = new PositionAdapter(activity, storeList);
                     listView.setAdapter(adapter);
                     search.getText().clear();
                     if (centcount != null && Integer.parseInt(centcount) >= page) {
                         //
-                        Tools.showToast(getActivity(), "已全部加载完成");
+                        Tools.showToast(activity, "已全部加载完成");
                     }
                     break;
                 case GET_STORE_INFO:
                     FindStore store= (FindStore) msg.obj;
                     String favoriate="0";
 
-                    Intent intent=new Intent(getActivity(),ShopActivity.class);
+                    Intent intent=new Intent(activity,ShopActivity.class);
                     intent.putExtra("store",store);
                     intent.putExtra("userid",userid);
                     intent.putExtra("favorite",favoriate);
@@ -380,14 +388,14 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private void findStore(String str) {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
 
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
 
         String kvs[] = new String[]{"", "", "", "1", "10", hereabout, str, "", ""};
-        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
+        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -423,7 +431,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 dialog.dismiss();
                 listView.onRefreshComplete();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -433,18 +441,18 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
 
     private void getStores() {
         if(!Tools.checkLAN()) {
-            Tools.showToast(getActivity(), "网络未连接，请联网后重试");
+            Tools.showToast(activity, "网络未连接，请联网后重试");
             return;
         }
-        preferences=getActivity().getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
+        preferences=activity.getSharedPreferences(Configs.APP_ID, Context.MODE_PRIVATE);
         lat=preferences.getFloat(Configs.KEY_LATITUDE,0.000000f)+"";
         lng=preferences.getFloat(Configs.KEY_LONGITUDE,0.000000f)+"";
 
-        dialog = ProgressDialog.show(getActivity(), getString(R.string.connecting), getString(R.string.please_wait));
+        dialog = ProgressDialog.show(activity, getString(R.string.connecting), getString(R.string.please_wait));
 
 
         String kvs[] = new String[]{lng, lat, userid, page + "", "10", hereabout, "", "", ""};
-        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(getActivity(), kvs);
+        String params = com.tangpo.lianfu.parms.FindStore.packagingParam(activity, kvs);
 
         new NetConnection(new NetConnection.SuccessCallback() {
             @Override
@@ -479,7 +487,7 @@ public class MemberHomeFragment extends Fragment implements View.OnClickListener
                 dialog.dismiss();
                 listView.onRefreshComplete();
                 try {
-                    Tools.handleResult(getActivity(), result.getString("status"));
+                    Tools.handleResult(activity, result.getString("status"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

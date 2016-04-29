@@ -28,11 +28,13 @@ public class HXUserAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ArrayList<HXUser> userList;
     private String name;
+    private String hxid;
 
-    public HXUserAdapter(Context context, ArrayList<HXUser> userList, String name) {
+    public HXUserAdapter(Context context, ArrayList<HXUser> userList, String name, String hxid) {
         this.context = context;
         this.userList = userList;
         this.name = name;
+        this.hxid = hxid;
         inflater = LayoutInflater.from(context);
     }
 
@@ -75,7 +77,11 @@ public class HXUserAdapter extends BaseAdapter {
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRequest(userList.get(position).getEasemod_id(), btn);
+                if (hxid.equalsIgnoreCase(userList.get(position).getEasemod_id())) {
+                    Tools.showToast(context, "不能添加自己为好友");
+                } else {
+                    sendRequest(userList.get(position).getEasemod_id(), btn);
+                }
             }
         });
 
